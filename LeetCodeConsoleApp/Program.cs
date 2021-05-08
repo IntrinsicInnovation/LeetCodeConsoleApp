@@ -702,7 +702,13 @@ namespace LeetCodeConsoleApp
             //var ilpn = sol.IsLongPressedName("leelee", "lleeelee");
             //   var ilpn = sol.IsLongPressedName("saeed", "ssaaedd");
 
-            var cc = sol.CommonChars2(new string[] { "bella", "label", "roller" });
+            // var cc = sol.CommonChars2(new string[] { "bella", "label", "roller" });
+            //  var dn = sol.FindDisappearedNumbers2(new int[] { 4, 3, 2, 7, 8, 2, 3, 1 });
+
+
+            //  var sn = sol.SingleNumber(new int[] { 4, 1, 2, 1, 2 });
+            var zeroed = new int[] { 1, 10, 20, 59, 0, 3, 0, 4, 0, 88 };
+            sol.move_zeros_to_left(zeroed);
 
         }
     }
@@ -711,6 +717,56 @@ namespace LeetCodeConsoleApp
 
         class Solution
         {
+
+
+
+
+        internal int MaxProfitBestVersion(int[] prices)
+        {
+            var maxprofit = 0;
+            var minprice = 10001; //Or whatever the maximum price could be + 1
+
+            for (var i = 0; i < prices.Length; i++)
+            {
+                if (prices[i] < minprice)
+                    minprice = prices[i];
+                else
+                    maxprofit = Math.Max(maxprofit, prices[i] - minprice);
+            }
+            return maxprofit;
+        }
+
+
+
+
+
+
+        internal void move_zeros_to_left(int[] n)
+        {
+
+            //1 10 20 59 0 3 0 4 0 88 --> 0 0 0 1 10 20 59 3 4 88
+            //2 pointer
+            //write pointer, read pointer, etc... start from end move to start.
+            var len = n.Length;
+            var write = len - 1;
+            var read = len - 1;
+            while (read >= 0)
+            {
+                if (n[read] != 0 )
+                {
+                    n[write] = n[read];
+                    write--;
+                }
+                read--;
+            }
+
+            while (write >=0)
+            {
+                n[write] = 0;
+                write--;
+            }
+
+        }
 
         //do this!!  done
         //public string RemoveKdigits(string num, int k)
@@ -726,7 +782,72 @@ namespace LeetCodeConsoleApp
 
         //}
 
-        
+        public int ClimbStairsnorecursion(int n)
+        {
+            if (n <= 2)
+                return n;
+            var dp = new int[n + 1];
+
+            dp[1] = 1;
+            dp[2] = 2;
+            for (var i = 3; i <= n; i++)
+                dp[i] = dp[i - 1] + dp[i - 2];
+
+            return dp[n];
+
+        }
+
+
+
+        public int FindDuplicate(int[] nums)
+        {
+            Array.Sort(nums);
+            for (var i = 0; i < nums.Length - 1; i++)
+            {
+                if (nums[i] == nums[i + 1])
+                    return nums[i];
+            }
+            return 0;
+        }
+
+
+
+
+
+
+        public int SingleNumber(int[] nums)
+        {
+            var singleNumber = 0;
+            foreach (var num in nums)
+            {
+                singleNumber ^= num;
+            }
+            return singleNumber;
+        }
+
+
+
+        public IList<int> FindDisappearedNumbers2(int[] nums)
+        {
+            var result = new List<int>();
+            for (var i = 0; i < nums.Length; i++)
+            {
+                var j = Math.Abs(nums[i]);
+                
+                nums[j - 1] *= nums[j - 1] < 0 ? nums[j - 1] : nums[j - 1] * -1; // Math.Abs(nums[j - 1]) * -1;
+            }
+
+          
+            for (var i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] > 0)
+                {
+                    result.Add(i + 1);
+                }
+            }
+
+            return result;
+        }
 
 
 
@@ -7385,7 +7506,7 @@ public bool IsOneEditDistance(string s, string t)
         }
 
 
-
+        //Works, but way too slow
         //public int ClimbStairs(int n)
         //{
         //    if (n == 0)
@@ -7398,7 +7519,7 @@ public bool IsOneEditDistance(string s, string t)
         //        return ClimbStairs(n - 1) + ClimbStairs(n - 2);
         //}
 
-
+        //recursion
         public int ClimbStairs3(int n)
         {
 
@@ -7406,8 +7527,8 @@ public bool IsOneEditDistance(string s, string t)
                 return n;
             else
             {
-                var nm1 = ClimbStairs(n - 1);
-                var nm2 = ClimbStairs(n - 2);
+                var nm1 = ClimbStairs3(n - 1);
+                var nm2 = ClimbStairs3(n - 2);
                 return nm1 + nm2;
             }
         }
