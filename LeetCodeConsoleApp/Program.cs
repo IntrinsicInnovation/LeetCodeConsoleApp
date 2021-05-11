@@ -707,9 +707,25 @@ namespace LeetCodeConsoleApp
 
 
             //  var sn = sol.SingleNumber(new int[] { 4, 1, 2, 1, 2 });
-            var zeroed = new int[] { 1, 10, 20, 59, 0, 3, 0, 4, 0, 88 };
-            sol.move_zeros_to_left(zeroed);
+            //  var zeroed = new int[] { 1, 10, 20, 59, 0, 3, 0, 4, 0, 88 };
+            //  sol.move_zeros_to_left(zeroed);
 
+
+            var root = new TreeNode(100);
+            root.left = new TreeNode(50);
+            root.right = new TreeNode(200);
+            root.left.left = new TreeNode(25);
+            root.left.right = new TreeNode(75);
+            root.right.right = new TreeNode(350);
+            
+
+            sol.LevelOrderTraversal(root);
+
+        }
+
+        private void test()
+        {
+            Console.WriteLine("hello");
         }
     }
 
@@ -718,6 +734,39 @@ namespace LeetCodeConsoleApp
         class Solution
         {
 
+
+
+
+        internal void LevelOrderTraversal(TreeNode root)
+        {
+            var currentqueue = new Queue<TreeNode>();
+            var nextqueue = new Queue<TreeNode>();
+
+            currentqueue.Enqueue(root);
+           // var level = 0;
+            
+
+            while (currentqueue.Count > 0)
+            {
+                var node = currentqueue.Dequeue();
+                Console.Write(node.val + " ");
+
+                if (node.left != null)
+                    nextqueue.Enqueue(node.left);
+
+                if (node.right != null)
+                    nextqueue.Enqueue(node.right);
+
+                if (currentqueue.Count == 0)
+                {
+                    Console.WriteLine();
+                    (nextqueue, currentqueue) = (currentqueue, nextqueue);
+                   // level++;
+                }
+
+            }
+
+        }
 
 
 
