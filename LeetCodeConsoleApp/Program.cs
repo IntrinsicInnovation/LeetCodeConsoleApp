@@ -711,15 +711,17 @@ namespace LeetCodeConsoleApp
             //  sol.move_zeros_to_left(zeroed);
 
 
-            var root = new TreeNode(100);
-            root.left = new TreeNode(50);
-            root.right = new TreeNode(200);
-            root.left.left = new TreeNode(25);
-            root.left.right = new TreeNode(75);
-            root.right.right = new TreeNode(350);
-            
+            //var root = new TreeNode(100);
+            //root.left = new TreeNode(50);
+            //root.right = new TreeNode(200);
+            //root.left.left = new TreeNode(25);
+            //root.left.right = new TreeNode(75);
+            //root.right.right = new TreeNode(350);
 
-            sol.LevelOrderTraversal(root);
+
+            //sol.LevelOrderTraversal(root);
+
+            var p = sol.Power(2, -2);
 
         }
 
@@ -733,6 +735,37 @@ namespace LeetCodeConsoleApp
 
         class Solution
         {
+
+        //get min heap and priority queue figured out.
+        internal double Power(double x, int n)
+        {
+            var negative = false;
+                if (n < 0)
+            {
+                n *= -1;
+                negative = true;
+            }
+
+            var p =PowerRecurse(x, n);
+
+            return negative ? 1/ p : p;
+
+        }
+
+        private double PowerRecurse(double x, int n)
+        {
+            if (n == 0)
+                return 1;
+            else if (n == 1)
+                return x;
+            
+            var p = PowerRecurse(x, n / 2);
+            if (n % 2 == 0)
+                return p * p;
+            else
+                return x * p * p;
+
+        }
 
 
 
