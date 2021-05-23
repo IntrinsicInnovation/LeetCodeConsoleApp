@@ -721,11 +721,31 @@ namespace LeetCodeConsoleApp
 
             //sol.LevelOrderTraversal(root);
 
-            var p = sol.Power(2, -2);
+            // var p = sol.Power(2, -2);
+            //   var sets = new List<int[]>();
+            //   sol.GetAllSubSets(new int[] { 8, 13, 3, 22, 17, 39, 87, 45, 36 }, sets);
+
+            //*********************************************************************************************************************
+            //var two = new GraphNode(2);
+            //var three = new GraphNode(3);
+            //var four = new GraphNode(4);
+
+
+            //var one = new GraphNode(1, new List<GraphNode>() { two, four});
+            //two.neighbors = new List<GraphNode>(){ one, three };
+            //three.neighbors = new List<GraphNode>() { two, four };
+            //four.neighbors = new List<GraphNode>() { one, three };
+
+            //var cloned = sol.CloneGraph(one);
+
+
+
+            // var sr = sol.SearchRange(new int[] { 2, 2 }, 3); // { 5, 7, 7, 8, 8, 10 }, 8);
+            var s = sol.Search2(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 3);
 
         }
 
-        private void test()
+        static private void test()
         {
             Console.WriteLine("hello");
         }
@@ -733,10 +753,341 @@ namespace LeetCodeConsoleApp
 
 
 
-        class Solution
+
+
+
+
+
+
+    /**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int x) { val = x; }
+ * }
+ */
+    public class Codec
+    {
+
+        StringBuilder serialized = new StringBuilder();
+        // Encodes a tree to a single string.
+        public string serialize(TreeNode root)
+        {
+            if (root == null)
+            {
+                serialized.Append("M");
+                serialized.Append(",");
+                return null;
+            }
+            serialized.Append(root.val + ",");
+            serialize(root.left);
+            serialize(root.right);
+            return serialized.ToString();
+        }
+
+        // Decodes your encoded data to tree.
+        public TreeNode deserialize(string data)
+        {
+            if (data == null)
+                return null;
+            var strs = data.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList();
+            return dodeser(strs);
+        }
+
+        private TreeNode dodeser(List<string> strs)
         {
 
+            if (strs[0] == "M")
+                return null;
+            var node = new TreeNode(Convert.ToInt32(strs[0]));
+            strs.Remove(strs[0]);
+            node.left = dodeser(strs);
+            strs.Remove(strs[0]);
+            node.right = dodeser(strs);
+            return node;
+        }
+
+
+    }
+
+    // Your Codec object will be instantiated and called as such:
+    // Codec ser = new Codec();
+    // Codec deser = new Codec();
+    // TreeNode ans = deser.deserialize(ser.serialize(root));
+
+
+
+
+
+
+
+
+
+
+
+    class Solution
+        {
+        public void Rotate(int[][] matrix)
+        {
+
+        }
+
+        public ListNode AddTwoNumbers9(ListNode l1, ListNode l2)
+        {
+
+            var carry = 0;
+            ListNode newnode = new ListNode(-1);
+            var head = newnode;
+            while (l1 != null || l2 != null || carry == 1)
+            {
+                var sum = (l1?.val ?? 0) + (l2?.val ?? 0) + carry;
+                carry = sum / 10;
+                sum %= 10;
+
+                l1 = l1?.next;
+                l2 = l2?.next;
+
+                if (newnode.val == -1)
+                    newnode.val = sum;
+                else
+                {
+                    newnode.next = new ListNode(sum);
+                    newnode = newnode.next;
+                }
+            }
+
+            return head;
+
+
+        }
+
+
+
+        public int UniquePaths(int m, int n)
+        {
+
+            var dp = new int[m, n];
+            for (var i = 0; i < m; i++)
+            {
+                for (var j = 0; j < n; j++)
+                {
+                    if (i == 0 || j == 0)
+                    {
+                        dp[i, j] = 1;
+                    }
+                    else
+                        dp[i, j] = dp[i - 1, j] + dp[i, j - 1];
+                }
+            }
+
+            return dp[m - 1, n - 1];
+        }
+
+
+        public int Search2(int[] nums, int target)
+        {
+            var start = 0;
+            var len = nums.Length;
+            var end = len - 1;
+            var mid = start + (end - start) / 2;
+            while (start <= end)
+            {
+                if (nums[mid] == target)
+                    return mid;
+                else if (nums[mid] <= nums[end])
+                { 
+                    if (target >= nums[mid] && target <= nums[end])
+                    
+                        start = mid + 1;
+
+                    
+                    else
+                        end = mid - 1;
+                }
+                else
+                {
+                    if (target >= nums[start]
+                    && target <= nums[mid])
+                    
+                        end = mid - 1;
+
+                    
+                    else
+                        start = mid + 1;
+                }
+
+                mid = start + (end - start) / 2;
+            }
+            return -1;
+
+
+        }
+
+
+
+        public int[] SearchRange(int[] nums, int target)
+        {
+            var low = 0;
+            var high = nums.Length - 1;
+            var mid = high / 2;
+
+            var results = new int[2];
+
+            while (low <= high)
+            {
+                if (nums[mid] < target)
+                    low = mid + 1;
+
+                if (nums[mid] >= target)
+                    high = mid - 1;
+                mid = low +  ((high - low) / 2);
+            }
+            if (low > nums.Length -1 || nums[low] != target)
+                return new int[] { -1, -1 };
+            else
+                results[0] = low;
+
+            high = nums.Length - 1;
+            mid = low + ((high - low) / 2);
+
+            while (low <= high)
+            {
+                if (nums[mid] <= target)
+                    low = mid + 1;
+
+                if (nums[mid] > target)
+                    high = mid - 1;
+                mid = low + ((high - low) / 2);
+
+            }
+            if (high > nums.Length -1 || nums[high] != target)
+                return new int[] { -1, -1 };
+            else
+                results[1] = high;
+            return results;
+
+
+        }
+
+
+
+
+
+
+
+
+        //https://leetcode.com/problems/clone-graph/
+
+
+        Dictionary<int, GraphNode> dict2 = new Dictionary<int, GraphNode>();
+        public GraphNode CloneGraph(GraphNode node)
+        {
+            if (dict2.ContainsKey(node.val))
+                return dict2[node.val];
+            var newnode = new GraphNode(node.val);
+            dict2.Add(newnode.val, newnode);
+            foreach (var n in node.neighbors)
+                newnode.neighbors.Add(CloneGraph(n));
+            return newnode;
+        }
+
+
+        public GraphNode CloneGraph2(GraphNode node)
+        {
+            //var table = new Hashtable();
+            //table.
+            var hash = new HashSet<GraphNode>();
+            var root = new GraphNode(node.val);
+            
+            
+            DoClone(node, hash);
+            return root;
+        }
+
+
+        private void DoClone(GraphNode node, HashSet<GraphNode> visited)
+        {
+            if (node == null)
+                return;
+
+            var actual = new GraphNode();
+            if (!visited.TryGetValue(node, out actual))
+            {
+                var newnode = new GraphNode(node.val);
+                newnode.neighbors = new List<GraphNode>(node.neighbors);
+                visited.Add(newnode);
+            }
+            
+            foreach (var v in node.neighbors)
+            {
+                if (v != null)
+                    DoClone(v, visited);
+            }
+        }
+
+
+        //Do integer break https://leetcode.com/problems/integer-break/
+        public int IntegerBreak(int n)
+        {
+
+            if (n <= 2)
+                return 1;
+            else if (n == 3)
+                return 2;
+
+            var threes = n / 3;
+            var twos = 0;
+            if (n % 3 == 1)
+            {
+                threes--;
+                twos = 2;
+            }
+            else if (n % 3 == 2)
+            {
+                twos = 1;
+            }
+            var result = (int)(Math.Pow(3, threes) * Math.Pow(2, twos));
+            return result;
+
+        }
         //get min heap and priority queue figured out.
+
+
+        //Create in C#:
+        internal void GetAllSubSets(int []v, List<int[]> sets)
+        {
+            //def get_all_subsets(v, sets):
+            var subsets_count = 2 * v.Length;
+            for (var i = 0; i < subsets_count; i++)
+            {
+                // for i in range(0, subsets_count) :
+                var st = new int[] { };
+                for (var j = 0; j < v.Length; j++)
+                {
+                    if (GetBit(i, j) == 1)
+                    {
+                        st.Append(v[j]);
+                        sets.Add(st);
+                    }
+                }
+            }
+
+        }
+
+        internal int GetBit(int num, int bit)
+        {
+            // def get_bit(num, bit):
+            var temp = (1 << bit);
+            temp = temp & num;
+            if (temp == 0)
+                return 0;
+            return 1;
+        }
+
+
+
         internal double Power(double x, int n)
         {
             var negative = false;
@@ -4676,44 +5027,44 @@ public bool IsOneEditDistance(string s, string t)
         //    Return a deep copy (clone) of the graph.
         //   Each node in the graph contains a val (int) and a list (List[Node]) of its neighbors.
 
-        public class GraphNode
-        {
-            public int val;
-            public IList<GraphNode> neighbors;
+        //public class GraphNode
+        //{
+        //    public int val;
+        //    public IList<GraphNode> neighbors;
 
-            public GraphNode()
-            {
-                val = 0;
-                neighbors = new List<GraphNode>();
-            }
+        //    public GraphNode()
+        //    {
+        //        val = 0;
+        //        neighbors = new List<GraphNode>();
+        //    }
 
-            public GraphNode(int _val)
-            {
-                val = _val;
-                neighbors = new List<GraphNode>();
-            }
+        //    public GraphNode(int _val)
+        //    {
+        //        val = _val;
+        //        neighbors = new List<GraphNode>();
+        //    }
 
-            public GraphNode(int _val, List<GraphNode> _neighbors)
-            {
-                val = _val;
-                neighbors = _neighbors;
-            }
-        }
+        //    public GraphNode(int _val, List<GraphNode> _neighbors)
+        //    {
+        //        val = _val;
+        //        neighbors = _neighbors;
+        //    }
+        //}
 
 
 
-        Dictionary<int, GraphNode> clonedict = new Dictionary<int, GraphNode>();
-        public GraphNode CloneGraph(GraphNode node)
-        {
-            if (node == null) return null;
-            if (clonedict.ContainsKey(node.val))
-                return clonedict[node.val];
-            GraphNode nd = new GraphNode(node.val);
-            clonedict.Add(nd.val, nd);
-            foreach (GraphNode n in node.neighbors)
-                nd.neighbors.Add(CloneGraph(n));
-            return nd;
-        }
+        //Dictionary<int, GraphNode> clonedict = new Dictionary<int, GraphNode>();
+        //public GraphNode CloneGraph(GraphNode node)
+        //{
+        //    if (node == null) return null;
+        //    if (clonedict.ContainsKey(node.val))
+        //        return clonedict[node.val];
+        //    GraphNode nd = new GraphNode(node.val);
+        //    clonedict.Add(nd.val, nd);
+        //    foreach (GraphNode n in node.neighbors)
+        //        nd.neighbors.Add(CloneGraph(n));
+        //    return nd;
+        //}
 
 
 
