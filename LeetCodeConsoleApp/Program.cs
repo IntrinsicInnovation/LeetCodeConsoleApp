@@ -741,81 +741,33 @@ namespace LeetCodeConsoleApp
 
 
             // var sr = sol.SearchRange(new int[] { 2, 2 }, 3); // { 5, 7, 7, 8, 8, 10 }, 8);
-            var s = sol.Search2(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 3);
+            // var s = sol.Search2(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 3);
+            //sol.Rotate(new int[][] { new int[] { 5, 1, 9, 11 }, new int[] { 2, 4, 8, 10 }, new int[] { 13, 3, 6, 7 }, new int[] { 15, 14, 12, 16 } }); 
+            //  var nw = sol.numberOfWays2(new int[] { 1, 5, 3, 3, 3 }, 6); // 7, 9, 5, 3,3 }, 6);
+            //  var rc = sol.rotationalCipher("All-convoYs-9-be:Alert1.", 4);
+            //Expected:   "Epp-gsrzsCw-3-fi:Epivx5.";
+
+            //var l = new ListNode(1); 
+            //l.next = new ListNode(2);
+            //l.next.next = new ListNode(3);
+            //l.next.next.next = new ListNode(4);
+           // var r = sol.ReverseList(l);
+            //
+
+           // var cgec = sol.canGetExactChange(94, new int[] { 5, 10, 25, 100, 200 });
+
+            var cgec = sol.canGetExactChange(75, new int[] { 4, 17, 29 });
 
         }
 
-        static private void test()
-        {
-            Console.WriteLine("hello");
-        }
+        //static private void test()
+        //{
+        //    Console.WriteLine("hello");
+        //}
     }
 
 
 
-
-
-
-
-
-
-    /**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     public int val;
- *     public TreeNode left;
- *     public TreeNode right;
- *     public TreeNode(int x) { val = x; }
- * }
- */
-    public class Codec
-    {
-
-        StringBuilder serialized = new StringBuilder();
-        // Encodes a tree to a single string.
-        public string serialize(TreeNode root)
-        {
-            if (root == null)
-            {
-                serialized.Append("M");
-                serialized.Append(",");
-                return null;
-            }
-            serialized.Append(root.val + ",");
-            serialize(root.left);
-            serialize(root.right);
-            return serialized.ToString();
-        }
-
-        // Decodes your encoded data to tree.
-        public TreeNode deserialize(string data)
-        {
-            if (data == null)
-                return null;
-            var strs = data.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList();
-            return dodeser(strs);
-        }
-
-        private TreeNode dodeser(List<string> strs)
-        {
-
-            if (strs[0] == "M")
-                return null;
-            var node = new TreeNode(Convert.ToInt32(strs[0]));
-            strs.Remove(strs[0]);
-            node.left = dodeser(strs);
-            strs.Remove(strs[0]);
-            node.right = dodeser(strs);
-            return node;
-        }
-
-
-    }
-
-    // Your Codec object will be instantiated and called as such:
-    // Codec ser = new Codec();
-    // Codec deser = new Codec();
-    // TreeNode ans = deser.deserialize(ser.serialize(root));
 
 
 
@@ -829,10 +781,478 @@ namespace LeetCodeConsoleApp
 
     class Solution
         {
-        public void Rotate(int[][] matrix)
+
+
+
+
+        public int[] findSignatureCounts(int[] arr)
         {
 
+            
+
+            var len = arr.Length;
+            var signatures = new int[len];
+            var numsignatures = 1;
+            Array.Fill(signatures, numsignatures);
+            numsignatures++;
+            var yearbooks = arr.ToArray();
+            var sortedyearbooks = arr.ToArray();
+            Array.Sort(sortedyearbooks);
+
+            while (!IsSorted(yearbooks))
+            {
+                Array.Fill(signatures, numsignatures++);
+                for (var i = 0; i < len; i++)
+                {
+                    yearbooks[arr[i] - 1] = arr[i];
+                }
+
+            }
+
+
+            return signatures;
         }
+
+        public bool IsSorted(int[] arr)
+        {
+            for (int i = 1; i < arr.Length; i++)
+            {
+                if (arr[i - 1] > arr[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+
+
+
+        private int[] _denominations;
+        public bool canGetExactChange(int targetMoney, int[] denominations)
+        {
+            _denominations = denominations;
+            return doDenom(targetMoney, 0);
+        }
+
+        private bool doDenom(int money, int index)
+        {
+            if (money == 0)
+                return true;
+            if (index == _denominations.Length)
+                return false;
+
+            bool include = false;
+            bool exclude = false;
+
+           
+            if (money >= _denominations[index])
+                include = doDenom(money - _denominations[index], index);
+
+            exclude = doDenom(money, index + 1);
+
+            return include || exclude;
+        }
+
+
+        private static String findEncryptedWord(String s)
+        {
+
+            if (String.IsNullOrEmpty(s))
+                return "";
+
+            var midx = (s.Length - 1) / 2;
+            var m = s[midx];
+
+            return "";
+        }
+
+
+
+        public bool isBalanced(string s)
+        {
+            var stack = new Stack<char>();
+
+
+            for (var i = 0; i < s.Length; i++)
+            {
+                var c = s[i];
+                switch (c)
+                {
+                    case '(':
+                        stack.Push(c);
+                        break;
+
+                    case ')':
+                        if (stack.Count == 0 || (stack.Count > 0 && stack.Pop() != '('))
+                            return false;
+                        break;
+
+
+                    case '{':
+                        stack.Push(c);
+                        break;
+                    case '}':
+                        if (stack.Count == 0 || (stack.Count > 0 && stack.Pop() != '{'))
+                            return false;
+                        break;
+
+                    case '[':
+                        stack.Push(c);
+                        break;
+                    case ']':
+                        if (stack.Count == 0 || (stack.Count > 0 && stack.Pop() != '['))
+                            return false;
+                        break;
+
+                    default:
+                        break;
+                }
+
+
+            }
+
+
+            return true;
+        }
+
+
+        public int[] findPositions(int[] arr, int x)
+        {
+
+
+            var results = new List<int>();
+            var newlist = new List<int[]>();
+            for (var i = 0; i < arr.Length; i++)
+            {
+                newlist.Add(new int[] { i + 1, arr[i] });
+            }
+
+            for (var i = 0; i < x; i++)
+            {
+                var c = x;
+                var max = new int[2];
+                var templist = new List<int[]>();
+                while (newlist.Count > 0 && c > 0)
+                {
+                    var r = newlist[0];
+
+                    newlist.RemoveAt(0);
+                    if (r[1] > max[1])
+                        max = r;
+
+                    templist.Add((r[1] - 1 >= 0) ? new int[] { r[0], r[1] - 1 } : new int[] { r[0], 0 });
+
+                    c--;
+                }
+                if (max[0] == 0)
+                    max[0] = templist[0][0];
+
+                templist.Remove(templist.Single(t => t[0] == max[0]));
+
+                results.Add(max[0]);
+                newlist.AddRange(templist);
+                foreach (var nl in newlist)
+                {
+                    Console.WriteLine(nl[0]);
+                }
+                Console.WriteLine("*******");
+            }
+
+
+            return results.ToArray();
+        }
+
+
+
+
+
+
+        public ListNode ReverseList2(ListNode head)
+        {
+            ListNode prev = null;
+            while (head != null)
+            {
+                (head.next, prev, head)  = (prev, head, head.next);
+            }
+            return prev;
+        }
+
+
+        public static Node reverse(Node head)
+        {
+            var node = head;
+            var odd = head;
+            while (node != null)
+            {
+                if (node.next != null && node.next.val % 2 == 0)
+                {
+                    var stack = new Stack<int>();
+                    while (node.next != null && node.next.val % 2 == 0)
+                    {
+                        stack.Push(node.next.val);
+                        node = node.next;
+                    }
+                    node = node.next;
+                    while (stack.Count > 0)
+                    {
+                        odd.next.val = stack.Pop();
+                        odd = odd.next;
+                    }
+                    odd = odd.next;
+                }
+                else
+                    node = node.next;
+
+            }
+            return head;
+        }
+
+
+        public string rotationalCipher(String input, int rotationFactor)
+        {
+
+            var sb = new StringBuilder();
+            var rf = 0;
+            char output;
+            for (var i = 0; i < input.Length; i++)
+            {
+                if (input[i] <= 'z' && input[i] >= 'a')
+                {
+                    rf = rotationFactor % 26;
+                    if (input[i] + rf > 'z')
+                        output = (char)(input[i] + rf - 26);
+                    else
+                        output = (char)(input[i] + rf);
+                    
+                  
+                    sb.Append(output);
+
+                }
+                else if (input[i] >= 'A' && input[i] <= 'Z')
+                {
+                    rf = rotationFactor % 26;
+                    
+                    if (input[i] + rf > 'Z')
+                        output = (char)(input[i] + rf - 26);
+                    else
+                        output = (char)(input[i] + rf);
+
+                  
+                    sb.Append(output);
+                }
+                else if (input[i] <= '9' && input[i] >= '0')
+                {
+                    rf = rotationFactor % 10;
+                  
+                    if (input[i] + rf > '9')
+                        output = (char)(input[i] + rf - 10);
+                    else
+                        output = (char)(input[i] + rf);
+                    sb.Append(output);
+
+                }
+                else
+                    sb.Append(input[i]);
+
+            }
+
+            return sb.ToString();
+        
+
+
+    }
+
+
+
+        //Get this working and learn it
+        //int[] countSubarrays(int[] arr)
+        //{
+        //    // Write your code here
+        //    Stack<int> s = new Stack<int>();
+        //    int[] L = new int[arr.Length];
+        //    L[0] = 1;
+        //    s.Push(0);
+        //    for (int i = 1; i < arr.Length; i++)
+        //    {
+        //        while (!s.isEmpty() && arr[s.peek()] < arr[i]) s.pop();
+        //        if (s.isEmpty()) L[i] = i + 1;
+        //        else L[i] = i - s.peek();
+        //        s.push(i);
+        //    }
+        //    int[] R = new int[arr.length];
+        //    R[arr.length - 1] = L[arr.length - 1];
+        //    s.clear();
+        //    s.push(arr.length - 1);
+        //    for (int i = arr.length - 2; i >= 0; i--)
+        //    {
+        //        while (!s.isEmpty() && arr[s.peek()] < arr[i]) s.pop();
+        //        if (s.isEmpty()) R[i] = (arr.length - i) + L[i] - 1;
+        //        else R[i] = (s.peek() - i) + L[i] - 1;
+        //        s.push(i);
+        //    }
+        //    return R;
+        //}
+
+
+
+
+        public int MaxSubArray3(int[] nums)
+        {
+            var max = nums[0];
+            for (var i = 1; i < nums.Length; i++)
+            {
+                if (nums[i - 1] > 0)
+                    nums[i] += nums[i - 1];
+                max = Math.Max(max, nums[i]);
+
+            }
+            return max;
+
+        }
+
+
+        //O(n2) - not good
+        private static int[] countSubarrays(int[] arr)
+        {
+            var result = new int[arr.Length];
+            var forward = 0;
+            var backward = 0;
+            var count = 0;
+
+            for (var i = 0; i < arr.Length; i++)
+            {
+
+                count = 1;  //all elements have an array of themselves;
+                backward = i - 1;
+                while (backward >= 0 && arr[backward] < arr[i])
+                {
+                    count++;
+                    backward--;
+                }
+
+                forward = i + 1;
+                while (forward < arr.Length && arr[forward] < arr[i])
+                {
+                    count++;
+                    forward++;
+                }
+
+
+                result[i] = count;
+
+
+
+            }
+
+
+            return result;
+
+
+
+
+
+
+        }
+   
+
+
+
+    internal int numberOfWays2(int[] arr, int k)
+        {
+            var n = arr.Length;
+            var sum = k;
+            Dictionary<int, int> hm
+          = new Dictionary<int, int>();
+ 
+        
+        for (int i = 0; i<n; i++) {
+
+          
+                if (!hm.ContainsKey(arr[i]))
+                {
+                    hm[arr[i]] = 1;
+                }
+                else
+                    hm[arr[i]]++;
+          
+                }
+        int twice_count = 0;
+
+        // iterate through each element and
+        // increment the count (Notice that
+        // every pair is counted twice)
+        for (int i = 0; i < n; i++)
+        {
+            int val = 0;
+            if (hm.TryGetValue(sum - arr[i], out val)) 
+            {
+                    twice_count += val; // ValueTuple; ValueTuple; // hm[sum - arr[i]];
+            }
+
+            // if (arr[i], arr[i]) pair satisfies
+            // the condition, then we need to ensure
+            // that the count is decreased by one
+            // such that the (arr[i], arr[i])
+            // pair is not considered
+            if (sum - arr[i] == arr[i])
+            {
+                twice_count--;
+            }
+        }
+
+// return the half of twice_count
+return twice_count / 2;
+}
+
+internal int numberOfWays(int[] arr, int k)
+        {
+            // Write your code here
+            var count = 0;
+            for (var i = 0; i < arr.Length - 1; i++)
+                for (var j = i + 1; j < arr.Length; j++)
+                {
+                    if (arr[i] + arr[j] == k)
+                        count++;
+                }
+            Console.WriteLine(count);
+            return count;
+            
+        }
+
+
+
+
+        public void Rotate(int[][] matrix)
+        {
+            var len = matrix.Length;
+            for (var i = 0; i < len; i++)
+            {
+                for (var j = i; j < len; j++)
+                {
+                    if (i != j)
+                    (matrix[i][j], matrix[j][i]) = (matrix[j][i], matrix[i][j]);
+                }
+
+
+
+
+            }
+
+            for (var i = 0; i < len; i++)
+            {
+                for (var j = 0; j < (len / 2); j++)
+                {
+                    (matrix[i][j], matrix[i][len - j - 1]) = (matrix[i][len - j - 1], matrix[i][j]);
+
+
+                }
+            }
+            
+        }
+
+
 
         public ListNode AddTwoNumbers9(ListNode l1, ListNode l2)
         {
@@ -3401,7 +3821,7 @@ public bool IsOneEditDistance(string s, string t)
                 var celeb = true;
                 for (var j = 0; j < n; j++)
                 {
-                    if (i != j ) // && Knows(i, j) || !Knows(j, i))
+                    if (i != j)  // && Knows(i, j) || !Knows(j, i))
                     {
                         celeb = false;
                         // Console.WriteLine($"{i} DOES know {j}");
@@ -8003,18 +8423,18 @@ public bool IsOneEditDistance(string s, string t)
         {
             ListNode prev = null;
 
-            ListNode curr; // = null;
+          //  ListNode curr; // = null;
             while (head != null)
 
-            //  (head.next,prev,head) = (prev,head,head.next);  TUPLE solution!!!
+              (head.next,prev,head) = (prev,head,head.next); // TUPLE solution!!!
 
-            {
-                curr = head.next;
-                head.next = prev;
-                prev = head;
-                head = curr; // head.next;
+            //{
+            //    curr = head.next;
+            //    head.next = prev;
+            //    prev = head;
+            //    head = curr; // head.next;
 
-            }
+            //}
             return prev;
         }
 
@@ -9088,6 +9508,69 @@ public bool IsOneEditDistance(string s, string t)
 
 
 
+
+
+
+
+
+
+    /**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int x) { val = x; }
+ * }
+ */
+    public class Codec
+    {
+
+        StringBuilder serialized = new StringBuilder();
+        // Encodes a tree to a single string.
+        public string serialize(TreeNode root)
+        {
+            if (root == null)
+            {
+                serialized.Append("M");
+                serialized.Append(",");
+                return null;
+            }
+            serialized.Append(root.val + ",");
+            serialize(root.left);
+            serialize(root.right);
+            return serialized.ToString();
+        }
+
+        // Decodes your encoded data to tree.
+        public TreeNode deserialize(string data)
+        {
+            if (data == null)
+                return null;
+            var strs = data.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList();
+            return dodeser(strs);
+        }
+
+        private TreeNode dodeser(List<string> strs)
+        {
+
+            if (strs[0] == "M")
+                return null;
+            var node = new TreeNode(Convert.ToInt32(strs[0]));
+            strs.Remove(strs[0]);
+            node.left = dodeser(strs);
+            strs.Remove(strs[0]);
+            node.right = dodeser(strs);
+            return node;
+        }
+
+
+    }
+
+    // Your Codec object will be instantiated and called as such:
+    // Codec ser = new Codec();
+    // Codec deser = new Codec();
+    // TreeNode ans = deser.deserialize(ser.serialize(root));
 
 
 
