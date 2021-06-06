@@ -751,12 +751,103 @@ namespace LeetCodeConsoleApp
             //l.next = new ListNode(2);
             //l.next.next = new ListNode(3);
             //l.next.next.next = new ListNode(4);
-           // var r = sol.ReverseList(l);
+            // var r = sol.ReverseList(l);
             //
 
-           // var cgec = sol.canGetExactChange(94, new int[] { 5, 10, 25, 100, 200 });
+            // var cgec = sol.canGetExactChange(94, new int[] { 5, 10, 25, 100, 200 });
 
-            var cgec = sol.canGetExactChange(75, new int[] { 4, 17, 29 });
+            // var cgec = sol.canGetExactChange(75, new int[] { 4, 17, 29 });
+
+
+            //var people = new Person[]
+            //{
+            //    new Person()
+            //    {
+            //        Name = "a",
+            //        Born = 2000,
+            //        Death = 2010
+            //    },
+
+            //      new Person()
+            //    {
+            //        Name = "a",
+            //        Born = 1975,
+            //        Death = 2005
+            //    },
+
+            //        new Person()
+            //    {
+            //        Name = "a",
+            //        Born = 1975,
+            //        Death = 2003
+            //    },
+
+            //          new Person()
+            //    {
+            //        Name = "a",
+            //        Born = 1803,
+            //        Death = 1809
+            //    },
+
+            //      new Person()
+            //    {
+            //        Name = "a",
+            //        Born = 1750,
+            //        Death = 1869
+            //    },
+
+
+            //      new Person()
+            //    {
+            //        Name = "a",
+            //        Born = 1840,
+            //        Death = 1935
+            //    },
+            //      new Person()
+            //    {
+            //        Name = "a",
+            //        Born = 1803,
+            //        Death = 1921
+            //    },
+
+            //      new Person()
+            //    {
+            //        Name = "a",
+            //        Born = 1894,
+            //        Death = 1921
+            //    },
+
+
+            //};
+
+            //var maxpop = sol.FindMaxPopulation(people);
+
+
+            //var root = new TreeNode(8);
+            //root.left = new TreeNode(3);
+            //root.right = new TreeNode(10);
+            //root.left.left = new TreeNode(1);
+            //root.left.right = new TreeNode(6);
+            //root.right.right = new TreeNode(14);
+            //root.left.right.left = new TreeNode(4);
+            //root.left.right.right = new TreeNode(7);
+            //root.right.right.left = new TreeNode(13);
+            //var visible = sol.VisibleNodes(root);
+
+
+            //var s = sol.matchingPairs("", "");
+
+
+            var ml = sol.MinWindow("dcbefebce", "fd");
+
+
+            ml = sol.MinWindow("dcbefebbacbfeb", "bbe");
+
+
+             ml = sol.MinWindow("abc", "ac");
+
+
+
 
         }
 
@@ -768,27 +859,413 @@ namespace LeetCodeConsoleApp
 
 
 
+    public class Person
+    {
+        public string Name { get; set; }
+        public int Born { get; set; }
+        public int Death { get; set; }
+    }
 
-
-
-
-
-
-
-
-
+    public class Query
+    {
+        public int u;
+        public char c;
+    }
 
 
     class Solution
+    {
+
+
+        public  int maxCandies(int[] arr, int k)
+        {
+            // Write your code here
+            //Create a  max heap (priority queue)  and use instead of max.  ??  Try it out
+            var candies = 0;
+
+            while (k > 0)
+            {
+                var max = arr.Max();
+                candies += max;
+                var index = Array.IndexOf(arr, max);
+                max /= 2;
+                arr[index] = max;
+                k--;
+            }
+            return candies;
+
+        }
+
+
+
+
+
+
+
+        public string MinWindow(string s, string t)
         {
 
 
+            var dicts = new Dictionary<char, int>();
+            var dictt = new Dictionary<char, int>();
 
+
+            for (var i = 0; i < t.Length; i++)
+            {
+                if (!dictt.ContainsKey(t[i]))
+                    dictt.Add(t[i], 1);
+                else
+                    dictt[t[i]]++;
+            }
+            var minlen = s.Length;
+            var minlenstr = "";
+            var len = s.Length;
+            var l = 0;
+            var r = 0;
+            var found = false;
+
+            while (l < len && r < len)
+            {
+
+                if (!found)
+                {
+
+                    if (dictt.ContainsKey(s[r]))
+                    {
+                        var val = 0;
+                        if (dicts.TryGetValue(s[r], out val))
+                            dicts[s[r]]++;
+                        else
+                            dicts.Add(s[r], 1);
+                    }
+
+
+                    if (CompKeys(dicts, dictt))
+                    {
+
+                        found = true;
+                    }
+                    else
+                        r++;
+                    if (r == len)
+                        break;
+
+                }
+                if (found)
+                {
+                    if ( (r - l + 1) < minlen || (r - l + 1) == len)
+                    {
+                        minlen = r - l + 1;
+                        minlenstr = s.Substring(l, r - l + 1);
+                    }
+                    var valtoremove = 0;
+                    if (dicts.TryGetValue(s[l], out valtoremove))
+                    {
+                        if (valtoremove > 1)
+                            dicts[s[l]]--;
+                        else
+                            dicts.Remove(s[l]);
+                    }
+                    l++;
+                    if (!CompKeys(dicts, dictt))
+                    {
+                        found = false;
+                        r++;
+                    }
+                }
+
+            }
+
+            return minlenstr;
+
+
+
+        }
+
+
+
+
+
+
+            public  int minLengthSubstring(String s, String t)  // Facebook Portal
+        {
+
+            var dicts = new Dictionary<char, int>();
+            var dictt = new Dictionary<char, int>();
+
+        
+
+
+            for (var i = 0; i < t.Length; i++)
+            {
+                if (!dictt.ContainsKey(t[i]))
+                    dictt.Add(t[i], 1);
+                else
+                    dictt[t[i]]++;
+            }
+            var minlen = s.Length;
+            var len = s.Length;
+            var l = 0;
+            var r = 0;
+            var found = false;
+
+            while (l < len && r < len)
+            {
+
+                if (!found)
+                {
+
+                    if (dictt.ContainsKey(s[r]))
+                    {
+                        var val = 0;
+                        if (dicts.TryGetValue(s[r], out val))
+                            dicts[s[r]]++;
+                        else
+                            dicts.Add(s[r], 1);
+                    }
+                    
+                   
+                    if (CompKeys(dicts, dictt))
+                    {
+
+                        found = true;
+                    }
+                    else
+                        r++;
+                    if (r == len)
+                        break;
+
+                }
+                if (found)
+                {
+                    minlen = Math.Min(minlen, r - l + 1);
+                    var valtoremove = 0;
+                    if (dicts.TryGetValue(s[l], out valtoremove))
+                    {
+                        if (valtoremove > 1)
+                            dicts[s[l]]--;
+                        else
+                            dicts.Remove(s[l]);
+                    }
+                    l++;
+                    if (!CompKeys(dicts, dictt))
+                    {
+                        found = false;
+                        r++;
+                    }
+                }
+
+            }
+
+            return minlen;
+
+        }
+
+        public bool CompKeys(Dictionary<char, int> dicts, Dictionary<char, int> dictt)
+        {
+            if (dicts.Count != dictt.Count)
+                return false;
+
+            foreach (var pair in dictt)
+            {
+                var val = 0;
+                if (dicts.TryGetValue(pair.Key, out val))
+                {
+                    if (val < pair.Value)
+                        return false;
+                }
+                else
+                    return false;
+            }
+            return true;
+        }
+
+
+
+        public int matchingPairs(string s, string t)
+        {
+
+            var dicts = new Dictionary<char, int>() { { 'b', 2 }, { 'e', 1 } };
+            var dictt = new Dictionary<char, int>() { { 'b', 3 }, { 'e', 1 } };
+
+            var diff = dicts.Except(dictt);
+
+            var sc = dicts.Count();
+            var tc = dictt.Count();
+
+            var ss = diff.Count();
+
+
+            var len = s.Length;
+            if (s == t)
+            {
+                return s.Length - 2;
+            }
+
+            var unmatchs = new HashSet<int>();
+            var unmatcht = new HashSet<int>();
+
+
+            var matched = 0;
+
+            for (var i = 0; i < s.Length; i++)
+            {
+                if (s[i] == t[i])
+                    matched++;
+                else
+                {
+                    unmatchs.Add(s[i]);
+                    unmatcht.Add(t[i]);
+                }
+            }
+
+            var dupeunmatched = unmatchs.Intersect(unmatcht);
+
+            var dupescount = dupeunmatched.Count();
+            if (dupescount >= 2)
+            {
+                matched += 2;
+            }
+            else if (dupescount == 1)
+            {
+                matched++;
+            }
+            else if (len - matched == 0)
+                matched -= 2;
+            else if (len - matched == 1)
+                matched--;
+
+
+            // Write your code here
+            return matched;
+        }
+
+
+        static int[] countOfNodes(Node root, List<Query> queries, String s)
+        {
+
+            var output = new List<int>();
+
+            for (var i = 0; i < queries.Count; i++)
+            {
+                var count = 0;
+                for (var j = queries[i].u - 1; j < s.Length; j++)
+                {
+                    if (s[j] == queries[i].c)
+                    {
+                        count++;
+                    }
+                }
+                output.Add(count);
+
+
+            }
+
+            return output.ToArray();
+        }
+
+
+
+
+
+
+    public int VisibleNodes(TreeNode root) //should be a treenode with right and left.
+        {
+            if (root == null)
+                return 0;
+            var leftdepth = VisibleNodes(root.left);
+            var rightdepth = VisibleNodes(root.right);
+            if (leftdepth > rightdepth)
+                return leftdepth + 1;
+            else
+                return rightdepth + 1;
+        }
+
+
+
+        public int FindMaxPopulation(Person[] people)
+        {
+           // var sorted = people.OrderBy(p => p.Born).ThenBy(p => p.Death).ToList();
+            var alive = 0;
+            var max = 0;
+            var year = 0;
+
+
+            var orderedbd = CombineDeathBirths(people);
+
+            for (var i = 0; i < orderedbd.Count; i++)
+            {
+                if (orderedbd[i][1] == 1)
+                {
+                    alive++;
+                    if (alive > max)
+                    {
+                        max = alive;
+                        year = orderedbd[i][0];
+                    }
+                }
+                else
+                    alive--;
+                    
+
+            }
+
+
+
+            return year;
+
+
+
+
+        }
+
+
+        private List<int[]> CombineDeathBirths(Person[] people)
+        {
+
+            var results = new List<int[]>();
+
+
+
+            for (var i = 0; i < people.Length; i++)
+            {
+                results.Add(
+                    new int[2]
+                    {
+                        people[i].Born,
+                        1
+                    });
+
+                results.Add(
+                    new int[2]
+                    {
+                        people[i].Death+1,
+                        0
+                    });
+
+            }
+
+            return results.OrderBy(r => r[0]).ToList();
+
+
+        }
+        
+        
+        public int[] findMaxProduct(int[] arr)
+        {
+            var output = new int[arr.Length];
+            for (var i = 0; i < arr.Length; i++)
+            {
+                output[i] = i < 2 ? -1 : arr[i] * arr[i - 1] * arr[i - 2];
+            }
+            // Write your code here
+            return output;
+        }
 
         public int[] findSignatureCounts(int[] arr)
         {
 
-            
+           // var pq = new PriorityQueue<int, int>();
 
             var len = arr.Length;
             var signatures = new int[len];
@@ -1634,7 +2111,7 @@ internal int numberOfWays(int[] arr, int k)
 
 
         //}
-
+        //Fibonacci same thing
         public int ClimbStairsnorecursion(int n)
         {
             if (n <= 2)
@@ -6591,7 +7068,7 @@ public bool IsOneEditDistance(string s, string t)
 
         //  Minimum Window Substring
         //  Given a string S and a string T, find the minimum window in S which will contain all the characters in T in complexity O(n).
-        public string MinWindow(string s, string t)
+        public string MinWindowNotMine(string s, string t)  //  FAST!!!  - LEARN THISS ONE!!!!!
         {
             if (string.IsNullOrEmpty(s) || string.IsNullOrEmpty(t))
             {
