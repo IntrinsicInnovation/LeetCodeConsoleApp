@@ -2,10 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
+
 
 namespace LeetCodeConsoleApp
 {
@@ -838,44 +836,150 @@ namespace LeetCodeConsoleApp
             //var s = sol.matchingPairs("", "");
 
 
-            var ml = sol.MinWindow("dcbefebce", "fd");
+            // var ml = sol.MinWindowNotMine("dcbefebce", "fd");
 
 
-            ml = sol.MinWindow("dcbefebbacbfeb", "bbe");
+            // ml = sol.MinWindowNotMine("dcbefebbacbfeb", "bbe");
 
 
-             ml = sol.MinWindow("abc", "ac");
+            //  ml = sol.MinWindowNotMine("abc", "ac");
+
+            // var fm = sol.findMedian(new int[] {5, 15, 1, 3});
 
 
+            // var total = sol.getTotalTime(new int[] { 4, 2, 1, 3 });
+            //var ma = sol.findMinArray(new int[] {5, 3, 1}, 2);
+
+            var ma = sol.findMinArray(new int[] {8, 9, 11, 2, 1}, 3);
+            
 
 
         }
 
-        //static private void test()
-        //{
-        //    Console.WriteLine("hello");
-        //}
+       
     }
 
 
-
-    public class Person
-    {
-        public string Name { get; set; }
-        public int Born { get; set; }
-        public int Death { get; set; }
-    }
-
-    public class Query
-    {
-        public int u;
-        public char c;
-    }
 
 
     class Solution
     {
 
+        //Time:  O(N Log N)  -  Space:  O(N)  new array
+        public int minOverallAwkwardness(int[] arr)
+        {
+
+            Array.Sort(arr);   //Log N
+            var newarr = new int[arr.Length];
+            var l = 0;
+            var r = arr.Length - 1;
+            var i = 0;
+            while (l < r)    //N
+            {
+                newarr[l++] = arr[i++];
+                newarr[r--] = arr[i++];
+
+            }
+
+
+            var diff = 0;
+            for (var j = 0; j < newarr.Length; j++)   //N
+            {
+                if (j < newarr.Length - 1)
+                    diff = Math.Max(diff, Math.Abs(newarr[j] - newarr[j + 1]));
+                else
+                    diff = Math.Max(diff, Math.Abs(newarr[j] - newarr[0]));
+            }
+
+            return diff;
+        }
+    }
+
+    public  int[] findMinArray(int[] arr, int k)
+        {
+            var len = arr.Length;
+            var pos = 0;
+            for (var i = 0; i < len - 1 && k > 0; i++)
+            {
+                pos = i;
+                for (var j = i + 1; j < len; j++)
+                {
+                    if (j - i > k)
+                        break;  
+                    if (arr[j] < arr[pos])
+                        pos = j;
+
+                    Console.WriteLine("pos=" + pos);
+                }
+
+                //Swap elements if smaller ones found
+                for (var l = pos; l > i; l--)
+                {
+                    Console.WriteLine("BEFORE swap: arr[l-1]: " + arr[l - 1] + " arr[l]: " + arr[l]);
+                    var temp = arr[l];
+                    arr[l] = arr[l - 1];
+                    arr[l - 1] = temp;
+                    Console.WriteLine("After swap: arr[l-1]: " + arr[l - 1] + " arr[l]: " + arr[l]);
+
+                }
+                k -= pos - i;
+            }
+            return arr;
+        }
+
+
+
+        public  int getTotalTime(int[] arr)
+        {
+
+            MaxHeap heap = new MaxHeap(arr.Length);
+            
+            var total = 0;
+            var arrlst = arr.ToList();
+
+            for (var i = 0; i < arr.Length; i++)
+            {
+                heap.Add(arr[i]);
+            }
+
+            while (heap.Count() > 1)
+            {
+
+                var a = heap.Pop();
+                var b = heap.Pop();
+                total += a + b;
+                heap.Add(a + b);
+
+            }
+
+           
+
+            return total;
+        }
+
+
+        public int[] findMedian(int[] arr)
+        {
+
+          
+            var output = new int[arr.Length];
+            var median = 0;
+            for (var i = 0; i < arr.Length; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    median = arr.Take(i + 1).OrderBy(x => x).Skip(i / 2).Take(1).SingleOrDefault();
+                }
+                else
+                {
+                    median = arr.Take(i + 1).OrderBy(x => x).Skip((i + 1) / 2 - 1).Take(2).Sum() / 2;
+                }
+
+                output[i] = median;
+            }
+            return output;
+
+        }
 
         public  int maxCandies(int[] arr, int k)
         {
