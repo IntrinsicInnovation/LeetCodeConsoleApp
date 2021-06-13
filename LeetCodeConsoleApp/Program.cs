@@ -634,7 +634,7 @@ namespace LeetCodeConsoleApp
 
             //var r2 = a.Equals(b);
             //var cs = sol.CombinationSum(new int[]{ 2, 3, 6, 7 }, 7);
-            // var nr = sol.NumRollsToTarget(2, 6, 7);
+
             //var sm = sol.sockMerchant(10, new int[] { 1, 1, 3, 1, 2, 1, 3, 3, 3, 3 });
             //var ms = sol.minimumSwaps(new int[] { 4, 3, 1, 2 });
 
@@ -850,20 +850,576 @@ namespace LeetCodeConsoleApp
             // var total = sol.getTotalTime(new int[] { 4, 2, 1, 3 });
             //var ma = sol.findMinArray(new int[] {5, 3, 1}, 2);
 
-            var ma = sol.findMinArray(new int[] {8, 9, 11, 2, 1}, 3);
-            
+            // var ma = sol.findMinArray(new int[] {8, 9, 11, 2, 1}, 3);
+
+            //var md = sol.getMilestoneDays(new int[] { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 }, new int[] { 100, 200, 500 });
+            // var days = sol.GetBillionUsersDay(new float[] { 1.1f, 1.2f, 1.3f });
+            //var bal = sol.balancedSplitExists(new int[] {12, 7, 6, 7, 6});
+
+            //  var uniq = sol.countDistinctTriangles(new int[,] { { 2, 2, 3 }, { 3, 2, 2 }, { 2, 5, 6 } });
+
+            //var min = sol.minimumPrefixReversals(new int[] { 1, 2, 4, 3});
+
+            // var min = sol.minOperations(new int[] {1, 2, 4, 3});
+            //var min = sol.minOperations(new int[] { 3,1, 2 });
+
+
+            // var lk = sol.LicenseKeyFormatting("5F3Z-2e-9-w", 4);
+
+            //var lk = sol.LicenseKeyFormatting("2-4A0r7-4k", 4);
+            //ar lk = sol.LicenseKeyFormatting("2-4A0r7-4k", 3);
+
+
+            // var lp = sol.LengthLongestPath2("dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext");
+
+            // var ip = sol.IsPalindrome(1000000001);
+
+            // var nr = sol.NumRollsToTarget(1, 6, 3);
+
+            //  var lp = sol.LongestPalindrome("cbbd");
+
+            // var lp = sol.LongestPalindrome("aacabdkacaa");
+            //MinConferenceRooms(new int[][] { new int[] { 0, 30 }, new int[] { 5, 10 }, new int[] { 15, 20 }});
+
+            //var l = sol.RemoveElement(new int[] { 0, 1, 2, 2, 3, 0, 4, 2 }, 2);
+
+            var l = sol.RemoveElement(new int[] { 2,2,3 }, 2);
+
+
 
 
         }
 
-       
+
+
+      
+
+        static int MinConferenceRooms(int[][] rooms)
+        {
+
+            if (rooms.Length <= 1)
+                return rooms.Length;
+
+           // Array.Sort(rooms);
+            //rooms.Sort( ((x, y) => x[0] < y[0]); // nlogn
+            var bookedrooms = new List<int>();
+
+
+
+            //bookedrooms.AddSorted(rooms[0][1]);
+
+            bookedrooms.AddSorted(30);
+            bookedrooms.AddSorted(20);
+            bookedrooms.AddSorted(40);
+            bookedrooms.AddSorted(10);
+            bookedrooms.AddSorted(30);
+
+
+
+
+            for (var i = 1; i < rooms.Length; i++)
+            {
+
+
+                if (bookedrooms[0] < rooms[i][0])
+                {
+                    bookedrooms.Remove(bookedrooms[0]);
+                   
+                    bookedrooms.AddSorted(rooms[i][1]);
+                }
+                else
+                    bookedrooms.AddSorted(rooms[i][1]);
+
+            }
+
+            return bookedrooms.Count;
+
+
+        }
+
+
+
+
+
+
+
     }
 
 
 
+    static class Extensions
+    {
+        public static void AddSorted<T>(this List<T> list, T value)
+        {
+            int x = list.BinarySearch(value);
+            list.Insert ( (x >= 0) ? x : ~x, value);
+        }
+    }
+
 
     class Solution
     {
+
+
+        public int RemoveElement(int[] nums, int val)
+        {
+            if (nums == null || nums.Length < 1)
+                return 0;
+            if (nums.Where(n => n != val).Count() == 0)
+                return 0;
+            Array.Sort(nums);
+            var k = 0;
+            var l = Array.IndexOf(nums, val);  // n
+            if (l < 0)
+                return nums.Length;
+
+            var r = nums.Length - 1;
+            if (nums[r] == val)
+                k = nums.Length - (r - l + 1);
+            else
+            {
+                var start = l;
+                while (nums[l] == val && nums[r] != val)
+                {
+                    nums[l] = nums[r];
+                    l++;
+                    r--;
+                }
+                while (l < nums.Length && nums[l] == val)
+                    l++;
+
+                k = nums.Length - (l - start);
+            }
+            return k;
+
+        }
+
+
+        public string LongestPalindrome(string s)
+        {
+
+            var a = new int[4];
+
+           
+
+
+            if (s.Length == 1)
+                return s;
+            if (s.Length == 2)
+            {
+                if (s[0] == s[1])
+                    return s;
+                else
+                    return s[0].ToString();
+            }
+            var max = 0;
+            var maxstr = new StringBuilder(); 
+            var l = 0;
+            var r = 0;
+
+            for (var i = 0; i < s.Length; i++)
+            {
+
+
+                l = i;
+                r = i;
+                while (l >= 0 && r < s.Length && s[l] == s[r])
+                {
+                    if (r - l + 1 > max)
+                    {
+                        max = r - l + 1;
+                        maxstr.Clear();
+                        maxstr.Append(s.Substring(l, r - l + 1));
+                    }
+                    l--;
+                    r++;
+                }
+
+
+                l = i;
+                r = i + 1;
+                while (l >= 0 && r < s.Length && s[l] == s[r])
+                {
+                    if (r - l + 1 > max)
+                    {
+
+                        max = r - l + 1;
+                        maxstr.Clear();
+                        maxstr.Append(s.Substring(l, r - l + 1));
+                    }
+                    l--;
+                    r++;
+                }
+
+            }
+            return maxstr.ToString();
+        }
+
+
+        public string AddStrings2(string num1, string num2)
+        {
+
+            var carry = 0;
+            var i = 1;
+            var sb = new StringBuilder();
+            while (carry == 1 || (num1.Length - i > -1) || (num2.Length - i > -1))
+            {
+
+                var sum = ((num1.Length - i > -1) ? (num1[num1.Length - i] - '0') : 0) + ((num2.Length - i > -1) ? (num2[num2.Length - i] - '0') : 0) + carry;
+        
+                carry = sum / 10;
+                sum %= 10;
+                sb.Insert(0, sum);
+                i++;
+            }
+
+            return sb.ToString();
+
+        }
+
+        public bool IsPalindrome(int x)
+        {
+            if (x < 0)
+                return false;
+            var dig = Math.Floor(Math.Log10(x) + 1);
+            Console.WriteLine(dig);
+
+            var lmult = Math.Pow(10, dig - 1);
+            Console.WriteLine(lmult);
+            var ints = new List<int>();
+            var multiplier = 10;
+            while (x > 0)
+            {
+                var result = x % 10;
+                Console.WriteLine(result);
+                ints.Add(result); // / (multiplier / 10));
+                x /= 10;
+                //multiplier *= 10;
+            }
+
+            var r = ints.Count - 1;
+            for (var l = 0; l < r; l++)
+            {
+                if (ints[l] != ints[r])
+                    return false;
+                r--;
+            }
+
+            return true;
+        }
+
+
+
+        public int LengthLongestPath2(string input)
+        {
+
+            var split = input.Split('\n');
+            var max = 0;
+            var level = 0;
+            var levels = new List<int>();
+
+            for (var i = 0; i < split.Length; i++)
+            {
+                var len = split[i];
+                var trimmed = split[i].TrimStart('\t');
+                var numtabs = len.Length - trimmed.Length;
+
+                level = numtabs;
+
+                if (levels.Count <= level)
+                    levels.Add(0);
+                levels[level] = trimmed.Length + (numtabs > 0 ? 1 : 0);
+
+                if (trimmed.Contains('.'))
+                {
+                    var total = 0;
+                    for (var j = 0; j <= level; j++)
+                    {
+                        total += levels[j];
+                    }
+                    max = Math.Max(max, total);
+                }
+            }
+
+            return max;
+
+        }
+    
+
+
+
+
+
+
+
+    public string LicenseKeyFormatting(string s, int k)
+        {
+            var sb = new StringBuilder();
+            var c = k;
+            for (var i = s.Length - 1; i >= 0; i--)
+            {
+                if (c == 0) // && i > 0 && s[i-1] != '-')
+                { 
+                    sb.Insert(0, '-');
+                    c = k;
+                    i++;
+                }
+                
+                else if (s[i] != '-')
+                {
+                    sb.Insert(0, char.ToUpper(s[i]));
+                    c--;
+                }
+            }
+
+            
+            
+            var r = sb.ToString();
+            r = r.TrimStart('-');
+            return r;
+
+
+        }
+
+
+        public int minOperations(int[] arr)
+        {
+            var s = "s";
+            var t = s.ToUpper();
+            
+            var q = new Queue<Node3>();
+
+            var original = new int[arr.Length];
+            arr.CopyTo(original,0);
+            Array.Sort(arr);
+
+
+            if (arr.SequenceEqual(original))
+                return 0;
+            q.Enqueue(new Node3(original,  0 ));
+
+
+            while (q.Count > 0)
+            {
+                var temp = q.Dequeue();
+                //var newperm = new int[temp.perm.Length];
+                //temp.perm.CopyTo(newperm,0);
+
+                for (var i = 2; i<= temp.perm.Length; i++)
+                {
+                    var reversed = ReverseThis(temp.perm, i);
+                    if (reversed.SequenceEqual(arr))
+                        return temp.steps + 1;
+                    q.Enqueue(new Node3(reversed, temp.steps + 1));
+                }
+            }
+            return 0;
+
+        }
+
+        private int[] ReverseThis(int[] arr, int index)
+        {
+            var copy = new int[arr.Length];
+            arr.CopyTo(copy, 0);
+            var temp = 0;
+            for (var i = 0; i < index-1; i++)
+            {
+                temp = copy[i];
+                copy[i] = copy[index - 1];
+                copy[index - 1] = temp;
+                index--;
+            }
+
+            return copy;
+           
+        }
+
+
+
+
+
+        public class Node2
+        {
+            public String str;
+            public int steps;
+
+            public Node2(String str, int steps)
+            {
+                this.str = str;
+                this.steps = steps;
+            }
+        }
+
+        // function to find minimum prefix reversal through BFS
+        public int minimumPrefixReversals(int[] a)
+        {
+            // size of array
+            int n = a.Length;
+
+            // string for initial and goal nodes
+            String start = "", destination = "";
+
+            // string for manipulation in while loop
+            String original = "", modified = "";
+
+            // node to store temporary values
+            // from front of queue
+            Node2 temp = null;
+
+            // create the starting string
+            for (int i = 0; i < n; i++)
+                start += a[i];
+
+            // sort the array and prepare
+            // final destination string
+            Array.Sort(a);
+            for (int i = 0; i < n; i++)
+                destination += a[i];
+
+            // this queue will store all the BFS siblings
+            Queue<Node2> q = new Queue<Node2>();
+
+            // place the starting node in queue
+            q.Enqueue(new Node2(start, 0));
+
+            //base case:- if array is already sorted
+            if (start == destination)
+                return 0;
+
+
+            // loop until the size of queue is empty
+            while (q.Count != 0)
+            {
+                // put front node of queue in temporary variable
+                temp = q.Dequeue();
+
+                // store the original string at this step
+                original = temp.str;
+
+                for (int j = 2; j <= n; j++)
+                {
+                    // modified will be used to generate all
+                    // manipulation of original string
+                    // like if original = 1342
+                    // modified = 3142 , 4312 , 2431
+
+                    modified = original;
+
+                    // generate the permutation by reversing
+                    modified = reverse(modified, j);
+
+                    if (modified.Equals(destination))
+                    {
+                        // if string match then return
+                        // the height of the current node
+                        return temp.steps + 1;
+                    }
+
+                    // else put this node into queue
+                    q.Enqueue(new Node2(modified, temp.steps + 1));
+                }
+            }
+
+            // if no case match then default value
+            return int.MinValue;
+        }
+
+        // function to reverse the string upto an index
+        public static String reverse(String s, int index)
+        {
+            char[] temp = s.ToCharArray();
+            int i = 0;
+            while (i < index)
+            {
+                char c = temp[i];
+                temp[i] = temp[index - 1];
+                temp[index - 1] = c;
+                i++; index--;
+            }
+            return String.Join("", temp);
+        }
+
+
+
+
+
+
+
+
+
+        public int countDistinctTriangles(int[,] arr)
+        {
+            
+            var hash = new HashSet<int>();
+            for (var i = 0; i < arr.GetLength(0) ; i++)
+            {
+                var newlist = new List<int>() { arr[i, 0], arr[i, 1], arr[i, 2] };
+                newlist.Sort();
+                var newnum = newlist[2] + newlist[1] * 10 + newlist[0] * 100;
+                hash.Add(newnum);
+                
+            }
+
+            return hash.Count;
+
+        }
+
+        public  bool balancedSplitExists(int[] arr)
+        {
+
+            Array.Sort(arr);
+            var rightsum = 0;
+
+            for (var i = arr.Length - 1; i > 0; i--)
+            {
+                rightsum += arr[i];
+                var leftsum = 0;
+                var j = 0;
+                for (j = i - 1; j >= 0; j--)
+                {
+                    leftsum += arr[j];
+                }
+                if (leftsum == rightsum)
+                {
+                    Console.WriteLine("i: " + arr[i] + "J: " + arr[i-1]);
+                    if (arr[i] == arr[i-1])
+                        return false;
+                    else
+                        return true;
+                }
+            }
+            return false;
+        }
+
+
+        public int GetBillionUsersDay(float[] growthRates)
+        {
+            var gr = growthRates.OrderByDescending(g => g).FirstOrDefault();
+            Console.WriteLine("top growthrate: " + gr);
+            var growth = Math.Ceiling(Math.Log(1000000000, gr));
+            return Convert.ToInt32(growth);
+        }
+
+        public int[] getMilestoneDays(int[] revenues, int[] milestones)
+        {
+            var total = 0;
+            var results = new List<int>();
+            var j = 0;
+            
+            for (var i = 0; i < revenues.Length; i++)
+            {
+                total += revenues[i];
+                if (total >= milestones[j])
+                {
+                    results.Add(i + 1);
+                    j++;
+                }
+                
+            }
+
+            return results.ToArray();
+        }
+
 
         //Time:  O(N Log N)  -  Space:  O(N)  new array
         public int minOverallAwkwardness(int[] arr)
@@ -893,7 +1449,7 @@ namespace LeetCodeConsoleApp
 
             return diff;
         }
-    }
+    
 
     public  int[] findMinArray(int[] arr, int k)
         {
@@ -1013,6 +1569,8 @@ namespace LeetCodeConsoleApp
             var dicts = new Dictionary<char, int>();
             var dictt = new Dictionary<char, int>();
 
+
+          
 
             for (var i = 0; i < t.Length; i++)
             {
@@ -2420,16 +2978,7 @@ internal int numberOfWays(int[] arr, int k)
             return count;
         }
 
-        //public int CountCharacters(string[] words, string chars)
-        //{
-
-        //    var good = words.Where(w => w.Any(chars));
-        //    var length = 0;
-        //    foreach (var g in good)
-        //        length += g.Count();
-        //    return length;
-
-        //}
+       
 
 
 
@@ -3141,21 +3690,28 @@ internal int numberOfWays(int[] arr, int k)
 
 
 
+
         public int NumRollsToTarget(int d, int f, int target)
         {
             var dp = new int[target + 1];
             dp[0] = 1;
-            for (int i = 1; i <= d; i++)
+            for (int dd = 1; dd <= d; dd++)
             {
                 var tempdp = new int[target + 1];
-                for (var j = 1; j <= f; j++)
-                    for (var k = j; k <= target; k++)
-                        tempdp[k] = (tempdp[k] + dp[k - j]) % 1_000_000_007;
+                for (var ff = 1; ff <= f; ff++)
+                { 
+                    if (ff > target)
+                        break;
+                    for (var tt = ff; tt <= target; tt++)
+                        tempdp[tt] = (tempdp[tt] + dp[tt - ff]) % 1_000_000_007;
+                }
                 dp = tempdp;
             }
 
             return dp[target];
         }
+
+
 
 
 
@@ -9528,10 +10084,7 @@ public bool IsOneEditDistance(string s, string t)
 
 
 
-        public int NumRollsToTarget2(int d, int f, int target)
-        {
-            return 1;
-        }
+      
 
 
 
