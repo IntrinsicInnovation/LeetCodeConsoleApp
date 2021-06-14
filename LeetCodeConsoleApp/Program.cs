@@ -883,82 +883,195 @@ namespace LeetCodeConsoleApp
 
             //var l = sol.RemoveElement(new int[] { 0, 1, 2, 2, 3, 0, 4, 2 }, 2);
 
-            var l = sol.RemoveElement(new int[] { 2,2,3 }, 2);
+            // var l = sol.RemoveElement(new int[] { 2,2,3 }, 2);
+
+            var mc2 = new MyCalendarTwo();
+            var tb =  mc2.Book(10, 20);
+            tb =  mc2.Book(50, 60);
+            tb = mc2.Book(10, 40);
+            tb = mc2.Book(5, 15);
+            tb = mc2.Book(5, 10);
+            tb = mc2.Book(25, 55);
+
+
+
 
 
 
 
         }
+
+
 
 
 
       
 
-        static int MinConferenceRooms(int[][] rooms)
+
+
+
+    }
+
+   
+
+
+
+
+
+
+    public class MyCalendarTwo
+    {
+
+        private List<int[]> booked;
+        private List<int[]> doublebooked;
+        public MyCalendarTwo()
+        {
+            doublebooked = new List<int[]>();
+            booked = new List<int[]>();
+        }
+
+        public bool Book(int start, int end)
+        {
+            if (booked.Count == 0)
+                booked.Add(new int[] { start, end });
+            else
+            
+            if (booked.Count >= 1)
+            {
+                var triple = doublebooked.Any(db => db[1] >= start && db[0] < end);
+                if (triple)
+                    return false;
+                else
+                { 
+                    CalcDb(start, end);
+                    booked.Add(new int[] { start, end });
+                }
+            }
+
+         
+
+            return true;
+        }
+
+        private void CalcDb(int start, int end)
         {
 
-            if (rooms.Length <= 1)
-                return rooms.Length;
-
-           // Array.Sort(rooms);
-            //rooms.Sort( ((x, y) => x[0] < y[0]); // nlogn
-            var bookedrooms = new List<int>();
-
-
-
-            //bookedrooms.AddSorted(rooms[0][1]);
-
-            bookedrooms.AddSorted(30);
-            bookedrooms.AddSorted(20);
-            bookedrooms.AddSorted(40);
-            bookedrooms.AddSorted(10);
-            bookedrooms.AddSorted(30);
-
-
-
-
-            for (var i = 1; i < rooms.Length; i++)
+            var outerinner = false;
+            var ind = booked.FindIndex(b => b[0] >= start && b[1] <= end);
+            if (ind >= 0)
             {
-
-
-                if (bookedrooms[0] < rooms[i][0])
+                doublebooked.Add(new int[] { booked[ind][0], booked[ind][1] });
+                outerinner = true;
+            }
+            else
+            { 
+                ind = booked.FindIndex(b => b[0] < start && b[1] > end);
+                if (ind >= 0)
                 {
-                    bookedrooms.Remove(bookedrooms[0]);
-                   
-                    bookedrooms.AddSorted(rooms[i][1]);
+                    doublebooked.Add(new int[] { start, end });
+                    outerinner = true;
                 }
-                else
-                    bookedrooms.AddSorted(rooms[i][1]);
+                    
+            }
+
+            if (outerinner == false)
+            { 
+
+            
+                ind = booked.FindIndex(b => b[0] < end && b[0] >= start);
+                if (ind >= 0)
+                    doublebooked.Add(new int[] { booked[ind][0], end });
+
+            
+                    ind = booked.FindIndex(b => b[1] > start && b[1] <= end);
+                    if (ind >= 0)
+                        doublebooked.Add(new int[] {start,  booked[ind][1]});
+
 
             }
 
-            return bookedrooms.Count;
-
-
-        }
-
-
-
-
-
-
-
-    }
-
-
-
-    static class Extensions
-    {
-        public static void AddSorted<T>(this List<T> list, T value)
-        {
-            int x = list.BinarySearch(value);
-            list.Insert ( (x >= 0) ? x : ~x, value);
         }
     }
+
+
+
+
+
+
+
 
 
     class Solution
     {
+
+        public bool ValidMountainArray(int[] arr)
+        {
+            if (arr.Length < 3)
+                return false;
+            if (arr[1] < arr[0])
+                return false;
+            var min = 0;
+            var max = 10001;
+            var increasing = true;
+            for (var i = 0; i < arr.Length - 1; i++)
+            {
+                if (arr[i + 1] == arr[i])
+                    return false;
+
+                if (increasing)
+                {
+                    if (arr[i + 1] > arr[i])
+                        max = Math.Max(max, arr[i + 1]);
+                    else
+                        increasing = false;
+                }
+                else
+                {
+                    if (arr[i + 1] > arr[i])
+                        return false;
+                }
+            }
+            if (increasing)
+                return false;
+            else
+                return true;
+        }
+
+
+        public string MostCommonWord3(string paragraph, string[] banned)
+        {
+
+
+            var trimcomma = paragraph.Replace(',', ' ');
+
+            var words = trimcomma.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            for (var i = 0; i < words.Length; i++)
+            {
+                words[i] = words[i].TrimEnd(new char[] { '!', '?', '\'', ',', ';', '.' }).ToLower();
+            }
+
+
+
+            var dict = new Dictionary<string, int>();
+
+            for (var i = 0; i < words.Length; i++)
+            {
+                var lower = words[i];
+                if (!banned.Contains(lower))
+                {
+                    if (!dict.ContainsKey(lower))
+                        dict.Add(lower, 1);
+                    else
+                        dict[lower]++;
+                }
+            }
+
+            var max = dict.OrderByDescending(d => d.Value).FirstOrDefault();
+
+            return max.Key;
+        }
+
 
 
         public int RemoveElement(int[] nums, int val)
@@ -993,6 +1106,53 @@ namespace LeetCodeConsoleApp
             return k;
 
         }
+
+
+        public int MinConferenceRooms(int[][] rooms)
+        {
+
+            if (rooms.Length <= 1)
+                return rooms.Length;
+
+            // Array.Sort(rooms);
+            //rooms.Sort( ((x, y) => x[0] < y[0]); // nlogn
+            var bookedrooms = new List<int>();
+
+
+
+            //bookedrooms.AddSorted(rooms[0][1]);
+            //test  addsorted
+            bookedrooms.AddSorted(30);
+            bookedrooms.AddSorted(20);
+            bookedrooms.AddSorted(40);
+            bookedrooms.AddSorted(10);
+            bookedrooms.AddSorted(30);
+
+
+
+
+            for (var i = 1; i < rooms.Length; i++)
+            {
+
+
+                if (bookedrooms[0] < rooms[i][0])
+                {
+                    bookedrooms.Remove(bookedrooms[0]);
+
+                    bookedrooms.AddSorted(rooms[i][1]);
+                }
+                else
+                    bookedrooms.AddSorted(rooms[i][1]);
+
+            }
+
+            return bookedrooms.Count;
+
+
+        }
+
+
+
 
 
         public string LongestPalindrome(string s)
