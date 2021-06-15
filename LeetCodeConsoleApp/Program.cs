@@ -939,6 +939,8 @@ namespace LeetCodeConsoleApp
     {
         public int ArrayPairSum(int[] nums)
         {
+
+
             Array.Sort(nums);
 
             var sum = 0;
