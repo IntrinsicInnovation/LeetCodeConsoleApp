@@ -8,6 +8,152 @@ namespace LeetCodeConsoleApp
 
 
 
+    public class MyCalendarTwo
+    {
+
+        private SortedDictionary<int, int> _dict;
+        public MyCalendarTwo()
+        {
+            _dict = new SortedDictionary<int, int>();
+        }
+
+        /// <summary>
+        /// foreach start you add a pair of (start,1)
+        /// foreach end you add a pair of (end,-1)
+        /// the list is sorted we add and remove events.
+        /// if we can more then 3 events added at the same time.
+        /// we need to remove the event 
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public bool Book(int start, int end)
+        {
+            //   s1------e1
+            // s-----e
+            //      s---e
+            // s------------e
+            //      s---------e
+            //s--e good
+            //               s--e
+
+            if (!_dict.TryGetValue(start, out var temp))
+            {
+                _dict.Add(start, temp + 1);
+            }
+            else
+            {
+                _dict[start]++;
+            }
+
+            if (!_dict.TryGetValue(end, out var temp1))
+            {
+                _dict.Add(end, temp1 - 1);
+            }
+            else
+            {
+                _dict[end]--;
+            }
+
+            int active = 0;
+            foreach (var d in _dict.Values)
+            {
+                active += d;
+                if (active >= 3)
+                {
+                    _dict[start]--;
+                    _dict[end]++;
+                    //if (_dict[start] == 0)
+                    // {
+                    //     _dict.Remove(start);
+                    // }
+
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+    }
+
+    public class MyCalendarSoso // Fails a few test cases;
+    {
+
+        private List<int[]> booked;
+        private List<int[]> doublebooked;
+        public MyCalendarSoso()
+        {
+            doublebooked = new List<int[]>();
+            booked = new List<int[]>();
+        }
+
+        public bool Book(int start, int end)
+        {
+            if (booked.Count == 0)
+                booked.Add(new int[] { start, end });
+            else
+
+            if (booked.Count >= 1)
+            {
+                var triple = doublebooked.Any(db => db[1] > start && db[0] < end);
+                if (triple)
+                    return false;
+                else
+                {
+                    CalcDb(start, end);
+                    booked.Add(new int[] { start, end });
+                }
+            }
+
+
+
+            return true;
+        }
+
+        private void CalcDb(int start, int end)
+        {
+
+            var outerinner = false;
+            var ind = booked.FindIndex(b => b[0] >= start && b[1] <= end);
+            if (ind >= 0)
+            {
+                doublebooked.Add(new int[] { booked[ind][0], booked[ind][1] });
+                outerinner = true;
+            }
+            else
+            {
+                ind = booked.FindIndex(b => b[0] < start && b[1] > end);
+                if (ind >= 0)
+                {
+                    doublebooked.Add(new int[] { start, end });
+                    outerinner = true;
+                }
+
+            }
+
+            if (outerinner == false)
+            {
+
+
+                ind = booked.FindIndex(b => b[0] < end && b[0] >= start);
+                if (ind >= 0)
+                    doublebooked.Add(new int[] { booked[ind][0], end });
+
+
+                ind = booked.FindIndex(b => b[1] > start && b[1] <= end);
+                if (ind >= 0)
+                    doublebooked.Add(new int[] { start, booked[ind][1] });
+
+
+            }
+
+        }
+    }
+
+
+
+
 
     static class Extensions
     {

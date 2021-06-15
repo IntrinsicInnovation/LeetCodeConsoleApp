@@ -885,14 +885,30 @@ namespace LeetCodeConsoleApp
 
             // var l = sol.RemoveElement(new int[] { 2,2,3 }, 2);
 
-            var mc2 = new MyCalendarTwo();
-            var tb =  mc2.Book(10, 20);
-            tb =  mc2.Book(50, 60);
-            tb = mc2.Book(10, 40);
-            tb = mc2.Book(5, 15);
-            tb = mc2.Book(5, 10);
-            tb = mc2.Book(25, 55);
+            //var mc2 = new MyCalendarTwo();
+            //var tb = mc2.Book(10, 20);
+            //tb = mc2.Book(50, 60);
+            //tb = mc2.Book(10, 40);
+            //tb = mc2.Book(5, 15);
+            //tb = mc2.Book(5, 10);
+            //tb = mc2.Book(25, 55);
 
+            //var mc2 = new MyCalendarTwo();
+            //var tb = mc2.Book(36, 41);
+            //tb = mc2.Book(28, 34);
+            //tb = mc2.Book(40, 46);
+            //tb = mc2.Book(10, 18);
+            //tb = mc2.Book(4, 11);
+            //tb = mc2.Book(25, 34);
+            //tb = mc2.Book(36, 44);
+            //tb = mc2.Book(32, 40);
+            //tb = mc2.Book(34, 39);
+            //tb = mc2.Book(40, 49);
+
+
+
+
+            var r = sol.Reverse(-123);
 
 
 
@@ -905,94 +921,12 @@ namespace LeetCodeConsoleApp
 
 
 
-      
+
 
 
 
 
     }
-
-   
-
-
-
-
-
-
-    public class MyCalendarTwo
-    {
-
-        private List<int[]> booked;
-        private List<int[]> doublebooked;
-        public MyCalendarTwo()
-        {
-            doublebooked = new List<int[]>();
-            booked = new List<int[]>();
-        }
-
-        public bool Book(int start, int end)
-        {
-            if (booked.Count == 0)
-                booked.Add(new int[] { start, end });
-            else
-            
-            if (booked.Count >= 1)
-            {
-                var triple = doublebooked.Any(db => db[1] >= start && db[0] < end);
-                if (triple)
-                    return false;
-                else
-                { 
-                    CalcDb(start, end);
-                    booked.Add(new int[] { start, end });
-                }
-            }
-
-         
-
-            return true;
-        }
-
-        private void CalcDb(int start, int end)
-        {
-
-            var outerinner = false;
-            var ind = booked.FindIndex(b => b[0] >= start && b[1] <= end);
-            if (ind >= 0)
-            {
-                doublebooked.Add(new int[] { booked[ind][0], booked[ind][1] });
-                outerinner = true;
-            }
-            else
-            { 
-                ind = booked.FindIndex(b => b[0] < start && b[1] > end);
-                if (ind >= 0)
-                {
-                    doublebooked.Add(new int[] { start, end });
-                    outerinner = true;
-                }
-                    
-            }
-
-            if (outerinner == false)
-            { 
-
-            
-                ind = booked.FindIndex(b => b[0] < end && b[0] >= start);
-                if (ind >= 0)
-                    doublebooked.Add(new int[] { booked[ind][0], end });
-
-            
-                    ind = booked.FindIndex(b => b[1] > start && b[1] <= end);
-                    if (ind >= 0)
-                        doublebooked.Add(new int[] {start,  booked[ind][1]});
-
-
-            }
-
-        }
-    }
-
 
 
 
@@ -1003,6 +937,87 @@ namespace LeetCodeConsoleApp
 
     class Solution
     {
+        public int ArrayPairSum(int[] nums)
+        {
+            Array.Sort(nums);
+
+            var sum = 0;
+            for (var i = 0; i < nums.Length - 1; i += 2)
+            {
+                sum += Math.Min(nums[i], nums[i + 1]);
+            }
+            return sum;
+        }
+
+        public int Reverse(int x)
+        {
+            var sb = new StringBuilder();
+            if (x < 0)
+            { 
+                sb.Append('-');
+                x *= -1;
+            }
+            if (x == 0)
+                return 0;
+            while (x > 0)
+            {
+                var digit = x % 10;
+                x /= 10;
+                sb.Append(digit);
+            }
+
+            if (Int32.TryParse(sb.ToString(), out var result))
+                return result;
+            else
+                return 0;
+        }
+
+
+
+        public ListNode AddTwoNumbers2(ListNode l1, ListNode l2)
+        {
+
+
+            var s1 = new Stack<int>();
+            var s2 = new Stack<int>();
+
+            while (l1 != null)
+            {
+                s1.Push(l1.val);
+                l1 = l1.next;
+            }
+
+            while (l2 != null)
+            {
+                s2.Push(l2.val);
+                l2 = l2.next;
+            }
+            var carry = 0;
+            var newnode = new ListNode(-1);
+
+
+            while (s1.Count > 0 || s2.Count > 0 || carry == 1)
+            {
+                var sum = (s1.Count > 0 ? s1.Pop() : 0) + (s2.Count > 0 ? s2.Pop() : 0) + carry;
+                carry = sum / 10;
+                sum %= 10;
+                if (newnode.val == -1)
+                    newnode.val = sum;
+                else
+                {
+                    var curnode = new ListNode(sum);
+                    curnode.next = newnode;
+                    newnode = curnode;
+                }
+
+
+            }
+
+            return newnode;
+
+        }
+
+
 
         public bool ValidMountainArray(int[] arr)
         {
@@ -6072,20 +6087,17 @@ public bool IsOneEditDistance(string s, string t)
         {
             if (root == null)
                 return null;
-            if (root.val > high)
-                return TrimBST(root.left, low, high);
+           
             if (root.val < low)
                 return TrimBST(root.right, low, high);
+            if (root.val > high)
+                return TrimBST(root.left, low, high);
 
             root.left = TrimBST(root.left, low, high);
             root.right = TrimBST(root.right, low, high);
             return root;
 
         }
-
-
-
-
 
 
 
@@ -9178,7 +9190,7 @@ public bool IsOneEditDistance(string s, string t)
 
 
 
-        public ListNode AddTwoNumbers2(ListNode l1, ListNode l2)
+        public ListNode AddTwoNumbers10(ListNode l1, ListNode l2)
         {
             Stack<int> stack1 = ListToStack(l1);
             Stack<int> stack2 = ListToStack(l2);
