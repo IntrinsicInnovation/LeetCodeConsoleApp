@@ -908,8 +908,15 @@ namespace LeetCodeConsoleApp
 
 
 
-            var r = sol.Reverse(-123);
+            //  var r = sol.Reverse(-123);
 
+
+            //    var s = sol.BuddyStrings("ab","babbb");
+
+            //  var cp = sol.ClosestSumPairs(new int[] { -1, 3, 8, 2, 9, 5 }, new int[] { 4, 1, 2, 10, 5, 20 }, 24);
+
+
+            var im = sol.IsMatch("aab", "c*a*b");
 
 
 
@@ -937,6 +944,176 @@ namespace LeetCodeConsoleApp
 
     class Solution
     {
+
+
+
+
+
+        public int FindMin2(int[] nums)
+        {
+
+            var left = 0;
+            var right = nums.Length;
+            var mid = 0;
+            //var min = nums[mid];
+            while (left < right)
+            {
+                mid = left + (right - left) / 2;
+
+                if (mid < nums.Length - 1 && nums[mid + 1] < nums[mid])
+                {
+                    return nums[mid + 1];
+
+                }
+
+                else if (mid > 0 && nums[mid - 1] > nums[mid])
+                {
+                    return nums[mid];
+                }
+
+                if (nums[right] > nums[mid])
+                {
+                    right = mid - 1;
+                }
+                else
+                {
+                    left = mid + 1;
+                }
+
+
+            }
+
+            return nums[left];
+
+        }
+
+
+
+
+
+        //finish this!! - has bugs when adding caching 
+
+        public bool IsMatch(string s, string p)
+        {
+        
+      
+
+        Dictionary<int[],bool> dict = new Dictionary<int[], bool>();
+
+
+
+
+        bool dfs(int i, int j)
+        {
+                if ( dict.TryGetValue(new int[] { i, j }, out var cached))
+                {
+                    return cached;
+                }
+                if (i >= s.Length || j >= p.Length)
+                    return true;
+                if (j >= p.Length)
+                    return false;
+
+                var match = (i < s.Length && j < p.Length && s[i] == p[j] || p[j] == '.');
+                if (j+1 < p.Length && p[j+1] == '*')
+                {
+                    var b = dict[new int[] { i, j }] = dfs(i, j + 2) || (match && dfs(i + 1, j));
+                    return b; // dict[new int[] { i, j }];
+                }
+
+                if (match)
+                {
+                    var a = dict[new int[] { i, j }] = dfs(i + 1, j + 1);
+                    return a;
+                }
+
+                dict[new int[] { i, j }] = false;
+                return false;
+        }
+
+           return dfs(0, 0);
+
+        }
+
+        public int[] ClosestSumPairs(int[] a, int[] b, int target)
+        {
+            Array.Sort(a);
+            Array.Sort(b);
+
+            var i = a.Length - 1;
+            var j = 0;
+            var closestpair = new int[] { a[i], b[j] };
+            var closest = a[i] + b[j];
+            i--;
+            j++;
+            while (i >= 0 && j < b.Length)
+            {
+                var currdiff = a[i] + b[j] - target;
+                if (Math.Abs(currdiff) < Math.Abs(target - closest))
+                {
+                    closest = a[i] + b[j];
+                    closestpair[0] = a[i];
+                    closestpair[1] = b[j];
+                }
+                if (currdiff == 0)
+                    return closestpair;
+
+                if (currdiff < 0)
+                    j++;
+                else
+                    i--;
+
+
+
+
+            }
+
+            return closestpair;
+        }
+
+        public bool BuddyStrings(string s, string goal)
+        {
+            if (s.Length != goal.Length)
+                return false;
+
+            var sdict = new SortedDictionary<char, int>();
+            var goaldict = new SortedDictionary<char, int>();
+
+            var isdupes = false;
+            var isequal = true;
+            for (var i = 0; i < s.Length; i++)
+            {
+                if (i < s.Length - 1 && s[i] == s[i + 1])
+                    isdupes = true;
+                if (s[i] != goal[i])
+                {
+                    isequal = false;
+                    if (!sdict.ContainsKey(s[i]))
+                        sdict.Add(s[i], 1);
+                    else
+                        sdict[s[i]]++;
+
+                    if (!goaldict.ContainsKey(goal[i]))
+                        goaldict.Add(goal[i], 1);
+                    else
+                        goaldict[goal[i]]++;
+
+                }
+            }
+
+            if (isequal && s.GroupBy(s => s).Where(g => g.Count() >= 2).Count() > 0)
+                return true;
+            if (isdupes && isequal)
+                return true;
+            if (!isequal && sdict.Count == 2 && sdict.All(sd => sd.Value == 1) && sdict.SequenceEqual(goaldict))
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+
         public int ArrayPairSum(int[] nums)
         {
 
