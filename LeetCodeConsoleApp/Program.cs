@@ -947,7 +947,7 @@ namespace LeetCodeConsoleApp
 
 
 
-            var mcw = sol.MostCommonWord4("Bob hit a ball, the hit BALL flew far after it was hit.",new string[] { "hit" });
+            // var mcw = sol.MostCommonWord4("Bob hit a ball, the hit BALL flew far after it was hit.",new string[] { "hit" });
 
 
 
@@ -956,10 +956,14 @@ namespace LeetCodeConsoleApp
 
 
 
+            // var s = sol.solution(529);
 
 
+            // var r = sol.rotateRightKtimes(new int[] { 3, 8, 9, 7, 6}, 3);
+            //  var up = sol.FindUnpaired(new int[] { 9, 3, 9, 3, 9, 7, 9 });
 
 
+            var me = sol.FindMissingElement(new int[] { 2, 3, 1, 5 });
 
 
 
@@ -968,76 +972,273 @@ namespace LeetCodeConsoleApp
 
     }
 
-
-    class RandomPick
-    {
-
-         Random random = new Random();
-        int[] nums;
-
-        public RandomPick(int[] nums)
-        {
-            this.nums = nums;
-        }
-
-        //My solution does work though.  23 percent slower than the Pick() method below.
-        public int MyPick(int target)
-        {
-          
-            var valueindexes = nums.Select((value, index) => new { value, index }).Where(pair => pair.value == target).ToList();
-          
-
-           
-            var randomindex = random.Next(valueindexes.Count());
-            
-            
-
-            return valueindexes[randomindex].index;
-            
-            
-        }
-
-
-        //public int Pick(int target)
-        //{
-        //    var candidate = -1;
-        //    var n = nums.Length;
-
-        //    var count = 0;
-        //    for (int i = 0; i < n; i++)
-        //    {
-        //        if (nums[i] != target) continue;
-
-        //        count++;
-
-        //        var randomIndex = random.Next(count);
-        //        if (randomIndex == 0)
-        //        {
-        //            candidate = i;
-
-        //        }
-        //    }
-        //    return candidate;
-        //}
-
-    }
 
 
     class Solution
     {
 
-        //Facebook phone interview Jun 16,2021:
-
-        //   1)  https://leetcode.com/problems/add-strings/
-
-        //   2)  https://leetcode.com/problems/random-pick-index/
-
-        //random pick index of largest number in array.
-        // test your approach here
 
 
-        //  https://leetcode.com/problems/cut-off-trees-for-golf-event/
-        public int CutOffTree(IList<IList<int>> forest)
+         public int TapeEquilibrium(int[] A)
+        {
+
+            int min = int.MaxValue;
+
+        int sumLeft = 0;
+        int sumRight = ArraySum(A);
+
+        for (int i = 1; i<A.Length; i++)
+        {
+            int val = A[i - 1];
+
+        sumLeft  += val;
+            sumRight -= val;
+
+            int diff = Math.Abs(sumLeft - sumRight);
+
+            if (min > diff)
+            {
+                min = diff;
+            }
+        }
+
+        return min;
+        }
+
+        private int ArraySum(int[] array)
+        {
+            int sum = 0;
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                sum += array[i];
+            }
+
+            return sum;
+        }
+
+    //Codility passed 100%  PermMissingElem
+    public int FindMissingElement(int[] A)
+        {
+
+
+            var sum = 0;
+            for (int i = 0; i < A.Length; i++)
+                sum += A[i];
+
+            return A.Length % 2 == 0 ? (A.Length / 2 + 1) * (A.Length + 1) - sum
+             : (A.Length / 2 + 1) * (A.Length + 2) - sum ;
+
+        }
+
+
+        //fails
+        public int FindMissingElementsux(int[] A)
+        {
+            //codility
+            var sum = A.Sum();
+            var len = A.Length;
+            if (len == 0)
+                return 1;
+            var total = (len + 2) * (len + 1) / 2;
+            //for (var i = 0; i < len; i++)
+            // {
+            //     total -= A[i];
+            // }
+            var missing = total - sum;
+            return missing;
+
+
+        }
+
+        //still fails in linq on 100,000 elements
+        public int FindMissingElementlinqsux(int[] A)
+        {
+
+            if (A.Length <= 0)
+                return 1;
+
+            int size = A.Length;
+            System.Collections.Generic.List<int> missing = Enumerable.Range(1, A[size - 1]).Except(A.ToList()).ToList();
+            if (!missing.Any())
+                return A[size - 1] + 1;
+
+            return missing.First();
+
+
+
+        }
+
+
+
+
+
+        public int FindUnpaired(int[] A)
+        {
+            // write your code in C# 6.0 with .NET 4.5 (Mono)
+            var dict = new Dictionary<int, int>();
+            for (var i = 0; i < A.Length; i++)
+            {
+                if (!dict.ContainsKey(A[i]))
+                    dict.Add(A[i], 1);
+                else
+                    dict[A[i]]++;
+            }
+
+            var odd = dict.Where(d => d.Value % 2 != 0).Select(d => d.Key).FirstOrDefault();
+            return odd;
+
+        }
+
+
+        public void leftRotate(int[] arr, int d)
+        {
+            var n = arr.Length;
+            int i, j, k, temp;
+            /* To handle if d >= n */
+            d = d % n;
+            int g_c_d = gcd(d, n);
+            for (i = 0; i < g_c_d; i++)
+            {
+                /* move i-th values of blocks */
+                temp = arr[i];
+                j = i;
+                while (true)
+                {
+                    k = j + d;
+                    if (k >= n)
+                        k = k - n;
+                    if (k == i)
+                        break;
+                    arr[j] = arr[k];
+                    j = k;
+                }
+                arr[j] = temp;
+            }
+        }
+
+        /* Fuction to get gcd of a and b*/
+        private int gcd(int a, int b)
+        {
+            if (b == 0)
+                return a;
+            else
+                return gcd(b, a % b);
+        }
+
+
+
+        //crap:  fails test cases  .  Better to just rotate by one, and create function for that, then call it K times:
+        public int[] rotateRightKtimes(int[] A, int K)
+        {
+            if (A == null || A.Length < 2)
+                return A;
+            K = K % A.Length;
+            reverse(A, 0, A.Length);
+            reverse(A, 0, K);
+            reverse(A, K, A.Length - K);
+            return A;
+
+            
+        }
+
+        private void reverse(int[] arr, int start, int length)
+        {
+            var j = start + length - 1;
+            for (var i = start; i < j; i++)
+            {
+                var temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+                j--;
+            }
+
+        }
+
+        public int solution(int N)
+        {
+            // write your code in C# 6.0 with .NET 4.5 (Mono)
+
+            var a = Convert.ToString(N, 2);
+            var max = 0;
+            var count = 0;
+            for (var i = 0; i < a.Length; i++)
+            {
+                if (a[i] == '0')
+                    count++;
+                else
+                {
+                    max = Math.Max(max, count);
+                    count = 0;
+                }
+            }
+            return max;
+        }
+
+        // int count = 1;
+        public int GoodNodes(TreeNode root)
+        {
+            var count = 1;
+            if (root.left == null && root.right == null)
+                return count;
+
+            if (root.left != null)
+                DFS(root.left, root.val, ref count);
+            if (root.right != null)
+                DFS(root.right, root.val, ref count);
+            return count;
+
+        }
+
+        private void DFS(TreeNode node, int highval, ref int count)
+        {
+            highval = Math.Max(highval, node.val);
+            if (node.val >= highval)
+                count++;
+            if (node.left != null)
+                DFS(node.left, highval, ref count);
+            if (node.right != null)
+                DFS(node.right, highval, ref count);
+
+
+        }
+
+
+        public int ArraySign(int[] nums)
+        {
+            if (nums.Contains(0))
+                return 0;
+            Array.Sort(nums);
+            var ncount = 0;
+            for (var i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] < 0)
+                    ncount++;
+                else
+                    break;
+
+            }
+
+
+            if (ncount % 2 == 0)
+                return 1;
+            else return -1;
+
+        }
+
+
+            //Facebook phone interview Jun 16,2021:
+
+            //   1)  https://leetcode.com/problems/add-strings/
+
+            //   2)  https://leetcode.com/problems/random-pick-index/
+
+            //random pick index of largest number in array.
+            // test your approach here
+
+
+            //  https://leetcode.com/problems/cut-off-trees-for-golf-event/
+            public int CutOffTree(IList<IList<int>> forest)
         {
             return 0;
         }

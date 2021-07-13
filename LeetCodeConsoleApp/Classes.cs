@@ -7,6 +7,59 @@ namespace LeetCodeConsoleApp
 {
 
 
+    class RandomPick
+    {
+
+        Random random = new Random();
+        int[] nums;
+
+        public RandomPick(int[] nums)
+        {
+            this.nums = nums;
+        }
+
+        //My solution does work though.  23 percent slower than the Pick() method below.
+        public int MyPick(int target)
+        {
+
+            var valueindexes = nums.Select((value, index) => new { value, index }).Where(pair => pair.value == target).ToList();
+
+
+
+            var randomindex = random.Next(valueindexes.Count());
+
+
+
+            return valueindexes[randomindex].index;
+
+
+        }
+
+
+        //public int Pick(int target)
+        //{
+        //    var candidate = -1;
+        //    var n = nums.Length;
+
+        //    var count = 0;
+        //    for (int i = 0; i < n; i++)
+        //    {
+        //        if (nums[i] != target) continue;
+
+        //        count++;
+
+        //        var randomIndex = random.Next(count);
+        //        if (randomIndex == 0)
+        //        {
+        //            candidate = i;
+
+        //        }
+        //    }
+        //    return candidate;
+        //}
+
+    }
+
 
     public class MyCalendarTwo
     {
