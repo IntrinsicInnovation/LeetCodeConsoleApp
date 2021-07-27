@@ -963,10 +963,14 @@ namespace LeetCodeConsoleApp
             //  var up = sol.FindUnpaired(new int[] { 9, 3, 9, 3, 9, 7, 9 });
 
 
-            var me = sol.FindMissingElement(new int[] { 2, 3, 1, 5 });
+            // var me = sol.FindMissingElement(new int[] { 2, 3, 1, 5 });
+
+            //  var fc = sol.FrogRiverOne(5, new int[] { 1, 3, 1, 4, 2, 3, 5, 4 });
 
 
+          //  var s = sol.findsmallest(new int[] { -1, 1, -2, -99 });
 
+            var lkf = sol.LicenseKeyFormatting2("r", 1);
 
         }
 
@@ -979,7 +983,252 @@ namespace LeetCodeConsoleApp
 
 
 
-         public int TapeEquilibrium(int[] A)
+
+
+        public string LicenseKeyFormatting2(string s, int k)
+        {
+            var len = s.Length;
+            if (len == 1)
+                return s != "-" ? s.ToUpper() : "";
+
+
+            var count = 0;
+            var sb = new StringBuilder();
+
+            for (var i = len - 1; i >= 0; i--)
+            {
+                if (s[i] != '-')
+                {
+                    if (count < k)
+                    {
+                        sb.Insert(0, Char.ToUpper(s[i]));
+                        count++;
+
+                    }
+                    else
+                    {
+
+                        sb.Insert(0, '-');
+                        count = 1;
+                        sb.Insert(0, Char.ToUpper(s[i]));
+
+                    }
+
+                }
+            }
+            return sb.ToString();
+        }
+
+
+
+
+        public int[][] DiagonalSort(int[][] mat)
+        {
+            int rows = mat.Length;
+            int cols = mat[0].Length;
+            if (rows == 0 || cols == 0)
+            {
+                return null;
+            }
+            int i, j, r, c, ind;
+
+            r = 0;
+            c = cols - 1;
+            while (r != rows)
+            {
+                List<int> diagArray = new List<int>();
+                i = r;
+                j = c;
+                while (i < rows && j < cols)
+                {
+                    diagArray.Add(mat[i][j]);
+                    i++;
+                    j++;
+                }
+                diagArray.Sort();
+
+                i = r;  // starting at r == 0 
+                j = c;  // starting at col -1 
+                ind = 0;
+                while (i < rows && j < cols)
+                {
+                    mat[i][j] = diagArray[ind];
+                    i++;
+                    j++;
+                    ind++;
+                }
+                if (c > 0)
+                {
+                    c--;
+                }
+                else
+                {
+                    r++;
+                }
+            }
+            return mat;
+
+
+        }
+
+
+        public int findsmallest(int[] A)
+        {
+            int ans = A[0];
+            for (int i = 1; i < A.Length; i++)
+            {
+                if (A[i] < ans)
+                {
+                    ans = A[i];
+                }
+            }
+            return ans;
+        }
+
+
+        public int asolution(int A, int B, int K)
+        {
+
+            if (A % K == 0)
+                return (B / K) - (A / K) + 1;
+
+            // A is not divisible by M
+            return (B / K) - (A / K);
+        }
+
+        public int MissingInteger(int[] A)
+        {
+            Array.Sort(A);
+            var smallest = 1;
+            for (var i = 0; i < A.Length; i++)
+            {
+                if (A[i] == smallest)
+                    smallest = A[i] + 1;
+                else if (A[i] > smallest && A[i] > 0)
+                    break;
+
+            }
+            return smallest;
+        }
+
+
+
+
+        public int FrogRiverOne(int X, int[] A)
+        {
+            
+            var hash = new HashSet<int>();
+            for (var i = 0; i < X; i++)
+                hash.Add(i+1);
+            
+            
+            for (var i = 0; i < A.Length; i++)
+            {
+                if (hash.Remove(A[i]))
+                {
+                    if (hash.Count == 0)
+                        return i;
+                }
+            }
+                return -1;
+            
+        }
+
+
+
+
+        public int Brackets(string S)
+        {
+
+
+            if (S.Length == 0) return 1;
+
+            Stack<char> brackets = new Stack<char>();
+
+            foreach (char c in S)
+            {
+                if (c == '[' || c == '{' || c == '(')
+                {
+                    brackets.Push(c);
+                }
+                else
+                {
+                    // return 0 if no opening brackets found and 
+                    // first bracket is a closing bracket
+                    if (brackets.Count == 0) return 0;
+
+                    if (c == ')')
+                    {
+                        if (brackets.Peek() == '(') brackets.Pop();
+                        else return 0;
+                    }
+
+                    if (c == '}')
+                    {
+                        if (brackets.Peek() == '{') brackets.Pop();
+                        else return 0;
+                    }
+
+                    if (c == ']')
+                    {
+                        if (brackets.Peek() == '[') brackets.Pop();
+                        else return 0;
+                    }
+                }
+            }
+
+            if (brackets.Count == 0) return 1;
+
+            return 0;
+        }
+
+public int[] MaxCounters(int N, int[] A)
+        {
+            // write your code in C# 6.0 with .NET 4.5 (Mono)
+            int[] countersArr = new int[N];
+            int max = 0;
+            int index;
+            int setAllCountersOp = N;
+            int floor = 0;
+
+            for (int i = 0; i < A.Length; i++)
+            {
+                index = A[i] - 1;
+
+                if (index == setAllCountersOp)
+                {
+                    floor = max;
+                    continue;
+                }
+
+                if (countersArr[index] < floor)
+                {
+                    countersArr[index] = floor + 1;
+                }
+                else
+                {
+                    ++countersArr[index];
+                }
+
+                if (countersArr[index] > max)
+                {
+                    ++max;
+                }
+            }
+
+            for (int i = 0; i < countersArr.Length; i++)
+            {
+                if (countersArr[i] < floor)
+                {
+                    countersArr[i] = floor;
+                }
+            }
+
+            return countersArr;
+        }
+
+
+        public int TapeEquilibrium(int[] A)
         {
 
             int min = int.MaxValue;
