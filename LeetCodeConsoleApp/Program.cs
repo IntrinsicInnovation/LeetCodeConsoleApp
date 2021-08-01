@@ -1037,7 +1037,7 @@ namespace LeetCodeConsoleApp
     class Solution
     {
 
-
+        /***********************************************************************************************/
         public void ShortestReach()
         {
             int q = Convert.ToInt32(Console.ReadLine().Trim());
@@ -1047,30 +1047,26 @@ namespace LeetCodeConsoleApp
                 var nm = Console.ReadLine().Split(' ');
                 var n = Convert.ToInt32(nm[0]);
                 var m = Convert.ToInt32(nm[1]);
-
-
-
                 var edges = new List<List<int>>();
 
                 for (var ne = 0; ne < m; ne++)
                 {
                     var edgem = Console.ReadLine().Split(' ');
-                    edges.Add(new List<int> { Convert.ToInt32(edgem[0]), Convert.ToInt32(edgem[1]) });
+                    edges.Add(new List<int> { Convert.ToInt32(edgem[0])-1, Convert.ToInt32(edgem[1])-1 });
 
                 }
-                var i = Convert.ToInt32(Console.ReadLine());
+                var i = Convert.ToInt32(Console.ReadLine())-1;
                 DoBFSShortReach(n, edges, i);
             }
         }
 
-        private void AddEdges(List<GraphNode> Graph, List<List<int>> edges)
+        private void AddEdges(List<List<int>> graph, List<List<int>> edges)
         {
             foreach (var edge in edges)
             {
-                var node1 = Graph.Where(g => g.val == edge[0]).SingleOrDefault();
-                var node2 = Graph.Where(g => g.val == edge[1]).SingleOrDefault();
-                node1.neighbors.Add(node2);
-                node2.neighbors.Add(node1);
+                
+                graph[edge[0]].Add(edge[1]);
+                graph[edge[1]].Add(edge[0]);
             }
 
 
@@ -1078,10 +1074,10 @@ namespace LeetCodeConsoleApp
 
         private void DoBFSShortReach(int n, List<List<int>> edges, int start)
         {
-                var graph = new List<GraphNode>();
-                for (var j = 1; j <= n; j++)
+                var graph = new List<List<int>>(n);
+                for (var j = 0; j < n; j++)
                 {
-                    graph.Add(new GraphNode(j));
+                    graph.Add(new List<int>());
                 }
                 AddEdges(graph, edges);
              
@@ -1089,21 +1085,30 @@ namespace LeetCodeConsoleApp
 
             var edgedistance = 6;
             var distances = new int[n];
-            Array.Fill(distances, -1);
+            //Array.Fill(distances, -1); //Doesn't work in MONO.
+
+            //distances = distances.Select(d => { d = -1; return d; }).ToArray();
+
+            for (var i = 0; i < distances.Length; i++)
+            {
+                distances[i] = -1;
+            }
+
+
             var queue = new Queue<int>();
             queue.Enqueue(start);
 
-            distances[start-1] = 0;
+            distances[start] = 0;
             while (queue.Count > 0)
             {
                 var node = queue.Dequeue();
 
-                foreach (var neighbour in graph[node-1].neighbors)
+                foreach (var neighbour in graph[node])
                 {
-                    if (distances[neighbour.val-1] == -1)
+                    if (distances[neighbour] == -1)
                     {
-                        distances[neighbour.val-1] = distances[node-1] + edgedistance;
-                        queue.Enqueue(neighbour.val - 1);
+                        distances[neighbour] = distances[node] + edgedistance;
+                        queue.Enqueue(neighbour);
                     }
                    
                 }
@@ -1114,7 +1119,7 @@ namespace LeetCodeConsoleApp
             
             for (var i = 0; i < distances.Length; i++ )
             {
-                if ( i != start -1)
+                if ( i != start)
                 {
                     sb.Append(distances[i]);
                     if (i < distances.Length-1)
@@ -1128,7 +1133,7 @@ namespace LeetCodeConsoleApp
             Console.WriteLine(sb.ToString());
         }
 
-
+        /***********************************************************************************************/
 
 
 
