@@ -968,25 +968,231 @@ namespace LeetCodeConsoleApp
             //  var fc = sol.FrogRiverOne(5, new int[] { 1, 3, 1, 4, 2, 3, 5, 4 });
 
 
-          //  var s = sol.findsmallest(new int[] { -1, 1, -2, -99 });
+            //  var s = sol.findsmallest(new int[] { -1, 1, -2, -99 });
 
-            var lkf = sol.LicenseKeyFormatting2("r", 1);
+            //     var lkf = sol.LicenseKeyFormatting2("r", 1);
+
+            // var sa = sol.sherlockAndAnagrams("abba");
+
+            //    var ts = sol.twoStrings("hi", "world");
+
+            sol.ShortestReach();
 
         }
 
-    }
+       
 
+
+    }
+    //public  class Graph
+    //{
+    //    List<List<int>> adjLst;
+    //    int size;
+    //    public Graph(int size)
+    //    {
+    //        adjLst = new List<int>();
+    //        this.size = size;
+    //        while (size-- > 0)//Initialize the adjancency list.
+    //            adjLst.add(new ArrayList());
+    //    }
+
+    //    public void addEdge(int first, int second)
+    //    {
+    //        adjLst.get .get(first).add(second);
+    //        adjLst.get(second).add(first);
+    //        // For undirected graph, you gotta add edges from both sides.
+    //    }
+
+    //    public int[] shortestReach(int startId)
+    //    { // 0 indexed
+    //        int[] distances = new int[size];
+    //        Arrays.fill(distances, -1); // O(n) space.
+    //        Queue<Integer> que = new LinkedList<>();
+
+    //        que.add(startId); // Initialize queue.
+    //        distances[startId] = 0;
+    //        HashSet<Integer> seen = new HashSet<>(); //O(n) space. Could be further optimized. I leave it to you to optimize it.
+
+    //        seen.add(startId);
+    //        while (!que.isEmpty())
+    //        { // Standard BFS loop.
+    //            Integer curr = que.poll();
+    //            for (int node : adjLst.get(curr))
+    //            {
+    //                if (!seen.contains(node))
+    //                {
+    //                    que.offer(node);
+    //                    // Right place to add the visited set.
+    //                    seen.add(node);
+    //                    // keep on increasing distance level by level.
+    //                    distances[node] = distances[curr] + 6;
+    //                }
+    //            }
+    //        }
+    //        return distances;
+    //    }
+    //}
 
 
     class Solution
     {
 
 
+        public void ShortestReach()
+        {
+            int q = Convert.ToInt32(Console.ReadLine().Trim());
 
+            for (int qItr = 0; qItr < q; qItr++)
+            {
+                var nm = Console.ReadLine().Split(' ');
+                var n = Convert.ToInt32(nm[0]);
+                var m = Convert.ToInt32(nm[1]);
+
+
+
+                var edges = new List<List<int>>();
+
+                for (var ne = 0; ne < m; ne++)
+                {
+                    var edgem = Console.ReadLine().Split(' ');
+                    edges.Add(new List<int> { Convert.ToInt32(edgem[0]), Convert.ToInt32(edgem[1]) });
+
+                }
+                var i = Convert.ToInt32(Console.ReadLine());
+                DoBFSShortReach(n, edges, i);
+            }
+        }
+
+        private void AddEdges(List<GraphNode> Graph, List<List<int>> edges)
+        {
+            foreach (var edge in edges)
+            {
+                var node1 = Graph.Where(g => g.val == edge[0]).SingleOrDefault();
+                var node2 = Graph.Where(g => g.val == edge[1]).SingleOrDefault();
+                node1.neighbors.Add(node2);
+                node2.neighbors.Add(node1);
+            }
+
+
+        }
+
+        private void DoBFSShortReach(int n, List<List<int>> edges, int start)
+        {
+                var graph = new List<GraphNode>();
+                for (var j = 1; j <= n; j++)
+                {
+                    graph.Add(new GraphNode(j));
+                }
+                AddEdges(graph, edges);
+             
+
+
+            var edgedistance = 6;
+            var distances = new int[n];
+            Array.Fill(distances, -1);
+            var queue = new Queue<int>();
+            queue.Enqueue(start);
+
+            distances[start-1] = 0;
+            while (queue.Count > 0)
+            {
+                var node = queue.Dequeue();
+
+                foreach (var neighbour in graph[node-1].neighbors)
+                {
+                    if (distances[neighbour.val-1] == -1)
+                    {
+                        distances[neighbour.val-1] = distances[node-1] + edgedistance;
+                        queue.Enqueue(neighbour.val - 1);
+                    }
+                   
+                }
+
+
+            }
+            var sb = new StringBuilder();
+            
+            for (var i = 0; i < distances.Length; i++ )
+            {
+                if ( i != start -1)
+                {
+                    sb.Append(distances[i]);
+                    if (i < distances.Length-1)
+                    {
+                        sb.Append(" ");
+                    }
+                }
+                    
+            }
+           
+            Console.WriteLine(sb.ToString());
+        }
+
+
+
+
+
+        public  string twoStrings(string s1, string s2)
+        {
+            //Try looping through entire alphabet to see if each character is in both strings, then if it is, immediately return true/
+
+            var exists = s2.Any(str2 => s1.Contains(str2));
+            return exists ? "YES" : "NO";
+            
+        }
+
+
+        public int sherlockAndAnagrams(string s)
+        {
+
+            var map = new Dictionary<string, int>();
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                for (int j = i; j < s.Length; j++)
+                {
+                    char[] valC = s.Substring(i, j + 1 - i).ToCharArray();
+                    Array.Sort(valC);
+                    string val = new string(valC);
+                    if (!map.ContainsKey(val))
+                        map.Add(val, 1);
+                    else
+                        map[val]++;
+                }
+            }
+            int anagramPairCount = 0;
+            foreach (string key in map.Keys)
+            {
+                int n = map[key];
+                anagramPairCount += (n * (n - 1)) / 2;
+            }
+            return anagramPairCount;
+
+        }
+
+
+        public long repeatedString2(string s, long n)
+        {
+            if (s == "a")
+                return n;
+
+            long count = s.Where(str => str == 'a').Count();
+            count *= (n / s.Length);
+            var rem = n % s.Length;
+
+            for (var i = 0; i < rem; i++)
+            {
+                if (s[i] == 'a')
+                    count++;
+            }
+            return count;
+
+        }
 
 
         public string LicenseKeyFormatting2(string s, int k)
         {
+            
             var len = s.Length;
             if (len == 1)
                 return s != "-" ? s.ToUpper() : "";
