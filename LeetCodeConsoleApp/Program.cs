@@ -976,69 +976,338 @@ namespace LeetCodeConsoleApp
 
             //    var ts = sol.twoStrings("hi", "world");
 
-            sol.ShortestReach();
+            //sol.ShortestReach();
+
+            //HackerRank hard question:
+            //var root = new TreeNode(1);
+            //root.right = new TreeNode(2);
+            //root.right.right = new TreeNode(5);
+            //root.right.right.left = new TreeNode(3);
+            //root.right.right.right = new TreeNode(6);
+            //root.right.right.left.right = new TreeNode(4);
+            //sol.levelOrder(root);
+
+
+            // var queries = new List<List<string>> { new List<string> { "add", "hack" }, new List<string> { "add", "hackerrank" }, new List<string> { "find", "hac" }, new List<string> { "find", "hak" } };
+
+            //  sol.contacts(queries);
+            // sol.runningMedian(new List<int>() { 12, 4, 5, 3, 8, 7 });
+
+              sol.searchSuggestions(new List<string>() {"bags", "baggage", "banner", "box", "cloths"}, "bags");
+
+       //     sol.searchSuggestions(new List<string>() { "mobile", "mouse", "moneypot", "monitor", "mousepad" }, "mouse");
+
+            
+
+
+            //sol.countAnalogousArrays(new List<int>() { -1, -3, 2 }, 2, 8);
+
+
+            //   Console.WriteLine("Should be 0: " + sol.numWaysSplitParen("(((?"));
+            //   Console.WriteLine("Should be 1: " + sol.numWaysSplitParen("(())(?"));
+
+
+          //  sol.RemoveElement3(new int[] { 0, 1, 2, 2, 3, 0, 4, 2 }, 2);
+
 
         }
 
-       
+
 
 
     }
-    //public  class Graph
-    //{
-    //    List<List<int>> adjLst;
-    //    int size;
-    //    public Graph(int size)
-    //    {
-    //        adjLst = new List<int>();
-    //        this.size = size;
-    //        while (size-- > 0)//Initialize the adjancency list.
-    //            adjLst.add(new ArrayList());
-    //    }
-
-    //    public void addEdge(int first, int second)
-    //    {
-    //        adjLst.get .get(first).add(second);
-    //        adjLst.get(second).add(first);
-    //        // For undirected graph, you gotta add edges from both sides.
-    //    }
-
-    //    public int[] shortestReach(int startId)
-    //    { // 0 indexed
-    //        int[] distances = new int[size];
-    //        Arrays.fill(distances, -1); // O(n) space.
-    //        Queue<Integer> que = new LinkedList<>();
-
-    //        que.add(startId); // Initialize queue.
-    //        distances[startId] = 0;
-    //        HashSet<Integer> seen = new HashSet<>(); //O(n) space. Could be further optimized. I leave it to you to optimize it.
-
-    //        seen.add(startId);
-    //        while (!que.isEmpty())
-    //        { // Standard BFS loop.
-    //            Integer curr = que.poll();
-    //            for (int node : adjLst.get(curr))
-    //            {
-    //                if (!seen.contains(node))
-    //                {
-    //                    que.offer(node);
-    //                    // Right place to add the visited set.
-    //                    seen.add(node);
-    //                    // keep on increasing distance level by level.
-    //                    distances[node] = distances[curr] + 6;
-    //                }
-    //            }
-    //        }
-    //        return distances;
-    //    }
-    //}
 
 
-    class Solution
+
+
+
+
+
+
+
+
+class Solution
     {
 
-        /***********************************************************************************************/
-        public void ShortestReach()
+        //best
+        public int RemoveElement3(int[] nums, int val)
+        {
+
+            int i = -1;
+            for (var j = 0; j < nums.Length; j++)
+            {
+                var num = nums[j];
+                if (num != val)
+                    nums[++i] = num;
+            }
+            return i + 1;
+        }
+
+        //good complicated
+        public int RemoveElement(int[] nums, int val)
+        {
+            if (nums == null || nums.Length < 1)
+                return 0;
+            if (nums.Where(n => n != val).Count() == 0)
+                return 0;
+            Array.Sort(nums);
+            var k = 0;
+            var l = Array.IndexOf(nums, val);  // n
+            if (l < 0)
+                return nums.Length;
+
+            var r = nums.Length - 1;
+            if (nums[r] == val)
+                k = nums.Length - (r - l + 1);
+            else
+            {
+                var start = l;
+                while (nums[l] == val && nums[r] != val)
+                {
+                    nums[l] = nums[r];
+                    l++;
+                    r--;
+                }
+                while (l < nums.Length && nums[l] == val)
+                    l++;
+
+                k = nums.Length - (l - start);
+            }
+            return k;
+
+        }
+
+
+        //good easy
+
+        public int RemoveElement2(int[] nums, int val)
+        {
+
+            var newarray = new List<int>();
+            for (var i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] != val)
+                    newarray.Add(nums[i]);
+            }
+
+            newarray.CopyTo(nums);
+            return newarray.Count();
+
+          
+            
+        }
+
+
+
+
+
+
+        public int numWaysSplitParen(string paren)
+        {
+            char[] chars = paren.ToCharArray();
+            int count = 0;
+
+            for (int i = 2; i <= chars.Length - 1; i = i + 2)
+            {
+                StringBuilder left = new StringBuilder();
+                StringBuilder right = new StringBuilder();
+                for (int j = 0; j < i; j++)
+                {
+                    left.Append(chars[j]);
+                }
+
+                for (int k = i; k < chars.Length; k++)
+                {
+                    right.Append(chars[k]);
+                }
+
+                if (isBalanced(paren, 0, i) && isBalanced(paren, i, chars.Length)) count++;
+            }
+
+            return count;
+        }
+
+        private bool isBalanced(string str, int start, int end)
+        {
+            int parenLeftCount = 0;
+            int bracketLeftCount = 0;
+            int wildcard = 0;
+
+
+            for (int i = start; i < end; i++)
+            {
+                char c = str[i];
+                if (c == '(') parenLeftCount++;
+                if (c == ')') parenLeftCount--;
+                if (c == '[') bracketLeftCount++;
+                if (c == ']') bracketLeftCount--;
+                if (c == '?') wildcard++;
+            }
+
+            if (parenLeftCount + bracketLeftCount - wildcard == 0 ||
+                parenLeftCount + bracketLeftCount + wildcard % 2 == 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+
+        //amazon online assessment Aug 2.  passed 13/14 test cases.
+
+        public int countAnalogousArrays(List<int> consecutiveDifference, int lowerBound, int upperBound)
+        {
+            int count = 0;
+            int min = lowerBound, max = lowerBound;
+            int prev = lowerBound, curr = 0;
+            for (int i = 1; i <= consecutiveDifference.Count(); i++)
+            {
+                curr = prev - consecutiveDifference[i - 1];
+                min = Math.Min(min, curr);
+                max = Math.Max(max, curr);
+                prev = curr;
+            }
+
+            while (max <= upperBound)
+            {
+                if (min >= lowerBound) count++;
+                min = min + 1;
+                max = max + 1;
+            }
+            return count;
+        }
+
+
+
+
+        //passes all 17 test caseas on hacker rank
+       
+        public  List<List<string>> searchSuggestions(List<string> repository, string customerQuery)
+        {
+            var results = new List<List<string>>();
+
+            customerQuery = customerQuery.ToLower();
+            Console.WriteLine(customerQuery);
+            for (var k = 2; k <= customerQuery.Length; k++)
+            {
+                var currentresult = new List<string>();
+                var search = customerQuery.Substring(0, k);
+
+                for (var i = 0; i < repository.Count; i++)
+                {
+                    var r = repository[i].ToLower();
+                    if (r.StartsWith(search))
+                        currentresult.Add(r);
+
+                }
+
+
+                results.Add(currentresult.OrderBy(cr => cr).Take(3).ToList());
+            }
+
+
+
+            return results;
+
+        }
+
+
+
+
+
+
+        //hacker rank
+        public List<double> runningMedian(List<int> a)
+        {
+            var results = new List<double>();
+            var sorted = new List<int>();
+            for (var i = 0; i < a.Count; i++)
+            {
+                double median;
+                sorted.AddSorted(a[i]);
+                var mid = (i + 1) / 2;
+                if ( (i+1) % 2 == 0)
+                {
+                    median = (double)(sorted[mid - 1] + sorted[mid]) / (double)2.0;
+                }
+                else
+                {
+                    median = (double)sorted[mid];
+                }
+                results.Add(median);
+            }
+            return results;
+        }
+
+
+        //hackerrank
+
+        int count = 0;
+        Dictionary<string, List<int>> contactdict = new Dictionary<string, List<int>>();
+        public  List<int> contacts(List<List<string>> queries)
+        {
+            var counts = new List<int>();
+            foreach (var q in queries)
+            {
+                if (q[0] == "add")
+                {
+                    var s = q[1];
+        
+                    for (var j = 1; j <= s.Length; j++)
+                    {
+                        var substr = s.Substring(0, j);
+                        if (!contactdict.ContainsKey(substr))
+                        {
+                            contactdict.Add(substr, new List<int>() { count });
+                        }
+                        else
+                        {
+                            contactdict[substr].Add(count);
+                        }
+                    }
+                }
+                else
+                if (q[0] == "find")
+                {
+                    var k = q[1];
+                    var indexes = new List<int>();
+                    var count = 0;
+                    if (contactdict.TryGetValue(k, out indexes))
+                        count = indexes.Count();
+                    counts.Add(count);
+                }
+            }
+            return counts;
+        }
+
+
+
+        public void levelOrder(TreeNode root)
+        {
+
+            var queue = new Queue<TreeNode>();
+            queue.Enqueue(root);
+
+            while (queue.Count > 0)
+            {
+                var node = queue.Dequeue();
+                Console.Write(node.val);
+                if (node.left != null)
+                    queue.Enqueue(node.left);
+                if (node.right != null)
+                    queue.Enqueue(node.right);
+                if (queue.Count > 0)
+                    Console.Write(" ");
+
+            }
+            Console.WriteLine();
+
+        }
+
+
+            /***********************************************************************************************/
+            public void ShortestReach()
         {
             int q = Convert.ToInt32(Console.ReadLine().Trim());
 
@@ -2056,38 +2325,6 @@ public int FindMin2(int[] nums)
 
 
 
-        public int RemoveElement(int[] nums, int val)
-        {
-            if (nums == null || nums.Length < 1)
-                return 0;
-            if (nums.Where(n => n != val).Count() == 0)
-                return 0;
-            Array.Sort(nums);
-            var k = 0;
-            var l = Array.IndexOf(nums, val);  // n
-            if (l < 0)
-                return nums.Length;
-
-            var r = nums.Length - 1;
-            if (nums[r] == val)
-                k = nums.Length - (r - l + 1);
-            else
-            {
-                var start = l;
-                while (nums[l] == val && nums[r] != val)
-                {
-                    nums[l] = nums[r];
-                    l++;
-                    r--;
-                }
-                while (l < nums.Length && nums[l] == val)
-                    l++;
-
-                k = nums.Length - (l - start);
-            }
-            return k;
-
-        }
 
 
         public int MinConferenceRooms(int[][] rooms)
@@ -3151,52 +3388,41 @@ public int FindMin2(int[] nums)
 
 
 
-        public bool isBalanced(string s)
+        public string isBalanced(string s)
         {
+            if (s.Length <= 1)
+                return "NO";
             var stack = new Stack<char>();
-
 
             for (var i = 0; i < s.Length; i++)
             {
-                var c = s[i];
-                switch (c)
+                switch (s[i])
                 {
                     case '(':
-                    case '[':
-                        stack.Push(c);
-                        break;
-
-                    case ')':
-                        if (stack.Count == 0 || (stack.Count > 0 && stack.Pop() != '('))
-                            return false;
-                        break;
-
-
                     case '{':
-                        stack.Push(c);
+                    case '[':
+                        stack.Push(s[i]);
+                        break;
+                    case ')':
+                        if (stack.Count == 0 || stack.Pop() != '(')
+                            return "NO";
                         break;
                     case '}':
-                        if (stack.Count == 0 || (stack.Count > 0 && stack.Pop() != '{'))
-                            return false;
+                        if (stack.Count == 0 || stack.Pop() != '{') return "NO";
                         break;
-
-                   // case '[':
-                   //     stack.Push(c);
-                   //     break;
                     case ']':
-                        if (stack.Count == 0 || (stack.Count > 0 && stack.Pop() != '['))
-                            return false;
+                        if (stack.Count == 0 || stack.Pop() != '[')
+                            return "NO";
                         break;
-
                     default:
                         break;
+
                 }
-
-
             }
-
-
-            return true;
+            if (stack.Count > 0)
+                return "NO";
+            else
+                return "YES";
         }
 
 
@@ -4551,13 +4777,13 @@ internal int numberOfWays(int[] arr, int k)
 
         }
 
-
+        //amazon
 
         internal List<int> foo(int flightDuration, List<int> movieDuration)
         {
             var sortedlist = new List<int>();
             sortedlist.AddRange(movieDuration);
-            sortedlist.Sort();
+            sortedlist.Sort();  // can use extension
 
             var i = 0;
             var j = movieDuration.Count - 1;
