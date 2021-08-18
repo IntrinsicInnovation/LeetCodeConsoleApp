@@ -993,11 +993,11 @@ namespace LeetCodeConsoleApp
             //  sol.contacts(queries);
             // sol.runningMedian(new List<int>() { 12, 4, 5, 3, 8, 7 });
 
-              sol.searchSuggestions(new List<string>() {"bags", "baggage", "banner", "box", "cloths"}, "bags");
+            //    sol.searchSuggestions(new List<string>() {"bags", "baggage", "banner", "box", "cloths"}, "bags");
 
-       //     sol.searchSuggestions(new List<string>() { "mobile", "mouse", "moneypot", "monitor", "mousepad" }, "mouse");
+            //     sol.searchSuggestions(new List<string>() { "mobile", "mouse", "moneypot", "monitor", "mousepad" }, "mouse");
 
-            
+
 
 
             //sol.countAnalogousArrays(new List<int>() { -1, -3, 2 }, 2, 8);
@@ -1007,8 +1007,40 @@ namespace LeetCodeConsoleApp
             //   Console.WriteLine("Should be 1: " + sol.numWaysSplitParen("(())(?"));
 
 
-          //  sol.RemoveElement3(new int[] { 0, 1, 2, 2, 3, 0, 4, 2 }, 2);
+            //  sol.RemoveElement3(new int[] { 0, 1, 2, 2, 3, 0, 4, 2 }, 2);
 
+
+
+
+            //sol.arrayManipulation(10, new int[][] { new int[] { 1, 5, 3 }, new int[] { 4, 8, 7 }, new int[] { 6, 9, 1 } });
+
+            // var ndt = sol.NetworkDelayTime(new int[][] { new int[] { 2, 1, 1 }, new int[] { 2, 3, 1 }, new int[] { 3, 4, 1 } }, 4, 2);
+
+            // 1->4->0->1-> null
+            // ->89 null
+            ////->89->65->6
+            //  var n = new Node(1);
+            //  n.next = new Node(4);
+            //  n.next.next = new Node(0);
+            //  n.next.next.next = new Node(1);
+            //n.next.next.next.next = new Node(89);
+            //  var v = sol.GetMidItemValue(n);
+
+
+
+            //var ipn = sol.IsLongPressedName2("alex", "aaleex");
+
+            // ipn = sol.IsLongPressedName2("saeed", "ssaaedd");
+
+            //ipn = sol.IsLongPressedName2("leelee", "lleeelee");
+
+
+
+         //   var m = sol.MinDeletions("ceabaacb");
+
+            var m = sol.MinDeletions2("bbcebab");
+
+            
 
         }
 
@@ -1019,15 +1051,159 @@ namespace LeetCodeConsoleApp
 
 
 
-
-
-
-
-
-
-
 class Solution
     {
+        public int MinDeletions(string s)
+        {
+            if (s == null || s.Length == 0)
+                return 0;
+
+            // record unique frquencies 
+            HashSet<int> freqSet = new HashSet<int>();
+            int res = 0;
+
+            // calculate frequencies
+            int[] freq = new int[26];
+            foreach (var c in s)
+                freq[c - 'a']++;
+
+            for (int i = 0; i < freq.Length; i++)
+            {
+                // if there is another character has the same frequence
+                // we need to keep delete the current character until its frequncey is unique
+                // example 1: input is {(a,3), {b,3}, {c,2}}
+                // then we need to delete 2 a or 2 b
+                // example 2: input is {(a,3), {b,3}, {c,2},{d,2}}
+                // then we need to delete 2 a or 2 b, then delete 2 c or 2d
+                while (freqSet.Contains(freq[i]) && freq[i] > 0)
+                {
+                    freq[i]--;
+                  
+                        res++;
+                }
+                freqSet.Add(freq[i]);
+            }
+
+            return res;
+
+
+        }
+
+
+public int MinDeletions2(string s)  // my solution.  works, but a little slow.  Passed in leetcode!
+        {
+            var dict = new Dictionary<char, int>();
+            for (var i = 0; i < s.Length; i++)
+            {
+                if (!dict.ContainsKey(s[i]))
+                {
+                    dict.Add(s[i], 1);
+                }
+                else
+                    dict[s[i]]++;
+            }
+            var ordered = dict.OrderByDescending(d => d.Value).Select(d => d.Value).ToList();
+            var count = 0;
+            for(var i = 1; i < ordered.Count; i++)
+            {
+                while (ordered.Where(o => o == ordered[i]).Count() > 1)
+                {
+                    ordered[i]--;
+                    if (ordered[i] >= 0)
+                        count++;
+                }
+            }
+            return count;
+        }
+
+        public bool IsLongPressedName2(string name, string typed)
+        {
+
+            if (name == typed)
+                return true;
+
+            var i = 0;
+            var j = 0;
+            
+            while (i < name.Length)
+            {
+                var c = name[i];
+                var ncount = 0;
+                var tcount = 0;
+                while (i < name.Length && name[i] == c)
+                {
+                    i++;
+                    ncount++;
+                }
+
+                while (j < typed.Length && typed[j] == c)
+                {
+                    j++;
+                    tcount++;
+                }
+
+                if (tcount < ncount)
+                    return false;
+
+              
+              
+
+            }
+            if (j < typed.Length)
+                return false;
+            else
+                return true;
+        }
+
+
+
+
+
+
+        public  int GetMidItemValue(Node head)
+        {
+            Node slow = head;
+            Node fast = head;
+           
+            if (head == null)
+                return -1;
+            if (head.next == null)
+                return head.val;
+
+//            while (fast != null && fast.next != null && fast?.next?.next != null)
+
+            while (fast?.next?.next != null)
+            {
+
+                slow = slow.next;
+                fast = fast.next.next;
+
+            }
+
+            if (fast.next == null)
+                return slow.val;
+            else
+                return (slow.val + slow.next.val) / 2;
+
+
+        }
+
+
+
+        int hourglassSum(int[][] arr)
+        {
+            var max = -100;
+            for (var i = 1; i <= 4; i++)
+            {
+                for (var j = 1; j <= 4; j++)
+                {
+                    var sum = arr[i][j] + arr[i - 1][j - 1] + arr[i - 1][j] + arr[i - 1][j + 1] + arr[i + 1][j - 1] + arr[i + 1][j] + arr[i + 1][j + 1];
+                    max = Math.Max(sum, max);
+                }
+            }
+            return max;
+        }
+
 
         //best
         public int RemoveElement3(int[] nums, int val)
@@ -4868,6 +5044,7 @@ internal int numberOfWays(int[] arr, int k)
 
             var numas = s.Where(st => st == 'a').Count();
             long count = (n / s.Length) * numas;
+
             long remainder = n % s.Length;
 
 
@@ -4893,7 +5070,7 @@ internal int numberOfWays(int[] arr, int k)
             }
             long max = long.MinValue;
 
-            for (var k = 1; k < arr.Length; k++)
+            for (var k = 1; k < arr.Length; k++) 
             {
                 arr[k] += arr[k - 1];
                 max = Math.Max(arr[k], max);
@@ -9794,6 +9971,8 @@ public bool IsOneEditDistance(string s, string t)
 
             return result;
         }
+
+
 
         public int GetSum2(int a, int b)
         {
