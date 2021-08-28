@@ -1036,23 +1036,461 @@ namespace LeetCodeConsoleApp
 
 
 
-         //   var m = sol.MinDeletions("ceabaacb");
+            //   var m = sol.MinDeletions("ceabaacb");
 
-            var m = sol.MinDeletions2("bbcebab");
+            //  var m = sol.MinDeletions2("bbcebab");
 
-            
+            //   var md = sol.getNoOfSwaps("mamad");
+
+
+
+
+            //var l = new ListNode(1); 
+            //l.next = new ListNode(2);
+            //l.next.next = new ListNode(2);
+            //l.next.next.next = new ListNode(1);
+
+
+            //sol.IsPalindrome(l);
+
+
+
+            //var root = new TreeNode(1);
+            //root.left = new TreeNode(2);
+            //root.right = new TreeNode(3);
+            //root.right.right = new TreeNode(6);
+
+            //sol.TreeOutline(root);
+
+
+            //  var e = sol.StringEncode("aabcc");
+
+            // var cw = sol.CanWinNim(5);
+            // var mp = sol.MaxProfit3(new int[] { 1, 2 });
+
+
+            // var ms = sol.MaxSlidingWindow3(new int[] { 1, 3, -1, -3, 5, 3, 6, 7 }, 3);
+
+            //var ms = sol.MaxSlidingWindow3(new int[] {1, 3, 1, 2, 0, 5}, 3);
+
+
+
+            var root = new Node4(1);
+            root.left = new Node4(2);
+            root.right = new Node4(3);
+            root.left.left = new Node4(4);
+            root.left.right = new Node4(5);
+            root.right.right = new Node4(7);
+
+            var c = sol.Connect(root);
+
+
+
+
 
         }
-
-
-
-
     }
 
 
 
 class Solution
     {
+
+
+        public Node4 Connect(Node4 root)
+        {
+            if (root == null)
+                return null;
+            var q = new Queue<Node4>();
+            q.Enqueue(root);
+
+            while (q.Count > 0)
+            {
+                var count = q.Count;
+                var dummy = new Node4();
+                for (var i = 0; i < count; i++)
+                {
+                    var node = q.Dequeue();
+                    dummy.next = node;
+                    dummy = dummy.next;
+                    if (node.left != null)
+                        q.Enqueue(node.left);
+                    if (node.right != null)
+                        q.Enqueue(node.right);
+                }
+            }
+            return root;
+        }
+
+
+
+
+        //my version.  75% on leetcode both time and memory!
+        public int[] MaxSlidingWindow3(int[] nums, int k)
+        {
+
+            var len = nums.Length;
+            var results = new List<int>();
+            var q = new LinkedList<int>();
+
+            for (var i = 0; i < len; i++)
+            {
+                if (q.Count > 0 && q.First.Value + k <= i)
+                    q.RemoveFirst();
+
+                while (q.Count > 0 && nums[q.Last.Value] < nums[i])
+                    q.RemoveLast();
+
+                q.AddLast(i);
+
+                if (i >= k -1)
+                    results.Add(nums[q.First.Value]);
+
+
+            }
+
+            return results.ToArray();
+        }
+
+
+            public int[] MaxSlidingWindow2(int[] nums, int k)
+        {
+
+            int len = nums.Length;
+            int maxArrayLen = len - k + 1;
+            int[] ans = new int[maxArrayLen];
+
+            var q = new LinkedList<int>();
+
+            // Queue stores indices of array, and 
+            // values are in decreasing order.
+            // So, the first node in queue is the max in window
+            for (int i = 0; i<len; i++)
+            {
+                // 1. remove element from head until first number within window
+                if (q.Count > 0 && q.First.Value + k <= i)
+                {
+                    q.RemoveFirst();
+                }
+
+                // 2. before inserting i into queue, remove from the tail of the
+                // queue indices with smaller value they array[i]
+                while (q.Count > 0 && nums[q.Last.Value] <= nums[i])
+                {
+                    q.RemoveLast();
+                }
+
+                q.AddLast(i);
+
+                // 3. set the max value in the window (always the top number in
+                // queue)
+                int index = i + 1 - k;
+                if (index >= 0)
+                {
+                    ans[index] = nums[q.First.Value];
+                }
+            }
+            return ans;
+        }
+
+
+      //  List<int> _nums;
+      //  int _k;
+        
+        public int[] MaxSlidingWindow(int[] nums, int k)
+        {
+            var results = new List<int>();
+        //    List<int> currentnums = new List<int>();
+        //    currentnums.Add(nums[0]);
+        //    var max = nums[0];
+
+            var pq = new PriorityQueue<int>();
+
+      //      _nums = currentnums.OrderBy(x => x).ToList();
+      //      _k = currentnums.Count;
+      //      results.Add(_nums[_k - 1]);
+
+            for (var i = 0; i < nums.Length; i++)
+            {
+                if (pq.Count() >= k)
+                    pq.Dequeue(); //   (nums[i - k]);
+                //if (_nums.Count == 0 || nums[j] > _nums[_nums.Count - 1])
+                pq.Enqueue(nums[i]);
+                if (i >= k - 1)
+                    results.Add(pq.PeekMax());
+            }
+            return results.ToArray();
+        }
+
+        //private void Add(int val)
+        //{
+        //    if (_nums.Count < _k || val > _nums[_nums.Count - _k])
+        //    {
+        //        var i = _nums.BinarySearch(val);
+        //        if (i < 0) _nums.Insert(~i, val);
+        //        else _nums.Insert(i, val);
+        //    }
+
+       
+        //}
+
+
+
+        public int MySqrt(int x)
+        {
+            if (x <= 1)
+                return x;
+            var i = 2;
+            var result = 0;
+            while (true)
+            {
+                long d = x / i;
+                if ((d * d) <= x)
+                {
+                    result = (int)d;
+                    break;
+                }
+
+
+                i++;
+            }
+            return result;
+        }
+
+
+
+
+
+
+        public int MaxProfit3(int[] prices)
+        {
+
+            if (prices.Length <= 1)
+                return 0;
+           
+            var buy = Int32.MaxValue;
+            var sell = 0;
+
+            for (var i = 0; i < prices.Length; i++)
+            {
+                if (prices[i] < buy)
+                    buy = prices[i];
+                else if ((prices[i] - buy) > (sell - buy))
+                    sell = prices[i];
+
+
+            }
+            return sell - buy > 0 ? sell - buy : 0;
+        }
+
+        public bool CanWinNimcheat(int n)
+        {
+            return (n % 4 != 0);
+        }
+
+        public bool CanWinNim(int n)
+        {
+            var dp = new bool[n + 1];
+            dp[0] = false;
+            dp[1] = true;
+            dp[2] = true;
+            dp[3] = true;
+
+            for (var i = 4; i <= n; i++)
+            {
+                dp[i] = !(dp[i - 1] && dp[i - 2] && dp[i - 3]);
+            }
+
+            Console.WriteLine(string.Join(",", dp));
+
+            return dp[n];
+        }
+
+
+        public string StringEncode (string s)
+        {
+            if (String.IsNullOrEmpty(s))
+                return "";
+
+            var sb = new StringBuilder();
+            var counter = 1;
+            
+            for (var i = 1; i < s.Length; i++)
+            {
+                if (s[i] == s[i-1])
+                    counter++;
+                else
+                {
+                    sb.Append(counter).Append(s[i-1]);
+                    counter = 1;
+
+                }
+            }
+            sb.Append(counter).Append(s[s.Length-1]);
+
+
+            return sb.ToString();
+
+
+        }
+
+
+
+
+        List<int> leftlist = new List<int>();
+        List<int> rightlist = new List<int>();
+
+        int curlevel = 0;
+        public List<int> TreeOutline(TreeNode root)
+        {
+            if (root == null)
+                return null;
+
+            TraverseLeftTreeOutline(root, 1);
+            curlevel = 0;
+            TraverseRightTreeOutline(root.right, 1);
+
+            leftlist.Reverse();
+            leftlist.AddRange(rightlist);
+            return leftlist;
+
+        }
+
+        private void TraverseLeftTreeOutline(TreeNode node, int level)
+        {
+            if (node == null)
+                return;
+
+            if (level > curlevel)
+                curlevel = level;
+
+            leftlist.Add(node.val);
+
+            TraverseLeftTreeOutline(node.left, level + 1);
+
+        }
+
+        private void TraverseRightTreeOutline(TreeNode node, int level)
+        {
+            if (node == null)
+                return;
+
+            if (level > curlevel)
+                curlevel = level;
+
+            rightlist.Add(node.val);
+
+            TraverseRightTreeOutline(node.right, level + 1);
+
+        }
+
+        private ListNode forward;
+        public bool IsPalindrome(ListNode head)
+        {
+            var backward = head;
+            forward = head;
+            return Traverse(backward);
+        }
+
+        private bool Traverse(ListNode backward)
+        {
+            if (backward == null) return true;
+            if (!Traverse(backward.next)) return false;
+            var result = backward.val == forward.val;
+            forward = forward.next;
+            return result;
+        }
+
+
+
+
+        // Minimum Steps to Make Piles Equal Height
+        public int minSteps(int[] piles)
+        {
+            Array.Sort(piles);
+            int sum = 0;
+            int n = piles.Length;
+            for (int i = 1; i < n; i++)
+            {
+                if (piles[n - i - 1] != piles[n - i])
+                {
+                    sum += i;
+                }
+            }
+            return sum;
+        }
+
+
+
+        // Minimum Adjacent Swaps to Make Palindrome
+        public int getNoOfSwaps(string s)
+        {
+            if (s == null || s.Length == 0) return -1;
+            int totalSwaps = 0;
+
+            if (isShuffledPalindrome(s))
+            {
+                char[] chars = s.ToCharArray();
+                int p1 = 0, p2 = chars.Length - 1;
+
+                while (p2 > p1)
+                {
+                    if (chars[p1] != chars[p2])
+                    {
+                        int k = p2;
+                        while (k > p1 && chars[k] != chars[p1]) k--;
+
+                        if (k == p1)
+                        { //When no matching character found
+                            swap(chars, p1, p1 + 1);
+                            totalSwaps++;
+
+                        }
+                        else
+                        { //When Matching character found swap until K reaches p2 position
+                            while (k < p2)
+                            {
+                                swap(chars, k, k + 1);
+                                totalSwaps++;
+                                k++;
+                            }
+                            p1++; p2--;
+                        }
+                    }
+                    else
+                    {
+                        p1++; p2--; //When the characters are equal move on
+                    }
+                }
+                return totalSwaps;
+            }
+            else return -1;
+        }
+
+        private static void swap(char[] chars, int k, int i)
+        {
+            char temp = chars[k];
+            chars[k] = chars[i];
+            chars[i] = temp;
+        }
+
+        private bool isShuffledPalindrome(string s)
+        {
+            int[] occurrence = new int[26];
+            int oddCount = 0;
+
+            for (int i = 0; i < s.Length; i++) occurrence[s[i] - 'a']++;
+            foreach (int value in occurrence) if (value % 2 != 0) oddCount++;
+            return oddCount <= 1;
+        }
+
+
+
+
+
+
+
+
         public int MinDeletions(string s)
         {
             if (s == null || s.Length == 0)
@@ -2791,19 +3229,6 @@ public int FindMin2(int[] nums)
 
 
 
-
-
-        public class Node2
-        {
-            public String str;
-            public int steps;
-
-            public Node2(String str, int steps)
-            {
-                this.str = str;
-                this.steps = steps;
-            }
-        }
 
         // function to find minimum prefix reversal through BFS
         public int minimumPrefixReversals(int[] a)

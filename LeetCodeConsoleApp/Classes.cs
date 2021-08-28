@@ -7,6 +7,43 @@ namespace LeetCodeConsoleApp
 {
 
 
+
+    public class Node2
+    {
+        public String str;
+        public int steps;
+
+        public Node2(String str, int steps)
+        {
+            this.str = str;
+            this.steps = steps;
+        }
+    }
+
+    public class Node4
+    {
+        public int val;
+        public Node4 left;
+        public Node4 right;
+        public Node4 next;
+
+        public Node4() { }
+
+        public Node4(int _val)
+        {
+            val = _val;
+        }
+
+        public Node4(int _val, Node4 _left, Node4 _right, Node4 _next)
+        {
+            val = _val;
+            left = _left;
+            right = _right;
+            next = _next;
+        }
+    }
+
+
     public class TreeNode2
     {
         public char Value { get; set; }
@@ -547,6 +584,13 @@ namespace LeetCodeConsoleApp
         public T Peek()
         {
             T frontItem = data[0];
+            return frontItem;
+        }
+
+
+        public T PeekMax()
+        {
+            T frontItem = data[data.Count-1];
             return frontItem;
         }
 
