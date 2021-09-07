@@ -1075,17 +1075,55 @@ namespace LeetCodeConsoleApp
 
 
 
-            var root = new Node4(1);
-            root.left = new Node4(2);
-            root.right = new Node4(3);
-            root.left.left = new Node4(4);
-            root.left.right = new Node4(5);
-            root.right.right = new Node4(7);
+            //var root = new Node4(1);
+            //root.left = new Node4(2);
+            //root.right = new Node4(3);
+            //root.left.left = new Node4(4);
+            //root.left.right = new Node4(5);
+            //root.right.right = new Node4(7);
 
-            var c = sol.Connect(root);
+            //var c = sol.Connect(root);
+
+            // var bs = sol.BuddyStrings2("ab", "ba");
+            // var rv = sol.ReverseVowels3("hello");
+
+            // var max = sol.rob(new int[] { 1, 2, 3, 1 });
 
 
 
+            //var root = new TreeNode(2);
+            //root.left = new TreeNode(1);
+
+            //var d = sol.DeleteNode(root, 2);
+
+            //  var cc = sol.CountCharacters(new string[] { "cat", "bt", "hat", "tree" }, "atach");
+
+
+
+            //var root = new TreeNode(3);
+            //root.left = new TreeNode(5);
+            //root.right = new TreeNode(1);
+            //root.left.left = new TreeNode(6);
+            //root.left.right = new TreeNode(2);
+            //root.right.left = new TreeNode(0);
+            //root.right.right = new TreeNode(8);
+            //root.left.right.left = new TreeNode(7);
+            //root.left.right.right = new TreeNode(4);
+            //var lc = sol.LowestCommonAncestor(root, root.left, root.right);
+
+
+            //var lRUCache = new LRUCache(2);
+            //lRUCache.put(1, 1); // cache is {1=1}
+            //lRUCache.put(2, 2); // cache is {1=1, 2=2}
+            //var r = lRUCache.get(1);    // return 1
+            //lRUCache.put(3, 3); // LRU key was 2, evicts key 2, cache is {1=1, 3=3}
+            //r = lRUCache.get(2);    // returns -1 (not found)
+            //lRUCache.put(4, 4); // LRU key was 1, evicts key 1, cache is {4=4, 3=3}
+            //r = lRUCache.get(1);    // return -1 (not found)
+            //r = lRUCache.get(3);    // return 3
+            //r = lRUCache.get(4);
+
+            var ii = sol.IsIsomorphic("foo", "bar");
 
 
         }
@@ -1093,11 +1131,497 @@ namespace LeetCodeConsoleApp
 
 
 
-class Solution
+    public class LRUCache
+    {
+
+        Dictionary<int, int> cache = new Dictionary<int, int>();
+        int count;
+        int capacity;
+      
+        List<int> lru;
+        public LRUCache(int capacity)
+        {
+            this.capacity = capacity;
+            cache.TrimExcess(capacity);
+            lru = new List<int>(capacity);
+        }
+
+        public int get(int key)
+        {
+            if (cache.ContainsKey(key))
+            {
+                lru.Remove(key);
+                lru.Add(key);
+
+                return cache[key];
+               
+            }
+            else
+                return -1;
+        }
+
+        public void put(int key, int value)
+        {
+            if (!cache.ContainsKey(key) && count == capacity)
+            {
+
+
+                cache.Remove(lru[0]);
+                cache.Add(key, value);
+                lru.RemoveAt(0);
+                lru.Add(key);
+
+            }
+            else if (!cache.ContainsKey(key))
+            {
+                cache.Add(key, value);
+                lru.Add(key);
+                count++;
+
+            }
+            else
+            {
+                cache[key] = value;
+                lru.RemoveAt(key);
+                lru.Add(key);
+            }
+                
+
+
+        }
+    }
+
+
+    class Solution
     {
 
 
-        public Node4 Connect(Node4 root)
+
+      
+        public bool IsIsomorphic(string s, string t)
+        {
+            int counter = 1;
+            var dictS = new int[127];
+            var dictT = new int[127];
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (dictS[s[i]] != dictT[t[i]])
+                    return false;
+                else if (dictS[s[i]] == 0)
+                {
+                    dictS[s[i]] = dictT[t[i]] = counter;
+                    counter++;
+                }
+            }
+            return true;
+
+        }
+
+
+
+
+
+        public bool SearchMatrix(int[][] matrix, int target)
+        {
+
+            var row = matrix.Length - 1;
+            var col = 0;
+
+            while (row >= 0 && col <= matrix[0].Length - 1)
+            {
+                if (matrix[row][col] == target)
+                    return true;
+                else if (matrix[row][col] < target)
+                    col++;
+                else if (matrix[row][col] > target)
+                    row--;
+
+            }
+
+            return false;
+
+        }
+
+
+
+        TreeNode lca;
+        public TreeNode LowestCommonAncestorrecurse(TreeNode root, TreeNode p, TreeNode q)
+        {
+            Traverse(root, p, q);
+            return lca;
+        }
+
+
+        private bool Traverse(TreeNode node, TreeNode p, TreeNode q)
+        {
+            if (node == null)
+                return false; ;
+
+            var left = Traverse(node.left, p, q) ? 1 : 0;
+            var right = Traverse(node.right, p, q) ? 1 : 0;
+
+            var mid = (node == p || node == q) ? 1 : 0;
+
+
+            if (left + right + mid >= 2)
+                lca = node;
+
+            return (left + right + mid > 0);
+
+
+
+
+        }
+
+
+        //do this from scratch.  Essentially 3 loops d, f, t
+
+        public int NumRollsToTarget(int d, int f, int target)
+        {
+            var dp = new int[target + 1];
+            dp[0] = 1;
+            for (int dd = 1; dd <= d; dd++)
+            {
+                var tempdp = new int[target + 1];
+                for (var ff = 1; ff <= f; ff++)
+                {
+                    if (ff > target)
+                        break;
+                    for (var tt = ff; tt <= target; tt++)
+                        tempdp[tt] = (tempdp[tt] + dp[tt - ff]) % 1_000_000_007;
+                }
+                dp = tempdp;
+            }
+
+            return dp[target];
+        }
+
+
+
+
+
+        public int CountCharacters(string[] words, string chars)
+        {
+            var dict = new Dictionary<char, int>();
+            var total = 0;
+            for (var i = 0; i < chars.Length; i++)
+            {
+
+                if (!dict.ContainsKey(chars[i]))
+                    dict.Add(chars[i], 1);
+                else
+                    dict[chars[i]]++;
+            }
+
+
+            for (var j = 0; j < words.Length; j++)
+            {
+                var count = 0;
+                var whole = true;
+                var dict2 = new Dictionary<char, int>(dict);
+                for (var k = 0; k < words[j].Length; k++)
+                {
+                    if (dict2.ContainsKey(words[j][k]) && dict2[words[j][k]] > 0)
+                    { 
+                        dict2[words[j][k]]--;
+                        count++;
+                    }
+                    else
+                    {
+                        whole = false;
+                        break;
+                    }
+
+                }
+                if (whole)
+                {
+                    total += count;
+                }
+
+
+
+            }
+
+            return total;
+
+
+
+        }
+
+
+        public TreeNode DeleteNode(TreeNode root, int key)
+            {
+                if (root == null)
+                    return null;
+
+                if (key < root.val)
+                    root.left = DeleteNode(root.left, key);
+                else if (key > root.val)
+                    root.right = DeleteNode(root.right, key);
+                else
+                {
+                    if (root.left == null)
+                        return root.right;
+                    else if (root.right == null)
+                        return root.left;
+
+                    root.val = minvalue(root.right);
+                    root.right = DeleteNode(root.right, root.val);
+
+
+                }
+
+
+
+                return root;
+
+
+
+            }
+
+
+            private int minvalue(TreeNode root)
+            {
+                var min = root.val;
+                while (root.left != null)
+                {
+                    min = root.left.val;
+                    root = root.left;
+                }
+                return min;
+            }
+
+     
+
+        public int rob(int[] nums)
+        {
+            if (nums.Length == 1)
+                return nums[0];
+            var len = nums.Length;
+             var dp = new int[len];
+             dp[0] = nums[0];
+            dp[1] = Math.Max(nums[0], nums[1]);
+
+            for (var i = 2; i < len; i++)
+            {
+                dp[i] = Math.Max(nums[i] + dp[i - 2], dp[i - 1]);
+            }
+            return dp[len - 1];
+        }
+
+
+        public int findMaxAmount(int[] nums)
+            {
+                if (nums.Length == 1)
+                    return nums[0];
+                var len = nums.Length;
+              
+                nums[1] = Math.Max(nums[0], nums[1]);
+
+                for (var i = 2; i < len; i++)
+                {
+                    nums[i] = Math.Max(nums[i] + nums[i - 2], nums[i - 1]);
+                }
+                return nums[len - 1];
+            }
+       
+
+
+        public bool IsOneBitCharacter2(int[] bits)
+        {
+            if (bits.Length == 1)
+                return true;
+
+            for (var i = 0; i < bits.Length; i++)
+            {
+                if (i == bits.Length - 1)
+                    return true;
+                if (bits[i] == 1)
+                    i++;
+            }
+            return false;
+        }
+
+
+        public int MinCostClimbingStairs2(int[] cost)
+        {
+            var s1 = 0;
+            var s2 = 0;
+            for (var i = cost.Length - 1; i >= 0; i--)
+            {
+                var cur = cost[i] + Math.Min(s1, s2);
+                s1 = s2;
+                s2 = cur;
+            }
+            return Math.Min(s1, s2);
+
+        }
+
+        public int MinCostClimbingStairs(int[] cost)
+        {
+            for (var i = 2; i < cost.Length; i++)
+            {
+                cost[i] += Math.Min(cost[i - 1], cost[i - 2]);
+            }
+            return Math.Min(cost[cost.Length - 1], cost[cost.Length - 2]);
+
+        }
+
+
+        int sum2 = 0;
+        public int SumOfLeftLeaves2(TreeNode root)
+        {
+
+            Traverse2(root);
+            return sum2;
+
+        }
+
+        private void Traverse2(TreeNode node)
+        {
+            if (node == null)
+                return;
+            if (node.left != null && node.left.left == null && node.left.right == null)
+                sum2 += node.left.val;
+            Traverse2(node.left);
+            Traverse2(node.right);
+        }
+
+
+
+        public string ReverseVowels3(string s)
+        {
+            var sb = new StringBuilder(s);
+            var left = 0;
+            var right = s.Length - 1;
+
+            while (left < right)
+            {
+                var l = sb[left];
+                while (left < right && l != 'a' && l != 'e' && l != 'i' && l != 'o' && l != 'u'
+                    && l != 'A' && l != 'E' && l != 'I' && l != 'O' && l != 'U')
+                {
+                    left++;
+                    l = sb[left];
+                }
+
+                var r = sb[right];
+                while (left < right && r != 'a' && r != 'e' && r != 'i' && r != 'o' && r != 'u'
+                    && r != 'A' && r != 'E' && r != 'I' && r != 'O' && r != 'U')
+                {
+                    right--;
+                    r = sb[right];
+
+                }
+                if (left < right)
+                {
+                    (sb[left], sb[right]) = (sb[right], sb[left]);
+                    left++;
+                    right--;
+                }
+            }
+
+
+            return sb.ToString();
+        }
+
+
+
+
+
+
+
+        //too slow but works
+        public string ReverseVowels2(string s)
+        {
+            var dict = new Dictionary<int, char>();
+            for (var i = 0; i < s.Length; i++)
+            {
+                if (s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u'
+                    || s[i] == 'A' || s[i] == 'E' || s[i] == 'I' || s[i] == 'O' || s[i] == 'U')
+                {
+                    dict.Add(i, s[i]);
+                }
+
+
+            }
+
+            dict = dict.OrderByDescending(d => d.Key).ToDictionary(x => x.Key, x => x.Value);
+            var sb = new StringBuilder();
+            var j = 0;
+            for (var i = 0; i < s.Length; i++)
+            {
+                if (s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u'
+                  || s[i] == 'A' || s[i] == 'E' || s[i] == 'I' || s[i] == 'O' || s[i] == 'U')
+                {
+                    sb.Append(dict.ElementAt(j).Value);
+                    j++;
+                }
+                else
+                    sb.Append(s[i]);
+
+            }
+            return sb.ToString();
+        }
+
+
+
+
+
+
+
+        public bool BuddyStrings2(string s, string goal)
+        {
+            var sdict = new Dictionary<char, int>();
+            var goaldict = new Dictionary<char, int>();
+            var isdupes = false;
+            var isequal = true;
+            for (var i = 0; i < s.Length; i++)
+            {
+
+
+                var key = s[i];
+                if (i < s.Length - 1 && key == s[i + 1])
+                    isdupes = true;
+
+                if (key != goal[i])
+                {
+                    isequal = false;
+                    if (!sdict.ContainsKey(key))
+                        sdict.Add(key, 1);
+                    else
+                        sdict[key]++;
+
+                    if (!goaldict.ContainsKey(goal[i]))
+                        goaldict.Add(goal[i], 1);
+                    else
+                        goaldict[goal[i]]++;
+                }
+
+            }
+
+            if (isequal && s.GroupBy(x => x).Where(g => g.Count() >= 2).Count() > 0)
+                return true;
+            if (isequal && isdupes)
+                return true;
+            if (!isequal && sdict.Count == 2 &&  sdict.OrderBy(s => s.Key).SequenceEqual(goaldict.OrderBy(g => g.Key)) && sdict.All(s => s.Value == 1))
+                return true;
+
+            return false;
+        }
+    
+
+
+
+
+
+
+
+
+
+
+
+    public Node4 Connect(Node4 root)
         {
             if (root == null)
                 return null;
@@ -5661,26 +6185,6 @@ internal int numberOfWays(int[] arr, int k)
 
 
 
-
-        public int NumRollsToTarget(int d, int f, int target)
-        {
-            var dp = new int[target + 1];
-            dp[0] = 1;
-            for (int dd = 1; dd <= d; dd++)
-            {
-                var tempdp = new int[target + 1];
-                for (var ff = 1; ff <= f; ff++)
-                { 
-                    if (ff > target)
-                        break;
-                    for (var tt = ff; tt <= target; tt++)
-                        tempdp[tt] = (tempdp[tt] + dp[tt - ff]) % 1_000_000_007;
-                }
-                dp = tempdp;
-            }
-
-            return dp[target];
-        }
 
 
 
