@@ -1123,81 +1123,262 @@ namespace LeetCodeConsoleApp
             //r = lRUCache.get(3);    // return 3
             //r = lRUCache.get(4);
 
-            var ii = sol.IsIsomorphic("foo", "bar");
+            //var ii = sol.IsIsomorphic("foo", "bar");
 
 
-        }
-    }
+            //  var fi = sol.FindOcurrences("alice is a good girl she is a good student", "a", "good");
+
+            //  var fi = sol.FindOcurrences("obo jvezipre obo jnvavldde jvezipre jvezipre jnvavldde jvezipre jvezipre jvezipre y jnvavldde jnvavldde obo jnvavldde jnvavldde obo jnvavldde jnvavldde jvezipre", "jnvavldde", "y");
+
+            //var fi = sol.FindOcurrences("we we we we will rock you", "we", "we");
+
+            // var fi = sol.FindOcurrences("ypkk lnlqhmaohv lnlqhmaohv lnlqhmaohv ypkk ypkk ypkk ypkk ypkk ypkk lnlqhmaohv lnlqhmaohv lnlqhmaohv lnlqhmaohv ypkk ypkk ypkk lnlqhmaohv lnlqhmaohv ypkk", "lnlqhmaohv", "ypkk");
 
 
+            // sol.GameOfLife(new int[][] { new int[] { 0, 1, 0 } , new int[] { 0, 0, 1 }, new int[] { 1, 1, 1 }, new int[] { 0, 0, 0 }});
+              var d = sol.DietPlanPerformance(new int[] { 1, 2, 3, 4, 5 }, 1, 3, 3);
 
-    public class LRUCache
-    {
+            // var d = sol.DietPlanPerformance(new int[] { 6, 13, 8, 7, 10, 1, 12, 11 }, 6, 5, 37);
 
-        Dictionary<int, int> cache = new Dictionary<int, int>();
-        int count;
-        int capacity;
-      
-        List<int> lru;
-        public LRUCache(int capacity)
-        {
-            this.capacity = capacity;
-            cache.TrimExcess(capacity);
-            lru = new List<int>(capacity);
-        }
-
-        public int get(int key)
-        {
-            if (cache.ContainsKey(key))
-            {
-                lru.Remove(key);
-                lru.Add(key);
-
-                return cache[key];
-               
-            }
-            else
-                return -1;
-        }
-
-        public void put(int key, int value)
-        {
-            if (!cache.ContainsKey(key) && count == capacity)
-            {
-
-
-                cache.Remove(lru[0]);
-                cache.Add(key, value);
-                lru.RemoveAt(0);
-                lru.Add(key);
-
-            }
-            else if (!cache.ContainsKey(key))
-            {
-                cache.Add(key, value);
-                lru.Add(key);
-                count++;
-
-            }
-            else
-            {
-                cache[key] = value;
-                lru.RemoveAt(key);
-                lru.Add(key);
-            }
-                
-
+          //  var d = sol.DietPlanPerformance(new int[] { 6, 5, 0, 0 }, 2, 1, 5);
 
         }
     }
+
+
 
 
     class Solution
     {
+        //amazon
+
+        public int DietPlanPerformance(int[] calories, int k, int lower, int upper)
+        {
+            var num = k;
+            var count = 0;
+            var total = 0;
+
+            for (var i = 0; i < k && i < calories.Length; i++)
+            {
+                count += calories[i];
+                num--;
+            }
+
+            if (count < lower)
+                total--;
+            else if (count > upper)
+                total++;
+
+
+            for (var i = k; i < calories.Length; i++)
+            {
+            
+                count += calories[i];
+                count -= calories[i - k];
+
+                if (count < lower)
+                    total--;
+                else if (count > upper)
+                    total++;
+            
+
+            }
+            return total;
+        }
+
+
+        //amazon questions
+        public bool IsRobotBounded(string instructions)
+        {
+
+            var position = new int[] { 0, 0 };
+
+            var orientation = 'U';
+
+           
+                for (var i = 0; i < instructions.Length; i++)
+                {
+                    if (instructions[i] == 'G')
+                    {
+
+                        if (orientation == 'U')
+                            position[1]++;
+                        else if (orientation == 'D')
+                            position[1]--;
+                        else if (orientation == 'L')
+                            position[0]--;
+                        else if (orientation == 'R')
+                            position[0]++;
 
 
 
-      
+                    }
+                    else if (instructions[i] == 'L')
+                    {
+                        if (orientation == 'U')
+                            orientation = 'L';
+                        else if (orientation == 'D')
+                            orientation = 'R';
+                        else if (orientation == 'L')
+                            orientation = 'D';
+                        else if (orientation == 'R')
+                            orientation = 'U';
+
+                    }
+                    else if (instructions[i] == 'R')
+                    {
+                        if (orientation == 'U')
+                            orientation = 'R';
+                        else if (orientation == 'D')
+                            orientation = 'L';
+                        else if (orientation == 'L')
+                            orientation = 'U';
+                        else if (orientation == 'R')
+                            orientation = 'D';
+
+                    }
+                }
+
+                //as long as orientation changes were good!
+            if ((position[0] == 0 && position[1] == 0) || orientation != 'U')
+                return true;
+            else
+                return false;
+
+        }
+
+        public void GameOfLife(int[][] board)
+        {
+
+            var rows = board.Length;
+            var cols = board[0].Length;
+
+            for (var i = 0; i < rows; i++)
+            {
+                for (var j = 0; j < cols; j++)
+                {
+                    //get # if neighbours
+                    var liveneighbours = 0;
+                    for (var k = i - 1; k < i - 1 + 3; k++)
+                    {
+                        for (var l = j - 1; l < j - 1 + 3; l++)
+                        {
+                            if (k >= 0 && k < rows && l >= 0 && l < cols && (k != i || j != l))
+                            {
+                                if (board[k][l] == 1 || board[k][l] == -1)
+                                    liveneighbours++;
+                            }
+                        }
+
+                    }
+                    if (board[i][j] == 1 && (liveneighbours < 2 || liveneighbours > 3))
+                        board[i][j] = -1;
+                    else if (board[i][j] == 0 && liveneighbours == 3)
+                        board[i][j] = 2;
+
+
+                }
+            }
+
+            for (var i = 0; i < rows; i++)
+            {
+                for (var j = 0; j < cols; j++)
+                {
+                    if (board[i][j] > 0)
+                        board[i][j] = 1;
+                    else
+                        board[i][j] = 0;
+                }
+            }
+
+
+
+
+        }
+
+
+
+
+
+
+        //Leetcode hard.  O log(m+n) because binary search = O (log n).
+        public double FindMedianSortedArrays(int[] nums1, int[] nums2)
+        {
+
+            var numslist = nums1.ToList();
+
+            for (var i = 0; i < nums2.Length; i++)
+            {
+                var n = numslist.BinarySearch(nums2[i]);
+                numslist.Insert((n >= 0) ? n : ~n, nums2[i]);
+            }
+            if (numslist.Count % 2 > 0)
+            {
+                return Convert.ToDouble(numslist[numslist.Count / 2]);
+            }
+            else
+            {
+                var half = numslist.Count / 2;
+                return (numslist[half - 1] + numslist[half]) / 2.0;
+            }
+
+
+        }
+
+
+        //public void test()
+        //{
+        //    var l = new List<int>();
+
+        //    l.AddSorted(3);
+        //    var a = new int[5];
+
+
+        //    var i = 5;
+        //    var j = i / 2.0;
+        //    var k = (double)i;
+
+        //}
+
+
+        public bool IsRectangleOverlap(int[] rec1, int[] rec2)
+        {
+            if (rec1[0] == rec1[2] || rec1[1] == rec1[3] ||
+               rec2[0] == rec2[2] || rec2[1] == rec2[3])
+            {
+                // the line cannot have positive overlap
+                return false;
+            }
+
+            return !(rec2[2] <= rec1[0] ||   // left
+                     rec2[3] <= rec1[1] ||   // bottom
+                     rec2[0] >= rec1[2] ||   // right
+                     rec2[1] >= rec1[3]);    // top
+        }
+
+
+
+        public string[] FindOcurrences(string text, string first, string second)
+        {
+            var results = new List<string>();
+            var ts = text.Split(" ");
+            if (ts.Length < 3)
+                return results.ToArray();
+            var fir = false;
+            var sec = false;
+            
+            for (var i = 2; i < ts.Length; i++)
+            {
+                if (ts[i - 2] == first && ts[i - 1] == second)
+                {
+
+                    results.Add(ts[i]);
+                }
+              
+            }
+            return results.ToArray();
+        }
+
         public bool IsIsomorphic(string s, string t)
         {
             int counter = 1;

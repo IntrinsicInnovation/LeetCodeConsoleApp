@@ -8,6 +8,70 @@ namespace LeetCodeConsoleApp
 
 
 
+
+
+    public class LRUCache
+    {
+
+        Dictionary<int, int> cache = new Dictionary<int, int>();
+        int count;
+        int capacity;
+
+        List<int> lru;
+        public LRUCache(int capacity)
+        {
+            this.capacity = capacity;
+            cache.TrimExcess(capacity);
+            lru = new List<int>(capacity);
+        }
+
+        public int get(int key)
+        {
+            if (cache.ContainsKey(key))
+            {
+                lru.Remove(key);
+                lru.Add(key);
+
+                return cache[key];
+
+            }
+            else
+                return -1;
+        }
+
+        public void put(int key, int value)
+        {
+            if (!cache.ContainsKey(key) && count == capacity)
+            {
+
+
+                cache.Remove(lru[0]);
+                cache.Add(key, value);
+                lru.RemoveAt(0);
+                lru.Add(key);
+
+            }
+            else if (!cache.ContainsKey(key))
+            {
+                cache.Add(key, value);
+                lru.Add(key);
+                count++;
+
+            }
+            else
+            {
+                cache[key] = value;
+                lru.RemoveAt(key);
+                lru.Add(key);
+            }
+
+
+
+        }
+    }
+
+
+
     public class Node2
     {
         public String str;
@@ -362,7 +426,7 @@ namespace LeetCodeConsoleApp
             list.Insert((x >= 0) ? x : ~x, value);
         }
     }
-
+        
 
     public class ListEqualityComparer<T> : IEqualityComparer<List<T>>
     {
