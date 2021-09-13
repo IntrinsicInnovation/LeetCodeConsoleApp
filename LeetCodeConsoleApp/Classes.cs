@@ -7,6 +7,57 @@ namespace LeetCodeConsoleApp
 {
 
 
+    //public class TimeMap
+    //{
+
+    //    Dictionary<string, List<(int, string)>> dict = new Dictionary<string, List<(int, string)>>();
+
+    //    public TimeMap()
+    //    {
+
+    //    }
+
+    //    public void Set(string key, string value, int timestamp)
+    //    {
+    //        if (!dict.ContainsKey(key))
+    //        {
+
+    //            dict.Add(key, new List<(int, string)>() { (timestamp, value)});
+
+    //        }
+    //        else
+    //        {
+    //            dict[key].Add((timestamp, value));
+    //        }
+    //    }
+
+    //    public string Get(string key, int timestamp)
+    //    {
+    //        List<(int, string)> list;
+    //        if (!dict.TryGetValue(key, out list))
+    //            return "";
+
+    //        list.Sort();
+
+
+
+
+
+
+    //            var max = dict[key].Where(d => d.Item1 <= timestamp).OrderByDescending(d => d.Item1).FirstOrDefault();
+    //        if (max.Item2 != null)
+    //            return max.Item2;
+
+
+
+
+
+
+
+    //    }
+
+
+    //}
 
 
 

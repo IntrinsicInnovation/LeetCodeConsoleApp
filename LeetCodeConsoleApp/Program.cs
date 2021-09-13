@@ -1136,20 +1136,206 @@ namespace LeetCodeConsoleApp
 
 
             // sol.GameOfLife(new int[][] { new int[] { 0, 1, 0 } , new int[] { 0, 0, 1 }, new int[] { 1, 1, 1 }, new int[] { 0, 0, 0 }});
-              var d = sol.DietPlanPerformance(new int[] { 1, 2, 3, 4, 5 }, 1, 3, 3);
+            // var d = sol.DietPlanPerformance(new int[] { 1, 2, 3, 4, 5 }, 1, 3, 3);
 
             // var d = sol.DietPlanPerformance(new int[] { 6, 13, 8, 7, 10, 1, 12, 11 }, 6, 5, 37);
 
-          //  var d = sol.DietPlanPerformance(new int[] { 6, 5, 0, 0 }, 2, 1, 5);
+            //  var d = sol.DietPlanPerformance(new int[] { 6, 5, 0, 0 }, 2, 1, 5);
+
+
+            //  var lsw = sol.LastStoneWeightII(new int[] { 2, 7, 4, 1, 8, 1 });
+
+            //var tm = new TimeMap();
+
+            //            tm.Set("foo", "bar", 1);
+            //            tm.Get("foo", 2);
+
+            //  var lcs = sol.LongestCommonSubpath(5, new int[][] {new int[]{0, 1, 2, 3, 4 },
+            //             new int[]{2, 3, 4 }, new int[]{4, 0, 1, 2, 3 } });
+
+            var me = sol.MissingElement2(new int[] { 4, 7, 9, 10 }, 1);
 
         }
     }
-
-
-
+  
 
     class Solution
     {
+
+        public int MissingElement2(int[] nums, int k)
+        {
+
+
+            int index = 1;
+            for (int i = nums[0] + 1; i <= int.MaxValue; i++)
+                if (index < nums.Length && nums[index] == i) index++;
+                else if (--k == 0) return i;
+            return 0;
+
+            //failed time too long:
+            //var missing = Enumerable.Range(1, int.MaxValue).Except(nums).ElementAt(k - 2 + nums[0]);
+            //Console.WriteLine(missing);
+            //return missing;
+
+
+            //if (i < nums.Length -1)
+
+
+            //    var elem = k;
+            //    var start = nums[0] + 1;
+            //    var missing = new List<int>();
+            //    for (var i = 1; i < nums.Length && elem > 0; i++)
+            //    { 
+            //        while (nums[i] > start && elem > 0)
+            //        {
+            //            missing.Add(start);
+            //            elem--;
+            //            start++;
+            //        }
+
+            //            start = nums[i] + 1;
+            //    }
+            //    return missing[k - 1];
+        }
+
+
+        public int LongestCommonSubpathincomplete(int n, int[][] paths)
+        {
+
+            var dict = new Dictionary<List<int>, int>();
+            for (var i = 0; i < paths.Length; i++)
+            {
+                var len = paths[i].Length;
+                for (var j = 0; j < len; j++)
+                {
+                    for (var k = j; k < len; k++)
+                    {
+                        var values = paths[i].Skip(j).Take(k + 1).ToList();
+                        var l = new List<int>(values);
+                        if (!dict.ContainsKey(l))
+                            dict.Add(l, 1);
+                        else
+                            dict[l]++;
+
+
+                    }
+                }
+            }
+            return 1;
+        }
+        /// <summary>
+        /// ///////////////////////////////
+        /// </summary>
+        /// 
+
+        long bass = 100001;
+        long mod = (long)(Math.Pow(10, 11) + 7);
+        long[] pow;
+
+        public int LongestCommonSubpath(int n, int[][] paths)
+        {
+            int res = 0, min = Int32.MaxValue;
+            foreach (int[] path in paths) min = Math.Min(min, path.Length);
+            pow = new long[min + 1]; pow[0]++;
+
+            for (int i = 1; i <= min; i++)
+                pow[i] = (pow[i - 1] * bass) % mod;
+
+            for (int st = 1, end = min, mid = (st + end) / 2; st <= end; mid = (st + end) / 2)
+            {
+                if (commonSubstring(paths, mid))
+                {
+                    res = mid;
+                    st = mid + 1;
+                }
+                else
+                    end = mid - 1;
+            }
+            return res;
+        }
+        private bool commonSubstring(int[][] paths, int l)
+        {
+            HashSet<long> set = rollingHash(paths[0], l);
+            for (int i = 1, n = paths.Length; i < n; i++)
+            {
+                var rolling = rollingHash(paths[i], l);
+                for(var j = 0; j < set.Count; j++)
+                {
+                    if (!rolling.Contains(set.ElementAt(j)))
+                        set.Remove(set.ElementAt(j));
+                }
+                //set.RemoveWhere(s => set.Contains(rollingHash(paths[i], l));
+                if (set.Count == 0)
+                    return false;
+            }
+            return true;
+        }
+        private HashSet<long> rollingHash(int[] a, int l)
+        {
+            HashSet<long> set = new HashSet<long>();
+            long hash = 0;
+
+            for (int i = 0; i < l; i++)
+                hash = (hash * bass + a[i]) % mod;
+            set.Add(hash);
+
+            for (int n = a.Length, curr = l, prev = 0; curr < n; prev++, curr++)
+            {
+                hash = (((hash * bass) % mod - (a[prev] * pow[l]) % mod + a[curr]) + mod) % mod;
+                set.Add(hash);
+            }
+
+            return set;
+        }
+
+
+
+
+        public int LastStoneWeightII(int[] stones)
+        {
+            var sums = new HashSet<int>();
+            sums.Add(0);
+
+            foreach (var stone in stones)
+            {
+                var nextSums = new HashSet<int>();
+                foreach (var s in sums)
+                {
+                    if (!nextSums.Contains(s + stone))
+                    {
+                        nextSums.Add(s + stone);
+                    }
+                    if (!nextSums.Contains(s - stone))
+                    {
+                        nextSums.Add(s - stone);
+                    }
+                }
+                sums = nextSums;
+            }
+
+            return sums.Where(s => s >= 0).Min();
+        }
+
+
+
+        public int LastStoneWeight(int[] stones)
+        {
+            var slist = stones.ToList();
+            while (slist.Count > 1)
+            {
+                var y = slist.Max();
+                slist.Remove(y);
+                var x = slist.Max();
+                var remainder = y - x;
+                slist.Remove(x);
+                if (remainder > 0)
+                    slist.Add(remainder);
+            }
+            return (slist.Count == 1) ? slist[0] : 0;
+        }
+
+
+
         //amazon
 
         public int DietPlanPerformance(int[] calories, int k, int lower, int upper)
