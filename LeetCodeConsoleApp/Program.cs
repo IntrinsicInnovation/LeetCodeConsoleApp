@@ -1153,14 +1153,331 @@ namespace LeetCodeConsoleApp
             //  var lcs = sol.LongestCommonSubpath(5, new int[][] {new int[]{0, 1, 2, 3, 4 },
             //             new int[]{2, 3, 4 }, new int[]{4, 0, 1, 2, 3 } });
 
-            var me = sol.MissingElement2(new int[] { 4, 7, 9, 10 }, 1);
+            //var me = sol.MissingElement2(new int[] { 4, 7, 9, 10 }, 1);
+
+            //var r = Result.foo(new List<string>() { "apple", "apple", "banana", "anything", "banana"}, new List<string>() { "orange", "apple", "apple", "banana", "orange", "banana"});
+
+            //   var r = Result.foo(new List<string>() { "apple", "apple", "banana", "anything", "banana" }, new List<string>() { "banana", "orange", "banana", "apple", "apple" });
+
+
+            //    var mu = sol.maxusertrafic(new List<int>() { 1, 5, 5 }, new List<int>() { 5, 10, 5 });
+
+
+            //  var mu = sol.maxusertrafic(new List<int>() { 4, 10 }, new List<int>() { 8, 20 });
+
+            //   var p = sol.findpassstrength("test");
+
+
+
+
+            var root = new TreeNode(5);
+            root.left = new TreeNode(3);
+            root.right = new TreeNode(6);
+
+            root.left.left = new TreeNode(2);
+            root.left.right = new TreeNode(4);
+            root.left.left.left = new TreeNode(1);
+
+            var ios = sol.InorderSuccessor3(root, root.left.left.left);
 
         }
     }
   
 
-    class Solution
+
+
+
+
+
+
+
+
+
+
+
+
+class Result
     {
+
+
+        //        parse codelist into a proper list of lists.
+
+        //loop through all shopping cart items
+
+        // in loop, comparecodelist group[x][y] to current item or anything
+
+        //  if a match, increment y, if y > current list count, set y to 0 and increment x
+
+        //else if no match, then we must reset y to 0 as the group was only partially matched
+
+        //  at end compare x to count.  if == return 1, else return 0;
+
+        //2)O(c) + O(s + c) = O(c + s) where c is codelist, and s is shopping cart.
+
+
+        /*
+         * Complete the 'foo' function below.
+         *
+         * The function is expected to return an INTEGER.
+         * The function accepts following parameters:
+         *  1. STRING_ARRAY codeList
+         *  2. STRING_ARRAY shoppingCart
+         */
+
+        public int foo(List<string> codeList, List<string> shoppingCart)
+        {
+            if (shoppingCart == null || shoppingCart.Count == 0) return 0;
+            if (codeList == null || codeList.Count == 0) return 1;
+
+            var scpointer = 0;
+            // var clpointer = 0;
+            var codegroups = new List<List<string>>();
+            for (var i = 0; i < codeList.Count; i++)
+            {
+                var curr = codeList[i].Split(' ').ToList();
+                codegroups.Add(curr);
+            }
+            var codegroupindex = 0;
+            var codeindex = 0;
+
+            for (; scpointer < shoppingCart.Count; scpointer++)
+            {
+                if (codegroupindex == codegroups.Count)
+                    return 1;
+                var code = codegroups[codegroupindex][codeindex];
+                if (shoppingCart[scpointer] == code || code == "anything")
+                {
+
+                    codeindex++;
+                    if (codeindex == codegroups[codegroupindex].Count)
+                    {
+                        codeindex = 0;
+                        codegroupindex++;
+                    }
+
+
+                }
+                else
+                {
+                    codeindex = 0;
+                }
+
+            }
+            return codegroupindex == codegroups.Count ? 1 : 0;
+
+        }
+
+ 
+
+
+}
+
+//class Solution
+//{
+//    public static void Main(string[] args)
+//    {
+//        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
+
+//        int codeListCount = Convert.ToInt32(Console.ReadLine().Trim());
+
+//        List<string> codeList = new List<string>();
+
+//        for (int i = 0; i < codeListCount; i++)
+//        {
+//            string codeListItem = Console.ReadLine();
+//            codeList.Add(codeListItem);
+//        }
+
+//        int shoppingCartCount = Convert.ToInt32(Console.ReadLine().Trim());
+
+//        List<string> shoppingCart = new List<string>();
+
+//        for (int i = 0; i < shoppingCartCount; i++)
+//        {
+//            string shoppingCartItem = Console.ReadLine();
+//            shoppingCart.Add(shoppingCartItem);
+//        }
+
+//        int result = Result.foo(codeList, shoppingCart);
+
+//        textWriter.WriteLine(result);
+
+//        textWriter.Flush();
+//        textWriter.Close();
+//    }
+//}
+
+
+
+
+
+class Solution
+    {
+
+
+        TreeNode successor3 = null;
+        public TreeNode InorderSuccessor3(TreeNode root, TreeNode p)
+        {
+            
+            DFS(root, p.val);
+            return successor3;
+        }
+
+        private void DFS(TreeNode node, int i)
+        {
+            if (node == null)
+                return;
+            Console.WriteLine(node.val);
+            if (node.val > i && (successor3 == null || Math.Abs(i - node.val) < Math.Abs(i - successor3.val)))
+                successor3 = node;
+
+            DFS(node.left, i);
+            DFS(node.right, i);
+        }
+
+
+
+        public void Merge(int[] nums1, int m, int[] nums2, int n)
+        {
+
+            var i2 = n - 1;
+            var i1 = m - 1;
+            var i = nums1.Length - 1;
+
+            while (i2 >= 0 && i >= 0)
+            {
+                if (i1 < 0 || nums2[i2] >= nums1[i1])
+                {
+                    nums1[i] = nums2[i2];
+                    i2--;
+                }
+                else
+                {
+                    nums1[i] = nums1[i1];
+                    i1--;
+                }
+                i--;
+
+
+            }
+
+
+
+        }
+
+
+        public bool DivisorGame(int n)
+        {
+            if (n % 2 == 0)
+                return true;
+            else return false;
+        }
+
+        public string RemoveOuterParentheses(string s)
+        {
+            if (s.Length <= 2)
+                return "";
+            var state = 1;
+            var result = new StringBuilder();
+            var tempsb = new StringBuilder();
+            tempsb.Append(s[0]);
+            for (var i = 1; i < s.Length; i++)
+            {
+                if (s[i] == '(')
+                    state++;
+                else state--;
+                tempsb.Append(s[i]);
+                if (state == 0)
+                {
+                    tempsb.Remove(0, 1);
+                    tempsb.Remove(tempsb.Length - 1, 1);
+                    result.Append(tempsb);
+                    tempsb.Clear();
+                }
+
+
+            }
+            return result.ToString();
+        }
+
+
+
+        //Amazon Online Assessment 25Sep 2021
+        //brute force
+        public long findpassstrength(string password)
+        {
+            long lengths = 0L;
+            for (var i = 1; i <= password.Length; i++)
+            {
+                for (var j = 0; j <= password.Length - i; j++)
+                {
+                    var str = password.Substring(j, i);
+                    var dist = str.Distinct().Count();
+                    lengths += dist;
+                }
+            }
+
+            return lengths;
+        }
+
+        //Amazon Online Assessment 25Sep 2021
+        public int maxusertrafic(List<int> login, List<int> logout)
+        {
+            if (login.Count == 1)
+                return logout[0] - login[0] + 1;
+
+            var min = login.Min();
+            var max = logout.Max();
+
+            
+            var dict = new Dictionary<int, int>();
+            for (var i = min; i <= max; i++)
+                dict.Add(i, 1);
+
+
+            for (var i = 0; i < login.Count-1; i++)
+            {
+                if (login[i+1] <= logout[i])
+                { 
+                    for (var j = login[i+1]; j <= logout[i]; j++)
+                    {
+                        dict[j]++;
+                    }
+                }
+            }
+
+           // var highest = dict.GroupBy(d => d.Value);
+
+            var g = dict.OrderByDescending(d => d.Value);
+
+            var count = 1;
+            var topval = g.ElementAt(0).Value;
+            for (var i = 1; i < g.Count(); i++)
+            {
+                if (g.ElementAt(i).Value < topval)
+                    break;
+                else
+                    count++;
+            }
+
+            return count;
+                
+        }
+
+        //passed 17/17.  good solution but can be optimized.
+        public static List<List<string>> searchSuggestions2(List<string> repository, string customerQuery)
+        {
+            var results = new List<List<string>>();
+            var lcq = customerQuery.ToLower();
+            for (var i = 1; i < lcq.Length; i++)
+            {
+                var s = lcq.Substring(0, i + 1);
+                var curresults = repository.Where(r => r.ToLower().StartsWith(s)).OrderBy(r => r).Take(3).Select(r => r.ToLower()).ToList();
+                results.Add(curresults);
+            }
+            return results;
+        }
+
 
         public int MissingElement2(int[] nums, int k)
         {
@@ -11049,7 +11366,7 @@ public bool IsOneEditDistance(string s, string t)
 
 
 
-        public string RemoveOuterParentheses(string S)
+        public string RemoveOuterParentheses2(string S)
         {
 
             var count = 0;
