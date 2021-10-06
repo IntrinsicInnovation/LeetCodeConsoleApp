@@ -1315,6 +1315,194 @@ class Solution
     {
 
 
+        //https://leetcode.com/problems/add-two-numbers-ii/
+        public ListNode AddTwoNumbers22(ListNode l1, ListNode l2)
+        {
+            var s1 = new Stack<int>();
+            var s2 = new Stack<int>();
+
+            while (l1 != null)
+            {
+                s1.Push(l1.val);
+                l1 = l1.next;
+            }
+
+            while (l2 != null)
+            {
+                s2.Push(l2.val);
+                l2 = l2.next;
+            }
+
+            var result = new ListNode(0);
+
+            ListNode head = new ListNode(0);
+            var carry = 0;
+            while (s1.Count > 0 || s2.Count > 0 || carry > 0)
+            {
+                var sum = (s1.Count > 0 ? s1.Pop() : 0) + (s2.Count > 0 ? s2.Pop() : 0) + carry;
+                carry = sum / 10;
+                sum %= 10;
+                result.val = sum;
+                head = new ListNode(0);
+                head.next = result;
+                result = head;
+
+
+            }
+
+            return head.next;
+        }
+
+
+
+
+
+
+
+        //        1) AMAZON FINAL ROUND - Sep 13 / 14th
+        //        implement prefix search with dictionary of priorities
+
+        //dictionary:
+
+        //[] {amazing, 10}
+        //{amazon, 5}
+        //{ amazonian, 3}
+
+
+        //create class
+
+        //create your won search structure
+
+        //and also method with parameter
+        //of prefix like "A", "AM", "AMAZONI", etc.
+
+
+
+        //********************************************
+        //2)  AMAZON FINAL ROUND
+        //write a function to find the difference between two dates whether it is exactly a month, less than a month or 
+        //greater than a month apart.
+
+        //just concerned about logic.  Don't code too fast.  so consider edge cases like year greater than next year by one 
+        //then it would have to be january and December etc.
+
+        //// Write a function that given two dates 
+        //// returns -1 if they are less than a month apart, 
+        //// 0 if they are exactly a month apart, and 
+        //// 1 if they are greater than a month apart.
+
+        //DateTime date1 = new DateTime(28, 2, 2021);
+        //DateTime date2 = new DateTime(31, 3, 2021);
+
+        //int monthDiff(DateTime date1, DateTime date2)
+        //{
+        //    if (date1.Year == date2.Year)
+        //    {
+        //        if (date1.Month == date2.Month)
+        //        {
+        //            return -1;
+        //        }
+        //        else if (date1.Month - date2.Month == 1)
+        //        {
+        //            if (date1.Day == date2.Day)
+        //                return 0;
+        //            else if (date1.Day < date2.Day)
+        //                return -1;
+        //            else
+        //                return 1;
+        //        }
+        //        else if (date2.Month - date1.Month == 1)
+        //        {
+        //            if (date1.Day == date2.Day)
+        //                return 0;
+        //            else if (date2.Day < date1.Day)
+        //                return -1;
+        //            else
+        //                return 1;
+        //        }
+        //        else
+        //    }
+        //}
+
+
+
+
+        //3)Design a max user limiter for amazon prime video service - enforce currently allowed number of users at any one time
+
+        //4)  code up a user class for a social network, and
+        //public class Users
+        //        {
+
+        //            public UUid userid;
+        //            public string firstname;
+        //            public string lastname;
+        //            public string email;
+        //            public string phonenumber;
+        //            public string addressline1;
+        //            public List<Users> friends;
+
+        //        }
+
+        //        public class UserRelations
+        //        {
+
+        //            public UUID user;
+        //            public UUID friend;
+
+
+        //        }
+
+
+        //        public class Friend
+        //        {
+        //            public UUID user;
+        //        }
+
+
+
+        //        Dictionary<string, UUID> userhash;
+
+        //> Using your social network, and given a Users object, write an algorithm that allows you to
+        //fetch all friends at k-depth? (e.g.friend of a friend is depth 2)
+
+        //List<Users> friends = new List<Users>();
+
+        //        public List<Users> findFriends(Users user, k);
+        //{
+        //    friendsatDepth(user.friends, k)
+        //    return friends;
+        //}
+
+        //    private void friendsatDepth(List<Users> users, int k)
+        //    {
+
+        //        if (users == null || k < 1)
+        //            return;
+
+        //        if (k == 1)
+        //            friends.AddRange(users.friends);
+        //        else
+        //        {
+        //            foreach (user in user.friends)
+        //                friendsatDepth(user, k - 1);
+        //        }
+
+
+        //    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         TreeNode successor3 = null;
         public TreeNode InorderSuccessor3(TreeNode root, TreeNode p)
         {
@@ -6586,7 +6774,7 @@ internal int numberOfWays(int[] arr, int k)
 
         }
 
-        //amazon
+        //amazon - failed most test cases?  verify this
 
         internal List<int> foo(int flightDuration, List<int> movieDuration)
         {
