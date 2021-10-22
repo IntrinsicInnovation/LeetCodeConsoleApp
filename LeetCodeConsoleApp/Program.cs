@@ -1014,7 +1014,8 @@ namespace LeetCodeConsoleApp
 
             //sol.arrayManipulation(10, new int[][] { new int[] { 1, 5, 3 }, new int[] { 4, 8, 7 }, new int[] { 6, 9, 1 } });
 
-            // var ndt = sol.NetworkDelayTime(new int[][] { new int[] { 2, 1, 1 }, new int[] { 2, 3, 1 }, new int[] { 3, 4, 1 } }, 4, 2);
+
+
 
             // 1->4->0->1-> null
             // ->89 null
@@ -1170,15 +1171,28 @@ namespace LeetCodeConsoleApp
 
 
 
-            var root = new TreeNode(5);
-            root.left = new TreeNode(3);
-            root.right = new TreeNode(6);
+            //var root = new TreeNode(5);
+            //root.left = new TreeNode(3);
+            //root.right = new TreeNode(6);
 
-            root.left.left = new TreeNode(2);
-            root.left.right = new TreeNode(4);
-            root.left.left.left = new TreeNode(1);
+            //root.left.left = new TreeNode(2);
+            //root.left.right = new TreeNode(4);
+            //root.left.left.left = new TreeNode(1);
 
-            var ios = sol.InorderSuccessor3(root, root.left.left.left);
+            //var ios = sol.InorderSuccessor3(root, root.left.left.left);
+
+            //var nwb = sol.NumWaterBottles2(15, 4);
+
+
+           // var ndt = sol.NetworkDelayTime(new int[][] { new int[] { 2, 1, 1 }, new int[] { 2, 3, 1 }, new int[] { 3, 4, 1 } }, 4, 2);
+
+
+            var ndt = sol.NetworkDelayTime2(new int[][] { new int[] { 1, 2, 1 }, new int[] { 2, 3, 7 }, new int[] { 1, 3, 4 }, new int[] { 2, 1, 2 } },3,2);
+
+
+
+
+
 
         }
     }
@@ -1313,7 +1327,112 @@ class Result
 
 class Solution
     {
+        //Leetcode medium!  dijkstras algorithm to go through graph multiple times.
+        public int NetworkDelayTime2(int[][] times, int n, int k)
+        {
 
+
+            var paths = new int[n + 1];
+            var max = 50000;
+
+            Array.Fill(paths, max);
+            paths[k] = 0;
+
+            while (n > 1) // this is needed
+            { 
+                foreach (var edge in times)
+                {
+                    paths[edge[1]] = Math.Min(paths[edge[1]], paths[edge[0]] + edge[2]);
+                }
+                n--;
+            }
+
+            var total = 0;
+            for (var i = 1; i < paths.Length; i++)
+            {
+                if (paths[i] == max)
+                    return -1;
+                total = Math.Max(total, paths[i]);
+
+            }
+
+
+            return total;
+
+        }
+
+
+        //Microsoft online assessment 6-Oct-2021
+        //full source is in my repos here:  C:\Users\clmho\Source\Repos\abhiinifileParser\IniFileParser
+        //public void Parse()
+        //{
+        //    List<string> lines = File.ReadAllLines(Path).ToList();
+
+        //    var section = new Section("");
+        //    for (var i = 0; i < lines.Count; i++)
+        //    {
+        //        var line = lines[i].Trim();
+        //        if (!line.StartsWith("#") && !string.IsNullOrEmpty(line))
+        //        {
+        //            if (line.StartsWith("["))
+        //            {
+        //                if (section.Name != "")
+        //                {
+        //                    Sections.Add(section);
+        //                }
+        //                var sectionstr = line.Replace('[', ' ').Replace(']', ' ').Trim();
+        //                section = Sections.Where(s => s.Name == sectionstr).FirstOrDefault();
+        //                if (section == null)
+        //                {
+        //                    section = new Section(sectionstr);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                while (i < lines.Count && !lines[i].StartsWith("[") && !lines[i].StartsWith("#") && !string.IsNullOrEmpty(lines[i].Trim()))
+        //                {
+        //                    lines[i] = lines[i].Trim();
+        //                    var kindex = lines[i].IndexOf('=');
+
+        //                    var key = lines[i].Substring(0, kindex).Trim();
+        //                    var value = lines[i].Substring(kindex + 1).Trim();
+        //                    if (!section.KeyValuePairs.ContainsKey(key))
+        //                    {
+        //                        section.KeyValuePairs.Add(key, new List<string>() { value });
+        //                    }
+        //                    else
+        //                    {
+        //                        section.KeyValuePairs[key].Add(value);
+        //                    }
+
+        //                    i++;
+        //                }
+        //                i--;
+        //            }
+
+        //        }
+        //    }
+
+
+        //}
+
+
+
+        public int NumWaterBottles2(int numBottles, int numExchange)
+        {
+            var count = numBottles;
+            var empties = 0;
+            while (numBottles + empties >= numExchange)
+            {
+                var rem = (numBottles + empties) % numExchange;
+                numBottles = (numBottles + empties) / numExchange;
+                empties = rem;
+                count += numBottles;
+               // empties = numBottles;
+               // numBottles = 0;
+            }
+            return count;
+        }
 
         //https://leetcode.com/problems/add-two-numbers-ii/
         public ListNode AddTwoNumbers22(ListNode l1, ListNode l2)
@@ -1375,7 +1494,7 @@ class Solution
 
         //and also method with parameter
         //of prefix like "A", "AM", "AMAZONI", etc.
-
+        //Probably, need to use a Trie?  How to implement it in C#?
 
 
         //********************************************
@@ -1489,14 +1608,6 @@ class Solution
 
 
         //    }
-
-
-
-
-
-
-
-
 
 
 
@@ -11747,18 +11858,18 @@ public bool IsOneEditDistance(string s, string t)
 
             paths[K] = 0;
 
-            while (N-- > 1)
-            {
+           // while (N-- > 1)
+           // {
                 foreach (int[] edge in times)
                 {
                     int newTime = paths[edge[0]] + edge[2];
-
+                    
                     if (newTime < paths[edge[1]])
                     {
                         paths[edge[1]] = newTime;
                     }
                 }
-            }
+           // }
 
             int result = -1;
 
