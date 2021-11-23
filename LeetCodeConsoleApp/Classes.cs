@@ -7,6 +7,78 @@ namespace LeetCodeConsoleApp
 {
 
 
+
+
+    public class Trie
+    {
+
+        /** Initialize your data structure here. */
+        public Trie()
+        {
+            root = new Node();
+        }
+
+        /** Inserts a word into the trie. */
+        public void Insert(string word)
+        {
+            var node = root;
+            for (var i = 0; i < word.Length; i++)
+            {
+                if (node.children[word[i] - 'a'] == null) 
+                    node.children[word[i] - 'a'] = new Node();
+
+                node = node.children[word[i] - 'a'];
+            }
+            node.endofword = true;
+        }
+
+        /** Returns if the word is in the trie. */
+        public bool Search(string word)
+        {
+            var node = FindWord(word);
+            if (node != null && node.endofword)
+                return true;
+            else
+                return false;
+        }
+
+        /** Returns if there is any word in the trie that starts with the given prefix. */
+        public bool StartsWith(string prefix)
+        {
+            return FindWord(prefix) != null;
+        }
+
+        private Node FindWord(string word)
+        {
+            var node = root;
+            for (var i = 0; i < word.Length; i++)
+            {
+                if (node.children[word[i] - 'a'] == null)
+                    return null;
+                node = node.children[word[i] - 'a'];
+
+            }
+            return node;
+        }
+
+
+        private Node root;
+
+        class Node
+        {
+            public Node()
+            {
+                //this.c = c;
+                endofword = false;
+                children = new Node[26];
+            }
+            //char c;
+            public bool endofword;
+            public Node[] children;
+        }
+    }
+
+
     //public class TimeMap
     //{
 
@@ -61,7 +133,69 @@ namespace LeetCodeConsoleApp
 
 
 
-    public class LRUCache
+
+
+    public class Trie2
+    {
+        public struct Letter
+        {
+            public const string Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            public static implicit operator Letter(char c)
+            {
+                return new Letter() { Index = Chars.IndexOf(c) };
+            }
+            public int Index;
+            public char ToChar()
+            {
+                return Chars[Index];
+            }
+            public override string ToString()
+            {
+                return Chars[Index].ToString();
+            }
+        }
+
+        public class Node
+        {
+            public string Word;
+            public bool IsTerminal { get { return Word != null; } }
+            public Dictionary<Letter, Node> Edges = new Dictionary<Letter, Node>();
+        }
+
+        public Node Root = new Node();
+
+        public Trie2(string[] words)
+        {
+            for (int w = 0; w < words.Length; w++)
+            {
+                var word = words[w];
+                var node = Root;
+                for (int len = 1; len <= word.Length; len++)
+                {
+                    var letter = word[len - 1];
+                    Node next;
+                    if (!node.Edges.TryGetValue(letter, out next))
+                    {
+                        next = new Node();
+                        if (len == word.Length)
+                        {
+                            next.Word = word;
+                        }
+                        node.Edges.Add(letter, next);
+                    }
+                    node = next;
+                }
+            }
+        }
+
+    }
+
+
+
+
+
+
+        public class LRUCache
     {
 
         Dictionary<int, int> cache = new Dictionary<int, int>();
@@ -196,74 +330,74 @@ namespace LeetCodeConsoleApp
         }
     }
 
-    public class Trie
-    {
-        private readonly TreeNode2 _root;
+    //public class Trie
+    //{
+    //    private readonly TreeNode2 _root;
 
-        public Trie()
-        {
-            _root = new TreeNode2('^', 0, null);
-        }
+    //    public Trie()
+    //    {
+    //        _root = new TreeNode2('^', 0, null);
+    //    }
 
-        public TreeNode2 Prefix(string s)
-        {
-            var currentNode = _root;
-            var result = currentNode;
+    //    public TreeNode2 Prefix(string s)
+    //    {
+    //        var currentNode = _root;
+    //        var result = currentNode;
 
-            foreach (var c in s)
-            {
-                currentNode = currentNode.FindChildNode(c);
-                if (currentNode == null)
-                    break;
-                result = currentNode;
-            }
+    //        foreach (var c in s)
+    //        {
+    //            currentNode = currentNode.FindChildNode(c);
+    //            if (currentNode == null)
+    //                break;
+    //            result = currentNode;
+    //        }
 
-            return result;
-        }
+    //        return result;
+    //    }
 
-        public bool Search(string s)
-        {
-            var prefix = Prefix(s);
-            return prefix.Depth == s.Length && prefix.FindChildNode('$') != null;
-        }
+    //    public bool Search(string s)
+    //    {
+    //        var prefix = Prefix(s);
+    //        return prefix.Depth == s.Length && prefix.FindChildNode('$') != null;
+    //    }
 
-        public void InsertRange(List<string> items)
-        {
-            for (int i = 0; i < items.Count; i++)
-                Insert(items[i]);
-        }
+    //    public void InsertRange(List<string> items)
+    //    {
+    //        for (int i = 0; i < items.Count; i++)
+    //            Insert(items[i]);
+    //    }
 
-        public void Insert(string s)
-        {
-            var commonPrefix = Prefix(s);
-            var current = commonPrefix;
+    //    public void Insert(string s)
+    //    {
+    //        var commonPrefix = Prefix(s);
+    //        var current = commonPrefix;
 
-            for (var i = current.Depth; i < s.Length; i++)
-            {
-                var newNode = new TreeNode2(s[i], current.Depth + 1, current);
-                current.Children.Add(newNode);
-                current = newNode;
-            }
+    //        for (var i = current.Depth; i < s.Length; i++)
+    //        {
+    //            var newNode = new TreeNode2(s[i], current.Depth + 1, current);
+    //            current.Children.Add(newNode);
+    //            current = newNode;
+    //        }
 
-            current.Children.Add(new TreeNode2('$', current.Depth + 1, current));
-        }
+    //        current.Children.Add(new TreeNode2('$', current.Depth + 1, current));
+    //    }
 
-        public void Delete(string s)
-        {
-            if (Search(s))
-            {
-                var node = Prefix(s).FindChildNode('$');
+    //    public void Delete(string s)
+    //    {
+    //        if (Search(s))
+    //        {
+    //            var node = Prefix(s).FindChildNode('$');
 
-                while (node.IsLeaf())
-                {
-                    var parent = node.Parent;
-                    parent.DeleteChildNode(node.Value);
-                    node = parent;
-                }
-            }
-        }
+    //            while (node.IsLeaf())
+    //            {
+    //                var parent = node.Parent;
+    //                parent.DeleteChildNode(node.Value);
+    //                node = parent;
+    //            }
+    //        }
+    //    }
 
-    }
+    //}
 
 
 
@@ -476,6 +610,16 @@ namespace LeetCodeConsoleApp
             int x = list.BinarySearch(value);
             list.Insert((x >= 0) ? x : ~x, value);
         }
+
+        public static void MoveToTop<T>(this List<T> list, int index)
+        {
+            T item = list[index];
+            for (int i = index; i > 0; i--)
+                list[i] = list[i - 1];
+            list[0] = item;
+        }
+
+
     }
         
 
@@ -807,6 +951,13 @@ namespace LeetCodeConsoleApp
         public ListNode(int x) { val = x; }
     }
 
+
+    public class StringListNode
+    {
+        public string val;
+        public StringListNode next;
+        public StringListNode(string s) { val = s; }
+    }
 
     //class ChrisCustom : IComparable<ChrisCustom>
     //{

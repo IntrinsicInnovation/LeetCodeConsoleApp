@@ -976,7 +976,7 @@ namespace LeetCodeConsoleApp
 
             //    var ts = sol.twoStrings("hi", "world");
 
-            //sol.ShortestReach();
+            // sol.ShortestReach();
 
             //HackerRank hard question:
             //var root = new TreeNode(1);
@@ -1184,156 +1184,652 @@ namespace LeetCodeConsoleApp
             //var nwb = sol.NumWaterBottles2(15, 4);
 
 
-           // var ndt = sol.NetworkDelayTime(new int[][] { new int[] { 2, 1, 1 }, new int[] { 2, 3, 1 }, new int[] { 3, 4, 1 } }, 4, 2);
+            // var ndt = sol.NetworkDelayTime(new int[][] { new int[] { 2, 1, 1 }, new int[] { 2, 3, 1 }, new int[] { 3, 4, 1 } }, 4, 2);
 
 
-            var ndt = sol.NetworkDelayTime2(new int[][] { new int[] { 1, 2, 1 }, new int[] { 2, 3, 7 }, new int[] { 1, 3, 4 }, new int[] { 2, 1, 2 } },3,2);
+            //  var ndt = sol.NetworkDelayTime2(new int[][] { new int[] { 1, 2, 1 }, new int[] { 2, 3, 7 }, new int[] { 1, 3, 4 }, new int[] { 2, 1, 2 } },3,2);
+
+
+            //  var md = sol.monthDiff(new DateTime(2021, 1, 5), new DateTime(2020,12,5));
+
+            //            var trie = new Trie();
+            //            trie.Insert("apple");
+            //            var s = trie.Search("apple");
+            //            s = trie.Search("app");
+            //            s = trie.StartsWith("app");
+            //            trie.Insert("app");
+            //            s = trie.Search("app");
+
+            //var sb = sol.solutionbalanced("azABaabza");
+
+
+            // var ri = sol.recentitems(new List<string>() { "smartphone", "television", "smartphone", "television" });
+
+            //var ri = sol.recentitemslinkedlist(new List<string>() { "book1", "book2", "book3", "book1", "book3" });
+            //double length = 10, width = 20;
+
+            //  sol.abc();
+            // var class1 = new c1();
+            // var class2 = new c2();
+
+            
+            var t = sol.ThreeSum(new int[] { -1, 0, 1, 2, -1, -4 });
+
+    }
+        
+     
+
+    }
+
+
+    static class Glider
+    {
+        public static void start(int a)
+        {
+            return;
+        }
+    }
 
 
 
+    public class c1
+    {
+        c2 o = new c2();
+        public c1()
+            {
+                
+                Console.WriteLine("in class 2");
+
+            }
+
+    }
+
+
+    public class c2
+    {
+        c1 o = new c1();
+        public c2()
+        {
+
+            Console.WriteLine("in class 1");
+
+        }
+
+    }
+
+
+
+
+
+    //    class a
+    //        {
+    //           public virtual void area()
+    //        {
+
+    //        }
+    //        }
+
+    //  class b : a
+    //{
+    //        public virtual  override void area()
+    //        {
+
+    //        }
+    //    }
+
+
+    class Solution
+    {
+
+
+
+        public string LicenseKeyFormatting3(string s, int k)
+        {
+
+            var sb = new StringBuilder();
+            var count = 0;
+            for (var i = s.Length - 1; i >= 0; i--)
+            {
+                if (s[i] != '-')
+                {
+                    sb.Insert(0, s[i]);
+                    count++;
+                    if (count == k && i > 0)
+                    {
+
+                        sb.Insert(0, '-');
+                        count = 0;
+                    }
+
+                }
+            }
+
+            return sb.ToString().TrimStart('-').ToUpper();
 
 
 
         }
-    }
-  
 
 
 
 
-
-
-
-
-
-
-
-
-
-class Result
-    {
-
-
-        //        parse codelist into a proper list of lists.
-
-        //loop through all shopping cart items
-
-        // in loop, comparecodelist group[x][y] to current item or anything
-
-        //  if a match, increment y, if y > current list count, set y to 0 and increment x
-
-        //else if no match, then we must reset y to 0 as the group was only partially matched
-
-        //  at end compare x to count.  if == return 1, else return 0;
-
-        //2)O(c) + O(s + c) = O(c + s) where c is codelist, and s is shopping cart.
-
-
-        /*
-         * Complete the 'foo' function below.
-         *
-         * The function is expected to return an INTEGER.
-         * The function accepts following parameters:
-         *  1. STRING_ARRAY codeList
-         *  2. STRING_ARRAY shoppingCart
-         */
-
-        public int foo(List<string> codeList, List<string> shoppingCart)
+        public static int Codelist(List<string> codeList, List<string> shoppingCart)
         {
-            if (shoppingCart == null || shoppingCart.Count == 0) return 0;
-            if (codeList == null || codeList.Count == 0) return 1;
 
-            var scpointer = 0;
-            // var clpointer = 0;
-            var codegroups = new List<List<string>>();
-            for (var i = 0; i < codeList.Count; i++)
-            {
-                var curr = codeList[i].Split(' ').ToList();
-                codegroups.Add(curr);
-            }
-            var codegroupindex = 0;
-            var codeindex = 0;
+            if (codeList.Count == 0)
+                return 1;
+            else if (codeList.Count > 0 && shoppingCart.Count == 0)
+                return 0;
 
-            for (; scpointer < shoppingCart.Count; scpointer++)
+
+            var row = 0;
+            var col = 0;
+
+            var currcodelist = codeList[row].Split(' ');
+
+            for (var i = 0; i < shoppingCart.Count; i++)
             {
-                if (codegroupindex == codegroups.Count)
-                    return 1;
-                var code = codegroups[codegroupindex][codeindex];
-                if (shoppingCart[scpointer] == code || code == "anything")
+                if (shoppingCart[i] == currcodelist[col] || currcodelist[col] == "anything")
                 {
-
-                    codeindex++;
-                    if (codeindex == codegroups[codegroupindex].Count)
+                    col++;
+                    if (col == currcodelist.Length)
                     {
-                        codeindex = 0;
-                        codegroupindex++;
+                        col = 0;
+                        row++;
+                        if (row == codeList.Count)
+                            return 1;
+                        currcodelist = codeList[row].Split(' ');
                     }
-
 
                 }
                 else
                 {
-                    codeindex = 0;
+                    col = 0;
                 }
 
             }
-            return codegroupindex == codegroups.Count ? 1 : 0;
+
+
+            return 0;
+        }
+
+
+
+
+
+        //    public class Solution
+        //    {
+        //        public IList<string> InvalidTransactions(string[] transactions)
+        //        {
+        //            if (transactions.Length == 0)
+        //                return null;
+
+        //            var results = new List<string>();
+
+        //            var first = transactions[0].Split(',');
+        //            if (Convert.ToInt32(first[2]) > 1000)
+        //                results.Add(transactions[0]);
+
+        //            if (transactions.Length > 1)
+        //            {
+
+        //                var trans = new List<trans>();
+        //                for (var i = 1; i < transactions.Length; i++)
+        //                {
+        //                    var t = transactions[i].Split(',');
+        //                    var tr = new trans()
+        //                    {
+        //                        name = t[0],
+        //                        time = Convert.ToInt32(t[1]),
+        //                        amount = Convert.ToInt32(t[2]),
+        //                        city = t[3],
+
+        //                    };
+        //                    trans.Add(tr);
+        //                }
+
+        //                if (trans[0].name == trans[1].name && trans[0].city != trans second[3] && Math.Abs(Convert.ToInt32(first[1]) - Convert.ToInt32(second[1])) <= 60)
+        //        {
+        //                    results.Add(transactions[0]);
+        //                }
+        //                for (var i = 1; i < transactions.Length; i++)
+        //                {
+        //                    var curr = transactions[i].Split(',');
+        //                    var prev = transactions[i - 1].Split(',');
+        //                    if (Convert.ToInt32(curr[2]) > 1000 || (prev[0] == curr[0] && prev[3] != curr[3] && Math.Abs(Convert.ToInt32(prev[1]) - Convert.ToInt32(curr[1])) <= 60))
+        //                    {
+        //                        results.Add(transactions[i]);
+        //                    }
+        //                }
+        //            }
+
+        //            return results;
+        //        }
+
+        //        private Class trans
+        //        {
+        //    public string name { get; set; }
+        //        public int time { get; set; }
+        //        public int amount { get; set; }
+        //        public string city { get; set; }
+
+        //    }IList<IList<int>> ThreeSum(int[] nums) {
+
+        //}
+
+
+
+        public int LengthLongestPath3(string input)
+        {
+
+            var paths = input.Split("\n");
+            var max = 0;
+
+            var route = new List<string>();
+            var curr = "";
+            var level = 0;
+            for (var i = 0; i < paths.Length; i++)
+            {
+                curr = paths[i];
+                level = curr.Count(ch => ch == '\t');
+                curr = curr.TrimStart('\t');
+                while (route.Count > level)
+                {
+                    route.RemoveAt(level);
+                }
+                route.Add(curr);
+                if (curr.Contains('.'))
+                {
+                    var currlen = 0;
+                    foreach (var s in route)
+                        currlen += s.Length;
+
+                    max = Math.Max(currlen + route.Count - 1, max);
+                }
+
+            }
+
+            return max;
+        }
+
+
+
+
+
+        public IList<IList<int>> ThreeSum2(int[] nums)
+        {
+
+            var result = new List<IList<int>>();
+            if (nums == null || nums.Length < 3) return result;
+
+            for (var i = 0; i < nums.Length - 2; i++)
+                for (var j = i + 1; j < nums.Length - 1; j++)
+                    for (var k = j + 1; k < nums.Length; k++)
+                    {
+                        if ((nums[i] + nums[j] + nums[k]) == 0)
+                            result.Add(new List<int>() { nums[i], nums[j], nums[k] }.OrderBy(l => l).ToList());
+                    }
+
+
+            var distinctlist = result.Select(o =>
+            {
+                var t = o.OrderBy(x => x).Select(i => i.ToString());
+                return new { Key = string.Join("", t), List = o };
+            })
+        .GroupBy(o => o.Key)
+        .Select(o => o.FirstOrDefault())
+        .Select(o => o.List);
+
+            return distinctlist.ToList();
 
         }
 
- 
 
 
-}
 
-//class Solution
-//{
-//    public static void Main(string[] args)
-//    {
-//        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
 
-//        int codeListCount = Convert.ToInt32(Console.ReadLine().Trim());
+        public void abc()
+        {
+            int value1 = 10;
+            Single value2 = 5.4f;
 
-//        List<string> codeList = new List<string>();
+            Console.WriteLine(value1 + " " + value2);
 
-//        for (int i = 0; i < codeListCount; i++)
-//        {
-//            string codeListItem = Console.ReadLine();
-//            codeList.Add(codeListItem);
-//        }
+            var h = new Hashtable();
+            h.Add(1, "sdf");
+            h.Add(2, "tuv");
+            foreach(DictionaryEntry d in h)
+            {
+                Console.WriteLine(d.Value + " ");
+            }
 
-//        int shoppingCartCount = Convert.ToInt32(Console.ReadLine().Trim());
 
-//        List<string> shoppingCart = new List<string>();
-
-//        for (int i = 0; i < shoppingCartCount; i++)
-//        {
-//            string shoppingCartItem = Console.ReadLine();
-//            shoppingCart.Add(shoppingCartItem);
-//        }
-
-//        int result = Result.foo(codeList, shoppingCart);
-
-//        textWriter.WriteLine(result);
-
-//        textWriter.Flush();
-//        textWriter.Close();
-//    }
-//}
+            var dict = new Dictionary<int, string>();
+            dict.Add(1, "sdf");
+            dict.Add(2, "tuv");
+            foreach (var e in dict)
+            {
+                Console.WriteLine(e.Value + " ");
+            }
 
 
 
 
 
-class Solution
-    {
+
+
+            int? p = null;
+            int? r = 0;
+
+            int t = 10;
+            Console.WriteLine(p is long);
+        }
+
+
+
+
+        public List<string> recentitemslinkedlist(List<string> logs)
+        {
+            var items = new List<string>() {logs[0]};
+            var item = new StringListNode(logs[0]);
+            var head = item;
+            StringListNode newnode;
+
+            for (var i = 1; i < logs.Count; i++)
+            {
+
+
+                if (!items.Contains(logs[i]))
+                {
+                    newnode = new StringListNode(logs[i]);
+                    newnode.next = head;
+                    head = newnode;
+                    items.Add(logs[i]);
+                    
+                }
+                else if (head.val != logs[i])
+                {
+
+                    var prev = head;
+                    var curr = head.next;
+                    
+                    while (curr.val != logs[i])
+                    {
+
+                        curr = curr.next;
+                        prev = prev.next;
+                    }
+                    prev.next = curr.next;
+                    curr.next = head;
+                    head = curr;
+
+
+
+                }
+
+            }
+            var results = new List<string>();
+            while (head != null)
+            {
+                results.Add(head.val);
+                head = head.next;
+            }
+            return results;
+        }
+
+
+        //static void MoveToTop<T>(this List<T> list, int index)
+        //{
+        //    T item = list[index];
+        //    for (int i = index; i > 0; i--)
+        //        list[i] = list[i - 1];
+        //    list[0] = item;
+        //}
+
+        public List<string> recentitems(List<string> logs)
+        {
+            var dict = new Dictionary<string, int>();
+            var result = new List<string>();
+            
+
+
+            for (var i = 0; i < logs.Count; i++)
+            {
+
+                if (result.Contains(logs[i]))
+                {
+
+
+                    result.MoveToTop(result.IndexOf(logs[i]));
+
+                
+                }
+                else
+                    result.Insert(0, logs[i]);
+
+                
+
+
+
+
+                //if (dict.ContainsKey(logs[i]))
+                //{
+                //    var top = dict[logs[i]];
+
+                //    var j = 0;
+                //    while (j < top)
+                //    {
+                //        var curr = dict.FirstOrDefault(x => x.Value == j).Key;
+                //        dict[curr]++;
+                //        j++;
+                //    }
+                //    dict[logs[i]] = 0;
+                //}
+                //else
+                //{
+
+                //    for (int index = 0; index < dict.Count; index++)
+                //    {
+                //        var item = dict.ElementAt(index);
+                //        dict[item.Key]++;
+
+                //    }
+                //    dict.Add(logs[i], 0);
+                //}
+            }
+
+            //  var list = dict.OrderBy(d => d.Value).Select(d => d.Key).ToList();
+            //  return list;
+            return result;
+        }
+
+        public  int AmazonFreshPromo(List<string> codeList, List<string> shoppingCart)
+        {
+            if (codeList.Count == 0)
+                return 1;
+            var clrow = 0;
+            var clcolumn = 0;
+            var currrow = codeList[0].Split(' ');
+            foreach (var r in currrow)
+                Console.Write(r);
+            for (var i = 0; i < shoppingCart.Count; i++)
+            {
+                if (currrow[clcolumn] == shoppingCart[i] || currrow[clcolumn] == "anything")
+                {
+                    clcolumn++;
+                    if (clcolumn == currrow.Length)
+                    {
+                        if (clrow == codeList.Count - 1)
+                            return 1;
+                        clcolumn = 0;
+                        clrow++;
+                        currrow = codeList[clrow].Split(' ');
+                    }
+
+                }
+                else
+                {
+                    clcolumn = 0;
+                }
+
+
+            }
+            return 0;
+        }
+
+
+        //Amazon demo test
+        public static List<List<string>> searchSuggestions(List<string> repository, string customerQuery)
+        {
+            customerQuery = customerQuery.ToLower();
+            repository = repository.ConvertAll(r => r.ToLower());
+            var results = new List<List<string>>();
+
+            for (var sublen = 2; sublen <= customerQuery.Length; sublen++)
+            {
+
+                var substr = customerQuery.Substring(0, sublen);
+                var result = repository.Where(r => r.StartsWith(substr)).OrderBy(r => r).Take(3).ToList();
+                results.Add(result);
+
+            }
+            return results;
+        }
+
+
+        //MS Online assessment question # 1 - Codility
+        //check if string is balanced, eg return the length of the shortest substring where there are an equal amount of lowercase and uppercase characters.
+        //******************************************************************************************************************
+        public int solutionbalanced(string S)
+        {
+            // write your code in C# 6.0 with .NET 4.5 (Mono)
+
+            for (var i = 2; i <= S.Length; i++)
+            {
+                for (var j = 0; j <= S.Length - i; j++)
+                {
+                    var ca = check(S, j, j + i - 1);
+                    if (ca)
+                    {
+
+                        return S.Substring(j, i).Length;
+                    }
+
+                }
+            }
+
+            return -1;
+        }
+
+        private bool check(string S, int start, int end)
+        {
+            var chars = new HashSet<char>();
+            for (var i = start; i <= end; i++)
+            {
+                chars.Add(S[i]);
+            }
+
+
+            var a = new List<int>();
+            var b = a.ToArray();
+            foreach (var c in chars)
+            {
+                if (c >= 'a' && c <= 'z')
+                {
+
+                    
+                    if (chars.Where(d => d == char.ToUpper(c)).Count() == 0)
+                        return false;
+
+
+                }
+                else if (c >= 'A' && c <= 'Z')
+                {
+                    var test = chars.Where(d => d == char.ToLower(c));
+                    if (chars.Where(d => d == char.ToLower(c)).Count() == 0)
+
+                        return false;
+                }
+            }
+            return true;
+
+        }
+        //Question #2 codility MS online assessment
+        //Any unique numbers in a range to sum up to zero.
+        public int[] SumZero(int n)
+        {
+            var result = new List<int>();
+            for (int i = 1; i <= n / 2; i++)
+            {
+                result.Add(i);
+                result.Add(-i);
+            }
+
+            if (n % 2 == 1) result.Add(0);
+            return result.ToArray();
+        }
+        //******************************************************************************************************************
+
+
+        public static string appendAndDelete(string s, string t, int k)
+        {
+            if (s == t && k % 2 == 0)
+                return "Yes";
+
+            if (s == t && k % 2 != 0 && k > (2 * s.Length))
+                return "Yes";
+
+            var count = 0;
+            for (var i = 0; i < s.Length && i < t.Length; i++)
+            {
+                if (s[i] == t[i])
+                    count++;
+                else
+                    break;
+            }
+
+            var numtodelete = s.Length - count;
+            var numtoadd = t.Length - count;
+            var minops = numtoadd + numtodelete;
+
+            if (k < minops)
+                return "No";
+            if (k >= s.Length + t.Length)
+                return "Yes";
+            if ((k - minops) % 2 == 0)
+                return "Yes";
+            return "No";
+        }
+
+
+
+        public bool IsValidSubsequence(List<int> array, List<int> sequence)
+        {
+            // Write your code here.
+            var seqpos = 0;
+            for (var i = 0; i < array.Count; i++)
+            {
+
+                if (array[i] == sequence[seqpos])
+                {
+                    seqpos++;
+                    if (seqpos == sequence.Count)
+                        return true;
+                }
+
+
+            }
+
+            return false;
+        }
+
         //Leetcode medium!  dijkstras algorithm to go through graph multiple times.
         public int NetworkDelayTime2(int[][] times, int n, int k)
         {
 
 
             var paths = new int[n + 1];
-            var max = 50000;
+            var max = 50000;  //arbitrary number greater than max possible sum of all edges.
 
             Array.Fill(paths, max);
             paths[k] = 0;
@@ -1360,62 +1856,6 @@ class Solution
             return total;
 
         }
-
-
-        //Microsoft online assessment 6-Oct-2021
-        //full source is in my repos here:  C:\Users\clmho\Source\Repos\abhiinifileParser\IniFileParser
-        //public void Parse()
-        //{
-        //    List<string> lines = File.ReadAllLines(Path).ToList();
-
-        //    var section = new Section("");
-        //    for (var i = 0; i < lines.Count; i++)
-        //    {
-        //        var line = lines[i].Trim();
-        //        if (!line.StartsWith("#") && !string.IsNullOrEmpty(line))
-        //        {
-        //            if (line.StartsWith("["))
-        //            {
-        //                if (section.Name != "")
-        //                {
-        //                    Sections.Add(section);
-        //                }
-        //                var sectionstr = line.Replace('[', ' ').Replace(']', ' ').Trim();
-        //                section = Sections.Where(s => s.Name == sectionstr).FirstOrDefault();
-        //                if (section == null)
-        //                {
-        //                    section = new Section(sectionstr);
-        //                }
-        //            }
-        //            else
-        //            {
-        //                while (i < lines.Count && !lines[i].StartsWith("[") && !lines[i].StartsWith("#") && !string.IsNullOrEmpty(lines[i].Trim()))
-        //                {
-        //                    lines[i] = lines[i].Trim();
-        //                    var kindex = lines[i].IndexOf('=');
-
-        //                    var key = lines[i].Substring(0, kindex).Trim();
-        //                    var value = lines[i].Substring(kindex + 1).Trim();
-        //                    if (!section.KeyValuePairs.ContainsKey(key))
-        //                    {
-        //                        section.KeyValuePairs.Add(key, new List<string>() { value });
-        //                    }
-        //                    else
-        //                    {
-        //                        section.KeyValuePairs[key].Add(value);
-        //                    }
-
-        //                    i++;
-        //                }
-        //                i--;
-        //            }
-
-        //        }
-        //    }
-
-
-        //}
-
 
 
         public int NumWaterBottles2(int numBottles, int numExchange)
@@ -1473,141 +1913,6 @@ class Solution
         }
 
 
-
-
-
-
-
-        //        1) AMAZON FINAL ROUND - Sep 13 / 14th
-        //        implement prefix search with dictionary of priorities
-
-        //dictionary:
-
-        //[] {amazing, 10}
-        //{amazon, 5}
-        //{ amazonian, 3}
-
-
-        //create class
-
-        //create your won search structure
-
-        //and also method with parameter
-        //of prefix like "A", "AM", "AMAZONI", etc.
-        //Probably, need to use a Trie?  How to implement it in C#?
-
-
-        //********************************************
-        //2)  AMAZON FINAL ROUND
-        //write a function to find the difference between two dates whether it is exactly a month, less than a month or 
-        //greater than a month apart.
-
-        //just concerned about logic.  Don't code too fast.  so consider edge cases like year greater than next year by one 
-        //then it would have to be january and December etc.
-
-        //// Write a function that given two dates 
-        //// returns -1 if they are less than a month apart, 
-        //// 0 if they are exactly a month apart, and 
-        //// 1 if they are greater than a month apart.
-
-        //DateTime date1 = new DateTime(28, 2, 2021);
-        //DateTime date2 = new DateTime(31, 3, 2021);
-
-        //int monthDiff(DateTime date1, DateTime date2)
-        //{
-        //    if (date1.Year == date2.Year)
-        //    {
-        //        if (date1.Month == date2.Month)
-        //        {
-        //            return -1;
-        //        }
-        //        else if (date1.Month - date2.Month == 1)
-        //        {
-        //            if (date1.Day == date2.Day)
-        //                return 0;
-        //            else if (date1.Day < date2.Day)
-        //                return -1;
-        //            else
-        //                return 1;
-        //        }
-        //        else if (date2.Month - date1.Month == 1)
-        //        {
-        //            if (date1.Day == date2.Day)
-        //                return 0;
-        //            else if (date2.Day < date1.Day)
-        //                return -1;
-        //            else
-        //                return 1;
-        //        }
-        //        else
-        //    }
-        //}
-
-
-
-
-        //3)Design a max user limiter for amazon prime video service - enforce currently allowed number of users at any one time
-
-        //4)  code up a user class for a social network, and
-        //public class Users
-        //        {
-
-        //            public UUid userid;
-        //            public string firstname;
-        //            public string lastname;
-        //            public string email;
-        //            public string phonenumber;
-        //            public string addressline1;
-        //            public List<Users> friends;
-
-        //        }
-
-        //        public class UserRelations
-        //        {
-
-        //            public UUID user;
-        //            public UUID friend;
-
-
-        //        }
-
-
-        //        public class Friend
-        //        {
-        //            public UUID user;
-        //        }
-
-
-
-        //        Dictionary<string, UUID> userhash;
-
-        //> Using your social network, and given a Users object, write an algorithm that allows you to
-        //fetch all friends at k-depth? (e.g.friend of a friend is depth 2)
-
-        //List<Users> friends = new List<Users>();
-
-        //        public List<Users> findFriends(Users user, k);
-        //{
-        //    friendsatDepth(user.friends, k)
-        //    return friends;
-        //}
-
-        //    private void friendsatDepth(List<Users> users, int k)
-        //    {
-
-        //        if (users == null || k < 1)
-        //            return;
-
-        //        if (k == 1)
-        //            friends.AddRange(users.friends);
-        //        else
-        //        {
-        //            foreach (user in user.friends)
-        //                friendsatDepth(user, k - 1);
-        //        }
-
-
-        //    }
 
 
 
@@ -3304,7 +3609,7 @@ public int MinDeletions2(string s)  // my solution.  works, but a little slow.  
 
         //passes all 17 test caseas on hacker rank
        
-        public  List<List<string>> searchSuggestions(List<string> repository, string customerQuery)
+        public  List<List<string>> searchSuggestions3(List<string> repository, string customerQuery)
         {
             var results = new List<List<string>>();
 
@@ -4097,7 +4402,7 @@ public int[] MaxCounters(int N, int[] A)
         //Works best, and is 56% faster and 52% less memory on leetcode!!
         public string MostCommonWord4(string paragraph, string[] banned)
         {
-            
+            var a = paragraph.Length;
             var cleaned = paragraph.ToLower().Split(new char[] { ' ', '!', '?', '\'', ',', ';', '.' }, StringSplitOptions.RemoveEmptyEntries);
             var grp = cleaned.Where(w => !banned.Contains(w)).GroupBy(c => c).OrderByDescending(c => c.Count()).Select(c => c.Key).FirstOrDefault();
             return grp;
@@ -13342,19 +13647,21 @@ public bool IsOneEditDistance(string s, string t)
             Array.Sort(nums);
             var threesums = new List<IList<int>>();
             var len = nums.Length;
-            // var dct = nums.GroupBy(n => n).ToDictionary(n => n.Key, n => n.Count());
             for (var i = 0; i < len - 2; i++)
             {
                 var left = i + 1;
                 var right = len - 1;
-
-                //foreach (KeyValuePair<int, int> pair in dct)
                 while (left < right)
                 {
-                    var val = -nums[i];
-                    if (nums[left] + nums[right] > val)
+                   // var val = -nums[i];
+                    //if (nums[left] + nums[right] > val)
+                   //     right--;
+                  //  else if (nums[left] + nums[right] < val)
+                  //      left++;
+
+                    if (nums[i] + nums[left] + nums[right] > 0)
                         right--;
-                    else if (nums[left] + nums[right] < val)
+                    else if (nums[i] + nums[left] + nums[right] < 0)
                         left++;
                     else
                     {
@@ -13362,20 +13669,14 @@ public bool IsOneEditDistance(string s, string t)
 
                         while (left < right && nums[left] == nums[left + 1]) left++;
                         while (left < right && nums[right] == nums[right - 1]) right--;
-
                         left++;
                         right--;
-
-
                     }
-
-
                 }
                 while (i < len - 1 && nums[i] == nums[i + 1])
                     i++;
             }
             return threesums;
-
         }
 
         public int Search(int[] nums, int target)
