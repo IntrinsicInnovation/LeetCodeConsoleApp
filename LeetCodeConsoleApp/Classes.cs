@@ -1032,6 +1032,61 @@ namespace LeetCodeConsoleApp
 
 
 
+    //static class Glider
+    //{
+    //    public static void start(int a)
+    //    {
+    //        return;
+    //    }
+    //}
+
+
+
+    //public class c1
+    //{
+    //    c2 o = new c2();
+    //    public c1()
+    //        {
+
+    //            Console.WriteLine("in class 2");
+
+    //        }
+
+    //}
+
+
+    //public class c2
+    //{
+    //    c1 o = new c1();
+    //    public c2()
+    //    {
+
+    //        Console.WriteLine("in class 1");
+
+    //    }
+
+    //}
+
+
+
+
+
+    //    class a
+    //        {
+    //           public virtual void area()
+    //        {
+
+    //        }
+    //        }
+
+    //  class b : a
+    //{
+    //        public virtual  override void area()
+    //        {
+
+    //        }
+    //    }
+
 
 
     //    public class Reader4
