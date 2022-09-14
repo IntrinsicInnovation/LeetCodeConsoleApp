@@ -9,6 +9,53 @@ namespace LeetCodeConsoleApp
 
 
 
+    public class queue
+    {
+
+        public Stack<int> instack = new Stack<int>();
+        public Stack<int> outstack = new Stack<int>();
+
+
+        public void enqueue(int n)
+        {
+            instack.Push(n);
+        }
+
+        public void dequeue()
+        {
+            if (outstack.Count == 0)
+            {
+                while (instack.Count > 0)
+                {
+                    outstack.Push(instack.Pop());
+                }
+            }
+            outstack.Pop();
+
+
+        }
+
+
+        public int peek()
+        {
+            if (outstack.Count == 0)
+            {
+                while (instack.Count > 0)
+                {
+                    outstack.Push(instack.Pop());
+                }
+            }
+            if (outstack.Count > 0)
+                return outstack.Peek();
+            else
+                return -1;
+        }
+
+
+    }
+
+
+
     public class Trie
     {
 

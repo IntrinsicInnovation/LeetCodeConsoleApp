@@ -86,7 +86,7 @@ namespace LeetCodeConsoleApp
             //var h = sol.HammingWeight(11);
             //var r = sol.reverseBits(0b_00000010100101000001111010011100); // (43261596);
 
-            //var p = sol.IsPalindrome("0P"); // ( " A man, a plan, a canal: Panama");
+            // var p = sol.IsPalindrome("0P"); // ( " A man, a plan, a canal: Panama");
 
             //var arraytosort = new int[] { 0, 1, 2, 0, 1, 2 };
             //sol.MSInterviewsort012(arraytosort);
@@ -1263,16 +1263,2805 @@ namespace LeetCodeConsoleApp
 
             //  var p = sol.generateParenthesis(3);
 
-            var mr = sol.MinReorder(6, new int[][] { new int[] { 0, 1 }, new int[] { 1, 3 }, new int[] { 2, 3 }, new int[] { 4, 0 }, new int[] { 4, 5 } });
+            // var mr = sol.MinReorder(6, new int[][] { new int[] { 0, 1 }, new int[] { 1, 3 }, new int[] { 2, 3 }, new int[] { 4, 0 }, new int[] { 4, 5 } });
+
+
+            //            var cc = sol.CommonChars3(new string[] { "bella", "label", "roller" });
+            //  var g = sol.Generate2(5);
+
+
+            //var root = new TreeNode(1);
+            //root.left = new TreeNode(3);
+            //root.right = new TreeNode(2);
+            //root.left.left = new TreeNode(5);
+            //root.left.right = new TreeNode(3);
+            //root.right.right = new TreeNode(9);
+            ////1,3,2,5,3,null,9]
+            //var w = sol.WidthOfBinaryTree(root);
+
+
+            // var u = sol.NumUniqueEmails2(new string[] { "test.email+alex@leetcode.com", "test.e.mail+bob.cathy@leetcode.com", "testemail+david@lee.tcode.com" });
+            //var tf = sol.TotalFruit2(new int[] { 0, 1, 2, 2 });
+
+            //  var f = sol.foo2();
+
+            //var c = sol.countMaximumTeams(new List<int> { 5, 1, 2, 1, 4, 5 }, 2, 2);
+
+
+
+            //var c = sol.countMaximumTeams(new List<int> { 4, 1, 8, 3, 6, 9 }, 4, 5);
+
+            // var c = sol.countMaximumTeams(new List<int> { 10, 42, 58, 22, 51, 6, 63, 3, 9, 98, 97, 95, 23, 68, 27, 70, 29, 1, 22, 49 }, 3, 12);
+            //var l = sol.countFamilyLogins(new List<string> { "corn", "horn", "dpso", "eqtp", "corn" });
+
+            //  var i = sol.findTotalImbalance(new List<int> { 4, 1, 3, 2 });
+
+            //var te = sol.texteditor(new string[][] { new string[] { "APPEND", "Hey" }, new string[] { "APPEND", " you" }, new string[] { "APPEND", ", don't" }, new string[] { "APPEND", " " }, new string[] { "APPEND", "let me down" } });
+
+            //  var te = sol.texteditor(new string[][] { new string[]{ "APPEND", "Hey, you!" }, new string[] { "BACKSPACE" },  new string[] {"APPEND","? Impossibel!" }, new string[] {"BACKSPACE" },
+            //  new string[] {"BACKSPACE" }, new string[] {"BACKSPACE" }, new string[] {"APPEND","le!" }});
+
+            //var gc = sol.gridChallenge(new List<string>() { "mpxz", "abcd", "wlmf"});
+            //var sd = sol.superDigit2("9875", 13);
+
+            //  var sd = sol.superDigit2("7404954009694227446246375747227852213692570890717884174001587537145838723390362624487926131161112710589127423098959327020544003395792482625191721603328307774998124389641069884634086849138515079220750462317357487762780480576640689175346956135668451835480490089962406773267569650663927778867764315211280625033388271518264961090111547480467065229843613873499846390257375933040086863430523668050046930387013897062106309406874425001127890574986610018093859693455518413268914361859000614904461902442822577552997680098389183082654625098817411306985010658756762152160904278169491634807464356130877526392725432086439934006728914411061861235300979536190100734360684054557448454640750198466877185875290011114667186730452681943043971812380628117527172389889545776779555664826488520325234792648448625225364535053605515386730925070072896004645416713682004600636574389040662827182696337187610904694029221880801372864040345567230941110986028568372710970460116491983700312243090679537497139499778923997433720159174153", 100000);
+
+            //sol.minimumBribes2(new List<int> { 2,5,1,3,4});
+
+            // var tt = sol.truckTour(new List<List<int>>() { new List<int>() { 1, 5 }, new List<int>() { 10, 3 }, new List<int>() { 3, 4 } });
+            //var l = new SinglyLinkedListNode(1);
+            //l.next = new SinglyLinkedListNode(2);
+            //l.next.next = new SinglyLinkedListNode(3);
+
+
+            //var l2 = new SinglyLinkedListNode(3);
+            //l2.next = new SinglyLinkedListNode(4);
+            //    var ml = sol.mergeLists(l, l2);
+
+            //var bf2 = sol.bfs(5, 3, new List<List<int>>() { new List<int>() { 1,2}, new List<int>() { 1, 3 }, new List<int>() { 3, 4 } }, 1);
+
+            //var bf2 = sol.bfs(4, 2, new List<List<int>>() { new List<int>() { 1, 2 }, new List<int>() { 1, 3 } }, 1);
+
+            //  var bf2 = sol.bfs(3, 1, new List<List<int>>() { new List<int>() { 2, 3 }}, 2);
+
+            //var hp = sol.getHeaviestPackage(new List<int>() { 30, 15, 5, 9 });
+
+            //            var bs = sol.BuddyStrings3("ab", "ca");
+
+            //var bs = sol.BuddyStrings3("abab", "abab");
+
+            //var re = sol.RemoveElement4(new int[] { 1 }, 1);
+
+
+            //var vp = sol.ValidPath(6, new int[][] { new int[] { 1, 0 }, new int[] { 0, 2 }, new int[] { 3, 5 }, new int[] { 5, 4 }, new int[] { 4, 3 } }, 1, 2);
+
+
+            //var vurlp = sol.ValidURLPath(4, new string[][] { new string[] { "a", "b" }, new string[] { "b", "c" }, new string[] { "c", "d" }}, "a", "d");
+
+            //var pl = sol.processLogs(new List<string>() {"527771506 111186861","507336886 451913864","274673668 56172121","507067818 451913864","507336886 507067818","274673668 831696632","274673668 451913864","451913864 56890051",
+            //        "526393340 646024821","615008389 274673668","554316372 809815918","507336886 615008389","615008389 76731002","656564087 906342698","253313766 753290919","274673668 76731002","831696632 507067818","154194267 658732874",
+            //        "56890051 274673668","637700023 793696384","56890051 56172121","451913864 507067818","76731002 274673668","864250034 864250034","507336886 451913864","507336886 507067818","554316372 791817798","131049042 376719871",
+            //        "507067818 831696632","811497682 63100538","507067818 507336886","274673668 76731002","56172121 831696632","864250034 615008389" }, 2);
+            /*
+    891331683 851362051
+
+    507336886 274673668
+
+    816891240 801259225
+
+    321211429 80068912
+
+    615008389 274673668
+
+    855293372 451913864
+
+    309581888 376679307
+
+    56890051 56890051
+
+    718869660 525695655
+
+    611948363 86215482
+
+    831696632 451913864
+
+    507336886 615008389
+
+    274555361 980027280
+
+    445111193 87790742
+
+    451913864 56172121
+
+    309467897 808623872
+
+    486270921 226543047
+
+    831696632 451913864
+
+    56890051 831696632
+
+    639793930 181963137
+
+    766959001 416586784
+
+    698479963 391957985
+
+    952789397 142779469
+
+    507067818 76731002
+
+    771097814 809043720
+
+    56890051 507067818
+
+    367840959 947130171
+
+    56890051 76731002
+
+    507336886 56172121
+
+    507327697 988331486
+
+    34798966 67233364
+
+    507336886 507336886
+
+    855293372 864250034
+
+    451913864 76731002
+
+    507067818 507067818
+
+    73750713 972379732
+
+    670116400 828958973
+
+    855293372 56890051
+
+    272791300 905306209
+
+    831696632 76731002
+
+    78927007 602453299
+
+    386644769 973723585
+
+    529459882 398034046
+
+    839176288 649960685
+
+    948823530 372013379
+
+    85613955 974654491
+
+    56890051 507067818
+
+    56172121 76731002
+
+    507336886 451913864
+
+    507336886 615008389
+
+    831696632 864250034
+
+    860777366 975374128
+
+    883682166 37747493
+
+    842530005 563618035
+
+    864250034 507336886
+
+    855293372 76731002
+
+    310407851 310407851
+
+    76731002 76731002
+
+    628256963 771501375
+
+    56172121 864250034
+
+    56890051 507336886
+
+    319587773 347425295
+
+    855293372 615008389
+
+    855293372 864250034
+
+    855293372 507067818
+
+    451913864 274673668
+
+
+            */
+
+
+
+
+
+
+            //  var cc = sol.caesarCipher("middle-Outz", 2);
+
+            //   sol.minimumBribes3(new List<int>() { 1, 2, 5, 3, 4, 7, 8, 6 });
+
+            // var gc = sol.gridChallenge3(new List<string>() { "ebacd", "fghij", "olmkn", "trpqs", "xywuv" });
+
+
+            // var nsr = sol.nearlySimilarRectangles(new List<List<long>> { new List<long> { 2, 1 }, new List<long> { 4, 2 }, new List<long> { 10, 7 }, new List<long> { 9, 5 }, new List<long> {6, 9 }, new List<long> { 7, 3 } });
+
+            //var tt = sol.truckTour2(new List<List<int>> { new List<int> { 1, 5 }, new List<int> { 10, 3 }, new List<int> { 3, 4 } });
+
+
+            //var l = new SinglyLinkedListNode(1);
+            //l.next = new SinglyLinkedListNode(2);
+            //l.next.next = new SinglyLinkedListNode(3);
+
+
+            //var l2 = new SinglyLinkedListNode(3);
+            //l2.next = new SinglyLinkedListNode(4);
+            //var ml = sol.mergeLists2(l, l2);
+
+
+
+            //var l = new SinglyLinkedListNode(8);
+            //l.next = new SinglyLinkedListNode(11);
+            //l.next.next = new SinglyLinkedListNode(17);
+            //l.next.next.next = new SinglyLinkedListNode(20);
+            //l.next.next.next.next = new SinglyLinkedListNode(20);
+            //l.next.next.next.next.next = new SinglyLinkedListNode(42);
+            //l.next.next.next.next.next.next = new SinglyLinkedListNode(83);
+            //l.next.next.next.next.next.next.next = new SinglyLinkedListNode(94);
+            //l.next.next.next.next.next.next.next.next = new SinglyLinkedListNode(95);
+
+
+            //var l2 = new SinglyLinkedListNode(1);
+            //var ml = sol.mergeLists2(l, l2);
+
+            // var p = sol.pairshash(2, new List<int>() { 1, 5, 3, 4, 2 });
+
+            //sol.noPrefix(new List<string> { "aab", "defgab", "abcde", "aabcde", "bbbbbbbbbb", "jabjjjad" });
+
+
+            //sol.noPrefix(new List<string> { "aab", "aac", "aacghgh", "aabghgh" });
+
+            //var mq = sol.maximumQuality(new List<int> { 2, 2, 1, 5, 3 }, 2);
+
+            // var mq = sol.maximumQuality(new List<int> {89, 48, 14}, 3);
+
+            //var ftp = sol.findTotalPower2(new List<int> { 2, 3, 2, 1 });
+
+
+            //var ftp2 = sol.findTotalPower2(new List<int> { 2, 1, 3});
+
+            //var ftp3 = sol.findTotalPower2(new List<int> { 2, 4 });
+
+
+
+            // var bsf2 = sol.bfs2(4, 2, new List<List<int>>() { new List<int>() { 1,2}, new List<int>() { 1, 3 } }, 1);
+            //var ib = sol.isBalanced2("}][}}(}][))]");
+            //var ib2 = sol.isBalanced2("[](){()}");
+            //var ib3 = sol.isBalanced2("()");
+            //var ib4 = sol.isBalanced2("({}([][]))[]()");
+            //var ib5 = sol.isBalanced2("{)[](}]}]}))}(())(");
+            //var ib6 = sol.isBalanced2("([[))");
+
+            //var ib7 = sol.isBalanced2("[([{{}}]{[[][][([[]]){[]}{}]]}[]{{}}{})[[]]]{{}}(()[[[[[(){}[]]({}{[]})[][[][]]]]{}]{[{}]{[{[][](()({{()}}){([]({({{[]}([([()]{()[[([({{{[]{(){}}[][]({{[([])()](())([{[]([()]{})}]){}([]){()}{}[]([[()]])}()})[{}]}()}(())}){{}()}[]]{{}})]][[]({{[{}]}})({{}({{[]{()}([][{[()]}]{})}()})}{{}}{})]()(){}}(()({()}[([](){[]()}[])])[])[])][{[{[]}]{}([])}]()(()))}){([{}])}[(([]){[]{}})]{}({}{})}){}({{}([][](){{[][{()([[{}()]]{()}{{}{[()]}})[()[]{}](){[{}()[]][{{}}{[{}][]()}[]](())[[][]][]()}}[({}([[{([]){}}]()([()(){}]){([()]())}](()))(()))]]{}()[][{[{}(([]){([()]{()()}([{}][[[]{[[(({([([]){()[]}]){(())}[]}))][((([]{})[{}[[()]({({[()[]]{}(()[{}[][[{}][][]({()}[{([])}][])]][]{})([])}){}{((){})}}){[]}[]()(()(()))(()[{{}}]){}({{{((()([](()[][]{}){({})}{(([{({{}})}]))})))}}})]]))]]}]]))})]}]}})}))})}]}}])");
+
+            //3
+            //    2147483647
+            var fb = sol.flippingBits(1);
+
 
         }
-
     }
+
+
+
+
+
 
 
 
     class Solution
     {
+
+
+        public void strings_xor(string str1, string str2)
+        {
+            var sb = new StringBuilder();
+            for (var i = 0; i < str1.Length; i++)
+            {
+                if (str1[i] != str2[i])
+                    sb.Append('1');
+                else
+                    sb.Append('0');
+
+            }
+            Console.WriteLine(sb.ToString());
+        }
+
+        public int birthday(List<int> s, int d, int m)
+        {
+            var left = 0;
+            var ways = 0;
+            while (left <= s.Count - m)
+            {
+                var sum = 0;
+                for (var i = left; i < (left + m); i++)
+                {
+                    sum += s[i];
+                }
+                if (sum == d)
+                    ways++;
+                left++;
+            }
+
+            return ways;
+        }
+
+
+
+        public string twoArrays(int k, List<int> A, List<int> B)
+        {
+            A.Sort();
+            B = B.OrderByDescending(b => b).ToList();
+            for (var i = 0; i < A.Count; i++)
+            {
+                if (A[i] + B[i] < k)
+                    return "NO";
+            }
+            return "YES";
+        }
+
+
+
+        public string pangrams(string s)
+        {
+            var l = s.ToLower().Replace(" ", "");
+            var dict = new Dictionary<char, int>();
+            for (var i = 0; i < l.Length; i++)
+            {
+                dict[l[i]] = 1;
+            }
+            if (dict.Count < 26)
+                return "not pangram";
+            else
+                return "pangram";
+
+        }
+
+
+        public List<int> countingSort(List<int> arr)
+        {
+            var results = new int[100];
+            for (var i = 0; i < arr.Count; i++)
+            {
+                results[arr[i]]++;
+            }
+            return results.ToList();
+        }
+
+
+
+
+        public int diagonalDifference(List<List<int>> arr)
+        {
+            var left = 0;
+            var right = arr.Count - 1;
+            var leftsum = 0;
+            var rightsum = 0;
+
+            for (var i = 0; i < arr.Count; i++)
+            {
+                leftsum += arr[i][left];
+                rightsum += arr[i][right];
+                left++;
+                right--;
+            }
+            var diff = Math.Abs(leftsum - rightsum);
+            return diff;
+
+        }
+
+
+        public long flippingBits(long n)
+        {
+
+            var flipped = ~(uint)n;
+            var flipped2 = ~n;
+            var f3 = ~(ulong)n;
+            var f4 = ~(int)n;
+
+            return flipped;
+
+            //ulong f = ~(ulong)n;
+            //long g = ~n;
+            //var h = (ulong)n ^ ulong.MinValue;
+            //return (long)f;
+        }
+
+
+        public int lonelyinteger(List<int> a)
+        {
+            var dict = new Dictionary<int, int>();
+            for (var i = 0; i < a.Count; i++)
+            {
+                if (!dict.ContainsKey(a[i]))
+                {
+                    dict[a[i]] = 1;
+                }
+                else
+                {
+                    dict[a[i]]++;
+                }
+
+            }
+            var r = dict.Where(d => d.Value == 1).Select(d => d.Key).FirstOrDefault();
+            return r;
+        }
+
+        public List<int> matchingStrings(List<string> strings, List<string> queries)
+        {
+            var counts = new List<int>();
+
+            for (var i = 0; i < queries.Count; i++)
+            {
+                var count = strings.Where(s => s == queries[i]).Count();
+                counts.Add(count);
+            }
+            return counts;
+        }
+
+
+
+        public string timeConversion2(string s)
+        {
+            var ampm = s.Substring(8);
+            var t = s.Substring(0, 8);
+            var hour = Convert.ToInt32(s.Substring(0, 2));
+            var sb = new StringBuilder();
+            if (ampm == "PM")
+            {
+                if (hour < 12)
+                    hour += 12;
+            }
+            else
+            {
+                if (hour == 12)
+                    hour = 0;
+            }
+            sb.Append(hour.ToString("00"));
+            sb.Append(s.Substring(2, 6));
+            return sb.ToString();
+        }
+
+        //always check precision.  go for long or BigInteger for massively large numbers
+        public static void miniMaxSum(List<int> arr)
+        {
+            long min = 0;
+            long max = 0;
+            var len = arr.Count;
+            arr.Sort();
+            for (var i = 0; i < len; i++)
+            {
+                if (i > 0)
+                    max += arr[i];
+                if (i < len - 1)
+                    min += arr[i];
+            }
+
+            Console.WriteLine(min + " " + max);
+        }
+
+
+
+        //use double for floating point high precision
+        public static void plusMinus2(List<int> arr)
+        {
+            var len = arr.Count;
+            var positive = 0;
+            var negative = 0;
+            var zero = 0;
+            foreach (var n in arr)
+            {
+                if (n < 0)
+                    negative++;
+                else if (n == 0)
+                    zero++;
+                else if (n > 0)
+                    positive++;
+            }
+            var posratio = (double)positive / (double)len;
+            var negratio = (double)negative / (double)len;
+            var zeroratio = (double)zero / (double)len;
+
+            Console.WriteLine(posratio.ToString("F6"));
+            Console.WriteLine(negratio.ToString("F6"));
+            Console.WriteLine(zeroratio.ToString("F6"));
+
+
+
+        }
+
+
+
+        private static void preorder(TreeNode tree)
+        {
+            if (tree == null)
+                return;
+            Console.WriteLine(tree.val);
+            preorder(tree.left);
+            preorder(tree.right);
+        }
+
+        public  string isBalanced2(string s)
+        {
+            var stack = new Stack<char>();
+            var good = true;
+            for (var i = 0; i < s.Length; i++)
+            {
+                switch (s[i])
+                {
+                    case '{':
+                    case '(':
+                    case '[':
+                        stack.Push(s[i]);
+                        break;
+
+                    case '}': 
+                        if (stack.Count > 0)
+                        {
+                            if (stack.Peek() != '{')
+                                good = false;
+                            else
+                                stack.Pop();
+                        }
+                        break;
+
+                    case ')':
+                        if (stack.Count > 0)
+                        {
+                            if (stack.Peek() != '(')
+                                good = false;
+                            else
+                                stack.Pop();
+                        }
+                        break;
+                    case ']':
+                        if (stack.Count > 0)
+                        {
+                            if (stack.Peek() != '[')
+                                good = false;
+                            else
+                                stack.Pop();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                if (!good)
+                    return "NO";
+
+            }
+
+            if (stack.Count > 0)
+                return "NO";
+            else
+                return "YES";
+
+
+        }
+
+
+
+
+
+
+        private void findZigZagSequence(int[] arr)
+        {
+            //Console.Write("dude, called zigzag!!");
+            var len = arr.Length;
+
+            Array.Sort(arr);
+            var mid = len / 2;
+
+            var end = len;
+            for (var i = mid; i < end && end < len; i++)
+            {
+                var temp = arr[i];
+                arr[i] = arr[end];
+                arr[end] = temp;
+                end--;
+            }
+            for (var i = 0; i < len; i++)
+            {
+                Console.Write(arr[i]);
+                if (i < len - 1)
+                    Console.Write(" ");
+                else
+                    Console.WriteLine();
+
+            }
+
+        }
+
+
+
+        //Build a graph from the edges, create a distance array, then use  a queue, to ensure the neighbours are queued for each iteration.
+        //discard all distances with array element 0 and distance 0.
+
+        public List<int> bfs2(int n, int m, List<List<int>> edges, int s)
+        {
+
+            var graph = new List<List<int>>();
+            for (var i = 0; i < n+1; i++)
+            {
+                graph.Add(new List<int>());
+            }
+
+            foreach (var edge in edges)
+            {
+                graph[edge[0]].Add(edge[1]);
+                graph[edge[1]].Add(edge[0]);
+            }
+
+            var distances = new List<int>();
+            for (var i = 0; i < n + 1; i++)
+            {
+                distances.Add(-1);
+            }
+            var length = 6;
+
+            var q = new Queue<int>();
+            q.Enqueue(s);
+            distances[s] = 0;
+
+            while (q.Count > 0)
+            {
+                var node = q.Dequeue();
+                foreach (var neighbour in graph[node])
+                {
+                    if (distances[neighbour] == -1)
+                    {
+                        distances[neighbour] = distances[node] + length;
+                        q.Enqueue(neighbour);
+                    }
+                }
+            }
+
+            
+
+            var results = new List<int>();
+            for(var i = 1; i< distances.Count; i++)
+            {
+                if (distances[i] != 0)
+                    results.Add(distances[i]);
+            }
+
+            return results;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        //amazon OA Sep 5 / 2022  - passed 6 / 15.  Need a O(n) or better than O(n2)
+        public int findTotalPower2(List<int> power)
+        {
+
+            BigInteger result = 0;
+            var n = power.Count;
+            for (var i = 0; i < n; i++)
+            {
+                result += (BigInteger) power[i] * (BigInteger)power[i];
+                BigInteger sum = power[i];
+                BigInteger min = power[i];
+                for (var j = i + 1; j < n; j++)
+                {
+                    sum += (BigInteger)power[j];
+                    min = min <= (BigInteger)power[j] ? min : (BigInteger)power[j];
+                    result += min * sum;
+                }
+            }
+            return (int)result;
+        }
+                    
+
+
+
+        public int findTotalPower(List<int> power)
+        { //O(n2)
+          // Write your code here
+            var MOD = 1000000007;
+            var n = power.Count;
+                
+            var dp = new Pair[n,n];
+            long totalPower = 0;
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (i > j)
+                    {
+                        continue;
+                    }
+                    if (i == j)
+                    {
+                        dp[i,j] = new Pair(power[i], power[i]);
+                    }
+                    else
+                    {
+                        long sum = dp[i, j - 1].sum + power[j];
+                        long min = Math.Min(dp[i,j - 1].min, power[j]);
+                        dp[i,j] = new Pair(min, sum);
+                    }
+
+                    Pair minSumPair = dp[i,j];
+                    totalPower += minSumPair.sum * minSumPair.min;
+                }
+
+            }
+            return (int)(totalPower % MOD);
+        }
+
+
+        private class Pair
+        {
+            public long min;
+            public long sum;
+            public Pair(long min, long sum)
+            {
+                this.min = min;
+                this.sum = sum;
+            }
+           
+        }
+
+
+
+
+//        You are given a list of packets of varying sizes and there are n channels.
+
+//Each of the n channel must have a single packet
+//Each packet can only be on a single channel
+//The quality of a channel is described as the median of the packet sizes on that channel.The total quality is defined as sum of the quality of all channels(round to integer in case of float). Given the packets[] int32 and channels int32 find the maximum quality.
+
+//Example 1:
+
+//packets := [] int32{1, 2, 3, 4, 5}
+//    channels := 2
+
+//// Explaination: If packet {1, 2, 3, 4} is sent to channel 1, the median of that channel would be 2.5.
+////               If packet {5} is sent to channel 2 its median would be 5. 
+////               Total quality would be 2.5 + 5 = 7.5 ~ 8
+//answer := 8
+//Example 2:
+
+//packets := [] int32{5, 2, 2, 1, 5, 3}
+//channels:= 2
+
+// Explaination: Channel 1: {2, 2, 1, 3} (median: 2)
+//               Channel 2: {5, 5}       (median: 5)
+//               Total Quality : 2 + 5 = 7
+
+// Explaination 2: Channel 1: {5, 2, 2, 1, 3} (median: 2)
+//                 Channel 2: {5}             (median: 5)
+//                 Total Quality : 2 + 5 = 7
+//answer:= 7
+
+
+        //amazon OA Sep 5 / 2022  - passed 15 / 15. 
+public long maximumQuality(List<int> packets, int channels)
+        {
+            // Write your code here
+            var n = packets.Count;
+
+            double answer = 0;
+            if (n == channels)
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    answer += packets[i];
+                }
+                return (long)answer;
+            }
+            packets.Sort(); // Collections.sort(packets);
+
+            for (int i = n - channels + 1; i < n; i++)
+            {
+                answer += packets[i];
+            }
+
+            n = n - channels;
+            if (n % 2 == 0)
+            {
+                // odd
+                answer += packets[n / 2];
+            }
+            else
+            {
+                //even
+                double value = packets[n / 2] + packets[((n / 2) + 1)];
+                answer += value / 2;
+            }
+            return (long)Math.Ceiling(answer);
+        }
+
+
+
+
+
+        public  void noPrefix(List<string> words)
+        {
+            var dict = new Dictionary<int, string>();
+
+            for (var i = 0; i < words.Count; i++)
+            {
+                var starts = words.Where(w => w.StartsWith(words[i]));
+                if (starts.Count() > 1)
+                {
+                    var sl = starts.ToList();
+                    var io = words.IndexOf(sl[1]);
+                    dict[io] = sl[1];
+                }
+            }
+
+            if (dict.Count > 0)
+            {
+                var bs = dict.OrderBy(d => d.Key).Select(d => d.Value).First();
+                Console.WriteLine("BAD SET");
+                Console.WriteLine(bs);
+            }
+            else
+                Console.WriteLine("GOOD SET");
+
+        }
+
+
+
+
+        public void texteditor()
+        {
+
+            var line = Console.ReadLine();
+            var sb = new StringBuilder();
+            var history = new List<string[]>();
+           // var ops = new string[];
+            while (!string.IsNullOrEmpty(line))
+            {
+                var ops = line.Split(' ');
+                if (ops[0] == "1")
+                {
+                    sb.Append(ops[1]);
+                    var len = ops[1].Length;
+                    history.Add(new string[] { "2", len.ToString() });
+                }
+                else if (ops[0] == "2")
+                {
+                    var n = Convert.ToInt32(ops[1]);
+                    var str = sb.ToString().Substring(sb.Length - n, n);
+                    sb.Remove(sb.Length - n, n);
+                    history.Add(new string[] { "1", str });
+                }
+                else if (ops[0] == "3")
+                {
+                    var n = Convert.ToInt32(ops[1]);
+                    Console.WriteLine(sb.ToString().Substring(n - 1, 1));
+                }
+                else if (ops[0] == "4")
+                {
+                    var undoop = history[history.Count - 1];
+                    if (undoop[0] == "1")
+                    {
+                        sb.Append(undoop[1]);
+
+                    }
+                    else if (undoop[0] == "2")
+                    {
+                        var undon = Convert.ToInt32(undoop[1]);
+                        var undostr = sb.ToString().Substring(sb.Length - undon, undon);
+                        sb.Remove(sb.Length - undon, undon);
+                    }
+                    history.RemoveAt(history.Count - 1);
+                }
+
+
+
+                line = Console.ReadLine();
+            }
+
+
+            void append(string op)
+            {
+                sb.Append(op);
+            }
+
+            void delete(string op)
+            {
+                var undon = Convert.ToInt32(op);
+                var undostr = sb.ToString().Substring(sb.Length - undon, undon);
+                sb.Remove(sb.Length - undon, undon);
+                history.Add(new string[] { "1", undostr });
+            }
+        }
+
+
+        //O nlogn
+        public int pairs(int k, List<int> arr)
+        {
+                
+            arr.Sort();
+            var matches = 0;
+            for (var i = 0; i < arr.Count - 1; i++)
+            {
+                var len = arr.Count;
+                    if (arr.BinarySearch(i + 1, len - (i + 1), arr[i] + k, null) > -1)
+                    matches++;
+            }
+             return matches;
+        }
+
+
+        //O n
+        public int pairshash(int k, List<int> arr)
+        {
+            var matches = 0;
+            var d = new Dictionary<int, bool>();
+            for (var i = 0; i < arr.Count; i++)
+                d[arr[i]] = true;
+
+            for (var i = 0; i < arr.Count; i++)
+            {
+                var target = arr[i];
+                if (target - k >= 0 && d.ContainsKey(target - k) && d[target - k])
+                    matches++;
+                if (target + k <= Int32.MaxValue && d.ContainsKey(target + k) && d[target + k])
+                    matches++;
+                d[target] = false;
+            }
+            return matches;
+        }
+
+
+
+        /*
+    * For your reference:
+    *
+    * SinglyLinkedListNode {
+    *     int data;
+    *     SinglyLinkedListNode next;
+    * }
+    *
+    */
+        public SinglyLinkedListNode mergeLists2(SinglyLinkedListNode head1, SinglyLinkedListNode head2)
+        {
+
+            SinglyLinkedListNode node = null;
+            SinglyLinkedListNode head = null;
+
+            while (head1 != null || head2 != null)
+            {
+                if (head1 == null || (head2 != null && head1.data >= head2.data))
+                {
+                    if (node == null)
+                    {
+                        node = head2;
+                        head = node;
+                    }
+                    else
+                    {
+                        node.next = head2;
+                        node = node.next;
+                        
+                    }
+                    head2 = head2.next;
+                }
+                else
+                {
+                    if (node == null)
+                    {
+                        node = head1;
+                        head = node;
+                    }
+                    else
+                    {
+                        node.next = head1;
+                        node = node.next;
+                        
+                    }
+                    head1 = head1.next;
+
+                }
+
+
+            }
+            return head;
+        }
+
+
+        /*
+            * Complete the 'truckTour' function below.
+            *
+            * The function is expected to return an INTEGER.
+            * The function accepts 2D_INTEGER_ARRAY petrolpumps as parameter.
+            */
+
+        public  int truckTour2(List<List<int>> petrolpumps)
+        {
+            var complete = false;
+            var petrol = 0;
+            var i = 0;
+            var startindex = -1;
+            while (!complete)
+            {
+                petrol += petrolpumps[i][0];
+                if (petrolpumps[i][1] > petrol)
+                {
+                    petrol = 0;
+                
+                    startindex = -1;
+
+                }
+                else
+                { 
+                    petrol -= petrolpumps[i][1];
+                    if (i == startindex)
+                        {
+                            break;
+                        }
+                    if (startindex == -1)
+                        startindex = i;
+                }
+                i++;
+                if (i == petrolpumps.Count)
+                    i = 0;
+
+            }
+
+            return startindex;
+        }
+
+
+
+
+
+
+
+
+
+
+
+        public static List<long> findSum(List<int> numbers, List<List<int>> queries)
+        {
+
+            //for (var i = 0; i <)
+
+                return null;
+        }
+
+
+
+
+
+
+
+        //basically add all ratio pairs to dictionary then see if there are duplicates or greater and add to results if so as per below
+
+
+        public  long nearlySimilarRectangles(List<List<long>> sides)
+        {
+            var rows = sides.Count;
+            
+            // Initialize the result value and
+            // map to store the ratio to the rectangles
+            long res = 0;
+            Dictionary<double, int> ratio
+                = new Dictionary<double, int>();
+
+            // Calculate the rectangular ratio and save them
+            for (int i = 0; i < rows; i++)
+            {
+                double rectRatio
+                    = (double)sides[i][0] / sides[i][1];
+                if (!ratio.ContainsKey(rectRatio))
+                {
+                    ratio[rectRatio] = 0;
+                }
+                ratio[rectRatio] = ratio[rectRatio] + 1;
+            }
+
+            // Calculate pairs of similar rectangles from
+            // its common ratio
+            foreach (KeyValuePair<double, int> p in ratio)
+            {
+                int val = p.Value;
+                if (val > 1)
+                {
+                    res += (val * (val - 1)) / 2;
+                }
+            }
+
+            return res;
+
+
+            //junk:
+
+            //var pairs = 0;
+            //for (var i = 0; i < sides.Count - 1; i++)
+            //{
+            //    for (var j = i + 1; j < sides.Count; j++)
+            //    {
+            //        var result1 = ((double)sides[i][0] / (double)sides[j][0]);
+            //        var result2 = ((double)sides[i][1] / (double) sides[j][1]);
+
+            //        if (result1 == result2)
+            //        //if ( (double)(sides[i][0] / sides[j][0]) == (double)(sides[i][1] / sides[j][1]))
+            //            pairs++;
+            //    }
+            //}
+            //return pairs;
+        }
+
+
+        public string gridChallenge3(List<string> grid)
+        {
+            var sorted = new List<string>();
+
+            for (var i = 0; i < grid.Count; i++)
+            {
+                var cs = grid[i].ToCharArray();
+                Array.Sort(cs);
+
+                sorted.Add(new string(cs));
+            }
+
+            for (var i = 0; i < sorted.Count - 1; i++)
+            {
+                for (var j = 0; j < sorted[i].Count(); j++)
+                {
+                    if ((sorted[i][j] - 'a') > (sorted[i + 1][j] - 'a'))
+                        return "NO";
+                }
+            }
+
+            return "YES";
+        }
+
+
+
+
+
+        public void minimumBribes3(List<int> q)
+        {
+            var i = 0;
+            var swaps = 0;
+            for (var j = 0; j < q.Count; j++)
+            {
+                if ((q[j] - (j + 1) >= 3))
+                {
+                    Console.WriteLine("Too chaotic");
+                    return;
+                }
+            }
+            while (i < q.Count - 1)
+            {
+                if (q[i] > q[i + 1])
+                {
+                    var temp = q[i];
+                    q[i] = q[i + 1];
+                    q[i + 1] = temp;
+                    swaps++;
+                    i--;
+                    if (i < 0)
+                        i = 0;
+                }
+                else
+                    i++;
+
+            }
+            Console.WriteLine(swaps); 
+        }
+
+
+
+
+
+
+        public string caesarCipher(string s, int k)
+        {
+            var r = s[0] + 1;
+
+            //Console.WriteLine(s[0] + ": " + r);
+            var sb = new StringBuilder();
+            foreach (var c in s)
+            {
+                if ((c > 'Z' && c < 'a') || c > 'z' || c < 'A')
+                {
+                    sb.Append(c);
+                }
+                else
+                {
+                    var shifted = new char();
+
+                    if (c >= 'a')
+                    {
+                        shifted = (char)('a' + (c - 'a' + k) % 26);
+                        
+                    }
+                    else
+                    {
+                        shifted = (char)('A' + (c - 'A' + k) % 26);
+                    }
+                    Console.WriteLine(shifted);
+                    sb.Append(shifted);
+                }
+            }
+
+            return sb.ToString();
+        }
+
+
+
+
+
+
+        /* Imagine we have a page that displays logs from our website in a table. Given these logs, write a function that tests whether a one URL
+is linked to another URL, even if it take more than one link to get there. For example:
+
+areURLsLinked("/", "/search") => true
+areURLsLinked("/", "/reviews") => true
+areURLsLinked("/", "/robots.txt") => false
+
+#
+# URL            Session ID                           Timestamp      Referrer
+#
+# /              C4CA4238A0B923820DCC509A6F75849B     1625153267     NULL
+# /              C4CA4238A0B923820DCC509A6F75849B     1625153254     /
+# /search        C4CA4238A0B923820DCC509A6F75849B     1625153298     /
+# /detail        C4CA4238A0B923820DCC509A6F75849B     1625153298     /search
+# /reviews       C4CA4238A0B923820DCC509A6F75849B     1625153298     /detail
+# /help          ECCBC87E4B5CE2FE28308FD9F2A7BAF3     1625153314     /
+# /              ECCBC87E4B5CE2FE28308FD9F2A7BAF3     1625153320     /search
+# /cart          C4CA4238A0B923820DCC509A6F75849B     1625153325     /detail
+# /cart          ECCBC87E4B5CE2FE28308FD9F2A7BAF3     1625153332     /search
+# /robots.txt    C81E728D9D4C2F636F067F89CC14862C     1625153340     NULL
+
+*/
+        //Javascript attempt.  Need to finish.  Try in C#
+        //    class Urls
+        //    {
+        //        url: string
+        //        SessionID: string,
+        //Timestatmp,
+        //Referrer
+        //    }
+
+        //    function areURLsLinked(url1, url2)
+        //    {
+
+        //        let alreadyvisited = [];
+        //        for (let i = 0; i < urls.length; i++)
+        //        {
+        //            if (urls[i].Referrer === url1)
+        //            {
+        //                if (urls[i].URL === url2)
+        //                {
+        //                    return true;
+        //                }
+        //                else
+        //                {
+        //                    return areURLsLInked(urls[i].URL, url2);
+
+        //                }
+
+        //            }
+
+
+        //        }
+
+        //        return false;
+        //    }
+
+
+
+        public  List<string> processLogs(List<string> logs, int threshold)
+        {
+
+
+
+           
+                var results = new List<string>();
+
+                var hash = new Dictionary<string, int>();
+
+            for (var i = 0; i < logs.Count; i++)
+            {
+                var l = logs[i].Split(' ');
+
+                // Console.Write(l[0] + " " + l[1]);
+                //  Console.WriteLine();
+                if (!hash.ContainsKey(l[0]))
+                {
+                    hash[l[0]] = 1;
+                }
+                else
+                    hash[l[0]]++;
+                if (hash[l[0]] == threshold)
+                    results.Add(l[0]);
+
+                if (l[0] != l[1])
+                {
+                    if (!hash.ContainsKey(l[1]))
+                    {
+                        hash[l[1]] = 1;
+                    }
+                    else
+                        hash[l[1]]++;
+                    if (hash[l[1]] == threshold)
+                        results.Add(l[1]);
+                }
+               
+
+            }
+
+
+            return results;
+
+
+
+
+            //        Console.WriteLine("threshold: " + threshold);
+            ////var results = new List<string>();
+
+            //var hash = new Dictionary<string, int>();
+
+            //foreach (var log in logs)
+            //{
+            //    var l = log.Split(' ');
+
+            //    Console.Write(l[0] + " " + l[1]);
+            //    Console.WriteLine();
+            //    if (!hash.ContainsKey(l[0]))
+            //        hash[l[0]] = 1;
+            //    else
+            //        hash[l[0]]++;
+
+            //    if (l[0] != l[1])
+            //    {
+            //        if (!hash.ContainsKey(l[1]))
+            //            hash[l[1]] = 1;
+            //        else
+            //            hash[l[1]]++;
+            //    }
+
+            //}
+
+            //foreach (var h in hash.OrderByDescending(h => h.Value))
+            //{
+            //    Console.WriteLine(h.Key + ": " + h.Value);
+            //}
+
+
+            //var keys = hash.Where(h => h.Value >= threshold).Select(h => h.Key).OrderBy(h => h).ToList();
+            //return keys;
+        }
+
+
+
+
+
+
+
+
+
+
+        public bool ValidURLPath(int n, string[][] edges, string start, string end)
+        {
+
+            var hash = new Dictionary<string, int>();
+
+            var a = hash.Where(h => h.Value > 2).Select(h => h.Key);
+
+
+
+
+            var graph = new Dictionary<string, List<string>>();
+            foreach(var edge in edges)
+            {
+                if (!graph.ContainsKey(edge[0]))
+                    graph[edge[0]] = new List<string>();
+                graph[edge[0]].Add(edge[1]);
+
+                if (!graph.ContainsKey(edge[1]))
+                    graph[edge[1]] = new List<string>();
+                graph[edge[1]].Add(edge[0]);
+
+            }
+            var visited = new Dictionary<string, bool>();
+            foreach(var key in graph.Keys)
+            {
+                visited[key] = false;
+            }
+            return URLDfs(graph, start, end, visited);
+        }
+
+
+        private bool URLDfs(Dictionary<string, List<string>> graph, string start, string end, Dictionary<string, bool> visited)
+        {
+            if (start == end)
+                return true;
+            visited[start] = true;
+            foreach (var node in graph[start])
+            {
+                if (!visited[node])
+                {
+                    if (URLDfs(graph, node, end, visited))
+                        return true;
+                }
+            }
+            return false;
+        }
+
+
+            public bool ValidPath(int n, int[][] edges, int start, int end)
+        {
+
+            List<int>[] graph = new List<int>[n];
+
+            for (var i = 0; i < n; i++)
+            {
+                graph[i] = new List<int>();
+            }
+
+            foreach (var edge in edges)
+            {
+                graph[edge[0]].Add(edge[1]);
+                graph[edge[1]].Add(edge[0]);
+            }
+
+            bool[] visited = new bool[n];
+            if (urldfs(graph, start, end, visited))
+                return true;
+
+            return false;
+
+        }
+
+
+
+        private bool urldfs(List<int>[] graph, int start, int end, bool[] visited)
+        {
+            if (start == end)
+                return true;
+            visited[start] = true;
+            foreach (var next in graph[start])
+            {
+                if (!visited[next])
+                {
+                    if (urldfs(graph, next, end, visited))
+                        return true;
+                }
+            }
+            return false;
+        }
+
+
+
+            //   fastest.
+
+            public int RemoveElement5(int[] nums, int val)
+        {
+            int i = -1;
+            for (var j = 0; j < nums.Length; j++)
+                if (nums[j] != val)
+                    nums[++i] = nums[j];
+
+            return i + 1;
+
+        }
+
+
+
+
+        public int RemoveElement4(int[] nums, int val)
+        {
+            var l = 0;
+            var len = nums.Length;
+            var r = len - 1;
+            var k = len - nums.Where(n => n == val).Count();
+            
+            while (l <= r && l <= len - 1  && r >= 0)
+            {
+                if (nums[l] != val)
+                    l++;
+                else if (nums[r] == val)
+                    r--;
+                else if (nums[l] == val && nums[r] != val)
+                {
+                    nums[l] = nums[r];
+                  
+                    l++;
+                    r--;
+                }
+
+
+            }
+            return k;
+        }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public bool BuddyStrings3(string s, string goal)
+        {
+            //add code to test dupe and equal strings like a 3rd dict.
+
+
+            if (s.Length != goal.Length)
+                return false;
+
+            //var firstchar = s[0];
+            var allequal = s == goal;
+            var dicts = new Dictionary<char, int>();
+            var dictgoal = new Dictionary<char, int>();
+            var dictequal = new Dictionary<char, int>();
+
+            var ha = new HashSet<int>();
+            for (var i = 0; i < s.Length; i++)
+            {
+               
+                if (s[i] != goal[i])
+                {
+                    if (!dicts.ContainsKey(s[i]))
+                    {
+                        dicts.Add(s[i], 1);
+                    }
+                    else
+                        
+                        return false;
+
+                    if (!dictgoal.ContainsKey(goal[i]))
+                    {
+                        dictgoal.Add(goal[i], 1);
+                    }
+                    else
+                       
+                        return false;
+
+                    if (dicts.Count > 2 || dictgoal.Count > 2)
+                        return false;
+                }
+                else
+                {
+                    if (!dictequal.ContainsKey(s[i]))
+                        dictequal.Add(s[i], 1);
+                    else
+                        dictequal[s[i]]++;
+                }
+                    
+
+
+
+            }
+            var dupes = dictequal.OrderByDescending(d => d.Value).FirstOrDefault().Value;
+            
+            var matches = dicts.Where(k => dictgoal.Any(d => d.Key == k.Key)).Count();
+          
+            if (matches == 2 || (allequal && dupes >= 2))
+                return true;
+            else
+                return false;
+
+
+        }
+
+
+
+        public long getHeaviestPackage(List<int> packageWeights)
+        {
+
+
+            // long heaviest = 0;
+            List<long> longweights = packageWeights.Select(p => Convert.ToInt64(p)).ToList();
+            //foreach (var w in longweights)
+            //Console.WriteLine(w);
+
+            var list = new SinglyLinkedListNodeLong(Convert.ToInt64(packageWeights[0]));
+            var head = list;
+
+            for (var i = 1; i < packageWeights.Count; i++)
+
+            {
+                list.data = packageWeights[i];
+                list.next = new SinglyLinkedListNodeLong(packageWeights[i]);
+                list = list.next;
+            }
+
+
+            while (true)
+            {
+                long maxweight = 0;
+                var maxindex = -1;
+                long first = -1;
+                long second = -1;
+                for (var i = 0; i < longweights.Count - 1; i++)
+                {
+                    if (longweights[i] != 0 && first == -1)
+                    {
+                        first = longweights[i];
+                        continue;
+                    }
+                    else
+                        second = longweights[i];
+
+
+                    if (first < second)
+                    {
+                        if (first + second > maxweight)
+                        {
+                            maxweight = first + second;
+                            maxindex = i;
+                            first = -1;
+                            second = -1;
+                        }
+                        else
+                        {
+                            first = -1;
+                            second = -1;
+                        }
+                    }
+                }
+
+                //foreach (var w in longweights)
+                //    Console.WriteLine(w);
+
+                //Console.WriteLine("end");
+
+                if (maxindex != -1)
+                {
+                    longweights[maxindex + 1] += longweights[maxindex];
+                    //  heaviest = Math.Max(heaviest, longweights[maxindex + 1]);
+                    longweights.RemoveAt(maxindex);
+
+
+                }
+                else
+                    break;
+
+            }
+
+            return longweights.Max();
+
+
+
+
+
+
+
+            //results.Sort();
+            //var list = new SinglyLinkedListNode(results[0]);
+            //var head = list;
+
+            //for (var i = 1; i < results.Count; i++)
+            //{
+
+            //    list.next = new SinglyLinkedListNode(results[i]);
+            //    list = list.next;
+            //}
+
+
+
+
+
+
+
+
+            //while (true)
+            //{
+            //    long maxweight = 0;
+            //    var maxindex = -1;
+            //    long first = -1;
+            //    long second = -1;
+            //    var i = 0;
+            //    while(i < longweights.Count)
+            //    {
+            //        if (longweights[i] != 0 && first == -1)
+            //        {
+            //            first = longweights[i];
+            //            i++;
+            //            continue;
+            //        }
+            //        else if (longweights[i] != 0 && first > 0)
+            //            second = longweights[i];
+
+
+            //        if (first < second)
+            //        {
+            //            if (first + second > maxweight)
+            //            {
+            //                maxweight = first + second;
+            //                maxindex = i-1;
+
+
+            //            }
+
+
+            //        }
+            //        first = -1;
+            //        second = -1;
+            //    }
+
+            //    //foreach (var w in longweights)
+            //    //    Console.WriteLine(w);
+
+            //    //Console.WriteLine("end");
+
+            //    if (maxindex != -1)
+            //    {
+            //        longweights[maxindex + 1] += longweights[maxindex];
+            //        //  heaviest = Math.Max(heaviest, longweights[maxindex + 1]);
+            //        //longweights.RemoveAt(maxindex);
+            //        longweights[maxindex] = 0;
+
+            //    }
+            //    else
+            //        break;
+
+            //}
+
+            //return longweights.Max();
+
+        }
+
+        public  long getHeaviestPackage2(List<int> packageWeights)
+        {
+            long heaviest = 0;
+            List<long> longweights = packageWeights.Select(p => Convert.ToInt64(p)).ToList();
+            while (true)
+            {
+                long maxweight = 0;
+                var maxindex = -1;
+                for (var i = 0; i < longweights.Count - 1; i++)
+                {
+                    if (longweights[i] < longweights[i + 1])
+                    {
+                        if (longweights[i] + longweights[i + 1] > maxweight)
+                        {
+                            maxweight = longweights[i] + longweights[i + 1];
+                            maxindex = i;
+                        }
+                    }
+                }
+                if (maxindex != -1)
+                {
+                    longweights[maxindex + 1] += longweights[maxindex];
+                    heaviest = Math.Max(heaviest, longweights[maxindex + 1]);
+                    longweights.RemoveAt(maxindex);
+
+                }
+                else
+                    break;
+
+            }
+
+            return longweights.Max();
+        }
+
+
+
+
+
+
+
+        private void AddEdges2(List<List<int>> graph, List<List<int>> edges)
+        {
+            foreach (var edge in edges)
+            {
+
+                graph[edge[0]].Add(edge[1]);
+                graph[edge[1]].Add(edge[0]);
+            }
+
+
+        }
+
+        public List<int> bfs(int n, int m, List<List<int>> edges, int s)
+        {
+            var graph = new List<List<int>>();
+            for (var j = 0; j <= n; j++)
+            {
+                graph.Add(new List<int>());
+            }
+            AddEdges2(graph, edges);
+
+
+
+            var edgedistance = 6;
+            var distances = new int[n+1];
+            for (var i = 0; i < distances.Length; i++)
+            {
+                distances[i] = -1;
+            }
+
+
+            var queue = new Queue<int>();
+            queue.Enqueue(s);
+
+            distances[s] = 0;
+            while (queue.Count > 0)
+            {
+                var node = queue.Dequeue();
+
+                foreach (var neighbour in graph[node])
+                {
+                    if (distances[neighbour] == -1)
+                    {
+                        distances[neighbour] = distances[node] + edgedistance;
+                        queue.Enqueue(neighbour);
+                    }
+
+                }
+
+
+            }
+
+            var k = s > 1 ? 1: 2;
+            var results = new List<int>();
+            var count = 0;
+            while (count < n-1)
+            {
+                if (k != s)
+                {
+                    results.Add(distances[k]);
+                    count++;
+                }
+
+                k++;
+                if (k > n )
+                    k = 0;
+            }
+
+            return results;
+
+        }
+
+
+
+
+
+
+
+        public SinglyLinkedListNode mergeLists(SinglyLinkedListNode head1, SinglyLinkedListNode head2)
+            {
+            var results = new List<int>();
+        
+                while (head1 != null || head2 != null)
+                {
+                    if (head1 != null)
+                    {
+                        results.Add(head1.data);
+                        head1 = head1.next;
+                    }
+
+                    if (head2 != null)
+                    {
+                        results.Add(head2.data);
+                        head2 = head2.next;
+                    }
+
+
+
+                //var h1v = head1 != null ? head1.data : 0;
+                //    var h2v = head2 != null ? head2.data : 0;
+                //    if (h1v != 0 && h2v != 0)
+                //    {
+                //        if (h1v < h2v)
+                //        {
+                //            if (list.data == -1)
+                //            {
+                //                list.data = h1v;
+                //                list.next = new SinglyLinkedListNode(h2v);
+                //                list = list.next;
+                //            }
+                //            else
+                //            {
+                //                list.next = new SinglyLinkedListNode(h1v);
+                //                list = list.next;
+                //                list.next = new SinglyLinkedListNode(h2v);
+                //                list = list.next;
+                //            }
+
+
+                //        }
+                //        else
+                //        {
+                //            if (list.data == -1)
+                //            {
+                //                list.data = h2v;
+                //                list.next = new SinglyLinkedListNode(h1v);
+                //                list = list.next;
+                //            }
+                //            else
+                //            {
+                //                list.next = new SinglyLinkedListNode(h2v);
+                //                list = list.next;
+                //                list.next = new SinglyLinkedListNode(h1v);
+                //                list = list.next;
+                //            }
+                //        }
+                       
+
+                //    }
+
+                //    else if (h1v != 0)
+                //    {
+                //        if (list.data == -1)
+                //        {
+                //            list.data = h1v;
+                //        }
+                //        else
+                //        {
+                //            list.next = new SinglyLinkedListNode(h1v);
+                //            list = list.next;
+                //        }
+
+                //    }
+                //    else
+                //    {
+                //        if (list.data == -1)
+                //        {
+                //            list.data = h2v;
+                //        }
+                //        else
+                //        {
+                //            list.next = new SinglyLinkedListNode(h2v);
+                //            list = list.next;
+                //        }
+                //    }
+
+                //if (head1 != null) head1 = head1.next;
+                //if (head2 != null) head2 = head2.next;
+
+
+                }
+                results.Sort();
+                var list = new SinglyLinkedListNode(results[0]);
+                var head = list;
+            
+                for (var i = 1; i < results.Count; i++)
+                {
+
+                    list.next = new SinglyLinkedListNode(results[i]);
+                    list = list.next;
+                }
+
+                return head;
+
+
+            }
+
+
+
+            public int truckTour(List<List<int>> petrolpumps)
+        {
+            var petrol = 0;
+            var count = 0;
+            var len = petrolpumps.Count;
+            var i = 0;
+            var start = -1;
+            while (count < len)
+            {
+                petrol += petrolpumps[i][0];
+                if (petrolpumps[i][1] > petrol)
+                {
+                    petrol = 0;
+                    count = 0;
+                    start = -1;
+                }
+                else
+                {
+                    if (start == -1)
+                        start = i;
+                    count++;
+                    petrol -= petrolpumps[i][1];
+                }
+                i++;
+                if (i == len)
+                    i = 0;
+            }
+            return start;
+        }
+
+
+
+        public void minimumBribes2(List<int> q)
+        {
+            
+            
+
+                var i = 0;
+                var swaps = 0;
+
+                for (var j = 0; j < q.Count; j++)
+                {
+                    if (q[j] - (j + 1) > 2)
+                    {
+                        Console.WriteLine("Too chaotic");
+                        return;
+                    }
+
+                }
+                while (i < q.Count - 1)
+                {
+                    if (q[i + 1] < q[i])
+                    {
+                        var temp = q[i];
+                        q[i] = q[i + 1];
+                        q[i + 1] = temp;
+                        swaps++;
+                        i = (i == 0 ? 0 : i - 1);
+                        continue;
+                    }
+                    i++;
+                }
+                Console.WriteLine(swaps);
+        }
+
+
+        public int superDigit2(string n, int k)
+        {
+            var sb = new StringBuilder();
+            for (var i = 1; i <= k % 9; i++)
+            {
+                sb.Append(n);
+            }
+            if (sb.Length == 1)
+                return Convert.ToInt32(sb.ToString());
+
+            
+            while (sb.Length > 1)
+            {
+                long sum = 0;
+                for (var i = 0; i < sb.Length; i++)
+                {
+                    sum += sb[i] - '0';
+                }
+                sb.Clear();
+                sb.Append(sum);
+            }
+
+            return Convert.ToInt32(sb.ToString());
+        }
+
+public int superDigit(string n, int k)
+        {
+            var newstring = "";
+            for (var i = 1; i <= k; i++)
+            {
+                newstring += n;
+            }
+
+
+            return recurse(newstring);
+        }
+
+        private int recurse(string n)
+        {
+            if (n.Length == 1)
+                return Convert.ToInt32(n);
+
+            var sum = 0;
+            foreach (var c in n)
+            {
+                sum += c - '0';
+            }
+            var newnumber = sum.ToString();
+            return recurse(newnumber);
+        }
+
+
+        public  string gridChallenge(List<string> grid)
+        {
+            for (var i = 0; i < grid.Count; i++)
+            {
+                grid[i] = new string(grid[i].OrderBy(l => l).ToArray());
+            }
+
+            // var ascending = true;
+            for (var i = 0; i < grid[0].Count(); i++)
+            {
+                //Console.WriteLine(line);
+                for (var j = 0; j < grid.Count - 1; j++)
+                {
+                    if (grid[j + 1][i] < grid[j][i])
+                    {
+                        return "NO";
+                    }
+
+                }
+            }
+
+            return "YES";
+        }
+
+
+        public int palindromeIndex(string s)
+        {
+            var start = 0;
+            var end = s.Length - 1;
+            while (start < end)
+            {
+                if (s[start] != s[end])
+                {
+                    if (isPalindrome(s, start, end - 1))
+                        return end;
+                    else if (isPalindrome(s, start + 1, end))
+                        return start;
+                    else
+                        break;
+                }
+                start++;
+                end--;
+            }
+            return -1;
+        }
+
+        private bool isPalindrome(string s, int start, int end)
+        {
+            while (start < end)
+            {
+                if (s[start] != s[end])
+                    return false;
+                start++;
+                end--;
+
+            }
+            return true;
+        }
+
+
+
+
+
+        public static int flippingMatrix(List<List<int>> matrix)
+        {
+            //1) find the n largest elements
+            // 2)
+            var n = matrix.Count / 2;
+            int sum = 0;
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    sum += (int)Math.Max(Math.Max(matrix[i][j], matrix[i][2 * n - j -
+                    1]), Math.Max(matrix[2 * n - i - 1][j], matrix[2 * n - i - 1][2 * n - j - 1]));
+                }
+            }
+            return sum;
+        }
+
+
+
+        public string AddStrings3(string num1, string num2)
+        {
+
+            var carry = 0;
+            var l = num1.Length - 1;
+            var r = num2.Length - 1;
+            var sb = new StringBuilder();
+            while (l >= 0 || r >= 0 || carry > 0)
+            {
+                var n1 = (l >= 0 ? num1[l] : '0') - '0';
+                var n2 = (r >= 0 ? num2[r] : '0') - '0';
+                var sum = n1 + n2 + carry;
+                sb.Insert(0, sum % 10);
+                carry = sum / 10;
+                l--;
+                r--;
+            }
+
+            return sb.ToString();
+
+        }
+
+
+
+        public string[] texteditor(string[][] queries)
+        {
+            var results = new List<string>();
+            var result = new StringBuilder();
+            var stack = new Stack<string>();
+            var cursor = 0;
+           
+            var right = 0;
+            var copied = "";
+            foreach (var q in queries)
+            {
+                for (var i = 0; i < q.Length; i++)
+                {
+                    var op = q[i];
+                    Console.WriteLine(op);
+
+                    var len = op.Length;
+                    if (op == "APPEND")
+                    {
+                        if (copied.Length > 0)
+                            result.Remove(cursor, right - cursor);
+                        if (cursor < result.Length - 1)
+                            result.Insert(cursor, q[i + 1]);
+                        else
+                            result.Append(q[i + 1]);
+                        cursor = result.Length - 1;
+                        results.Add(result.ToString());
+                    }
+
+
+                    else if (op == "MOVE")
+                    {
+                        cursor = cursor > result.Length - 1 ? result.Length - 1 : Convert.ToInt32(q[i + 1]);
+                        results.Add(result.ToString());
+                    }
+                    else if (op == "BACKSPACE")
+                    {
+                        if (copied.Length > 0)
+                            result.Remove(cursor, right - cursor);
+                        if (cursor > 0 && cursor < result.Length)
+                        {
+                            result.Remove(cursor, 1);
+                            cursor--;
+                        }
+                        results.Add(result.ToString());
+                    }
+                    else if (op == "SELECT")
+                    {
+                        cursor = Convert.ToInt32(q[i + 1]);
+                        right = Convert.ToInt32(q[i + 2]);
+                        results.Add(result.ToString());
+
+                    }
+
+                    else if (op == "COPY")
+                    {
+                        copied = result.ToString().Substring(cursor, right - cursor);
+                        results.Add(result.ToString());
+                    }
+
+                    else if (op == "MOVE")
+                    {
+                        copied = "";
+                    }
+
+
+                }
+            }
+            return results.ToArray();
+        }
+
+
+
+
+        public long findTotalImbalance(List<int> rank)
+        {
+            var imbalance = 0;
+
+            var len = rank.Count;
+            if (len == 1)
+                return 0;
+
+
+            for (var count = 2; count <= len; count++)
+            {
+                for (var i = 0; i <= len - count; i++)
+                {
+
+
+                    var arr = rank.GetRange(i, count);
+                    arr.Sort();
+                    for (var j = 0; j < count - 1; j++)
+                    {
+                        if (arr[j + 1] - arr[j] > 1)
+                            imbalance++;
+                    }
+
+                }
+            }
+
+            return imbalance;
+        }
+
+
+
+
+
+
+
+
+
+
+
+        public static IEnumerable<(T, T)> GetAllPairs<T>(IList<T> source)
+        {
+            return source.SelectMany((_, i) => source.Where((_, j) => i < j),
+                (x, y) => (x, y));
+        }
+
+        public int countFamilyLogins(List<string> logins)
+        {
+            var count = 0;
+            var len = logins.Count;
+
+
+            foreach ((string x, string y) in GetAllPairs(logins))
+            {
+                // Execute code
+                Console.WriteLine($"Pair: {x}, {y}");
+                var equal = true;
+                for (var k = 0; k < x.Length; k++)
+                {
+                    if (x[k] != (Char)(Convert.ToUInt16(y[k]) + 1)
+                    && y[k] != (Char)(Convert.ToUInt16(x[k]) + 1))
+                    {
+                        equal = false;
+                        break;
+                    }
+                }
+                if (equal)
+                    count++;
+
+
+            }
+
+
+
+
+            //for (var i = 0; i < len - 1; i++)
+            //{
+            //    for (var j = i + 1; j < len; j++)
+            //    {
+            //        var equal = true;
+            //        for (var k = 0; k < logins[i].Length; k++)
+            //        {
+            //            if (logins[i][k] != (Char)(Convert.ToUInt16(logins[j][k]) + 1)
+            //            || logins[j][k] != (Char)(Convert.ToUInt16(logins[i][k]) + 1))
+            //            {
+            //                equal = false;
+            //                break;
+            //            }
+            //        }
+            //        if (equal)
+            //            count++;
+
+            //    }
+            //}
+            return count;
+
+
+    }
+
+
+
+
+        public static void plusMinus(List<int> arr)
+        {
+            Decimal positive = 0;
+            Decimal negative = 0;
+            Decimal zero = 0;
+            for (var i = 0; i < arr.Count; i++)
+            {
+                if (arr[i] > 0)
+                    positive++;
+                else if (arr[i] == 0)
+                    zero++;
+                else if (arr[i] < 0)
+                    negative++;
+            }
+            Console.WriteLine((positive / arr.Count).ToString("N6"));
+            Console.WriteLine((negative / arr.Count).ToString("N6"));
+            Console.WriteLine((zero / arr.Count).ToString("N6"));
+
+        }
+
+
+
+        //Amazon SDE Online assessment Question 1.  Passed most test cases, but came up with solution at last minute:
+
+        public  int countMaximumTeams(List<int> skill, int teamSize, int maxDiff)
+        {
+            var len = skill.Count;
+            skill.Sort();
+            
+          //  var maxcount = 0;
+            //  for (var i = 0; i <= len - teamSize; i++)
+            //   {
+            //var i = 0;
+                var start = 0;
+                var end  = 1;
+                var size = 1;
+                var count = 0;
+                while (end <= len)
+                {
+                    if (size == teamSize)
+                    {
+                        count++;
+                        if (end == len || len - end < teamSize)
+                            break;
+                        size = 1;
+                        start = end;
+                        end = start + 1;
+                    }
+
+                    if (end < len && Math.Abs(skill[start] - skill[end]) > maxDiff)
+                    {
+                        start++; // += teamSize;
+                        end = start + 1;
+                        size = 1;
+                        continue;
+                        
+                    }
+                    end++;
+                    size++;
+                }
+                //maxcount = Math.Max(maxcount, count);
+            //   if (maxcount == skill.Count / teamSize)
+            //       return maxcount;
+
+            // }
+
+
+            return count; 
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public string timeConversion(string s)
+        {
+            var hh = Convert.ToInt32(s.Substring(0, 2));
+            var mm = s.Substring(3, 2);
+            var ss = s.Substring(6, 2);
+            var am = s.Substring(8, 2) == "AM";
+
+            if (am && hh == 12)
+                hh = 0;
+            else if (!am && hh < 12)
+                hh += 12;
+
+            var sb = new StringBuilder();
+            var hs = hh.ToString("00");
+            sb.Append(hs);
+            sb.Append(":");
+            sb.Append(mm);
+            sb.Append(":");
+            sb.Append(ss);
+
+            Console.WriteLine(sb.ToString());
+            return sb.ToString();
+        }
+
+
+            public int foo(List<string> codeList, List<string> shoppingCart)
+        {
+
+
+            var hh = 0;
+
+            var hs = hh.ToString("%010d");
+
+            var codes = codeList[0].Split(' ');
+            var row = 0;
+            var col = 0;
+
+
+            for (var i = 0; i < shoppingCart.Count; i++)
+            {
+                if (codes[col] == shoppingCart[i] || codes[col] == "anything")
+                {
+                    col++;
+                    if (col == codes.Length)
+                    {
+                        col = 0;
+                        row++;
+                        if (row == codeList.Count)
+                            return 1;
+                        codes = codeList[row].Split(' ');
+                    }
+                }
+                else
+                {
+                    col = 0;
+                }
+            }
+    
+        return 0;
+
+    }
+
+
+    public int TotalFruit2(int[] tree)
+        {
+            if (tree.Length == 0) return 0;
+            int fruit1 = tree[0];
+            int fruit2 = -1;
+            int res = 1;
+            int cur = 1;
+            int start = 0;
+            for (int i = 1; i < tree.Length; i++)
+            {
+                if (tree[i] == fruit1 || tree[i] == fruit2) cur++;
+                else
+                {
+                    res = Math.Max(res, cur);
+                    fruit1 = tree[i - 1];
+                    fruit2 = tree[i];
+                    cur = i - start + 1;
+                }
+                if (tree[i] != tree[i - 1]) start = i;
+            }
+            return Math.Max(res, cur);
+        }
+
+
+
+
+        public int NumUniqueEmails2(string[] emails)
+        {
+
+            var results = new List<string>();
+            for (var i = 0; i < emails.Length; i++)
+            {
+                var sb = new StringBuilder();
+                var isdomainname = false;
+                var isplus = false;
+                for (var j = 0; j < emails[i].Length; j++)
+                {
+                    var c = emails[i][j];
+                    if (!isdomainname)
+                    {
+                        if (c == '@')
+                        {
+                            isdomainname = true;
+                            sb.Append(c);
+                        }
+                        else if (c == '.' || isplus)
+                            continue;
+                        else if (c == '+')
+                            isplus = true;
+                       
+                        else
+                            sb.Append(c);
+
+                    }
+                    else
+                    {
+                        sb.Append(c);
+                    }
+                }
+
+                if (!results.Contains(sb.ToString()))
+                    results.Add(sb.ToString());
+
+
+            }
+
+
+            foreach (var e in results)
+                Console.WriteLine(e);
+
+            return results.Count();
+
+        }
+
+
+
+
+        public int WidthOfBinaryTree(TreeNode root)
+        {
+            List<int> lefts = new List<int>();
+            return DFS(root, 1, 0, lefts);
+        }
+
+        private int DFS(TreeNode n, int id, int d, List<int> lefts)
+        {
+            if (n == null)
+                return 0;
+
+            if (d >= lefts.Count)
+                lefts.Add(id);
+
+            return Math.Max(id + 1 - lefts[d],
+                            Math.Max(DFS(n.left, id * 2, d + 1, lefts),
+                                     DFS(n.right, id * 2 + 1, d + 1, lefts))
+                           );
+
+        }
+
+        public IList<IList<int>> Generate2(int numRows)
+        {
+            var results = new List<IList<int>>();
+            results.Add(new List<int>() { 1 });
+            if (numRows == 1)
+                return results;
+            else 
+            {
+                results.Add(new List<int>() { 1, 1 });
+               
+            }
+
+            if (numRows == 2)
+                return results;
+            for (var i = 2; i < numRows; i++)
+            {
+                var result = new List<int>();
+                for (var j = 0; j <= i; j++)
+                {
+                    if (j == 0 || j == i)
+                        result.Add(1);
+                    else
+                    {
+                        var n = results[i - 1][j - 1] + results[i - 1][j];
+                        result.Add(n);
+                    }
+                }
+                results.Add(result);
+
+            }
+            return results;
+        }
+
+
+
+
+
+        int sum3 = 0;
+        public int SumOfLeftLeaves3(TreeNode root)
+        {
+            if (root == null)
+                return 0;
+
+            DFS3(root);
+            return sum;
+
+        }
+
+
+
+        private void DFS3(TreeNode root)
+        {
+            if (root == null)
+                return;
+            if (root.left != null && root.left.left == null && root.left.right == null)
+            {
+                sum += root.left.val;
+                DFS3(root.right);
+            }
+            else
+            {
+                DFS3(root.left);
+                DFS3(root.right);
+
+            }
+
+
+        }
+
+
+
+
+
+
+
+        public IList<string> CommonChars3(string[] words)
+        {
+            var results = new List<string>();
+            var dicts = new List<Dictionary<char, int>>();
+
+            var lists = new List<List<string>>();
+
+            lists.Add(new List<string>(new string[] { "Test1", "Test2", "Test3" }));
+            lists.Add(new List<string>(new string[] { "Test1", "Test2", "Test4" }));
+            lists.Add(new List<string>(new string[] { "Test1", "Test2", "Test5" }));
+            lists.Add(new List<string>(new string[] { "Test1", "Test2", "Test6" }));
+
+
+            var listc = new List<List<char>>();
+
+            foreach (var w in words)
+                listc.Add(new List<char>(w));
+            
+
+
+            var aggregate = listc.Aggregate((x, y) => x.Intersect(y).ToList());
+
+            var aggregate2 = listc.Aggregate((x, y) => x.Where(y.Remove).ToList()); 
+
+            //find intersection including dupes!!
+
+
+
+
+            // var lists = words.ToList();
+            // var ints = lists.IntersectAll();
+
+            //  foreach (var i in ints)
+            //       Console.WriteLine(i);
+
+
+            for (var i = 0; i < words.Length; i++)
+            {
+                var dict = new Dictionary<char, int>();
+                for (var j = 0; j < words[i].Length; j++)
+                {
+                    if (!dict.ContainsKey(words[i][j]))
+                        dict.Add(words[i][j], 1);
+                    else
+                        dict[words[i][j]]++;
+                }
+            }
+
+
+            for (var i = 0; i < dicts.Count; i++)
+            {
+
+
+            }
+
+            return results;
+        }
+
+
+
+
+
+
+
+
+
 
         //Leetcode medium.  But, was easy LOL
         //public IList<IList<int>> FindSolution(CustomFunction customfunction, int z)
@@ -1298,47 +4087,89 @@ namespace LeetCodeConsoleApp
 
 
 
-        //Study graphs, as you should be able to do this one in 20 minutes;
+
+
         public int MinReorder(int n, int[][] connections)
         {
-            var visited = new HashSet<int>();
 
-            var graph = new Dictionary<int, HashSet<int>[]>();
-            for (var i = 0; i < connections.Length; i++)
+            var dict = new Dictionary<int, HashSet<int>[]>();
+            foreach (var connection in connections)
             {
-                var u = connections[i][0];
-                var v = connections[i][1];
-                if (!graph.ContainsKey(u))
-                    graph.Add(u, new HashSet<int>[] { new HashSet<int>(), new HashSet<int>() });
-                graph[u][0].Add(v);
-
-                if (!graph.ContainsKey(v))
-                    graph.Add(v, new HashSet<int>[] { new HashSet<int>(), new HashSet<int>() });
-                graph[v][1].Add(u);
-
+                var u = connection[0];
+                var v = connection[1];
+                if (!dict.ContainsKey(u))
+                    dict.Add(u, new HashSet<int>[] { new HashSet<int>(), new HashSet<int>() });
+                dict[u][0].Add(v);
+                if (!dict.ContainsKey(v))
+                    dict.Add(v, new HashSet<int>[] { new HashSet<int>(), new HashSet<int>() });
+                dict[v][1].Add(u);
             }
-
-
-            return DFS(graph, 0, visited);
+            return DFS(dict, 0, new HashSet<int>());
         }
 
 
-        private int DFS(Dictionary<int, HashSet<int>[]> graph, int current, HashSet<int> visited)
+        private int DFS(Dictionary<int, HashSet<int>[]> dict, int current, HashSet<int> visited)
         {
             var result = 0;
-            if (visited.Count == graph.Count)
-                return result;
+            if (dict.Count == visited.Count)
+                return 0;
             visited.Add(current);
-            foreach (var next in graph[current][0])
+            foreach (var next in dict[current][0])
+            {
                 if (visited.Add(next))
-                    result += 1 + DFS(graph, next, visited);
+                    result += 1 + DFS(dict, next, visited);
+            }
 
-            foreach (var next in graph[current][1])
+            foreach (var next in dict[current][1])
+            {
                 if (visited.Add(next))
-                    result += DFS(graph, next, visited);
+                    result += DFS(dict, next, visited);
+            }
             return result;
-
         }
+
+
+        ////Study graphs, as you should be able to do this one in 20 minutes;
+        //public int MinReorder(int n, int[][] connections)
+        //{
+        //    var visited = new HashSet<int>();
+
+        //    var graph = new Dictionary<int, HashSet<int>[]>();
+        //    for (var i = 0; i < connections.Length; i++)
+        //    {
+        //        var u = connections[i][0];
+        //        var v = connections[i][1];
+        //        if (!graph.ContainsKey(u))
+        //            graph.Add(u, new HashSet<int>[] { new HashSet<int>(), new HashSet<int>() });
+        //        graph[u][0].Add(v);
+
+        //        if (!graph.ContainsKey(v))
+        //            graph.Add(v, new HashSet<int>[] { new HashSet<int>(), new HashSet<int>() });
+        //        graph[v][1].Add(u);
+
+        //    }
+
+
+        //    return DFS(graph, 0, visited);
+        //}
+
+
+        //private int DFS(Dictionary<int, HashSet<int>[]> graph, int current, HashSet<int> visited)
+        //{
+        //    var result = 0;
+        //    if (visited.Count == graph.Count)
+        //        return result;
+        //    visited.Add(current);
+        //    foreach (var next in graph[current][0])
+        //        if (visited.Add(next))
+        //            result += 1 + DFS(graph, next, visited);
+
+        //    foreach (var next in graph[current][1])
+        //        if (visited.Add(next))
+        //            result += DFS(graph, next, visited);
+        //    return result;
+
+        //}
 
 
 
@@ -1370,6 +4201,8 @@ namespace LeetCodeConsoleApp
                 generateAll(current, pos + 1, result);
             }
         }
+
+
 
         public bool valid(char[] current)
         {
@@ -3968,7 +6801,7 @@ public int MinDeletions2(string s)  // my solution.  works, but a little slow.  
         }
 
 
-        //good easy
+        //good easy - not good.  you can't create a new array.
 
         public int RemoveElement2(int[] nums, int val)
         {
@@ -13847,7 +16680,35 @@ public bool IsOneEditDistance(string s, string t)
             }
         }
 
+        public bool IsPalindrome2(int x)
+        {
 
+            if (x < 0)
+                return false;
+            if (x == 0)
+                return true;
+            var numbers = new List<int>();
+
+            numbers.Add(x % 10);
+            var cur = x / 10;
+
+            while (cur > 0)
+            {
+                numbers.Add(cur % 10);
+                cur /= 10;
+            }
+
+            var l = 0;
+            var r = numbers.Count() - 1;
+            while (l < r)
+            {
+                if (numbers[l] != numbers[r])
+                    return false;
+                l++;
+                r--;
+            }
+            return true;
+        }
 
         public bool IsPalindrome(string s)
         {
@@ -14935,15 +17796,101 @@ public bool IsOneEditDistance(string s, string t)
 
 
 
+    //static class Extensions2
+    //{
+    //    public static IEnumerable<T> Supersect<T>(this IEnumerable<T> a, ICollection<T> b)
+    //          => a.Where(b.Remove);
+
+    //}
 
 
+
+    class SinglyLinkedListNodeLong
+    {
+        public long data;
+        public SinglyLinkedListNodeLong next;
+
+        public SinglyLinkedListNodeLong(long nodeData)
+        {
+            this.data = nodeData;
+            this.next = null;
+        }
+    }
+
+    class SinglyLinkedListLong
+    {
+        public SinglyLinkedListNodeLong head;
+        public SinglyLinkedListNodeLong tail;
+
+        public SinglyLinkedListLong()
+        {
+            this.head = null;
+            this.tail = null;
+        }
+
+        public void InsertNode(long nodeData)
+        {
+            SinglyLinkedListNodeLong node = new SinglyLinkedListNodeLong(nodeData);
+
+            if (this.head == null)
+            {
+                this.head = node;
+            }
+            else
+            {
+                this.tail.next = node;
+            }
+
+            this.tail = node;
+        }
+    }
+
+
+
+
+
+
+    class SinglyLinkedListNode
+    {
+        public int data;
+        public SinglyLinkedListNode next;
+
+        public SinglyLinkedListNode(int nodeData)
+        {
+            this.data = nodeData;
+            this.next = null;
+        }
+    }
+
+    class SinglyLinkedList
+    {
+        public SinglyLinkedListNode head;
+        public SinglyLinkedListNode tail;
+
+        public SinglyLinkedList()
+        {
+            this.head = null;
+            this.tail = null;
+        }
+
+        public void InsertNode(int nodeData)
+        {
+            SinglyLinkedListNode node = new SinglyLinkedListNode(nodeData);
+
+            if (this.head == null)
+            {
+                this.head = node;
+            }
+            else
+            {
+                this.tail.next = node;
+            }
+
+            this.tail = node;
+        }
+    }
 
 
 
 
 }
-
-
-
-
-
