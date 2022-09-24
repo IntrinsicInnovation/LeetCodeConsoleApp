@@ -1552,7 +1552,13 @@ namespace LeetCodeConsoleApp
 
             //3
             //    2147483647
-            var fb = sol.flippingBits(1);
+            // var fb = sol.flippingBits(1);
+
+
+            //var sm = sol.sockMerchant(9, new List<int> { 10, 20, 20, 10, 10, 30, 50, 10, 20 });
+
+            // var zz = sol.findZigZagSequence2(new int[] { 2, 3, 5, 1, 4 });
+            var fm = sol.flippingMatrix2(new List<List<int>>() { new List<int>() { 112, 42, 83, 119 }, new List<int> { 56, 125, 56, 49 }, new List<int> { 15, 78, 101, 43 }, new List<int> { 62, 98, 114, 108 } });
 
 
         }
@@ -1567,6 +1573,67 @@ namespace LeetCodeConsoleApp
 
     class Solution
     {
+
+
+        public int flippingMatrix2(List<List<int>> matrix)
+        {
+            var len = matrix.Count;
+            var sum = 0;
+            for (var i = 0; i < len / 2; i++)
+            {
+                for (var j = 0; j < len / 2; j++)
+                {
+                    var max = Math.Max(Math.Max(matrix[i][j], matrix[i][len - j - 1]),
+                               Math.Max(matrix[len - i - 1][j], matrix[len - i - 1][len - j - 1]));
+
+                    sum += max;
+
+                }
+            }
+
+            return sum;
+
+
+        }
+
+
+
+        public int[]  findZigZagSequence2(int[] args)
+        {
+            Array.Sort(args);
+            var len = args.Length;
+            var j = len - 1;
+            for (var i = len / 2; i < j; i++)
+            {
+                var temp = args[i];
+                args[i] = args[j];
+                args[j] = temp;
+                j--;
+            }
+
+            return args;
+        }
+
+
+        public int sockMerchant(int n, List<int> ar)
+        {
+            var dict = new Dictionary<int, int>();
+
+            for (var i = 0; i < ar.Count; i++)
+            {
+                if (!dict.ContainsKey(ar[i]))
+                {
+                    dict[ar[i]] = 1;
+                }
+
+                else
+                    dict[ar[i]]++;
+            }
+
+            var count = dict.Select(d => d.Value / 2).Sum();
+            return count;
+        }
+
 
 
         public void strings_xor(string str1, string str2)
