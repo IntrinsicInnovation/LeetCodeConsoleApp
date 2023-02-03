@@ -1558,7 +1558,56 @@ namespace LeetCodeConsoleApp
             //var sm = sol.sockMerchant(9, new List<int> { 10, 20, 20, 10, 10, 30, 50, 10, 20 });
 
             // var zz = sol.findZigZagSequence2(new int[] { 2, 3, 5, 1, 4 });
-            var fm = sol.flippingMatrix2(new List<List<int>>() { new List<int>() { 112, 42, 83, 119 }, new List<int> { 56, 125, 56, 49 }, new List<int> { 15, 78, 101, 43 }, new List<int> { 62, 98, 114, 108 } });
+            // var fm = sol.flippingMatrix2(new List<List<int>>() { new List<int>() { 112, 42, 83, 119 }, new List<int> { 56, 125, 56, 49 }, new List<int> { 15, 78, 101, 43 }, new List<int> { 62, 98, 114, 108 } });
+            //var cc = sol.caesarCipher2("middle-Outz", 2);
+
+            //  var cc = sol.caesarCipher2("Hello_World!", 4);
+
+
+            //  var m = sol.maxMin(3, new List<int>() { 10, 100, 300, 200, 1000, 20, 30 });
+
+
+            // var da = sol.dynamicArray(2, new List<List<int>> { new List<int> { 1, 0, 5 }, new List<int> { 1, 1, 7 }, new List<int> { 1, 0, 3 }, new List<int> { 2, 1, 0 }, new List<int> { 2, 1, 1 } });
+            //    var records4 = new string[][]{
+            //    new []{"Raj", "enter"},
+            //    new []{"Paul", "enter"},
+            //    new []{"Paul", "exit"},
+            //    new []{"Paul", "exit"},
+            //    new []{"Paul", "enter"},
+            //    new []{"Raj", "enter"},
+            //};
+
+            //    var sl = sol.SecurityLog(records4);
+
+
+
+            //            ppp
+
+            //ypp
+
+            //wyw
+
+            //5
+
+            //lyivr
+
+            //jgfew
+
+            //uweor
+
+            //qxwyr
+
+            //uikjd
+
+            //1
+
+            //l
+
+
+
+            // var sd = sol.superDigit3("148", 3);
+
+            var sd = sol.superDigit3("593", 10);
 
 
         }
@@ -1573,6 +1622,453 @@ namespace LeetCodeConsoleApp
 
     class Solution
     {
+
+
+        public int superDigit3(string n, int k)
+        {
+
+
+            var sb = new StringBuilder();
+            for (var i = 0; i < k; i++)
+            {
+                sb.Append(n);
+            }
+
+            if (sb.Length == 1)
+                return (Convert.ToInt32(sb.ToString()));
+            long num = Convert.toint 64(sb.ToString());
+
+            long remainder = 0;
+
+            long sum = 0;
+            while (true)
+            { 
+                while (num > 0)
+                {
+                    remainder = num % 10;
+                    sum += remainder;
+                    num /= 10;
+                }
+                if (sum <= 9)
+                    break;
+                num = sum;
+                sum = 0;
+            }
+            return Convert.ToInt32(sum);
+        }
+
+
+
+        public static string balancedSums(List<int> arr)
+        {
+            if (arr.Count <= 1)
+                return "YES";
+            var leftsum = 0;
+            var total = arr.Sum();
+            for (var i = 0; i < arr.Count - 1; i++)
+            {
+                var rightsum = total - arr[i] - leftsum;
+                if (leftsum == rightsum)
+                    return "YES";
+                leftsum += arr[i];
+            }
+            return "NO";
+        }
+
+        //works fastest!
+        public string gridChallenge2(List<string> grid)
+        {
+            var colordered = true;
+            grid[0] = String.Concat(grid[0].OrderBy(r => r));
+            for (var i = 1; i < grid.Count; i++)
+            {
+                var s = String.Concat(grid[i].OrderBy(r => r));
+                for (var j = 0; j < grid.Count; j++)
+                {
+                    if (s[j] - grid[i - 1][j] < 0)
+                        return "NO";
+                }
+            }
+            return "YES";
+        }
+
+
+
+        //Amazon  phone: (october 28th, 2022)
+
+
+        /*
+We are working on a security system for a badged-access room in our company's building.
+
+Given an ordered list of employees who used their badge to enter or exit the room, write a function that returns two collections:
+
+1. All employees who didn't use their badge while exiting the room - they recorded an enter without a matching exit. (All employees are required to leave the room before the log ends.)
+
+2. All employees who didn't use their badge while entering the room - they recorded an exit without a matching enter. (The room is empty when the log begins.)
+
+Each collection should contain no duplicates, regardless of how many times a given employee matches the criteria for belonging to it.
+
+records1 = [
+  ["Paul",     "enter"],
+  ["Pauline",  "exit"],
+  ["Paul",     "enter"],
+  ["Paul",     "exit"],
+  ["Martha",   "exit"],
+  ["Joe",      "enter"],
+  ["Martha",   "enter"],
+  ["Steve",    "enter"],
+  ["Martha",   "exit"],
+  ["Jennifer", "enter"],
+  ["Joe",      "enter"],
+  ["Curtis",   "exit"],
+  ["Curtis",   "enter"],
+  ["Joe",      "exit"],
+  ["Martha",   "enter"],
+  ["Martha",   "exit"],
+  ["Jennifer", "exit"],
+  ["Joe",      "enter"],
+  ["Joe",      "enter"],
+  ["Martha",   "exit"],
+  ["Joe",      "exit"],
+  ["Joe",      "exit"] 
+]
+
+Expected output: ["Steve", "Curtis", "Paul", "Joe"], ["Martha", "Pauline", "Curtis", "Joe"]
+
+Other test cases:
+
+records2 = [
+  ["Paul", "enter"],
+  ["Paul", "exit"],
+]
+
+Expected output: [], []
+
+records3 = [
+  ["Paul", "enter"],
+  ["Paul", "enter"],
+  ["Paul", "exit"],
+  ["Paul", "exit"],
+]
+
+Expected output: ["Paul"], ["Paul"]
+
+records4 = [
+  ["Raj", "enter"],
+  ["Paul", "enter"],
+  ["Paul", "exit"],
+  ["Paul", "exit"],
+  ["Paul", "enter"],
+  ["Raj", "enter"],
+]
+
+Expected output: ["Raj", "Paul"], ["Paul"]
+
+All Test Cases:
+mismatches(records1) => ["Steve", "Curtis", "Paul", "Joe"], ["Martha", "Pauline", "Curtis", "Joe"]
+mismatches(records2) => [], []
+mismatches(records3) => ["Paul"], ["Paul"]
+mismatches(records4) => ["Raj", "Paul"], ["Paul"]
+
+n: length of the badge records array
+*/
+
+
+
+
+
+
+        public List<List<string>> SecurityLog(string[][] accesslog)
+        {
+
+            var dict = new Dictionary<string, string>();
+            var exitviolations = new List<string>();
+            var enterviolations = new List<string>();
+
+            foreach (var log in accesslog)
+            {
+                var user = log[0];
+                var access = log[1];
+                Console.WriteLine("each:" + user);
+
+
+
+                if (access == "enter")
+                {
+                    if (dict.ContainsKey(user))
+                    {
+                        if (dict[user] == "enter")
+                            exitviolations.Add(user);
+
+                        dict[user] = access;
+
+
+                    }
+                    else
+                        dict[user] = access;
+
+                }
+                else
+                {
+                    Console.WriteLine(user + " exit");
+                    if (dict.ContainsKey(user))
+                    {
+                        if (dict[user] == "exit")
+                        {
+                            Console.WriteLine(user + dict[user]);
+                            enterviolations.Add(user);
+                        }
+
+
+                        dict[user] = access;
+
+
+                    }
+                    else
+                    {
+
+                        dict[user] = access;
+                    }
+
+                }
+
+
+
+
+            }
+
+            //on exit, remove user from dictionary
+            //at end of loop, add any user in the dictionary to the exit or enter violations and remove duplicates.
+
+            return new List<List<string>>() { exitviolations, enterviolations };
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //    static void Main(String[] args)
+    //    {
+    //        var records1 = new string[][]{
+    //        new []{"Paul", "enter"},
+    //        new []{"Pauline", "exit"},
+    //        new []{"Paul", "enter"},
+    //        new []{"Paul", "exit"},
+    //        new []{"Martha", "exit"},
+    //        new []{"Joe", "enter"},
+    //        new []{"Martha", "enter"},
+    //        new []{"Steve", "enter"},
+    //        new []{"Martha", "exit"},
+    //        new []{"Jennifer", "enter"},
+    //        new []{"Joe", "enter"},
+    //        new []{"Curtis", "exit"},
+    //        new []{"Curtis", "enter"},
+    //        new []{"Joe", "exit"},
+    //        new []{"Martha", "enter"},
+    //        new []{"Martha", "exit"},
+    //        new []{"Jennifer", "exit"},
+    //        new []{"Joe", "enter"},
+    //        new []{"Joe", "enter"},
+    //        new []{"Martha", "exit"},
+    //        new []{"Joe", "exit"},
+    //        new []{"Joe", "exit"},
+    //    };
+
+    //        var records2 = new string[][]{
+    //        new []{"Paul", "enter"},
+    //        new []{"Paul", "exit"},
+    //    };
+
+    //        var records3 = new string[][]{
+    //        new []{"Paul", "enter"},
+    //        new []{"Paul", "enter"},
+    //        new []{"Paul", "exit"},
+    //        new []{"Paul", "exit"},
+    //    };
+
+    //        var records4 = new string[][]{
+    //        new []{"Raj", "enter"},
+    //        new []{"Paul", "enter"},
+    //        new []{"Paul", "exit"},
+    //        new []{"Paul", "exit"},
+    //        new []{"Paul", "enter"},
+    //        new []{"Raj", "enter"},
+    //    };
+
+
+    //        var results = SecurityLog(records4);
+    //        foreach (var r in results)
+    //        {
+    //            foreach (var l in r)
+    //            {
+    //                // Console.WriteLine(l);
+    //            }
+    //        }
+
+    //    }
+
+
+    //    static List<List<string>> SecurityLog(string[][] accesslog)
+    //    {
+
+    //        var dict = new Dictionary<string, string>();
+    //        var exitviolations = new List<string>();
+    //        var enterviolations = new List<string>();
+
+    //        foreach (var log in accesslog)
+    //        {
+    //            var user = log[0];
+    //            var access = log[1];
+    //            Console.WriteLine("each:" + user);
+
+
+
+    //            if (access == "enter")
+    //            {
+    //                if (dict.ContainsKey(user))
+    //                {
+    //                    if (dict[user] == "enter")
+    //                        exitviolations.Add(user);
+
+    //                    dict[user] = access;
+
+
+    //                }
+    //                else
+    //                    dict[user] = access;
+
+    //            }
+    //            else
+    //            {
+    //                Console.WriteLine(user + " exit");
+    //                if (dict.ContainsKey(user))
+    //                {
+    //                    if (dict[user] == "exit")
+    //                    {
+    //                        Console.WriteLine(user + dict[user]);
+    //                        enterviolations.Add(user);
+    //                    }
+
+
+    //                    dict[user] = access;
+
+
+    //                }
+    //                else
+    //                {
+
+    //                    dict[user] = access;
+    //                }
+
+    //            }
+
+
+
+
+    //        }
+
+
+    //        return new List<List<string>>() { exitviolations, enterviolations };
+
+
+
+    //    }
+
+
+
+    //}
+
+
+
+
+
+
+
+    public List<int> dynamicArray(int n, List<List<int>> queries)
+        {
+            var arr = new List<List<int>>(n);
+            for (var i = 0; i < n; i++)
+            {
+                arr.Add(new List<int>());
+            }
+            var lastAnswer = 0;
+            var answers = new List<int>();
+
+            foreach (var query in queries)
+            {
+                if (query[0] == 1)
+                {
+                    var idx = (query[1] ^ lastAnswer) % n;
+                    
+                    arr[idx].Add(query[2]);
+                }
+                else
+                {
+                    var idx = (query[1] ^ lastAnswer) % n;
+                    lastAnswer = arr[idx][query[2] % arr[idx].Count()];
+                    answers.Add(lastAnswer);
+                }
+
+
+            }
+            return answers;
+        }
+
+
+        public  int maxMin(int k, List<int> arr)
+        {
+            var dict = new Dictionary<int, int>();
+            arr.Sort();
+            var len = arr.Count();
+            var min = Int32.MaxValue;
+            for (var i = 0; i < len - k + 1; i++)
+            {
+                min = Math.Min(min, arr[i + k - 1] - arr[i]);
+
+            }
+
+            return min;
+        }
+
+
+
+
+        public  string caesarCipher2(string s, int k)
+        {
+            var sb = new StringBuilder();
+            for (var i = 0; i < s.Length; i++)
+            {
+                if (!char.IsLetter(s[i])) 
+                    sb.Append(s[i]);
+                else if (s[i] <= 'z' && s[i] >= 'a')
+                {
+                    var c = (char)((s[i] - 'a' + k) % 26 + 'a');
+                    sb.Append(c);
+                }
+                else if (s[i] <= 'Z' && s[i] >= 'A')
+                {
+                    var c = (char)((s[i] - 'A' + k) % 26 + 'A');
+                    sb.Append(c);
+                }
+                
+
+
+
+            }
+
+            return sb.ToString();
+        }
 
 
         public int flippingMatrix2(List<List<int>> matrix)
