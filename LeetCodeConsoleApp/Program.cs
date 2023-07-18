@@ -1607,10 +1607,129 @@ namespace LeetCodeConsoleApp
 
             // var sd = sol.superDigit3("148", 3);
 
-            var sd = sol.superDigit3("593", 10);
+            // var sd = sol.superDigit3("593", 10);
+            //           string[][] queries =
+
+            //               ["ADD", "0"],
+            //["ADD", "1"],
+            //["ADD", "1"],
+            //["ADD", "11"],
+            //["ADD", "22"],
+            //["ADD", "3"],
+            //["ADD", "5"],
+            //["GET_NEXT", "0"],
+            //["GET_NEXT", "1"],
+            //["REMOVE", "1"],
+            //["GET_NEXT", "1"],
+            //["ADD", "0"],
+            //["ADD", "1"],
+            //["ADD", "2"],
+            //["ADD", "1"],
+            //["GET_NEXT", "1"],
+            //["GET_NEXT", "2"],
+            //["GET_NEXT", "3"],
+            //["GET_NEXT", "5"]]
+
+
+
+            //           var queries = new string[][] { new string[] {"SET", "employee1", "city", "Annapolis" },
+            //           new string[] {"SET","employee2","id","0123" },
+            //           new string[] {"GET","employee1","city" }
+            //           };
+
+
+
+            //           var queries2 = new string[][] { new string[] { "SET_AT","foo","bar","baz","160000000","50" },
+            //new string[] {"GET_AT","foo","bar","160000020" },
+            //new string[] { "GET_AT","foo","bar","160000030"},
+            //new string[] { "GET_AT", "foo", "bar", "160000050"},
+            //new string[] { "GET_AT","foo","bar","160000080"} };
+
+
+            //           var queries3 = new string[][] { new string[] {  "SET_AT","foo","bar","baz","160000100","0" },
+            //new string[] {"SET_AT", "key", "key", "value", "160000170", "680" },
+            //new string[] {"GET_AT","foo","bar","160000400"},
+            //new string[] {"SCAN_AT","key","k","160000700" },
+            //new string[] {"DELETE_AT","foo","bar","160000800" } }; 
+
+
+
+
+
+            //var s = sol.solution2(queries3);
+
+
+            //var sp = sol.solution6(new int[] { 1, 3, 2 }, new string[] { "REQUEST", "REQUEST", "REQUEST", "FAIL 1", "REQUEST", "REQUEST", "REQUEST", "REQUEST"});
+
+            var sta = sol.solution7(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, new string[] { "L", "L", "C0", "L", "C3" });
 
 
         }
+
+    }
+
+
+
+      
+
+
+    class Solution
+    {
+
+        public static int superDigit4(string n, int k)
+        {
+            var sb = new StringBuilder();
+            for (var i = 0; i < k; i++)
+                sb.Append(n);
+            var num = BigInteger.Parse(sb.ToString());
+
+            while (num > 9)
+            {
+                num = num.ToString().Sum(c => c - '0');
+            }
+
+            return (int)num;
+        }
+
+
+
+
+        public int palindromeIndex2(string s)
+        {
+            if (isPalindrome(s))
+                return -1;
+
+            var len = s.Length;
+            var start = 0;
+            var end = len - 1;
+
+            while (start < end)
+            {
+                if (s[start] != s[end])
+                {
+                    if (isPalindrome(s.Substring(start + 1, end - start)))
+                        return start;
+                    else
+                        return end;
+
+                }
+                else
+                {
+                    start++;
+                    end--;
+                }
+
+            }
+
+
+
+            return -1;
+
+        }
+
+        private bool isPalindrome(string s)
+    {
+        return s.SequenceEqual(s.Reverse());
     }
 
 
@@ -1620,11 +1739,736 @@ namespace LeetCodeConsoleApp
 
 
 
-    class Solution
-    {
 
 
-        public int superDigit3(string n, int k)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public int flippingMatrix3(List<List<int>> matrix)
+        {
+            var len = matrix.Count;
+            var half = len / 2;
+            var sum = 0;
+
+            for (var i = 0; i < half; i++)
+            {
+                for (var j = 0; j < half; j++)
+                {
+                    var maxvalues = new List<int>() { matrix[i][j], matrix[i][len - j - 1], matrix[len - i - 1][j], matrix[len - i - 1][len - j - 1] };
+                    var max = maxvalues.Max();
+                    sum += max;
+                }
+            }
+
+            return sum;
+        }
+
+
+
+
+
+
+        public  int lonelyinteger3(List<int> a)
+        {
+
+            var unique = a.GroupBy(l => l).Where(l => l.Count() == 1).Select(g => g.Key).FirstOrDefault();
+
+            return unique;
+
+
+
+        }
+
+
+
+
+        int[] findZigZagSequence3(int[] arr)
+{
+
+
+            //Code to read from console:
+
+
+            var cases = Convert.ToInt32(Console.ReadLine());
+
+            for (var i = 0; i < cases; i++)
+            {
+
+
+
+                var len1 = Console.ReadLine();
+                // Console.WriteLine(len);   
+                var teststr = Console.ReadLine();
+                var test = teststr.Split(' ').Select(t => int.Parse(t));
+
+                //var result =  findZigZagSequence(test.ToArray());
+
+                //Console.Write(result[0]);
+                //for (var j = 1; j < result.Count(); j++)
+                //    Console.Write(" " + result[j]);
+
+                Console.WriteLine();
+
+            }
+
+
+
+
+
+
+
+
+
+            var len = arr.Length;
+    if (len == 1)
+        return arr;
+
+    
+    var curr = len / 2;
+    
+    Array.Sort(arr);
+    Array.Reverse(arr, curr, curr + 1);
+   
+
+    return arr;
+   
+
+
+}
+
+
+
+
+
+public  int lonelyinteger2(List<int> a)
+        {
+
+            
+
+            var dick = new Dictionary<int, int>();
+            foreach (var b in a)
+            {
+                if (!dick.ContainsKey(b))
+                {
+                    dick.Add(b, 1);
+                }
+                else
+                {
+                    dick[b]++;
+                }
+            }
+            var c = dick.Where(d => d.Value == 1).Select(d => d.Key).First();
+            return c;
+        }
+
+
+        public string solution7(int[] state, string[] operations)
+        {
+              
+                    var list = state.ToList();
+
+                    foreach (var o in operations)
+                    {
+                        if (o == "L")
+                        {
+                            var index = list.IndexOf(0);
+                            if (index >= 0)
+                                state[index] = 1;
+                        }
+
+
+                        else if (o.StartsWith("C"))
+                        {
+                            // var index = list.IndexOf(0);
+                            // if (index >= 0)
+
+                            Console.WriteLine(o);
+
+                            var index = Convert.ToInt32(o.Substring(1));
+
+
+                            Console.WriteLine("index: " + index);
+                            state[index] = 0;
+
+                        }
+
+
+                    }
+
+                    var sb = new StringBuilder();
+                    foreach (var s in state)
+                    {
+                        sb.Append(s);
+                    }
+
+                    return sb.ToString();
+
+
+            }
+
+
+
+
+
+
+
+        public int solution6(int[] serversPowers, string[] events)
+        {
+
+            var servers = serversPowers.ToList();
+            var serverusage = new int[serversPowers.Length];
+
+            var currentserver = 0;
+            foreach (var e in events)
+            {
+                if (e == "REQUEST")
+                {
+                    while (servers[currentserver] <= 0)
+                    {
+                        currentserver++;
+                        if (currentserver == serversPowers.Length)
+                        {
+                            currentserver = 0;
+                            for (var i = 0; i < serversPowers.Length; i++)
+                            {
+                                if (servers[i] != -1)
+                                {
+                                    servers[i] = serversPowers[i];
+                                }
+                            }
+                        }
+                    }
+                    //if (servers[currentserver] > 0)
+                    // {
+                    servers[currentserver]--;
+                    serverusage[currentserver]++;
+                    // }
+                    // else
+                    // {
+                    //currentserver++;
+                    // }
+                }
+                else if (e.StartsWith("FAIL"))
+                {
+                    var f = e.Split(' ');
+                    servers[Convert.ToInt32(f[1])] = -1;
+                }
+
+
+
+
+            }
+
+            var max = 0;
+            var index = 0;
+            for (var i = 0; i < serverusage.Length; i++)
+            {
+                if (serverusage[i] >= max)
+                {
+                    max = serverusage[i];
+                    index = i;
+                }
+            }
+            return index;
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        int solution5(int[] numbers, int zerosToOne)
+        {
+            var list = numbers.ToList();
+            var sec = 0;
+            while (true)
+            {
+                if (list.Where(l => l == 0).Count() >= zerosToOne)
+                {
+                    for (var i = 0; i < zerosToOne; i++)
+                    {
+                        list.RemoveAt(list.Count - 1);
+                    }
+                    list.Insert(0, 1);
+                    sec++;
+                }
+                else if (list.Where(l => l == 1).Count() >= 1)
+                {
+                    for (var i = list.Count - 1; i >= 0; i--)
+                    {
+                        if (list[i] == 1)
+                        {
+                            list[i] = 0;
+                            break;
+                        }
+                    }
+                    sec++;
+                }
+                else
+                    break;
+            }
+            return sec;
+        }
+
+
+
+
+
+
+
+
+        int[] solution4(int[] target)
+        {
+
+            var output = new List<int>();
+            if (target.Length < 3)
+            {
+                foreach (var t in target)
+                    output.Add(t);
+
+                return output.ToArray();
+            }
+
+            output.Add(target[0]);
+            for (var i = 1; i < target.Length - 1; i++)
+            {
+                if (target[i] > Math.Max(target[i - 1], target[i + 1]))
+                {
+                    output.Add(target[i]);
+                }
+            }
+
+            output.Add(target[target.Length - 1]);
+            return output.ToArray();
+        }
+
+
+
+
+
+
+
+
+        class Field3
+        {
+        
+          public   int value { get; set; }
+            public int timestamp { get; set; }
+               public int ttl { get; set; }
+
+
+         public   int mods { get; set; }
+        }
+
+
+            //public string[] solution3(string[][] queries)
+            //{
+
+
+
+
+
+            //    var output = new List<string>();
+            //    var container = new Dictionary<string, Dictionary<string, Field3>>();
+            //    var mods = new Dictionary<string, int>();
+            //    foreach (var q in queries)
+            //    {
+            //        //       0       1    2       3
+            //        //q = setoring | A | field1 | 2 
+            //        if (q[0] == "SET_OR_INC")
+            //        {
+
+
+            //            if (!container.ContainsKey(q[1]))
+            //            {
+            //                container.Add(q[1], new Dictionary<string, Field3>() { { q[2], new Field3() { value = Convert.ToInt32(q[3]), mods = 1 }
+            //        }
+            //    });
+            //                mods.Add(q[1], 1);
+            //            }
+            //            else
+            //            {
+
+            //                if (container[q[1]].ContainsKey(q[2]))
+            //                {
+            //                    //var val = Convert.ToInt32(container[q[1]][q[2]])  + Convert.ToInt32(q[3]);
+            //                    container[q[1]][q[2]].value += Convert.ToInt32(q[3]);
+            //                    //container[q[1]][q[2]].mods++;
+            //                    mods[q[1]]++;
+            //                }
+            //                else
+            //                {
+            //                    container[q[1]].Add(q[2], new Field3() { value = Convert.ToInt32(q[3]), mods = 1 });
+            //                    mods[q[1]]++;
+            //                }
+            //            }
+            //            output.Add(container[q[1]][q[2]].value.ToString());
+            //        }
+
+
+
+            //        else if (q[0] == "GET")
+            //        {
+            //            if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
+            //            {
+            //                output.Add(container[q[1]][q[2]].value.ToString());
+            //            }
+            //            else
+            //            {
+            //                output.Add("");
+            //            }
+
+            //        }
+
+
+            //        else if (q[0] == "TOP_N_KEYS")
+            //        {
+            //            // if (container.ContainsKey(q[1]))
+            //            // {
+            //            //var mods2 = container[q[1]].OrderByDescending(c => c.Value.mods).Select(c => c.Key).FirstOrDefault();
+
+            //            var nummods = mods.OrderByDescending(m => m.Value).ThenBy(m => m.Key).Take(Convert.ToInt32(q[1])).Select(m => m.Key + "(" + m.Value + ")");
+
+            //            output.Add(nummods != null && nummods.Count() > 0 ? string.Join(", ", nummods) : "");
+            //            // }
+            //            // else
+            //            // {
+            //            //     output.Add("");
+            //            // }
+            //        }
+
+
+
+
+            //        else if (q[0] == "DELETE")
+            //        {
+
+            //            if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
+            //            {
+            //                container[q[1]].Remove(q[2]);
+            //                mods[q[1]]++;
+            //                if (container[q[1]].Count == 0)
+            //                {
+            //                    container.Remove(q[1]);
+            //                    mods.Remove(q[1]);
+            //                }
+            //                output.Add("true");
+            //            }
+            //            else
+            //                output.Add("false");
+            //        }
+
+            //    }
+            //    return output.ToArray();
+
+
+            //}
+
+
+
+
+
+        class Field
+        {
+
+            public string value { get; set; }
+            public int timestamp { get; set; }
+            public int ttl { get; set; }
+
+
+            public int mods { get; set; }
+        }
+
+
+
+
+        //Crossover
+
+//        public string[] solution2(string[][] queries)
+//        {
+
+
+//            var output = new List<string>();
+//            var container = new Dictionary<string, Dictionary<string, Field>>();
+
+//            foreach (var q in queries)
+//            {
+//                //       0       1    2       3
+//                //q = setoring | A | field1 | 2 
+//                if (q[0] == "SET")
+//                {
+                    
+
+//                    if (!container.ContainsKey(q[1]))
+//                    {
+//                        container.Add(q[1], new Dictionary<string, Field>() { { q[2], new Field() { value = q[3], mods = 1 } } });
+//                    }
+//                    else
+//                    {
+                        
+//                        if (container[q[1]].ContainsKey(q[2]))
+//                        {
+//                            container[q[1]][q[2]].value = q[3];
+//                            container[q[1]][q[2]].mods++;
+//                        }
+//                        else
+//                        {
+//                            container[q[1]].Add(q[2], new Field() { value = q[3], mods = 1 });
+//                        }
+//                    }
+//                    output.Add(""); // container[q[1]][q[2]].value.ToString());
+//                }
+
+//                if (q[0] == "SET_AT")
+//                {
+
+
+//                    if (!container.ContainsKey(q[1]))
+//                    {
+//                        container.Add(q[1], new Dictionary<string, Field>() { { q[2], new Field() { value = q[3], timestamp = Convert.ToInt32(q[4]), ttl = Convert.ToInt32(q[5])}}});
+//                    }
+//                    else
+//                    {
+
+//                        if (container[q[1]].ContainsKey(q[2]))
+//                        {
+//                            container[q[1]][q[2]].value = q[3];
+//                            container[q[1]][q[2]].timestamp = Convert.ToInt32(q[4]);
+//                            container[q[1]][q[2]].ttl = Convert.ToInt32(q[5]);
+
+//                        //  container[q[1]][q[2]].mods++;
+//                    }
+//                        else
+//                        {
+//                            container[q[1]].Add(q[2], new Field() { value = q[3], timestamp = Convert.ToInt32(q[4]), ttl = Convert.ToInt32(q[5])});
+//                        }
+//                    }
+//                    output.Add(""); // container[q[1]][q[2]].value.ToString());
+//                }
+
+
+
+
+
+
+
+
+
+
+
+//                else if (q[0] == "GET")
+//                {
+//                        if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
+//                        {
+//                            output.Add(container[q[1]][q[2]].value.ToString());
+//                        }
+//                        else
+//                        { 
+//                            output.Add("");
+//                        }
+
+//                }
+
+
+
+//                else if (q[0] == "GET_AT")
+//                {
+//                    var timestamp = Convert.ToInt32(q[3]);
+//                    if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]) && (container[q[1]][q[2]].ttl == 0 ? true : (timestamp >= container[q[1]][q[2]].timestamp && timestamp < (container[q[1]][q[2]].timestamp + container[q[1]][q[2]].ttl))))
+//                    {
+//                        output.Add(container[q[1]][q[2]].value.ToString());
+//                    }
+//                    else
+//                    {
+//                        output.Add("");
+//                    }
+
+//                }
+
+
+
+//                else if (q[0] == "DELETE")
+//                {
+                    
+//                    if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
+//                        {
+//                        container[q[1]].Remove(q[2]);
+//                        //if (container[q[1]].Count == 0)
+//                        //{
+//                        //    container.Remove(q[1]);
+//                        //}
+//                        output.Add("true");
+//                    }
+//                    else
+//                        output.Add("false");
+//                }
+
+//                else if (q[0] == "DELETE_AT")
+//                {
+//                    var timestamp = Convert.ToInt32(q[3]);
+//                    //  if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]) && (timestamp >= container[q[1]][q[2]].timestamp && timestamp <= container[q[1]][q[2]].ttl))
+
+//                    if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]) && (container[q[1]][q[2]].ttl == 0 ? true : (timestamp >= container[q[1]][q[2]].timestamp && timestamp < (container[q[1]][q[2]].timestamp + container[q[1]][q[2]].ttl))))
+
+//                        {
+//                        container[q[1]].Remove(q[2]);
+//                        output.Add("true");
+//                    }
+//                    else
+//                        output.Add("false");
+//                }
+
+
+
+//                else if (q[0] == "MODS")
+//                {
+//                    if (container.ContainsKey(q[1]))
+//                    {
+//                        var mods = container[q[1]].OrderByDescending(c => c.Value.mods).Select(c => c.Key).FirstOrDefault();
+
+//                        output.Add(mods);
+//                    }
+//                    else
+//                    {
+//                        output.Add("");
+//                    }
+//                }
+//                else if (q[0] == "SCAN")
+//                {
+//                    if (container.ContainsKey(q[1]))
+//                    {
+//                        //      var mods = container[q[1]].OrderByDescending(c => c.Value.mods).Select(c => c.Key).FirstOrDefault();
+//                        var p = container[q[1]].Where(c => c.Key.StartsWith(q[2])).Select(p => p.Key + "(" + p.Value.value + ")").OrderBy(x => x).ThenBy(x => x.Length);
+//                        output.Add(String.Join(", ", p));
+//                    }
+//                    else
+//                    {
+//                        output.Add("");
+//                    }
+//                }
+
+//                else if (q[0] == "SCAN_AT")
+//                {
+
+//                    var timestamp = Convert.ToInt32(q[3]);
+                  
+//                    if (container.ContainsKey(q[1]))
+//                    {
+//                        var p = container[q[1]].Where(c => (q[2] == "" ? true : c.Key.StartsWith(q[2])) && timestamp >= c.Value.timestamp && (timestamp < c.Value.timestamp + c.Value.ttl)).Select(p => p.Key + "(" + p.Value.value + ")").OrderBy(x => x).ThenBy(x => x.Length);
+//                        output.Add(String.Join(", ", p));
+//                    }
+//                    else
+//                    {
+//                        output.Add("");
+//                    }
+//                }
+
+
+
+
+
+
+//            }
+
+//            return output.ToArray();
+
+
+
+//}
+
+
+
+
+//string[] solution(string[][] queries)
+//        {
+//            var output = new List<string>();
+//            var container = new List<string>();
+//            foreach (var q in queries)
+//            {
+//                if (q[0] == "ADD")
+//                {
+//                    container.Add(q[1]);
+//                    output.Add("");
+//                }
+//                else if (q[0] == "EXISTS")
+//                {
+//                    if (container.Contains(q[1]))
+//                    {
+//                        output.Add("true");
+//                    }
+//                    else
+//                    {
+//                        output.Add("false");
+//                    }
+//                }
+//                else if (q[0] == "REMOVE")
+//                {
+//                    var i = container.IndexOf(q[1]);
+//                    if (i >= 0)
+//                    {
+//                        container.RemoveAt(i);
+//                        output.Add("true");
+//                    }
+//                    else
+//                    {
+//                        output.Add("false");
+//                    }
+
+//                }
+//                else if (q[0] == "GET_NEXT")
+//                {
+//                    container = container.OrderBy(c => c).ToList();
+//                    var foundlist = container.Find(c => Convert.ToInt32(c) > Convert.ToInt32(q[1]));
+//                    if (foundlist != null)
+//                    {
+//                        output.Add(foundlist);
+//                    }
+//                    else
+//                    {
+//                        output.Add("");
+//                    }
+
+
+//                }
+//            }
+
+//            return output.ToArray();
+
+//        }
+
+            public int superDigit3(string n, int k)
         {
 
 
@@ -1636,25 +2480,21 @@ namespace LeetCodeConsoleApp
 
             if (sb.Length == 1)
                 return (Convert.ToInt32(sb.ToString()));
-            long num = Convert.toint 64(sb.ToString());
 
-            long remainder = 0;
-
-            long sum = 0;
-            while (true)
-            { 
-                while (num > 0)
+            
+            while (sb.Length > 1)
                 {
-                    remainder = num % 10;
-                    sum += remainder;
-                    num /= 10;
+                    long sum = 0;
+                for (var i = 0; i < sb.Length; i++)
+                    {
+                        sum += sb[i] - '0';
+                    }
+                    sb.Clear();
+                    sb.Append(sum);
+
                 }
-                if (sum <= 9)
-                    break;
-                num = sum;
-                sum = 0;
-            }
-            return Convert.ToInt32(sum);
+
+            return Convert.ToInt32(sb.ToString());
         }
 
 
@@ -5217,66 +6057,6 @@ public int superDigit(string n, int k)
 
 
 
-        //    public class Solution
-        //    {
-        //        public IList<string> InvalidTransactions(string[] transactions)
-        //        {
-        //            if (transactions.Length == 0)
-        //                return null;
-
-        //            var results = new List<string>();
-
-        //            var first = transactions[0].Split(',');
-        //            if (Convert.ToInt32(first[2]) > 1000)
-        //                results.Add(transactions[0]);
-
-        //            if (transactions.Length > 1)
-        //            {
-
-        //                var trans = new List<trans>();
-        //                for (var i = 1; i < transactions.Length; i++)
-        //                {
-        //                    var t = transactions[i].Split(',');
-        //                    var tr = new trans()
-        //                    {
-        //                        name = t[0],
-        //                        time = Convert.ToInt32(t[1]),
-        //                        amount = Convert.ToInt32(t[2]),
-        //                        city = t[3],
-
-        //                    };
-        //                    trans.Add(tr);
-        //                }
-
-        //                if (trans[0].name == trans[1].name && trans[0].city != trans second[3] && Math.Abs(Convert.ToInt32(first[1]) - Convert.ToInt32(second[1])) <= 60)
-        //        {
-        //                    results.Add(transactions[0]);
-        //                }
-        //                for (var i = 1; i < transactions.Length; i++)
-        //                {
-        //                    var curr = transactions[i].Split(',');
-        //                    var prev = transactions[i - 1].Split(',');
-        //                    if (Convert.ToInt32(curr[2]) > 1000 || (prev[0] == curr[0] && prev[3] != curr[3] && Math.Abs(Convert.ToInt32(prev[1]) - Convert.ToInt32(curr[1])) <= 60))
-        //                    {
-        //                        results.Add(transactions[i]);
-        //                    }
-        //                }
-        //            }
-
-        //            return results;
-        //        }
-
-        //        private Class trans
-        //        {
-        //    public string name { get; set; }
-        //        public int time { get; set; }
-        //        public int amount { get; set; }
-        //        public string city { get; set; }
-
-        //    }IList<IList<int>> ThreeSum(int[] nums) {
-
-        //}
-
 
 
         public int LengthLongestPath3(string input)
@@ -5437,15 +6217,7 @@ public int superDigit(string n, int k)
             return results;
         }
 
-
-        //static void MoveToTop<T>(this List<T> list, int index)
-        //{
-        //    T item = list[index];
-        //    for (int i = index; i > 0; i--)
-        //        list[i] = list[i - 1];
-        //    list[0] = item;
-        //}
-
+        
         public List<string> recentitems(List<string> logs)
         {
             var dict = new Dictionary<string, int>();
@@ -5469,37 +6241,9 @@ public int superDigit(string n, int k)
 
                 
 
-
-
-
-                //if (dict.ContainsKey(logs[i]))
-                //{
-                //    var top = dict[logs[i]];
-
-                //    var j = 0;
-                //    while (j < top)
-                //    {
-                //        var curr = dict.FirstOrDefault(x => x.Value == j).Key;
-                //        dict[curr]++;
-                //        j++;
-                //    }
-                //    dict[logs[i]] = 0;
-                //}
-                //else
-                //{
-
-                //    for (int index = 0; index < dict.Count; index++)
-                //    {
-                //        var item = dict.ElementAt(index);
-                //        dict[item.Key]++;
-
-                //    }
-                //    dict.Add(logs[i], 0);
-                //}
+                      
             }
 
-            //  var list = dict.OrderBy(d => d.Value).Select(d => d.Key).ToList();
-            //  return list;
             return result;
         }
 
