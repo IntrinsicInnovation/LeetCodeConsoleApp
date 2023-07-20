@@ -1661,9 +1661,9 @@ namespace LeetCodeConsoleApp
 
             //var sp = sol.solution6(new int[] { 1, 3, 2 }, new string[] { "REQUEST", "REQUEST", "REQUEST", "FAIL 1", "REQUEST", "REQUEST", "REQUEST", "REQUEST"});
 
-            var sta = sol.solution7(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, new string[] { "L", "L", "C0", "L", "C3" });
+            // var sta = sol.solution7(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, new string[] { "L", "L", "C0", "L", "C3" });
 
-
+            var tt = sol.truckTour3(new List<List<int>>() { new List<int>() { 8, 6 }, new List<int>() { 5, 5 }, new List<int>() { 5, 6 } });
         }
 
     }
@@ -1675,21 +1675,129 @@ namespace LeetCodeConsoleApp
     class Solution
     {
 
-        public static int superDigit4(string n, int k)
-        {
-            var sb = new StringBuilder();
-            for (var i = 0; i < k; i++)
-                sb.Append(n);
-            var num = BigInteger.Parse(sb.ToString());
 
-            while (num > 9)
+        //very efficient.  Can use a normal list to just add everything to it, then sort, then convert back to a linked list.
+         SinglyLinkedListNode mergeLists3(SinglyLinkedListNode head1, SinglyLinkedListNode head2)
+        {
+
+            SinglyLinkedListNode pointer = new SinglyLinkedListNode(-1);
+            SinglyLinkedListNode head = new SinglyLinkedListNode(-1);
+            while (head1 != null || head2 != null)
             {
-                num = num.ToString().Sum(c => c - '0');
+                if (head2 == null || (head1 != null && head1.data < head2.data))
+                {
+                    pointer.next = head1;
+                    pointer = pointer.next;
+                    head1 = head1.next;
+
+
+                }
+                else 
+                {
+                    pointer.next = head2;
+                    pointer = pointer.next;
+                    head2 = head2.next;
+                }
+
+                if (head.data == -1)
+                    head = pointer;
+
+
+
             }
 
-            return (int)num;
+            return head;
+
         }
 
+
+
+
+
+        //circle  1st is fuel, 2nd is distance.
+
+        public  int truckTour3(List<List<int>> petrolpumps)
+        {
+            var sum = 0;
+            var i = 0;
+            var len = petrolpumps.Count;
+            var startindex = -1;
+            
+            while (true)
+            {
+                sum += petrolpumps[i][0];
+                sum -= petrolpumps[i][1];
+                if (sum < 0)
+                {
+                    if (i == len - 1)
+                        i = 0;
+                    else
+                        i++;
+                    sum = 0;
+                    startindex = -1;
+
+                }
+                else
+                {
+                    if (i == startindex )
+                    {
+                        break;
+                    }
+                    if (startindex == -1)
+                        startindex = i;
+                    if (i == len - 1)
+                        i = 0;
+                    else
+                        i++;
+                }
+                
+
+
+            }
+            return startindex;
+        }
+
+
+
+
+
+
+
+        //WORKS FOR LARGE DATASETS!!!
+        public static int superDigit4(string n, int k)
+        {
+            if (n.Length == 1)
+                return (Convert.ToInt32(n));
+
+            var sb = new StringBuilder(n);
+
+            while (sb.Length > 1)
+            {
+                long sum = 0;
+                for (var i = 0; i < sb.Length; i++)
+                {
+                    sum += sb[i] - '0';
+                }
+                sb.Clear();
+                sb.Append(sum);
+
+            }
+
+            var finalnum = Convert.ToInt32(sb.ToString()) * k;
+            sb.Clear();
+            sb.Append(finalnum);
+            while (sb.Length > 1)
+            {
+                long sum = 0;
+                for (var i = 0; i < sb.Length; i++)
+                {
+                    sum += sb[i] - '0';
+                }
+                sb.Clear();
+                sb.Append(sum);
+            }
+            return Convert.ToInt32(sb.ToString());
+        }
 
 
 
@@ -2466,6 +2574,10 @@ public  int lonelyinteger2(List<int> a)
 //            return output.ToArray();
 
 //        }
+
+
+
+        //NOT WORKING FOR LARGE DATASETS!!
 
             public int superDigit3(string n, int k)
         {
