@@ -1663,7 +1663,19 @@ namespace LeetCodeConsoleApp
 
             // var sta = sol.solution7(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, new string[] { "L", "L", "C0", "L", "C3" });
 
-            var tt = sol.truckTour3(new List<List<int>>() { new List<int>() { 8, 6 }, new List<int>() { 5, 5 }, new List<int>() { 5, 6 } });
+            // var tt = sol.truckTour3(new List<List<int>>() { new List<int>() { 8, 6 }, new List<int>() { 5, 5 }, new List<int>() { 5, 6 } });
+
+            //sol.testqueue();
+            var ops = new List<List<string>>() {new List<string>(){"1", "abc" }, new List<string>(){"3", "3" }, new List<string>(){"2", "3" }, new List<string>(){"1", "xy" }, new List<string>(){"3", "2" }, new List<string>(){"4" },
+                new List<string>(){"4"}, new List<string>(){"3", "1" } };
+//3 3
+//2 3
+//1 xy
+//3 2
+//4
+//4
+//3 1}
+            sol.testeditor(ops);
         }
 
     }
@@ -1676,8 +1688,305 @@ namespace LeetCodeConsoleApp
     {
 
 
+        public void testeditor(List<List<string>> ops)
+        {
+
+            /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution */
+
+          //  var n = Convert.ToInt32(Console.ReadLine());
+            var ed = new editor();
+            //for (var i = 0; i < n; i++)
+            foreach (var op in ops)
+            {
+
+                //var op = Console.ReadLine().Split(' ');
+                switch (op[0])
+                {
+                    case "1":
+                        ed.append(op[1], true);
+                        break;
+
+                    case "2":
+                        ed.delete(Convert.ToInt32(op[1]), true);
+                        break;
+
+                    case "3":
+                        ed.print(Convert.ToInt32(op[1]));
+                        break;
+
+                    case "4":
+                        ed.undo();
+                        break;
+
+                    default:
+                        break;
+                }
+
+
+            }
+
+
+        }
+
+        internal class editor
+        {
+
+            internal class operation
+            {
+                // public int index {get; set;}
+                public int op { get; set; }
+                public int? num { get; set; }
+                public string? text { get; set; }
+            }
+
+
+            StringBuilder sb = new StringBuilder();
+            List<operation> operations = new List<operation>();
+
+
+            public void append(string c, bool addundo)
+            {
+                if (addundo)
+                {
+                    operations.Add(new operation()
+                    {
+                        op = 1,
+                        text = c // sb.ToString()
+                    });
+                }
+                sb.Append(c);
+
+            }
+
+            public void delete(int n, bool addundo)
+            {
+                if (addundo)
+                {
+                    operations.Add(new operation()
+                    {
+                        op = 2,
+                        text = sb.ToString().Substring(sb.Length - n, n)
+                        //text = sb.ToString()
+                    });
+                }
+                sb.Remove(sb.Length - n, n);
+
+            }
+
+            public void print(int n)
+            {
+                Console.WriteLine(sb[n - 1]);
+            }
+
+            public void undo()
+            {
+                //  sb.Clear();
+                //  sb.Append(operations[operations.Count - 1]);
+                //  operations.RemoveAt(operations.Count - 1);
+
+                var len = operations.Count;
+                var oper = operations[len - 1];
+                if (oper.op == 1)
+                {
+                    delete(oper.text.Length, false);
+                }
+                else
+                {
+                    append(oper.text, false);
+                }
+                operations.RemoveAt(len - 1);
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //could use binary search which is O(N 2) ?
+        public int pairs2(int k, List<int> arr)
+        {
+            var count = 0;
+            var left = 0;
+            var len = arr.Count;
+            var right = 1;
+            arr.Sort();
+            while (right < len)
+            {
+                if (arr[right] - arr[left] == k)
+                {
+                    count++;
+                    left++;
+                    right++;
+                }
+                else if (arr[right] - arr[left] < k)
+                {
+                    right++;
+                }
+                else
+                {
+                    left++;
+                }
+
+            }
+            return count;
+        }
+
+
+
+
+        public string isBalanced3(string s)
+        {
+            var stack = new Stack<char>();
+
+            foreach (var b in s)
+            {
+                switch (b)
+                {
+
+                    case '{':
+                    case '(':
+                    case '[':
+                        stack.Push(b);
+                        break;
+
+
+                    case '}':
+                        if (stack.Count == 0 || stack.Peek() != '{')
+                            return "NO";
+                        else
+                            stack.Pop();
+                        break;
+
+                    case ')':
+                        if (stack.Count == 0 || stack.Peek() != '(')
+                            return "NO";
+                        else
+                            stack.Pop();
+                        break;
+
+                    case ']':
+                        if (stack.Count == 0 || stack.Peek() != '[')
+                            return "NO";
+                        else
+                            stack.Pop();
+                        break;
+
+                    default:
+                        break;
+
+
+                }
+            }
+
+            if (stack.Count > 0)
+                return "NO";
+            else
+                return "YES";
+        }
+
+  
+
+
+
+    internal class myQueue
+        {
+
+
+            Stack<int> instack = new Stack<int>();
+            Stack<int> outstack = new Stack<int>();
+            public void enqueue(int n)
+            {
+                instack.Push(n);
+            }
+
+            public int dequeue()
+            {
+                if (outstack.Count == 0)
+                {
+                    while (instack.Count > 0)
+                    {
+                        outstack.Push(instack.Pop());
+                    }
+                }
+                return outstack.Pop();
+            }
+
+
+
+            public int peek()
+            {
+                if (outstack.Count == 0)
+                {
+                    while (instack.Count > 0)
+                    {
+                        outstack.Push(instack.Pop());
+                    }
+                }
+                return outstack.Peek();
+            }
+
+
+
+
+        }
+
+       
+        internal void testqueue()
+        { 
+
+            var queue = new myQueue();
+
+            var n = Convert.ToInt32(Console.ReadLine());
+
+            for (var i = 0; i < n; i++)
+            {
+                var ql = Console.ReadLine();
+                var q = ql.Split(' ');
+                switch (q[0])
+                {
+                    case "1":
+                        queue.enqueue(Convert.ToInt32(q[1]));
+                        break;
+
+                    case "2":
+                        queue.dequeue();
+                        break;
+
+                    case "3":
+                        var v = queue.peek();
+                        Console.WriteLine(v);
+                        break;
+
+                    default:
+                        break;
+
+                }
+            }
+
+
+        }
+
+
+
+
+
+
+
+
         //very efficient.  Can use a normal list to just add everything to it, then sort, then convert back to a linked list.
-         SinglyLinkedListNode mergeLists3(SinglyLinkedListNode head1, SinglyLinkedListNode head2)
+        private SinglyLinkedListNode mergeLists3(SinglyLinkedListNode head1, SinglyLinkedListNode head2)
         {
 
             SinglyLinkedListNode pointer = new SinglyLinkedListNode(-1);
@@ -3716,10 +4025,11 @@ public long maximumQuality(List<int> packets, int channels)
                 
             arr.Sort();
             var matches = 0;
-            for (var i = 0; i < arr.Count - 1; i++)
+            var len = arr.Count;
+            for (var i = 0; i < len - 1; i++)
             {
-                var len = arr.Count;
-                    if (arr.BinarySearch(i + 1, len - (i + 1), arr[i] + k, null) > -1)
+                
+                if (arr.BinarySearch(i + 1, len - (i + 1), arr[i] + k, null) > -1)
                     matches++;
             }
              return matches;
