@@ -1686,7 +1686,7 @@ namespace LeetCodeConsoleApp
 
 
 
-
+        //passess all test cases.  array does not.
         public int cookies(int k, List<int> A)
         {
             var operations = 0;
@@ -1777,7 +1777,7 @@ namespace LeetCodeConsoleApp
             {
                 // public int index {get; set;}
                 public int op { get; set; }
-                public int? num { get; set; }
+              //  public int? num { get; set; }
                 public string? text { get; set; }
             }
 
