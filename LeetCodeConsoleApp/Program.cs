@@ -1666,16 +1666,13 @@ namespace LeetCodeConsoleApp
             // var tt = sol.truckTour3(new List<List<int>>() { new List<int>() { 8, 6 }, new List<int>() { 5, 5 }, new List<int>() { 5, 6 } });
 
             //sol.testqueue();
-            var ops = new List<List<string>>() {new List<string>(){"1", "abc" }, new List<string>(){"3", "3" }, new List<string>(){"2", "3" }, new List<string>(){"1", "xy" }, new List<string>(){"3", "2" }, new List<string>(){"4" },
-                new List<string>(){"4"}, new List<string>(){"3", "1" } };
-//3 3
-//2 3
-//1 xy
-//3 2
-//4
-//4
-//3 1}
-            sol.testeditor(ops);
+            //   var ops = new List<List<string>>() {new List<string>(){"1", "abc" }, new List<string>(){"3", "3" }, new List<string>(){"2", "3" }, new List<string>(){"1", "xy" }, new List<string>(){"3", "2" }, new List<string>(){"4" },
+            //       new List<string>(){"4"}, new List<string>(){"3", "1" } };
+
+            //   sol.testeditor(ops);
+
+
+            sol.cookies(7, new List<int>() {1,2,3,9,10,12 });
         }
 
     }
@@ -1688,12 +1685,57 @@ namespace LeetCodeConsoleApp
     {
 
 
+
+
+        public int cookies(int k, List<int> A)
+        {
+            var operations = 0;
+            var q = new PriorityQueue<int, int>();  //do we need priority?  seems to need priority on older .NET versions?
+
+            foreach (var a in A)
+                q.Enqueue(a, a);
+
+            while (q.Peek() < k)
+            {
+                var c1 = q.Dequeue();
+                if (q.Count == 0)
+                    return -1;
+                var c2 = q.Dequeue();
+                var sum = c1 + (2 * c2);
+                q.Enqueue(sum, sum);
+                operations++;
+            }
+            return operations;
+
+        }
+
+
+
+
         public void testeditor(List<List<string>> ops)
         {
 
+             var a = new List<int> { 1, 2, 3 };
+
+            // a.Remove(0);
+
+            var q = new PriorityQueue<int>();
+
+            
+            q.Enqueue(3);
+            q.Enqueue(1);
+            q.Enqueue(2);
+
+            var test = q.Peek();
+
+            //var test2 = q.PeekMax();
+            var test3 = q.Dequeue();
+
+
+
             /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution */
 
-          //  var n = Convert.ToInt32(Console.ReadLine());
+            //  var n = Convert.ToInt32(Console.ReadLine());
             var ed = new editor();
             //for (var i = 0; i < n; i++)
             foreach (var op in ops)
