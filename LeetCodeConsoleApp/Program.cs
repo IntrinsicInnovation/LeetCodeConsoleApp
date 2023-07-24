@@ -1672,7 +1672,10 @@ namespace LeetCodeConsoleApp
             //   sol.testeditor(ops);
 
 
-            sol.cookies(7, new List<int>() {1,2,3,9,10,12 });
+            //sol.cookies(7, new List<int>() {1,2,3,9,10,12 });
+
+            var bfs = sol.bfs3(5, 3, new List<List<int>>() { new List<int>() { 1, 2 }, new List<int>() { 1, 3 }, new List<int>() { 3, 4 } }, 1);
+
         }
 
     }
@@ -1683,6 +1686,66 @@ namespace LeetCodeConsoleApp
 
     class Solution
     {
+
+
+        static void preOrder(TreeNode node)
+        {
+            if (node == null)
+                return;
+            Console.Write(node.val + " ");
+            preOrder(node.left);
+            preOrder(node.right);
+        }
+
+
+        public List<int> bfs3(int n, int m, List<List<int>> edges, int s)
+        {
+
+            var graph = new List<List<int>>();
+            for (var i = 0; i <= n; i++)
+            {
+                graph.Add(new List<int>());
+            }
+
+            foreach (var e in edges)
+            {
+                graph[e[0]].Add(e[1]);
+                graph[e[1]].Add(e[0]);
+            }
+
+            var distances = new List<int>();
+            for (var j = 0; j <= n; j++)
+            {
+                distances.Add(-1);
+            }
+            distances[s] = 0;
+
+            var mult = 6;
+            var q = new Queue<int>();
+
+            q.Enqueue(s);
+            while (q.Count > 0)
+            {
+                var node = q.Dequeue();
+                foreach (var neighbour in graph[node])
+                {
+                    if (distances[neighbour] == -1)
+                    {
+                        distances[neighbour] = distances[node] + mult;
+                        q.Enqueue(neighbour);
+                    }
+                }
+
+            }
+
+            distances.RemoveAt(s);
+            distances.RemoveAt(0);
+            return distances;
+
+
+        }
+
+
 
 
 
