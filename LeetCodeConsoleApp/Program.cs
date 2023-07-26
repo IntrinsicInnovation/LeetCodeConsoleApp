@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Security.Cryptography;
 using System.Text;
 
 
@@ -1674,18 +1675,355 @@ namespace LeetCodeConsoleApp
 
             //sol.cookies(7, new List<int>() {1,2,3,9,10,12 });
 
-            var bfs = sol.bfs3(5, 3, new List<List<int>>() { new List<int>() { 1, 2 }, new List<int>() { 1, 3 }, new List<int>() { 3, 4 } }, 1);
+            // var bfs = sol.bfs3(5, 3, new List<List<int>>() { new List<int>() { 1, 2 }, new List<int>() { 1, 3 }, new List<int>() { 3, 4 } }, 1);
+            //var hn = new HuffNode();
+            //hn.frequency = 5;
+            //hn.data = null;
+
+            //hn.left = new HuffNode();
+            //hn.left.frequency = 2   ;
+            //hn.left.data = null;
+
+            //hn.right = new HuffNode();
+            //hn.right.frequency = 3;
+            //hn.right.data = 'A';
+
+            //hn.left.left = new HuffNode();
+            //hn.left.left.frequency = 1;
+            //hn.left.left.data = 'B';
+
+            //hn.left.right = new HuffNode();
+            //hn.left.right.frequency = 1;
+            //hn.left.right.data = 'C';
+
+            //sol.decodeHuff("1001011", hn);
+
+            //var words = new List<string> { "aab", "defgab", "abcde", "aabcde", "bbbbbbbbbb", "jabjjjad" };
+
+
+            //var words = new List<string> { "aab", "aac", "aacghgh", "aabghgh"};
+
+            //sol.noPrefix2(words);
+               sol.findMinimumNumberOfPages(new List<int>() { 2, 3, 4, 5 }, 5);
+
+        //    sol.countkSpikes(new List<int>() { 1, 2, 8, 5, 3, 4 }, 2);
+
 
         }
 
     }
 
 
-          
+    class TrieWithCheck
+    {
+
+    
+        class TrieNode
+        {
+            internal bool isWord { get; set; }
+            internal Dictionary<char, TrieNode> children { get; set; } = new Dictionary<char, TrieNode>();
+        }
+
+        TrieNode root = new TrieNode();
 
 
+        public bool Insert(string word)
+        {
+            var node = root;
+
+            var len = word.Length;
+            for(var i = 0; i < len; i++)
+            {
+                var c = word[i];
+                if (node.children.ContainsKey(c))
+                {
+                    if (node.children[c].isWord || i == len - 1)
+                    {
+                        return true;
+                    }
+                }
+                else if (!node.children.ContainsKey(c))
+                {   
+                    node.children[c] = new TrieNode();
+                }
+                
+                node = node.children[c];
+            }
+
+            node.isWord = true;
+
+            return false;
+
+        }
+
+
+
+    }
     class Solution
     {
+
+       // Amazon OA - Passed 6 / 18
+
+        public int countkSpikes(List<int> prices, int k)
+        {
+            var len = prices.Count();
+            var leftmax = 0;
+            var rightmax = 0;
+
+            var l = 0;
+            var lstart = 0;
+            for (; l < k; l++)
+            {
+                leftmax = Math.Max(leftmax, prices[l]);
+            }
+          
+            var r = k + 1;
+            var rstart = r;
+            for (; r <= k + k; r++)
+            {
+                rightmax = Math.Max(rightmax, prices[r]);
+            }
+
+            var spikes = 0;
+
+
+            for (var i = k; i < len - k; i++)
+            {
+                if (prices[i] > leftmax && prices[i] > rightmax)
+                {
+                    spikes++;
+                }
+
+                lstart++;
+                leftmax = 0;
+                for (l = lstart; l < i+1; l++)
+                {
+                    leftmax = Math.Max(leftmax, prices[l]);
+                }
+                rstart++;
+                rightmax = 0;
+                for (r = rstart; r <= i+1 +k; r++)
+                {
+                    if (r == len)
+                        break;
+                    rightmax = Math.Max(rightmax, prices[r]);
+                }
+
+
+
+            }
+            return spikes;
+
+
+        }
+
+
+
+
+
+
+
+
+    //    def solveLC(pages, days):
+    //if days<len(pages): return -1
+    //def check(x):
+    //    res = 0
+    //    for p in pages:
+    //        res += ceil(p/x)
+    //    return res <= days
+
+    //left, right = 1, max(pages)
+    //while left<right:
+    //    mid = (left + right)//2
+    //    if check(mid) :
+    //        right = mid
+    //    else:
+    //        left = mid + 1
+    //return left
+
+
+
+
+
+
+        
+        //AMAzon OA - passed 12/18
+        public int findMinimumNumberOfPages(List<int> pages, int days)
+        {
+            var len = pages.Count;
+            if (len > days)
+                return -1;
+
+            bool checkpages(int x) //, List<int> pages, int days)
+            {
+                var res = 0;
+                foreach (var p in pages)
+                {
+                    res += (int) Math.Ceiling((decimal)(p / x));
+                }
+
+                return res <= days;
+
+            }
+
+
+
+
+            var left = 1;
+            var right = pages.Max();
+
+            while (left < right)
+            {
+                var mid = (left + right) / 2;
+
+                if (checkpages(mid))
+                    right = mid;
+                else
+                    left = mid + 1;
+            }
+            return left;
+
+
+            //var total = pages.Sum();
+            //var x = total / days;
+            //var actualdays = 0;
+           
+            //var chapter = 0;
+            //var pages2 = new List<int>(pages);
+            //while (true)
+            //{
+
+            //    while (chapter < len)
+            //    {
+            //        pages2[chapter] -= x;
+            //        if (pages2[chapter] <= 0)
+            //        {
+                  
+            //            chapter++;
+            //        }
+
+            //        actualdays++;
+
+            //    }
+            //    if (actualdays > days)
+            //    {
+            //        actualdays = 0;
+            //        x++;
+            //        chapter = 0;
+            //        pages2 = new List<int>(pages);
+            //    }
+            //    else
+            //    {
+                    
+
+            //        return x;
+
+            //    }
+                    
+
+            //}
+           
+        }
+
+
+
+        public void noPrefix2(List<string> words)
+        {
+            var trie = new TrieWithCheck();
+
+            foreach (var w in words)
+            {
+                if (trie.Insert(w))
+                {
+                    Console.WriteLine("BAD SET");
+                    Console.WriteLine(w);
+                    return;
+                }
+            }
+
+            Console.WriteLine("GOOD SET");
+
+            //var found = new Dictionary<int, string>();
+
+            //for(var i = 0; i < words.Count; i++)
+            //{
+            //    var subs = words.Where(w => w.StartsWith(words[i]));
+            //    if (subs.Count() > 1)
+            //    {
+            //        var sublist = subs.ToList();
+            //        var index = words.IndexOf(sublist[1]);
+            //        found[index] = sublist[1];
+            //    }
+
+            //}
+
+            //if (found.Count() > 0) { 
+
+            //    var word = found.OrderBy(w => w.Key).Select(w => w.Value).First();
+
+
+            //    Console.WriteLine("BAD SET");
+            //    Console.WriteLine(word);
+
+            //}
+            //else
+            //    Console.WriteLine("GOOD SET");
+
+
+
+        }
+
+
+
+        public void decodeHuff(string s, HuffNode root)
+        {
+
+            var ss = new List<string>();
+
+            var t = ss;
+            
+
+            var node = root;
+            var sb = new StringBuilder();
+
+            for (var i = 0; i < s.Length; i++)
+            {
+                if (s[i] == '1')
+                {
+                    node = node.right;
+                    if (node.left == null && node.right == null)
+                    {
+                        sb.Append(node.data);
+                        node = root;
+                    }
+
+                }
+                else
+                {
+                    node = node.left;
+                    if (node.left == null && node.right == null)
+                    {
+                        sb.Append(node.data);
+                        node = root;
+                    }
+
+                }
+
+
+
+            }
+
+
+            Console.WriteLine(sb.ToString());
+
+
+
+
+        }
+
+
+
+
 
 
         static void preOrder(TreeNode node)

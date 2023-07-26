@@ -7,6 +7,13 @@ namespace LeetCodeConsoleApp
 {
 
 
+    public class HuffNode
+    {
+        public int frequency; // the frequency of this tree
+        public char? data;
+        public HuffNode left, right;
+    }
+
 
 
     public class queue
