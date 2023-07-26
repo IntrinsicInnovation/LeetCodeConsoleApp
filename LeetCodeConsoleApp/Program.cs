@@ -1819,33 +1819,6 @@ namespace LeetCodeConsoleApp
 
 
 
-
-
-
-
-
-    //    def solveLC(pages, days):
-    //if days<len(pages): return -1
-    //def check(x):
-    //    res = 0
-    //    for p in pages:
-    //        res += ceil(p/x)
-    //    return res <= days
-
-    //left, right = 1, max(pages)
-    //while left<right:
-    //    mid = (left + right)//2
-    //    if check(mid) :
-    //        right = mid
-    //    else:
-    //        left = mid + 1
-    //return left
-
-
-
-
-
-
         
         //AMAzon OA - passed 12/18
         public int findMinimumNumberOfPages(List<int> pages, int days)
@@ -1854,20 +1827,15 @@ namespace LeetCodeConsoleApp
             if (len > days)
                 return -1;
 
-            bool checkpages(int x) //, List<int> pages, int days)
+            bool checkpages(int x) 
             {
                 var res = 0;
                 foreach (var p in pages)
                 {
                     res += (int) Math.Ceiling((decimal)(p / x));
                 }
-
                 return res <= days;
-
             }
-
-
-
 
             var left = 1;
             var right = pages.Max();
@@ -1883,46 +1851,6 @@ namespace LeetCodeConsoleApp
             }
             return left;
 
-
-            //var total = pages.Sum();
-            //var x = total / days;
-            //var actualdays = 0;
-           
-            //var chapter = 0;
-            //var pages2 = new List<int>(pages);
-            //while (true)
-            //{
-
-            //    while (chapter < len)
-            //    {
-            //        pages2[chapter] -= x;
-            //        if (pages2[chapter] <= 0)
-            //        {
-                  
-            //            chapter++;
-            //        }
-
-            //        actualdays++;
-
-            //    }
-            //    if (actualdays > days)
-            //    {
-            //        actualdays = 0;
-            //        x++;
-            //        chapter = 0;
-            //        pages2 = new List<int>(pages);
-            //    }
-            //    else
-            //    {
-                    
-
-            //        return x;
-
-            //    }
-                    
-
-            //}
-           
         }
 
 
