@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography;
@@ -1704,65 +1705,79 @@ namespace LeetCodeConsoleApp
             //var words = new List<string> { "aab", "aac", "aacghgh", "aabghgh"};
 
             //sol.noPrefix2(words);
-               sol.findMinimumNumberOfPages(new List<int>() { 2, 3, 4, 5 }, 5);
+            //   sol.findMinimumNumberOfPages(new List<int>() { 2, 3, 4, 5 }, 5);
 
-        //    sol.countkSpikes(new List<int>() { 1, 2, 8, 5, 3, 4 }, 2);
+            //    sol.countkSpikes(new List<int>() { 1, 2, 8, 5, 3, 4 }, 2);
 
 
+            var twos = sol.TwoSum5(new int[]{3,2,4}, 6);
+
+            //var twos = sol.TwoSum5(new int[] { 3, 3 }, 6);
         }
 
     }
 
-
-    class TrieWithCheck
-    {
-
-    
-        class TrieNode
-        {
-            internal bool isWord { get; set; }
-            internal Dictionary<char, TrieNode> children { get; set; } = new Dictionary<char, TrieNode>();
-        }
-
-        TrieNode root = new TrieNode();
-
-
-        public bool Insert(string word)
-        {
-            var node = root;
-
-            var len = word.Length;
-            for(var i = 0; i < len; i++)
-            {
-                var c = word[i];
-                if (node.children.ContainsKey(c))
-                {
-                    if (node.children[c].isWord || i == len - 1)
-                    {
-                        return true;
-                    }
-                }
-                else if (!node.children.ContainsKey(c))
-                {   
-                    node.children[c] = new TrieNode();
-                }
-                
-                node = node.children[c];
-            }
-
-            node.isWord = true;
-
-            return false;
-
-        }
-
-
-
-    }
     class Solution
     {
 
-       // Amazon OA - Passed 6 / 18
+        public int[] TwoSum6(int[] nums, int target)
+        {
+            //efficient beats 68% on leetcode
+            var dict = new Dictionary<int, int>();
+
+            for (var i = 0; i < nums.Length; i++)
+            {
+                if (dict.ContainsKey(target - nums[i]))
+                    return new int[]{dict[target - nums[i]], i};
+                else
+                    dict.TryAdd(nums[i], i);
+
+
+            }
+
+            return default;
+        }
+
+public int[] TwoSum5(int[] nums, int target)
+        {
+            
+            var dict = Enumerable.Range(0, nums.Length).ToDictionary(n => n, n => nums[n]);
+            var result = new int[2];
+            for (var i = 0; i < nums.Length; i++)
+            {
+
+                var value = target - nums[i];
+
+                var key = -1;
+
+                var keys = dict.Where(pair => pair.Value == value).Select(pair => pair.Key).ToList();
+                for(var j = 0; j < keys.Count; j++)
+                {
+                    if (keys[j] != i)
+                    {
+                        key = keys[j];
+                    }
+                }
+                
+                if (key != -1 && dict.ContainsValue(value)) 
+                {
+                    
+                    result[0] = i;
+                    result[1] = key;
+
+                    break;
+                }
+
+            }
+
+            return result;
+
+
+        }
+
+
+
+        // Amazon OA - Passed 6 / 18
 
         public int countkSpikes(List<int> prices, int k)
         {
@@ -19216,7 +19231,7 @@ public bool IsOneEditDistance(string s, string t)
 
 
 
-        public int[] TwoSum(int[] nums, int target)
+        public int[] TwoSum2(int[] nums, int target)
         {
             var start = 1;
             for (var i = 0; i < nums.Length; i++)
@@ -19269,8 +19284,6 @@ public bool IsOneEditDistance(string s, string t)
         }
 
 
-
-      
 
 
 
@@ -19990,6 +20003,49 @@ public bool IsOneEditDistance(string s, string t)
     }
 
 
+
+    class TrieWithCheck
+    {
+
+
+        class TrieNode
+        {
+            internal bool isWord { get; set; }
+            internal Dictionary<char, TrieNode> children { get; set; } = new Dictionary<char, TrieNode>();
+        }
+
+        TrieNode root = new TrieNode();
+
+
+        public bool Insert(string word)
+        {
+            var node = root;
+
+            var len = word.Length;
+            for (var i = 0; i < len; i++)
+            {
+                var c = word[i];
+                if (node.children.ContainsKey(c))
+                {
+                    if (node.children[c].isWord || i == len - 1)
+                    {
+                        return true;
+                    }
+                }
+                else if (!node.children.ContainsKey(c))
+                {
+                    node.children[c] = new TrieNode();
+                }
+
+                node = node.children[c];
+            }
+
+            node.isWord = true;
+
+            return false;
+
+        }
+    }
 
 
 }
