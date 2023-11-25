@@ -1731,14 +1731,11 @@ namespace LeetCodeConsoleApp
                     return new int[]{dict[target - nums[i]], i};
                 else
                     dict.TryAdd(nums[i], i);
-
-
             }
-
             return default;
         }
 
-public int[] TwoSum5(int[] nums, int target)
+        public int[] TwoSum5(int[] nums, int target)
         {
             
             var dict = Enumerable.Range(0, nums.Length).ToDictionary(n => n, n => nums[n]);
