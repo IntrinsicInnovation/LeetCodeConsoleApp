@@ -1982,6 +1982,7 @@ namespace LeetCodeConsoleApp
             public string value { get; set; }
             public int timestamp { get; set; }
             public int ttl { get; set; }
+            public int mods { get; set; }
         }
 
 
