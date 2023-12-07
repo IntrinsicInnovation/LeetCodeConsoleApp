@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography;
@@ -1728,33 +1729,138 @@ namespace LeetCodeConsoleApp
 
 
 
-            var queries = new string[][] { new string[]{"SET_AT_WITH_TTL","foo","bar","baz","160000000","100" },
-             new string[]{"SCAN_AT","foo","160000025" } };
+            //  var queries = new string[][] { new string[]{"SET_AT_WITH_TTL","foo","bar","baz","160000000","100" },
+            //   new string[]{"SCAN_AT","foo","160000025" } };
 
 
 
-            sol.solution(queries);
+            //            sol.solution(queries);
 
-
-
+                var m = sol.getMaxAdditionalDinersCount(15, 2, 3, new long[] { 11, 6, 14 });
 
         }
 
     }
+
+
 
     class Solution
     {
 
 
 
+        public long getMaxAdditionalDinersCount(long N, long K, int M, long[] S)
+        {
+
+            Array.Sort(S);
+            long result = 0;
+
+            long spread = K + 1;
+
+            result += ((S[0] - 1) / spread);
+
+            result += ((N - S[M - 1]) / spread);
+
+
+
+            for (long i = 0; i < M - 1; i++)
+            {
+                result += ((S[i + 1] - S[i]) / spread - 1);
+            }
+
+
+            return result;
+
+
+
+
+            //var dict = S.ToDictionary(s => s, t => t);
+
+            //var result = 0;
+            //long i = 0;
+
+
+            //while (i < N)
+            //{
+            //    if (dict.ContainsKey(i + 1))
+            //    {
+            //        i += K + 1;
+            //        continue;
+            //    }
+            //    var found = false;
+            //    for (long j = i + 1; j < N && j < i + K + 1; j++)
+            //    {
+            //        if (dict.ContainsKey(j + 1))
+            //        {
+            //            found = true;
+            //            i = j + K + 1;
+            //            break;
+            //        }
+            //    }
+            //    if (!found)
+            //    {
+            //        result++;
+            //        i += K + 1;
+            //    }
+
+
+        
+        //    return result;
+
+        }
+
+
+
+
+
+        public int CalculateDaysBetweenDates(string date1, string date2)
+        {
+            var d1 = DateTime.Parse(date1);
+            var d2 = DateTime.Parse(date2);
+
+            return (d2 - d1).Days;
+        }
+
+        void preOrderTree(TreeNode root)
+        {
+            if (root == null)
+                return;
+
+            Console.WriteLine(root.val);
+            preOrderTree(root.left);
+            preOrderTree(root.right);
+        }
+
+        void postOrderTree(TreeNode root)
+        {
+            if (root == null)
+                return;
+
+            postOrderTree(root.left);
+            postOrderTree(root.right);
+            Console.WriteLine(root.val);
+        }
+
         //Crossover - passed step 3 20/22 test cases.  need to debug
+        
+
+        
+       //Write function that adds two numbers
+       public int add(int a, int b)
+        {
+            return a + b;
+        }
+
+
+
+
         public string[] solution(string[][] queries)
         {
 
             var output = new List<string>();
             var container = new Dictionary<string, Dictionary<string, Field>>();
 
-
+            
             foreach (var q in queries)
             {
                
@@ -1891,7 +1997,8 @@ namespace LeetCodeConsoleApp
                     }
                     else
                         output.Add("false");
-                }
+                    
+                } 
 
 
                 else if (q[0] == "SCAN")
