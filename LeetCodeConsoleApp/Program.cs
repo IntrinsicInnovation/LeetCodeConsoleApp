@@ -1736,7 +1736,12 @@ namespace LeetCodeConsoleApp
 
             //            sol.solution(queries);
 
-                var m = sol.getMaxAdditionalDinersCount(15, 2, 3, new long[] { 11, 6, 14 });
+            //  var m = sol.getMaxAdditionalDinersCount(15, 2, 3, new long[] { 11, 6, 14 });
+
+
+            //var m = sol.getMaxAdditionalDinersCount(10, 2, 3, new long[] { 2, 6, 7 });
+
+            var g = sol.getArtisticPhotographCount(5, "APABA", 1, 2);
 
         }
 
@@ -1747,39 +1752,97 @@ namespace LeetCodeConsoleApp
     class Solution
     {
 
+        public int getArtisticPhotographCount(int N, string C, int X, int Y)
+        {
+
+            var len = C.Length;
+
+            var result = 0;
+            var dict = new Dictionary<char, List<int>>();
+            for (var i = 0; i < len; i++)
+            {
+                if (C[i] == 'P' || C[i] == 'A' || C[i] == 'B')
+                {
+                    if (!dict.ContainsKey(C[i]))
+                    {
+                        dict[C[i]] = new List<int>() { i };
+                    }
+                    else
+                    {
+                        dict[C[i]].Add(i);
+                    }
+                }
+            }
+
+            // var count = dict.GroupBy(d => (d.Key == 'P', d.Key == 'A', d.Key == 'B'));  //.Count();
 
 
-        public long getMaxAdditionalDinersCount(long N, long K, int M, long[] S)
+            var test = dict.Where(d => d.Key == 'P').Select(d => d.Value);
+            var test2 = dict.Where(d => d.Key == 'A' && test  .Any(t => t.Value.Any(t => t.) < d.Key));
+
+            var j = 
+
+            //spp = prodList.Join(spp, (product) => product.Sku, (price) => price.Sku.ToString(), (product, price) =>
+           // {
+           //     price.Description = product.CatalogName;
+           //     price.SubCategory = product.SubCategory;
+           //     return price;
+           // }).ToList();
+        }
+
+            //test.Join(dict.Where(d => d.Key == 'A' && test.All), t => t.Value, a => a.Value, (t, a) => new { t, a }).ToList();
+
+
+
+            //. Join(dict.Where(e => e.Key == 'A' && e.Value >  d.)
+
+
+            foreach (var kvp in dict)
+            {
+                if (kvp.Key == 'P')
+                {
+                    var p = kvp.Value;
+                    foreach(var i in p)
+                    {
+                        var a = dict.ContainsKey('A') ? dict['A'] : new List<int>();
+                        var b = dict.ContainsKey('B') ? dict['B'] : new List<int>();
+                        var aCount = a.Count(a => a < i);
+                        var bCount = b.Count(b => b > i);
+                        if (aCount >= X && bCount >= Y)
+                        {
+                            result++;
+                        }
+                    }
+                }
+            }
+
+             return result;
+
+        }
+
+    
+
+    public long getMaxAdditionalDinersCount(long N, long K, int M, long[] S)
         {
 
             Array.Sort(S);
             long result = 0;
-
             long spread = K + 1;
-
             result += ((S[0] - 1) / spread);
-
             result += ((N - S[M - 1]) / spread);
-
-
-
             for (long i = 0; i < M - 1; i++)
             {
                 result += ((S[i + 1] - S[i]) / spread - 1);
             }
-
-
             return result;
 
 
 
-
+            //Below works but onlyh passess 29/32 test cases on Meta careers coding questions
             //var dict = S.ToDictionary(s => s, t => t);
 
             //var result = 0;
             //long i = 0;
-
-
             //while (i < N)
             //{
             //    if (dict.ContainsKey(i + 1))
@@ -1803,9 +1866,13 @@ namespace LeetCodeConsoleApp
             //        i += K + 1;
             //    }
 
+<<<<<<< HEAD
 
 
             //    return result;
+=======
+        //    return result;
+>>>>>>> 37a79f11bf848ff476a3b06e07bdecde346aa31e
 
         }
 
