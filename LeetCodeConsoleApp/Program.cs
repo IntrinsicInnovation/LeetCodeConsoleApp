@@ -1741,82 +1741,156 @@ namespace LeetCodeConsoleApp
 
             //var m = sol.getMaxAdditionalDinersCount(10, 2, 3, new long[] { 2, 6, 7 });
 
-            var g = sol.getArtisticPhotographCount(5, "APABA", 1, 2);
+//            var g = sol.getArtisticPhotographCount(5, "APABA", 1, 2);
+
+            var g = sol.getArtisticPhotographCount(8, ".PBAAP.B", 1, 3);
 
         }
 
     }
 
 
-
     class Solution
     {
+        //Facebook meta careers:  passed 32/33 - need to fix this!!
+
+        public int getMaximumEatenDishCount(int N, int[] D, int K)
+        {
+            // Write your code here
+            var q = new Queue<int>(K);
+
+            var total = 0;
+
+            for (var i = 0; i < N; i++)
+            {
+                var v = D[i];
+                if (!q.Contains(v))
+                {
+                    if (q.Count > 0 && q.Count == K)
+                        q.Dequeue();
+                    q.Enqueue(v);
+                    total++;
+                }
+                else
+                {
+
+
+                    continue;
+                }
+            }
+
+
+            return total;
+
+        }
+
+
+
 
         public int getArtisticPhotographCount(int N, string C, int X, int Y)
         {
 
-            var len = C.Length;
-
+            var P = new int[N + 1];
+            var B = new int[N + 1];
             var result = 0;
-            var dict = new Dictionary<char, List<int>>();
-            for (var i = 0; i < len; i++)
+
+            for (var i = 1; i <= N; i++)
             {
-                if (C[i] == 'P' || C[i] == 'A' || C[i] == 'B')
-                {
-                    if (!dict.ContainsKey(C[i]))
-                    {
-                        dict[C[i]] = new List<int>() { i };
-                    }
-                    else
-                    {
-                        dict[C[i]].Add(i);
-                    }
-                }
+                P[i] = P[i-1] + (C[i-1] == 'P' ? 1 : 0);
+                B[i] = B[i-1] + (C[i-1] == 'B' ? 1 : 0);  
             }
 
-            // var count = dict.GroupBy(d => (d.Key == 'P', d.Key == 'A', d.Key == 'B'));  //.Count();
-
-
-            var test = dict.Where(d => d.Key == 'P').Select(d => d.Value);
-            var test2 = dict.Where(d => d.Key == 'A' && test  .Any(t => t.Value.Any(t => t.) < d.Key));
-
-            var j = 
-
-            //spp = prodList.Join(spp, (product) => product.Sku, (price) => price.Sku.ToString(), (product, price) =>
-           // {
-           //     price.Description = product.CatalogName;
-           //     price.SubCategory = product.SubCategory;
-           //     return price;
-           // }).ToList();
-        }
-
-            //test.Join(dict.Where(d => d.Key == 'A' && test.All), t => t.Value, a => a.Value, (t, a) => new { t, a }).ToList();
-
-
-
-            //. Join(dict.Where(e => e.Key == 'A' && e.Value >  d.)
-
-
-            foreach (var kvp in dict)
+            for (var i = 0; i < N; i++)
             {
-                if (kvp.Key == 'P')
-                {
-                    var p = kvp.Value;
-                    foreach(var i in p)
-                    {
-                        var a = dict.ContainsKey('A') ? dict['A'] : new List<int>();
-                        var b = dict.ContainsKey('B') ? dict['B'] : new List<int>();
-                        var aCount = a.Count(a => a < i);
-                        var bCount = b.Count(b => b > i);
-                        if (aCount >= X && bCount >= Y)
-                        {
-                            result++;
-                        }
-                    }
+                if (C[i] == 'A')
+                { 
+                    
+                    var beforeEnd = i-X+1 > 0 ? i-X+1 : 0;
+                    var beforeStart = i-Y > 0 ? i-Y : 0;
+                        
+                    var afterEnd = i + Y + 1 < N ? i + Y + 1 : N;
+                    var afterStart = i + X < N ? i + X : N;
+                    result += (P[beforeEnd] - P[beforeStart]) * (B[afterEnd] - B[afterStart]);
+                    result += (P[afterEnd] - P[afterStart]) * (B[beforeEnd] - B[beforeStart]);
                 }
             }
+            return result;
 
-             return result;
+            //for (var i = 0; i < N; i++)
+            //{
+            //    if (C[i] == 'A')
+            //    {
+            //        var forwardP = 0;
+            //        var forwardB = 0;
+            //        var backwardP = 0;
+            //        var backwardB = 0;
+
+
+            //        for (var j = i-Y > 0 ? i-Y : 0; j < i -X + 1; j++)
+            //        {
+            //            if (C[j] == 'P')
+            //            {
+            //                forwardP++;
+            //            }
+            //            else if (C[j] == 'B')
+            //            {
+            //                backwardB++;
+            //            }
+
+            //        }
+
+            //        for (var k = i +X < N - 1 ? i + X : N - 1; k < N && k < i + Y + 1; k++)
+            //        {
+            //            if (C[k] == 'P')
+            //            {
+            //                backwardP++;
+            //            }
+            //            else if (C[k] == 'B')
+            //            {
+            //                forwardB++;
+            //            }
+
+            //        }
+            //        result += forwardP * forwardB;
+            //        result += backwardP * backwardB;
+
+
+
+
+            //    }   
+            //}
+
+          
+
+
+            //running prefix sliding window passess all test cases
+            //int[] B = new int[N + 1], P = new int[N + 1];
+            //int ans = 0;
+
+            //for (int i = 1; i <= N; i++)
+            //{
+            //    char curr = C[i - 1];
+            //    P[i] = P[i - 1] + ((curr == 'P') ? 1 : 0);
+            //    B[i] = B[i - 1] + ((curr == 'B') ? 1 : 0);
+            //}
+
+            //for (int i = 0; i < N; i++)
+            //{
+            //    if (C[i] == 'A')
+            //    {
+            //        int fstart = (i + X) <= N ? (i + X) : N;
+            //        int fend = (i + Y + 1) <= N ? (i + Y + 1) : N;
+            //        int bend = (i - X + 1) >= 0 ? (i - X + 1) : 0;
+            //        int bstart = (i - Y) >= 0 ? (i - Y) : 0;
+            //        ans += (P[fend] - P[fstart]) * (B[bend] - B[bstart]);
+            //        ans += (B[fend] - B[fstart]) * (P[bend] - P[bstart]);
+            //    }
+            //}
+
+            //return ans;
+
+
+
 
         }
 
@@ -1866,13 +1940,10 @@ namespace LeetCodeConsoleApp
             //        i += K + 1;
             //    }
 
-<<<<<<< HEAD
 
 
             //    return result;
-=======
-        //    return result;
->>>>>>> 37a79f11bf848ff476a3b06e07bdecde346aa31e
+
 
         }
 
