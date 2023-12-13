@@ -1741,9 +1741,18 @@ namespace LeetCodeConsoleApp
 
             //var m = sol.getMaxAdditionalDinersCount(10, 2, 3, new long[] { 2, 6, 7 });
 
-//            var g = sol.getArtisticPhotographCount(5, "APABA", 1, 2);
+            //            var g = sol.getArtisticPhotographCount(5, "APABA", 1, 2);
 
-            var g = sol.getArtisticPhotographCount(8, ".PBAAP.B", 1, 3);
+            //  var g = sol.getArtisticPhotographCount(8, ".PBAAP.B", 1, 3);
+
+
+            // var m = sol.getMinCodeEntryTime(10, 4, new int[] { 9, 4, 4, 9 });
+
+
+            //var mddc = sol.getMinimumDeflatedDiscCount1(5, new int[] { 2, 5, 3, 6, 5 });
+
+
+            var gM = sol.getMaxExpectedProfit(5, new int[] { 10, 2, 8, 6, 4 }, 5, 0);
 
         }
 
@@ -1752,21 +1761,212 @@ namespace LeetCodeConsoleApp
 
     class Solution
     {
-        //Facebook meta careers:  passed 32/33 - need to fix this!!
+
+
+        //Solved 1.  shoudl use DP to solve this!!
+
+        public double getMaxExpectedProfit(int N, int[] V, int C, double S)
+        {
+
+            double total = 0;
+            double[] dV = Array.ConvertAll<int, double>(V, x => x);
+
+            for (var i = 0; i < N; i++)
+            {
+                double left = 0;
+                if (S > 0)
+                {
+                    left = dV[i];
+                    for (var j = i; j < N - 1; j++)
+                    {
+                        dV[i] *= (1 - S);
+                    }
+                }
+                else
+                    left = dV[i];
+
+                if (dV[i] - C > left)
+                    total += dV[i] - C;
+                else if (i < N - 1)
+                    dV[i + 1] += (dV[i] *= (1 - S));
+            }
+            if (S == 0)
+                total = dV[N - 1] - C;
+            return total;
+
+        }
+
+
+
+
+
+
+        public long getSecondsRequired(long N, int f, long[] P)
+        {
+            P = new long[] { 2, 3, 4, 5 };
+            var min = P.Min();
+
+            return N - min;
+
+        }
+        
+
+
+
+            public int getUniformIntegerCountInInterval(long A, long B)
+        {
+
+
+            var total = 0;
+
+            for (var i = 1; i < 13; i++)
+            {
+                for (var j = 1; j < 10; j++)
+                {
+                    var num = Convert.ToInt64(string.Concat(Enumerable.Repeat(j.ToString(), i)));
+
+                    if (num >= A && num <= B)
+                        total++;
+
+                }
+            }
+
+            return total;
+
+
+
+        }
+
+
+
+        //PAssed 32/33
+        public int getMinimumDeflatedDiscCount1(int N, int[] R)
+        {
+            if (R[N - 1] < N)
+                return -1;
+
+            var total = 0;
+            for (var i = N - 1; i > 0; i--)
+            {
+                if (R[i - 1] >= R[i])
+                {
+                    if (R[i] > 1)
+                    {
+                        R[i - 1] = R[i] - 1;
+                        total++;
+                    }
+                    else
+                        return -1;
+                }
+
+            }
+            return total;
+        }
+
+        //Facebook metacareers.com - passed 34/34 test cases!
+        public int getMinProblemCount(int N, int[] S)
+        {
+
+            var isodd = false;
+            var total = 0;
+
+            for (var i = 0; i < N; i++)
+            {
+                if (S[i] % 2 > 0)
+                    isodd = true;
+
+                total = Math.Max(total, S[i] / 2);
+            }
+
+            return total + (isodd ? 1 : 0);
+
+        }
+
+
+        //Passed  32 out of 32 test cases
+
+
+        public long getMinCodeEntryTime(int N, int M, int[] C)
+        {
+
+            var current = 1;
+            long result = 0;
+            for (var i = 0; i < M; i++)
+            {
+                var pick = C[i];
+                if (current == pick)
+                    continue;
+
+
+
+                long forward = (N + pick - current) % N;
+
+                long back = (N - pick + current) % N;
+
+                result += Math.Min(forward, back);
+                current = pick;
+            }
+
+            return result;
+        }
+
+
+
+
+
+
+        //Facebook - passed 33/33 test cases on Meta careers coding questions
 
         public int getMaximumEatenDishCount(int N, int[] D, int K)
         {
             // Write your code here
-            var q = new Queue<int>(K);
+            var dict = new Dictionary<int, int>();
 
             var total = 0;
 
             for (var i = 0; i < N; i++)
             {
                 var v = D[i];
-                if (!q.Contains(v))
+                if (!dict.ContainsKey(v) || dict[v] < total - K + 1)
                 {
+                    total++;
+                    dict[v] = total;
+                }
+
+
+            }
+
+
+            return total;
+
+        }
+
+
+
+
+
+
+        //Facebook meta careers:  passed 32/33 - need to fix this!!
+
+        public int getMaximumEatenDishCountSLOW(int N, int[] D, int K)
+        {
+
+            //Prefix Sum + dictionary is most efficient, as Q.Contains is very inefficient.
+            //use a dictionary and then set Dictionary I to eaten counter running total;
+            // Write your code here
+
+            var q = new Queue<int>();
+
+
+            var total = 0;
+
+            for (var i = 0; i < N; i++)
+            {
+                var v = D[i];
+
+              
                     if (q.Count > 0 && q.Count == K)
+                { 
                         q.Dequeue();
                     q.Enqueue(v);
                     total++;
@@ -1816,6 +2016,8 @@ namespace LeetCodeConsoleApp
             }
             return result;
 
+
+            //Passed most test cases, but bad attempt!!:
             //for (var i = 0; i < N; i++)
             //{
             //    if (C[i] == 'A')
@@ -1861,33 +2063,6 @@ namespace LeetCodeConsoleApp
             //}
 
           
-
-
-            //running prefix sliding window passess all test cases
-            //int[] B = new int[N + 1], P = new int[N + 1];
-            //int ans = 0;
-
-            //for (int i = 1; i <= N; i++)
-            //{
-            //    char curr = C[i - 1];
-            //    P[i] = P[i - 1] + ((curr == 'P') ? 1 : 0);
-            //    B[i] = B[i - 1] + ((curr == 'B') ? 1 : 0);
-            //}
-
-            //for (int i = 0; i < N; i++)
-            //{
-            //    if (C[i] == 'A')
-            //    {
-            //        int fstart = (i + X) <= N ? (i + X) : N;
-            //        int fend = (i + Y + 1) <= N ? (i + Y + 1) : N;
-            //        int bend = (i - X + 1) >= 0 ? (i - X + 1) : 0;
-            //        int bstart = (i - Y) >= 0 ? (i - Y) : 0;
-            //        ans += (P[fend] - P[fstart]) * (B[bend] - B[bstart]);
-            //        ans += (B[fend] - B[fstart]) * (P[bend] - P[bstart]);
-            //    }
-            //}
-
-            //return ans;
 
 
 
@@ -2604,8 +2779,8 @@ namespace LeetCodeConsoleApp
 
             /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution */
 
-            //  var n = Convert.ToInt32(Console.ReadLine());
-            var ed = new editor();
+        //  var n = Convert.ToInt32(Console.ReadLine());
+        var ed = new editor();
             //for (var i = 0; i < n; i++)
             foreach (var op in ops)
             {
