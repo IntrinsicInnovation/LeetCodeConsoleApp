@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.Intrinsics;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -1752,7 +1753,7 @@ namespace LeetCodeConsoleApp
             //var mddc = sol.getMinimumDeflatedDiscCount1(5, new int[] { 2, 5, 3, 6, 5 });
 
 
-            var gM = sol.getMaxExpectedProfit(5, new int[] { 10, 2, 8, 6, 4 }, 5, 0);
+            var gM = sol.getMaxExpectedProfit(5, new int[] { 10, 2, 8, 6, 4 }, 3, .15);
 
         }
 
@@ -1768,31 +1769,48 @@ namespace LeetCodeConsoleApp
         public double getMaxExpectedProfit(int N, int[] V, int C, double S)
         {
 
+
+            //maybe working?
+            //const int n = v.size();
+            S = 1 - S;
+            double[] dp = new double[N+1];
+            for (int i = 1; i <= N; ++i)
+            {
+                double sum = 0, w = 1;
+                for (int j = i - 1; j >= 0; --j)
+                {
+                    sum += V[j] * w;
+                    w *= S;
+                    dp[i] = Math.Max(dp[i], dp[j] + sum);
+
+                }
+                dp[i] -= C;
+            }
+            return dp.Max(); // *max_element(dp.begin(), dp.end());
+
+
+
+
+            //garbage:
+
+            S = 1 - S;
             double total = 0;
-            double[] dV = Array.ConvertAll<int, double>(V, x => x);
+
+            double[] dV = new double[N + 1];
+            // dV = Array.ConvertAll<int, double>(V, x => x);
+
+           
 
             for (var i = 0; i < N; i++)
             {
-                double left = 0;
-                if (S > 0)
-                {
-                    left = dV[i];
-                    for (var j = i; j < N - 1; j++)
-                    {
-                        dV[i] *= (1 - S);
-                    }
-                }
-                else
-                    left = dV[i];
 
-                if (dV[i] - C > left)
-                    total += dV[i] - C;
-                else if (i < N - 1)
-                    dV[i + 1] += (dV[i] *= (1 - S));
+//                if (V[i] - C > V[i] * (S))
+                    total += V[i] - C;
+                if (i < N - 1)
+                    dV[i + 1] = Math.Max(total, (double)(V[i] * (S)));
             }
-            if (S == 0)
-                total = dV[N - 1] - C;
-            return total;
+            
+            return dV.Max();
 
         }
 
