@@ -1762,9 +1762,39 @@ namespace LeetCodeConsoleApp
     class Solution
     {
 
+        //Passed 24/24 test cases on metacareers portal;
 
-        //Solved 1.  Used Dynamic Programming to solve.  
+        //What is the BigO notation of the getMaxExpectedProfit2 below? 
+        //O(N^2)  - 2 nested loops.  N^2 is the worst case scenario.  Best case is O(N) if all values are the same.
 
+        public double getMaxExpectedProfit2(int N, int[] V, int C, double S)
+        {
+
+            var stolenpercent = 1 - S;
+            var DP = new double[N + 1];
+
+            for (var i = 1; i <= N; i++)
+            {
+                double total = 0;
+                double P = 1;
+                for (var j = i - 1; j >= 0; j--)
+                {
+
+                    total += V[j] * P;
+                    P *= stolenpercent;
+
+                    DP[i] = Math.Max(DP[i], total + DP[j]);
+
+
+                }
+                DP[i] -= C;
+            }
+
+            return DP.Max();
+        }
+
+
+        //Solved 6/33 test cases. but wrong approach.  need backwards loops  Use Dynamic Programming to solve.  
         public double getMaxExpectedProfit(int N, int[] V, int C, double S)
         {
 
