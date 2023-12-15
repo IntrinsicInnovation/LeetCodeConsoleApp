@@ -1763,7 +1763,7 @@ namespace LeetCodeConsoleApp
     {
 
 
-        //Solved 1.  shoudl use DP to solve this!!
+        //Solved 1.  Used Dynamic Programming to solve.  
 
         public double getMaxExpectedProfit(int N, int[] V, int C, double S)
         {
