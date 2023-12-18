@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics;
 using System.Security.Cryptography;
 using System.Text;
@@ -1746,25 +1747,247 @@ namespace LeetCodeConsoleApp
 
             //  var g = sol.getArtisticPhotographCount(8, ".PBAAP.B", 1, 3);
 
-
             // var m = sol.getMinCodeEntryTime(10, 4, new int[] { 9, 4, 4, 9 });
-
 
             //var mddc = sol.getMinimumDeflatedDiscCount1(5, new int[] { 2, 5, 3, 6, 5 });
 
+            // var gM = sol.getMaxExpectedProfit(5, new int[] { 10, 2, 8, 6, 4 }, 3, .15);
 
-            var gM = sol.getMaxExpectedProfit(5, new int[] { 10, 2, 8, 6, 4 }, 3, .15);
+
+            //var G = new char[,] { { '.', 'E', '.' }, { '.', '#', 'E' }, { '.', 'S', '#' } };
+            //var gsr = sol.getSecondsRequired(3, 3, G );
+
+
+            
+          //  var G = new char[,] { { 'a', 'S', '.', 'b' }, { '#', '#', '#', '#' }, { 'E', 'b', '.', 'a' } };
+          //  var gsr = sol.getSecondsRequired(3, 4, G);
+
+
+
+            var G = new char[,] { { 'x', 'S', '.', '.', 'x', '.', '.', 'E', 'x' } };
+            var gsr = sol.getSecondsRequired(1, 9, G);
+
 
         }
-
+    
     }
-
 
     class Solution
     {
 
-        //Passed 24/24 test cases on metacareers portal;
 
+
+        public int getSecondsRequired(int R, int C, char[,] G)
+        {
+            // Write your code here
+            int startX = 0, startY = 0;
+            for (int i = 0; i < R; ++i)
+                for (int j = 0; j < C; ++j)
+                {
+                    if (G[i,j] == 'S')
+                    {
+                        startX = i;
+                        startY = j;
+                        break;
+                    }
+                }
+            return getMinSeconds(R, C, G, startX, startY);
+        }
+
+        private int getMinSeconds(int R, int C, char[,] G, int startX, int startY)
+        {
+            bool[,] visited = new bool[R,C];
+            Queue<Move> q = new Queue<Move>();
+            q.Enqueue(new Move(startX, startY, 0));
+            int minX = -1, minY = -1;
+            int minSeconds = int.MaxValue;
+            while (q.Count > 0)
+            {
+                Move move = q.Dequeue();
+                if (G[move.x,move.y] == 'E')
+                {
+                    if (move.seconds < minSeconds)
+                    {
+                        minSeconds = move.seconds;
+                        minX = move.x;
+                        minY = move.y;
+                    }
+                    continue;
+                }
+                visited[move.x,move.y] = true;
+                if (move.x > 0)
+                {
+                    makeMove(q, G, move.x - 1, move.y, move.seconds + 1, visited);
+                }
+                if (move.y > 0)
+                {
+                    makeMove(q, G, move.x, move.y - 1, move.seconds + 1, visited);
+                }
+                if (move.x < R - 1)
+                {
+                    makeMove(q, G, move.x + 1, move.y, move.seconds + 1, visited);
+                }
+                if (move.y < C - 1)
+                {
+                    makeMove(q, G, move.x, move.y + 1, move.seconds + 1, visited);
+                }
+                if (G[move.x,move.y] >= 'a' && G[move.x,move.y] <= 'z')
+                {
+                    for (int i = 0; i < R; ++i)
+                        for (int j = 0; j < C; ++j)
+                            if (G[i,j] == G[move.x,move.y])
+                            {
+                                makeMove(q, G, i, j, move.seconds + 1, visited);
+                            }
+                }
+            }
+            return minX != -1 && minY != -1 ? minSeconds : -1;
+        }
+
+        private void makeMove(Queue<Move> q, char[,] G, int x, int y, int secs, bool[,] visited)
+        {
+            if (G[x,y] != '#' && !visited[x,y])
+            {
+                q.Enqueue(new Move(x, y, secs));
+            }
+        }
+
+        class Move
+        {
+            public int x, y;
+            public int seconds;
+            public Move(int x, int y, int seconds)
+            {
+                this.x = x;
+                this.y = y;
+                this.seconds = seconds;
+            }
+        }
+
+
+        //My code:  passess 24/31.  needs work!!!
+
+        public int getSecondsRequired1(int R, int C, char[,] G)
+        {
+            var visited = new bool[R,C];
+            var q = new Queue<ChrisNode>();
+         
+            var minseconds = int.MaxValue;
+            var minr = -1;
+            var minc = -1;
+            //Find the starting point
+            ChrisNode start = new ChrisNode(-1, -1,' ', 0);
+            for (var i = 0; i < R; i++)
+            {
+                for (var j = 0; j < C; j++)
+                {
+                    if (G[i, j] == 'S')
+                    {
+                        start = new ChrisNode(i, j, G[i, j], 0);
+                        break;
+                    }
+                }
+            }
+
+
+            q.Enqueue(start);
+            visited[start.r, start.c] = true;
+
+            while (q.Count > 0)
+            {
+                var n = q.Dequeue();
+              
+
+                if (n.val == 'E')
+                {
+
+                    if (n.seconds < minseconds)
+                    {
+                        minseconds = n.seconds;
+                        minr = n.r;
+                        minc = n.c;
+                    }
+                
+                }
+                visited[n.r, n.c] = true;
+
+
+                move(n, q, G, R, C, visited);
+
+                if (n.val >= 'a' && n.val <= 'z')
+                {
+                    
+                    //var found = false;
+                    for (var i = 0; i < R; i++)
+                    {
+                        for (var j = 0; j < C; j++)
+                        {
+                            if (G[i, j] == n.val) // && (i != n.r || j != n.c))
+                            {
+                               // visited[i, j] = true;
+                                move(new ChrisNode(i, j, n.val, n.seconds+1 ), q, G, R, C, visited);
+                            }
+                        }
+                    }
+
+                  //  continue;
+                    //Find next node with same letter and add neighbours to queue if exists
+                }
+
+                //if (n.val == '.' || n.val == 'S')
+                //{
+                //    visited[n.r, n.c] = true;
+                //    move(n, q, G, R, C, visited);
+                //}
+            }
+
+           return minr != -1 && minc!= -1 ? minseconds : -1;
+
+        }
+
+
+        private void move(ChrisNode n, Queue<ChrisNode> q, char[,] G, int R, int C, bool[,] visited)
+        {
+            if (n.r > 0 && G[n.r - 1, n.c] != '#' && !visited[n.r-1, n.c])
+            {
+                q.Enqueue(new ChrisNode(n.r - 1, n.c, G[n.r - 1, n.c], n.seconds+1));
+            }
+
+            if (n.c > 0 && G[n.r, n.c - 1] != '#' && !visited[n.r, n.c-1])
+            {
+                q.Enqueue(new ChrisNode(n.r, n.c - 1, G[n.r, n.c - 1], n.seconds + 1));
+            }
+
+            if (n.r < R - 1 && G[n.r + 1, n.c] != '#' && !visited[n.r+1, n.c])
+            {
+                q.Enqueue(new ChrisNode(n.r + 1, n.c, G[n.r + 1, n.c], n.seconds + 1));
+            }
+
+            if (n.c < C - 1 && G[n.r, n.c + 1] != '#' && !visited[n.r, n.c+1])
+            {
+                q.Enqueue(new ChrisNode(n.r, n.c + 1, G[n.r, n.c + 1], n.seconds + 1));
+            }
+        }
+
+
+        private class ChrisNode
+        {
+            public int r;
+            public int c;
+            public char val;
+            public int seconds;
+            public ChrisNode(int r, int c, char val, int seconds)
+            {
+                this.r = r;
+                this.c = c;
+                this.val = val;
+                this.seconds = seconds;
+            }
+        }
+
+
+
+        //Passed 24/24 test cases on metacareers portal;
         //What is the BigO notation of the getMaxExpectedProfit2 below? 
         //O(N^2)  - 2 nested loops.  N^2 is the worst case scenario.  Best case is O(N) if all values are the same.
 
