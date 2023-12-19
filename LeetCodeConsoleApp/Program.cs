@@ -1758,15 +1758,16 @@ namespace LeetCodeConsoleApp
             //var gsr = sol.getSecondsRequired(3, 3, G );
 
 
-            
-          //  var G = new char[,] { { 'a', 'S', '.', 'b' }, { '#', '#', '#', '#' }, { 'E', 'b', '.', 'a' } };
-          //  var gsr = sol.getSecondsRequired(3, 4, G);
+
+            //  var G = new char[,] { { 'a', 'S', '.', 'b' }, { '#', '#', '#', '#' }, { 'E', 'b', '.', 'a' } };
+            //  var gsr = sol.getSecondsRequired(3, 4, G);
 
 
 
-            var G = new char[,] { { 'x', 'S', '.', '.', 'x', '.', '.', 'E', 'x' } };
-            var gsr = sol.getSecondsRequired(1, 9, G);
+            //  var G = new char[,] { { 'x', 'S', '.', '.', 'x', '.', '.', 'E', 'x' } };
+            //var gsr = sol.getSecondsRequired(1, 9, G);
 
+            var gmv = sol.getMaxVisitableWebpages(4, new int[] { 4, 1, 2, 1 });
 
         }
     
@@ -1775,9 +1776,192 @@ namespace LeetCodeConsoleApp
     class Solution
     {
 
+        public int getMaxVisitableWebpages(int N, int[] L)
+        {
+
+            var maxcount = 0;
+
+            for (int i = 0; i < N; i++)
+            {
+                var count = 1;
+                var visited = new bool[N];
+                var j = i;
+                visited[j] = true;
+                while (true)
+                {
+                    
+                    j = L[j] - 1;
+                    if (visited[j])
+                        break;
+                    visited[j] = true;
+                    count++;
+
+                    
+                }
+                 maxcount = Math.Max(maxcount, count);
+                if (maxcount == N)
+                    break;
+
+            }
+
+            return maxcount;
+            
 
 
-        public int getSecondsRequired(int R, int C, char[,] G)
+            // Write your code here
+            //return 0;
+
+            //create array of neighbours with all neihbours for each node
+
+
+            // start at each node and find out what is the longest distance with a distance of 1 from 1 node to any other node.
+
+            //   return max distance.
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        ////Passed 31/31 in java.  convert to C# to understand!
+
+        //int R;
+        //int C;
+        //char[][] G;
+
+        //Map<Character, List<Vertex>> portals = new HashMap<>();
+
+
+        //public int getSecondsRequired(int R, int C, char[][] G)
+        //{
+
+        //    this.R = R;
+        //    this.C = C;
+        //    this.G = G;
+
+        //    List<Vertex> currentMoves = new ArrayList<>();
+
+        //    Vertex startPos;
+        //    // find starting pos and build portal map
+        //    for (int i = 0; i < R; i++)
+        //        for (int j = 0; j < C; j++)
+        //        {
+        //            char cell = G[i][j];
+        //            if (cell == 'S')
+        //            {
+        //                currentMoves.add(new Vertex(i, j));  // Add starting cell to the current moves
+        //            }
+        //            if (cell >= 'a' && cell <= 'z')
+        //            {
+        //                portals.computeIfAbsent(cell, c-> new ArrayList<>())
+        //                        .add(new Vertex(i, j));
+        //            }
+        //        }
+
+        //    int moves = 0;
+        //    while (true)
+        //    {
+        //        moves++;
+        //        // iterate through all available moves
+        //        List<Vertex> newMoves = new ArrayList<>();
+        //        for (Vertex v: currentMoves)
+        //        {
+        //            // try to move left
+        //            if (v.canMoveTo(v.row, v.col - 1))
+        //            {
+        //                Vertex leftCell = new Vertex(v.row, v.col - 1);
+        //                if (leftCell.isExit())
+        //                    return moves;
+        //                newMoves.add(leftCell);
+        //            }
+        //            // try to move right
+        //            if (v.canMoveTo(v.row, v.col + 1))
+        //            {
+        //                Vertex rightCell = new Vertex(v.row, v.col + 1);
+        //                if (rightCell.isExit())
+        //                    return moves;
+        //                newMoves.add(rightCell);
+        //            }
+        //            // try to move up
+        //            if (v.canMoveTo(v.row - 1, v.col))
+        //            {
+        //                Vertex aboveCell = new Vertex(v.row - 1, v.col);
+        //                if (aboveCell.isExit())
+        //                    return moves;
+        //                newMoves.add(aboveCell);
+        //            }
+        //            // try to move down
+        //            if (v.canMoveTo(v.row + 1, v.col))
+        //            {
+        //                Vertex belowCell = new Vertex(v.row + 1, v.col);
+        //                if (belowCell.isExit())
+        //                    return moves;
+        //                newMoves.add(belowCell);
+        //            }
+        //            // try to use a portal
+        //            char cell = v.getValue();
+        //            if (cell >= 'a' && cell <= 'z' && portals.containsKey(cell))
+        //            {
+        //                List<Vertex> portalList = portals.get(cell);
+        //                for (Vertex portalExit: portalList)
+        //                {
+        //                    if (portalExit != v && portalExit.getValue() != 'V')
+        //                        newMoves.add(portalExit);
+        //                }
+        //            }
+        //            G[v.row][v.col] = 'V';  // mark as visited
+        //        }
+        //        if (newMoves.size() == 0)
+        //            return -1;
+        //        currentMoves = newMoves;
+        //    }
+
+        //}
+
+        //class Vertex
+        //{
+        //    private final int row;
+        //    private final int col;
+
+        //    Vertex(int row, int col)
+        //    {
+        //        this.row = row;
+        //        this.col = col;
+        //    }
+
+        //    private boolean canMoveTo(int newRow, int newCol)
+        //    {
+        //        return (newRow >= 0) && (newRow < R) && (newCol >= 0) && (newCol < C)
+        //                && G[newRow][newCol] != '#' && G[newRow][newCol] != 'V';
+        //    }
+
+        //    private char getValue()
+        //    {
+        //        return G[row][col];
+        //    }
+
+        //    private boolean isExit()
+        //    {
+        //        return getValue() == 'E';
+        //    }
+        //}
+
+
+
+
+
+        //passed 30/31:  still no good:
+
+
+        public int getSecondsRequired2(int R, int C, char[,] G)
         {
             // Write your code here
             int startX = 0, startY = 0;
