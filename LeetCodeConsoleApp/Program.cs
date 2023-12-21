@@ -1793,11 +1793,11 @@ namespace LeetCodeConsoleApp
                 if (current == pick)
                     continue;
 
-                long counterclock = (N - C[i] + current) % N;
-                long clockwise = (N + C[i] - current) % N;
+                long counterclock = (N - pick + current) % N;
+                long clockwise = (N + pick - current) % N;
 
                 distance += Math.Min(counterclock, clockwise);
-                current = C[i];
+                current = pick;
             }
 
 
