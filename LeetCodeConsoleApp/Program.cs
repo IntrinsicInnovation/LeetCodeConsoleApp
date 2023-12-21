@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LeetCodeConsoleApp;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -1777,37 +1778,154 @@ namespace LeetCodeConsoleApp
     {
 
 
-        //Passed 4/18.  suckssss dude
+
+
+
+
+        public long getMinCodeEntryTime(int N, int M, int[] C)
+        {
+            // Write your code here
+            long distance = 0;
+            var current = 1;
+            for (var i = 0; i < M; i++)
+            {
+                var pick = C[i];
+                if (current == pick)
+                    continue;
+
+                long counterclock = (N - C[i] + current) % N;
+                long clockwise = (N + C[i] - current) % N;
+
+                distance += Math.Min(counterclock, clockwise);
+                current = C[i];
+            }
+
+
+            return distance;
+
+
+        }
+
+
+
+
+
+
+
+        //Passed 18/18.  Need to understand this 100% tho
+
+
         public int getMaxVisitableWebpages(int N, int[] L)
         {
 
-            var maxcount = 0;
 
+            L = Array.ConvertAll(L, x => x - 1);
+            int[] indegrees = new int[N];
+            foreach (int l in L)
+            {
+                indegrees[l] += 1;
+            }
+            int[] levels = new int[N];
+            bool[] visited = new bool[N];
+            Queue<int> queue = new Queue<int>();
             for (int i = 0; i < N; i++)
             {
-                var count = 1;
-                var visited = new bool[N];
-                var j = i;
-                visited[j] = true;
+                if (indegrees[i] == 0)
+                {
+                    queue.Enqueue(i);
+                }
+            }
+            while (queue.Count > 0)
+            {
+                int i = queue.Dequeue();
+                visited[i] = true;
+                int j = L[i];
+                levels[j] = Math.Max(levels[j], levels[i] + 1);
+                indegrees[j] -= 1;
+                if (indegrees[j] == 0)
+                {
+                    queue.Enqueue(j);
+                }
+            }
+            Dictionary<int, int> roots = new Dictionary<int, int>();
+            Dictionary<int, int> cycleSize = new Dictionary<int, int>();
+            int CountCycle(int start)
+            {
+                if (roots.ContainsKey(start))
+                {
+                    return cycleSize[roots[start]];
+                }
+                int count = 0;
+                int i = start;
                 while (true)
                 {
-                    
-                    j = L[j] - 1;
-                    if (visited[j])
+                    count += 1;
+                    roots[i] = start;
+                    i = L[i];
+                    if (start == i)
+                    {
                         break;
-                    visited[j] = true;
-                    count++;
-
-                    
+                    }
                 }
-                 maxcount = Math.Max(maxcount, count);
-                if (maxcount == N)
-                    break;
+                cycleSize[start] = count;
+                return count;
+            }
+            int maxChain = 0;
+            for (int i = 0; i < N; i++)
+            {
+                if (!visited[i])
+                {
+                    maxChain = Math.Max(maxChain, levels[i] + CountCycle(i));
+                }
+            }
+            return maxChain;
+
+
+        }
+
+
+
+
+
+//Passed 4/18.  suckssss dude  - should try Kahn's algorithm and find the longest cycle and incoming edges.
+
+public int getMaxVisitableWebpages1(int N, int[] L)
+        {
+            var ndegree = new int[N];
+            var maxcount = 0;
+
+
+            //Add incoming edges to each node
+            for (int i = 0; i < N; i++)
+            {
+                ndegree[L[i] - 1]++;
+            }
+            var q = new Queue<int>();
+            for (int i = 0; i < N; i++)
+            {
+                if (ndegree[i] == 0)
+                    q.Enqueue(i);
+            }
+
+            var index = 0;
+            var order = new int[N];
+            while (q.Count > 0)
+            {
+                var node = q.Dequeue();
+                order[index++] = node;
+                ndegree[L[node] - 1]--;
+                if (ndegree[L[node] - 1] == 0)
+                    q.Enqueue(L[node] - 1);
+
+
 
             }
 
-            return maxcount;
-            
+            return order[N - 1];
+
+
+
+
 
 
             // Write your code here
@@ -1819,6 +1937,33 @@ namespace LeetCodeConsoleApp
             // start at each node and find out what is the longest distance with a distance of 1 from 1 node to any other node.
 
             //   return max distance.
+
+            //Passed 4 / 28:  works but slow as all failed on time
+            //for (int i = 0; i < N; i++)
+            //{
+            //    var count = 1;
+            //    var visited = new bool[N];
+            //    var j = i;
+            //    visited[j] = true;
+            //    while (true)
+            //    {
+
+            //        j = L[j] - 1;
+            //        if (visited[j])
+            //            break;
+            //        visited[j] = true;
+            //        count++;
+
+
+            //    }
+            //    maxcount = Math.Max(maxcount, count);
+            //    if (maxcount == N)
+            //        break;
+
+            //}
+
+            //return maxcount;
+
 
 
         }
@@ -2343,7 +2488,7 @@ namespace LeetCodeConsoleApp
         //Passed  32 out of 32 test cases
 
 
-        public long getMinCodeEntryTime(int N, int M, int[] C)
+        public long getMinCodeEntryTimeOneLock(int N, int M, int[] C)
         {
 
             var current = 1;
