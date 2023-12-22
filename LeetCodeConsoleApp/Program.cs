@@ -1779,29 +1779,40 @@ namespace LeetCodeConsoleApp
 
 
 
-
-
+        //works with MEMOization
+        //Only works for one timer clock. needs to work for two.
 
         public long getMinCodeEntryTime(int N, int M, int[] C)
         {
-            // Write your code here
-            long distance = 0;
-            var current = 1;
-            for (var i = 0; i < M; i++)
+            var memo = Enumerable.Range(0, M).Select(_ => new Dictionary<int, long>()).ToList();
+
+            long dfs(int left, int step)
             {
-                var pick = C[i];
-                if (current == pick)
-                    continue;
-
-                long counterclock = (N - pick + current) % N;
-                long clockwise = (N + pick - current) % N;
-
-                distance += Math.Min(counterclock, clockwise);
-                current = pick;
+                if (step == M)
+                {
+                    return 0;
+                }
+                if (!memo[step].TryGetValue(left, out long result))
+                {
+                    int right = step == 0 ? 1 : C[step - 1];
+                    result = Math.Min(
+                      moves(left, C[step]) + dfs(right, step + 1),
+                      moves(right, C[step]) + dfs(left, step + 1)
+                    );
+                    memo[step].Add(left, result);
+                }
+                return result;
             }
 
+            int moves(int x, int y)
+            {
+                int min = Math.Min(x, y), max = Math.Max(x, y);
+                int fwd = max - min, rev = min + (N - max);
+                return Math.Min(fwd, rev);
+            }
 
-            return distance;
+            return dfs(1, 0);
+
 
 
         }
