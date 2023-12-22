@@ -1768,10 +1768,14 @@ namespace LeetCodeConsoleApp
             //  var G = new char[,] { { 'x', 'S', '.', '.', 'x', '.', '.', 'E', 'x' } };
             //var gsr = sol.getSecondsRequired(1, 9, G);
 
-            var gmv = sol.getMaxVisitableWebpages(4, new int[] { 4, 1, 2, 1 });
+            //var gmv = sol.getMaxVisitableWebpages(4, new int[] { 4, 1, 2, 1 });
+
+            var m = sol.getMinCodeEntryTime(10, 4, new int[] { 9, 4, 4, 8 });
+
+
 
         }
-    
+
     }
 
     class Solution
