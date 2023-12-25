@@ -8,6 +8,7 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics;
+using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -1770,7 +1771,9 @@ namespace LeetCodeConsoleApp
 
             //var gmv = sol.getMaxVisitableWebpages(4, new int[] { 4, 1, 2, 1 });
 
-            var m = sol.getMinCodeEntryTime(10, 4, new int[] { 9, 4, 4, 8 });
+           // var m = sol.getMinCodeEntryTime(10, 4, new int[] { 9, 4, 4, 8 });
+
+            var cs = sol.ClimbStairsKstepsSpaceOptimized(5, 2);
 
 
 
@@ -1783,28 +1786,105 @@ namespace LeetCodeConsoleApp
 
 
 
-        //works with MEMOization
-        //Only works for one timer clock. needs to work for two.
 
-        public long getMinCodeEntryTime(int N, int M, int[] C)
+        public int ClimbStairsKstepsSpaceOptimized(int N, int K)
         {
-            var memo = Enumerable.Range(0, M).Select(_ => new Dictionary<int, long>()).ToList();
+            var dp = new int[K];
+            dp[0] = 1;
+            
 
+            for (var i = 1; i <= N; i++)
+            {
+                for (var j = 1; j < K; j++)
+                {
+                    if (i - j < 0)
+                        continue;
+                    dp[i % K] += dp[(i - j) % K];
+
+                }
+            }
+
+
+            return dp[N % K];
+        }
+
+
+        public int ClimbStairsKsteps(int N, int K)
+        {
+            var dp = new int[N + 1];
+            dp[0] = 1;
+            dp[1] = 1;
+
+            for (var i = 2; i <= N; i++)
+            {
+                for (var j = 1; j <= K; j++)
+                {
+                    if (i - K < 0)
+                        continue;
+                    dp[i] += dp[i - j];
+
+                }
+            }
+
+
+            return dp[N];
+        }
+
+
+
+        public long getMinCodeEntryTime3(int N, int M, int[] C)
+        {
+
+            var c = new int[] { 0, 1 }.Concat(C);
+
+            int Cost(int i, int j)
+            {
+                return Math.Min((C[i] - C[j]) % N, (C[j] - C[i]) % N);
+            }
+
+            List<int> dp = new List<int>(new int[M]);
+            dp[0] = Cost(0, 1);
+
+            for (int i = 2; i < C.Count() ; i++)
+            {
+                dp[i - 1] = dp.GetRange(0, i - 1).Select(k => dp[k] + Cost(k, i)).Min();
+
+                for (int k = 0; k < i - 1; k++)
+                {
+                    dp[k] += Cost(i - 1, i);
+                }
+            }
+
+            return dp.Min();
+
+
+        }
+
+
+
+//works with MEMOization
+//Only works for one timer clock. needs to work for two.
+
+public long getMinCodeEntryTime(int N, int M, int[] C)
+        {
+            // var memo = Enumerable.Range(0, M).Select(_ => new Dictionary<int, long>()).ToList();
+
+            var memo = Enumerable.Range(0, M).Select(x => new Dictionary<int, long>()).ToList();
             long dfs(int left, int step)
             {
                 if (step == M)
                 {
                     return 0;
                 }
-                if (!memo[step].TryGetValue(left, out long result))
-                {
+              //  if (!memo[step].TryGetValue(left, out long result))
+             //   {
                     int right = step == 0 ? 1 : C[step - 1];
-                    result = Math.Min(
+                   long result = Math.Min(
                       moves(left, C[step]) + dfs(right, step + 1),
                       moves(right, C[step]) + dfs(left, step + 1)
                     );
-                    memo[step].Add(left, result);
-                }
+                 //   memo[step].Add(left, result);
+              //  }
                 return result;
             }
 
@@ -2115,8 +2195,6 @@ public int getMaxVisitableWebpages1(int N, int[] L)
         //        return getValue() == 'E';
         //    }
         //}
-
-
 
 
 
@@ -2487,7 +2565,7 @@ public int getMaxVisitableWebpages1(int N, int[] L)
             var isodd = false;
             var total = 0;
 
-            for (var i = 0; i < N; i++)
+            for (var i = 0; i < S.Count(); i++)
             {
                 if (S[i] % 2 > 0)
                     isodd = true;
