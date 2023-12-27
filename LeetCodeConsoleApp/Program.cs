@@ -1771,10 +1771,31 @@ namespace LeetCodeConsoleApp
 
             //var gmv = sol.getMaxVisitableWebpages(4, new int[] { 4, 1, 2, 1 });
 
-           // var m = sol.getMinCodeEntryTime(10, 4, new int[] { 9, 4, 4, 8 });
+            // var m = sol.getMinCodeEntryTime(10, 4, new int[] { 9, 4, 4, 8 });
 
-            var cs = sol.ClimbStairsKstepsSpaceOptimized(5, 2);
+            //   var cs = sol.ClimbStairsKstepsSpaceOptimizedRedStairs(5, 2 , new bool[] {true, false, true, true, false});
 
+            // var csp = sol.ClimbStairsPaid(3, new int[] { 0, 3, 2, 4});
+
+
+            //  var mpp = sol.MostProfitablePath(new int[,] { { 0, 3, 2, 4 },
+            //                                                { 1, 99, 100, 200 },
+            //                                                { 1, 1, 1, 2 },
+            //                                                { 2, 3, 4, 5 }});
+
+
+            // var ts = sol.TwoSum7(new int[] { 2,3, 3, 7, 11, 15 }, 6);
+
+
+
+            var root = new TreeNode(1);
+            root.left = new TreeNode(3);
+            root.right = new TreeNode(2);
+            root.left.left = new TreeNode(5);
+            root.left.right = new TreeNode(3);
+            root.right.right = new TreeNode(9);
+            //1,3,2,5,3,null,9]
+            var it = sol.InorderTraversal(root);
 
 
         }
@@ -1783,6 +1804,115 @@ namespace LeetCodeConsoleApp
 
     class Solution
     {
+
+        public IList<int> InorderTraversal(TreeNode root)
+        {
+            var list = new List<int>();
+            var stack = new Stack<TreeNode>();
+
+            while (root != null || stack.Count > 0)
+            {
+               
+               if (root != null)
+                { 
+                    stack.Push(root);
+                    root = root.left;
+                }
+               else
+                {
+                    var popped = stack.Pop();
+                    list.Add(popped.val);
+                    root = popped.right;
+                }
+
+
+            }
+            return list;
+        }
+
+        public int[] TwoSum7(int[] nums, int target)
+        {
+         
+
+            var d = new Dictionary<int, int>();
+          
+
+            for (var i = 0; i < nums.Length; i++)
+            {
+           
+                var diff = target - nums[i];
+                if (d.ContainsKey(diff))
+                {
+                    return new int[] { i, d[diff] };
+                }
+                else
+                {
+                    d[nums[i]] = i;
+                }
+            }   
+
+            return default;
+
+        }
+
+        public int MostProfitablePath(int [,] grid)
+        {
+            var m = grid.GetLength(0);
+            var n = grid.GetLength(1);
+           // var profit = 0;
+            var dp = new int[m,n];
+            dp[0,0] = 0;
+            
+            for (var i = 0; i < m; i++)
+            {
+                for (var j = 0; j < n; j++)
+                {
+                    dp[i,j] = Math.Max(i > 0 ? dp[i - 1, j] : 0, j > 0 ? dp[i, j - 1] : 0) + grid[i, j];
+                }
+            }
+
+            return dp[m-1,n-1];
+
+        }   
+
+        public int ClimbStairsPaid(int N, int[] P)
+        {
+            var dp = new int[N + 1];
+            dp[0] = 0;
+            dp[1] = P[1];
+            for (var i = 2; i <= N; i++)
+            {
+                dp[i] = Math.Min(dp[i-1], dp[i-2]) + P[i];
+            }
+
+            return dp[N];   
+
+        }
+
+
+        public int ClimbStairsKstepsSpaceOptimizedRedStairs(int N, int K, bool[] redstairs)
+        {
+            var dp = new int[K];
+            dp[0] = 1;
+
+
+            for (var i = 1; i <= N; i++)
+            {
+                for (var j = 1; j < K; j++)
+                {
+                    if (i - j < 0)
+                        continue;
+                    if (redstairs[i - 1])
+                        dp[i % K] = 0;
+                    else
+                        dp[i % K] += dp[(i - j) % K];
+
+                }
+            }
+
+
+            return dp[N % K];
+        }
 
 
 
