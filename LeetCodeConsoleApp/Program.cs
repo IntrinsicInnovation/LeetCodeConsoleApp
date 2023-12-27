@@ -1805,6 +1805,64 @@ namespace LeetCodeConsoleApp
     class Solution
     {
 
+
+        //inmterviewing.io AI interviews:
+        static int[] frequentelem(int[] nums, int k)
+        {
+            // var result = new List<int>();
+            var dict = new Dictionary<int, int>();
+
+            for (var i = 0; i < nums.Length; i++)
+            {
+                if (!dict.TryGetValue(nums[i], out _))
+                    dict[nums[i]] = 1;
+                else
+                    dict[nums[i]]++;
+
+            }
+            // var q = new PriorityQueue<int, int>();
+
+            var top2 = dict.OrderByDescending(d => d.Value).Take(2).Select(d => d.Key);
+
+
+            return top2.ToArray();
+
+
+        }
+
+
+
+        //inmterviewing.io AI interviews:
+        //2 pointer solution.
+
+        static int findHeights(int[] lines)
+        {
+            var result = 0;
+            var len = lines.Length;
+            var left = 0;
+            var right = len - 1;
+            while (left <= right)
+            {
+                var area = Math.Min(lines[left], lines[right]) * (right - left);
+                result = Math.Max(area, result);
+                if (lines[right] < lines[left])
+                {
+                    right--;
+                }
+                else
+                {
+                    left++;
+                }
+
+            }
+
+
+            return result;
+
+        }
+
+
+
         public IList<int> InorderTraversal(TreeNode root)
         {
             var list = new List<int>();
