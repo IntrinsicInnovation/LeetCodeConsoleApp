@@ -1788,14 +1788,17 @@ namespace LeetCodeConsoleApp
 
 
 
-            var root = new TreeNode(1);
-            root.left = new TreeNode(3);
-            root.right = new TreeNode(2);
-            root.left.left = new TreeNode(5);
-            root.left.right = new TreeNode(3);
-            root.right.right = new TreeNode(9);
-            //1,3,2,5,3,null,9]
-            var it = sol.InorderTraversal(root);
+            //var root = new TreeNode(1);
+            //root.left = new TreeNode(3);
+            //root.right = new TreeNode(2);
+            //root.left.left = new TreeNode(5);
+            //root.left.right = new TreeNode(3);
+            //root.right.right = new TreeNode(9);
+            //var it = sol.InorderTraversal(root);
+
+
+            var ts = sol.twosum(new int[] { 2, 7, 11, 15 }, 9);
+
 
 
         }
@@ -1805,9 +1808,94 @@ namespace LeetCodeConsoleApp
     class Solution
     {
 
+        static List<int> leftboundary = new List<int>();
+        static List<int> leafnodes = new List<int>();
+        static List<int> rightboundary = new List<int>();
+
+
+        static int[] findBoundary(TreeNode root)
+        {
+            leftboundary.Add(root.val);
+            traverseleft(root.left);
+            traverseright(root.right);
+            rightboundary.Reverse();
+            return leftboundary.Concat(leafnodes).Concat(rightboundary).ToArray();
+
+        }
+
+        static void traverseleft(TreeNode root)
+        {
+            if (root == null)
+                return;
+            leftboundary.Add(root.val);
+            traverseleft(root.left);
+            traverseleft(root.right);
+
+        }
+
+        static void traverseright(TreeNode root)
+        {
+            if (root == null)
+                return;
+            if (root.left == null && root.right == null)
+                leafnodes.Add(root.val);
+            else
+            {
+                rightboundary.Add(root.val);
+                traverseright(root.left);
+                traverseright(root.right);
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public int[] twosum(int[] nums, int target)
+        {
+            var dict = new Dictionary<int, int>();
+            var result = new int[2];
+            for (var i = 0; i < nums.Length; i++)
+            {
+                var diff = target - nums[i];
+                var found = 0;
+                if (dict.TryGetValue(diff, out found))
+                {
+                    result[0] = i;
+                    result[1] = found;
+                    break;
+                }
+                else
+                {
+                    dict[nums[i]] = i;
+                }
+
+            }
+            return result;
+
+
+
+        }
+
+
 
         //inmterviewing.io AI interviews:
-        static int[] frequentelem(int[] nums, int k)
+        public int[] frequentelem(int[] nums, int k)
         {
             // var result = new List<int>();
             var dict = new Dictionary<int, int>();
@@ -1835,7 +1923,7 @@ namespace LeetCodeConsoleApp
         //inmterviewing.io AI interviews:
         //2 pointer solution.
 
-        static int findHeights(int[] lines)
+        public int findHeights(int[] lines)
         {
             var result = 0;
             var len = lines.Length;
