@@ -1797,7 +1797,10 @@ namespace LeetCodeConsoleApp
             //var it = sol.InorderTraversal(root);
 
 
-            var ts = sol.twosum(new int[] { 2, 7, 11, 15 }, 9);
+            //  var ts = sol.twosum(new int[] { 2, 7, 11, 15 }, 9);
+
+
+            sol.MultiMapTest();
 
 
 
@@ -1807,6 +1810,48 @@ namespace LeetCodeConsoleApp
 
     class Solution
     {
+
+        //Service Titan interview"
+
+        //create a multimap class with all the functions but generic multimap<K, V>(){}
+        //Add, list, flatten, remove element, remove value, remove all keys and values, etc.
+        //unit tests to test every possibility
+
+
+        public void MultiMapTest()
+        {
+            var mmap = new MultiMap<int>();
+
+            mmap.Add("test1", 1);
+            mmap.Add("test1", 1);
+
+
+            var multiMap = new MultiMap<bool>();
+            multiMap.Add("key1", true);
+            multiMap.Add("key1", false);
+            multiMap.Add("key2", false);
+
+            foreach (string key in multiMap.Keys)
+            {
+                foreach (bool value in multiMap[key])
+                {
+                    Console.WriteLine("MULTIMAP: " + key + "=" + value);
+                }
+            }
+
+
+            var k = mmap.Keys;
+
+            foreach(var kk in k)
+            {
+                foreach(var val in mmap[kk])
+                    Console.WriteLine(kk + " " + val);
+            }
+
+
+
+        }
+
 
         static List<int> leftboundary = new List<int>();
         static List<int> leafnodes = new List<int>();
