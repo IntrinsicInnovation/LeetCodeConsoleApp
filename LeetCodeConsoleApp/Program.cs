@@ -1800,9 +1800,9 @@ namespace LeetCodeConsoleApp
             //  var ts = sol.twosum(new int[] { 2, 7, 11, 15 }, 9);
 
 
-            sol.MultiMapTest();
+            //sol.MultiMapTest();
 
-
+            var se = sol.getSecondsElapsed(10, 2, new long[] { 1, 6 }, new long[] { 3, 7 }, 7);
 
         }
 
@@ -1811,12 +1811,112 @@ namespace LeetCodeConsoleApp
     class Solution
     {
 
+
+        public double getMaxDamageDealt(int N, int[] H, int[] D, int B)
+        {
+
+            var besthealthindex = 0;
+            double besthealth = 0;
+
+            var bestdamageindex = 0;
+            double bestdamage = 0;
+            for (var i = 0; i < N; i++)
+            {
+
+                if (D[i] > bestdamage)
+                {
+                    bestdamage = D[i];
+                    bestdamageindex = i;
+                    continue;
+                }
+
+                if (H[i] > besthealth)
+                {
+
+                    besthealth = H[i];
+                    besthealthindex = i;
+                }
+
+            }
+
+            Console.WriteLine(besthealthindex);
+            Console.WriteLine(besthealth);
+            Console.WriteLine(bestdamageindex);
+            Console.WriteLine(bestdamage);
+
+            double totaldamage = 0;
+
+            //while (true)
+            // {
+            totaldamage = ((double)H[besthealthindex] / (double)B * ((double)D[besthealthindex] + (double)D[bestdamageindex])) + ((double)H[bestdamageindex] / (double)B * (double)D[bestdamageindex]);
+            // }
+
+
+
+            return totaldamage;
+
+
+            // {
+            //   for (var j = 1; j < N; j++)
+            //   {
+
+            //    }
+
+            // }
+
+        }
+
+
+
+
+        public long getSecondsElapsed(long C, int N, long[] A, long[] B, long K)
+        {
+           
+            Array.Sort(A);
+            Array.Sort(B);
+          
+            long tpr = 0;
+            for (var i = 0; i < N; i++)
+            {
+                tpr += (B[i] - A[i]);
+            }
+        
+            long revs = K / tpr; 
+            long rem = K % tpr; 
+            long result = 0;
+
+
+            if (rem == 0)
+            {
+                result = C * revs - (C - B[N - 1]);
+            }
+            else
+            {
+
+                var i = 0;
+                while (rem > 0)
+                {
+                    rem -= B[i] - A[i];
+                    i++;
+                }
+
+
+
+                result = C * revs + B[i - 1] + rem;
+
+
+            }
+
+            return result;
+        }
+
+
         //Service Titan interview"
 
         //create a multimap class with all the functions but generic multimap<K, V>(){}
         //Add, list, flatten, remove element, remove value, remove all keys and values, etc.
         //unit tests to test every possibility
-
+        //do it here as the multimap created here is crap.
 
         public void MultiMapTest()
         {
