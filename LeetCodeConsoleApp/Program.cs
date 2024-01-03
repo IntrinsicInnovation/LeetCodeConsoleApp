@@ -1802,7 +1802,10 @@ namespace LeetCodeConsoleApp
 
             //sol.MultiMapTest();
 
-            var se = sol.getSecondsElapsed(10, 2, new long[] { 1, 6 }, new long[] { 3, 7 }, 7);
+            //  var se = sol.getSecondsElapsed(10, 2, new long[] { 1, 6 }, new long[] { 3, 7 }, 7);
+
+
+            var mdd = sol.getMaxDamageDealtbetter(4, new int[] { 1, 1, 2, 100 }, new int[] { 1, 2, 1, 3 }, 8);
 
         }
 
@@ -1812,64 +1815,252 @@ namespace LeetCodeConsoleApp
     {
 
 
-        public double getMaxDamageDealt(int N, int[] H, int[] D, int B)
+        public int[] subs(string s, string[] words)
         {
+            var results = new List<int>();
+            var slen = s.Length;
+            var wordlen = words[0].Length;
+            var wordcount = words.Length;
+            var totallen = wordlen * wordcount;
 
-            var besthealthindex = 0;
-            double besthealth = 0;
+            var dict = words.ToDictionary(w => w, x => 0);
 
-            var bestdamageindex = 0;
-            double bestdamage = 0;
-            for (var i = 0; i < N; i++)
+            // foreach(var d in dict)
+            //     Console.WriteLine(d.Value);
+
+            for (var i = 0; i <= s.Length - totallen; i += wordlen)
             {
-
-                if (D[i] > bestdamage)
+                var substr = s.Substring(i, totallen);
+                //Console.WriteLine("substr: " + substr);
+                for (var j = 0; j <= substr.Length - wordlen; j += wordlen)
                 {
-                    bestdamage = D[i];
-                    bestdamageindex = i;
-                    continue;
+                    var subs2 = substr.Substring(j, wordlen);
+                    // Console.WriteLine("subs2: " + subs2);
+                    if (dict.ContainsKey(subs2))
+                        dict[subs2]++;
                 }
-
-                if (H[i] > besthealth)
+                if (dict.Where(d => d.Value != 1).Count() == 0)
                 {
-
-                    besthealth = H[i];
-                    besthealthindex = i;
+                    results.Add(i);
+                    //  Console.WriteLine(i);
                 }
+                // else
+                // {
+                //      Console.WriteLine("nothingfound!! i=" + i);
+                //  }
+                //   foreach(var d in dict)
+                //       Console.WriteLine(d.Value);
+                //  Console.WriteLine("*********************************");
+                dict = words.ToDictionary(w => w, x => 0);
+            }
+
+            return results.ToArray();
+
+        }
+
+        public void countnodes(TreeNode root, ref int count)
+        {
+            if (root == null)
+                return;
+
+            count++;
+            countnodes(root.left, ref count);
+            countnodes(root.right, ref count);
+
+
+
+        }
+
+
+        //interviewing.IO find 2 lines with the greatest surface area
+        public int find2lines(int[] heights)
+        {
+            var len = heights.Length;
+            var maxwater = 0;
+            var left = 0;
+            var right = len - 1;
+
+            while (left < right)
+            {
+                var dist = right - left;
+                var minheight = Math.Min(heights[left], heights[right]);
+                var height = dist * minheight;
+                maxwater = Math.Max(maxwater, height);
+
+                if (heights[left] < heights[right])
+                    left++;
+                else
+                    right--;
+
 
             }
 
-            Console.WriteLine(besthealthindex);
-            Console.WriteLine(besthealth);
-            Console.WriteLine(bestdamageindex);
-            Console.WriteLine(bestdamage);
+            return maxwater;
+        }
 
+
+        //PAsses 12
+        //need a better technique.
+
+        public double getMaxDamageDealtbetter(int N, int[] H, int[] D, int B)
+        {
+
+
+            var warriors = new Tuple<int, int>[N];
+
+            for (var i = 0; i < N; i++)
+            {
+                warriors[i] = new Tuple<int, int>(H[i], D[i]);
+            }
+
+
+            warriors = warriors.OrderByDescending(w => w.Item1).ThenByDescending(w => w.Item2).ToArray();
+
+            double maxdamage = 0;
             double totaldamage = 0;
+            double prevdamage = 0;
 
-            //while (true)
-            // {
-            totaldamage = ((double)H[besthealthindex] / (double)B * ((double)D[besthealthindex] + (double)D[bestdamageindex])) + ((double)H[bestdamageindex] / (double)B * (double)D[bestdamageindex]);
-            // }
+            for (var i = 0; i < N - 1; i++)
+            {
+                for (var j = i+1; j < N; j++)
+                {
 
+                    totaldamage = ((double)warriors[i].Item1 / (double)B * ((double)warriors[i].Item2 + (double)warriors[j].Item2)) + ((double)warriors[j].Item1 / (double)B * (double)warriors[j].Item2);
+                    if (totaldamage < prevdamage)
+                        return maxdamage;
+                    maxdamage = Math.Max(maxdamage, totaldamage);
+                    totaldamage = ((double)warriors[j].Item1 / (double)B * ((double)warriors[j].Item2 + (double)warriors[i].Item2)) + ((double)warriors[i].Item1 / (double)B * (double)warriors[i].Item2);
+                    prevdamage = totaldamage;
+                    maxdamage = Math.Max(maxdamage, totaldamage);
 
+                }
+            }
 
-            return totaldamage;
-
-
-            // {
-            //   for (var j = 1; j < N; j++)
-            //   {
-
-            //    }
-
-            // }
+            return maxdamage;
 
         }
 
 
 
+        //passes 24. best algo so far, but need to understand it!!!
+public double getMaxDamageDealt(int N, int[] H, int[] D, int B)
+        {
 
-        public long getSecondsElapsed(long C, int N, long[] A, long[] B, long K)
+            List<Tuple<int, int>> warriors = new List<Tuple<int, int>>();
+            for (int i = 0; i < H.Length; i++)
+            {
+                warriors.Add(new Tuple<int, int>(H[i], D[i]));
+            }
+
+        double GetMax(int i, bool isHealth, double allMax)
+        {
+            double curMax = 0;
+            int curJ = -1;
+            for (int j = 0; j < warriors.Count; j++)
+            {
+                if (i == j)
+                {
+                    continue;
+                }
+
+                int h1, d1, h2, d2;
+                if (isHealth)
+                {
+                    h1 = warriors[i].Item1;
+                    d1 = warriors[i].Item2;
+                    h2 = warriors[j].Item1;
+                    d2 = warriors[j].Item2;
+                }
+                else
+                {
+                    h1 = warriors[j].Item1;
+                    d1 = warriors[j].Item2;
+                    h2 = warriors[i].Item1;
+                    d2 = warriors[i].Item2;
+                }
+
+                double damage = h1 * d1 + h1 * d2 + h2 * d2;
+                if (damage > curMax)
+                {
+                    curMax = damage;
+                    curJ = j;
+                }
+            }
+
+            if (curMax > allMax)
+            {
+                return GetMax(curJ, !isHealth, curMax);
+            }
+            else
+            {
+                return allMax;
+            }
+        }
+        
+            return Math.Max(GetMax(0, true, 0), GetMax(0, false, 0)) / B;
+
+        }
+
+
+
+public double getMaxDamageDealtsux(int N, int[] H, int[] D, int B)
+{
+    //passed 7 / 24 with one wrong answer and rest too slow
+    var warriors = new Tuple<int, int>[N];
+
+    for (var i = 0; i < N; i++)
+    {
+        warriors[i] = new Tuple<int, int>(H[i], D[i]);
+    }
+
+
+    warriors = warriors.OrderByDescending(w => w.Item1).ThenByDescending(w => w.Item2).ToArray();
+
+
+
+    //var besthealth = H.Max();
+    //var besthealthindex = Array.IndexOf(H, besthealth);
+    //var bestdamage = D.Where(d => Array.IndexOf(D, d) != besthealthindex).Max();
+    //var bestdamageindex = Array.IndexOf(D, bestdamage);
+
+    double maxdamage = 0;
+    double totaldamage = 0;
+
+
+    for (var i = 0; i < N - 1 && i < 2; i++)
+    {
+        for (var j = 1; j < N && j < 3; j++)
+        {
+
+            totaldamage = ((double)warriors[i].Item1 / (double)B * ((double)warriors[i].Item2 + (double)warriors[j].Item2)) + ((double)warriors[j].Item1 / (double)B * (double)warriors[j].Item2);
+            maxdamage = Math.Max(maxdamage, totaldamage);
+            totaldamage = ((double)warriors[j].Item1 / (double)B * ((double)warriors[j].Item2 + (double)warriors[i].Item2)) + ((double)warriors[i].Item1 / (double)B * (double)warriors[i].Item2);
+            maxdamage = Math.Max(maxdamage, totaldamage);
+        }
+    }
+
+    //        totaldamage = ((double)H[i] / (double)B * ((double)D[i] + (double)D[j])) + ((double)H[j] / (double)B * (double)D[j]);
+    //        maxdamage = Math.Max(maxdamage, totaldamage);
+    //        totaldamage = ((double)H[j] / (double)B * ((double)D[j] + (double)D[i])) + ((double)H[i] / (double)B * (double)D[i]);
+    //        maxdamage = Math.Max(maxdamage, totaldamage);
+    //    }
+
+    //}
+
+
+    //double totaldamage = 0;
+
+
+    //    totaldamage = ((double)H[besthealthindex] / (double)B * ((double)D[besthealthindex] + (double)D[bestdamageindex])) + ((double)H[bestdamageindex] / (double)B * (double)D[bestdamageindex]);
+
+
+    //  return totaldamage;
+    return maxdamage;
+
+}
+
+
+public long getSecondsElapsed(long C, int N, long[] A, long[] B, long K)
         {
            
             Array.Sort(A);
