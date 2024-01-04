@@ -1815,6 +1815,35 @@ namespace LeetCodeConsoleApp
     {
 
 
+        public int[] indices(int[] nums, int target)
+        {
+
+
+            var dict = new Dictionary<int, int>();
+
+            for (var i = 0; i < nums.Length; i++)
+            {
+                var diff = target - nums[i];
+
+
+                if (!dict.ContainsKey(diff))
+                {
+                    dict[nums[i]] = i;
+                }
+                else
+                {
+                    return new int[] { dict[diff], i };
+                }
+
+            }
+
+            return default;
+
+
+        }
+
+
+
         public int[] subs(string s, string[] words)
         {
             var results = new List<int>();
