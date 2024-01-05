@@ -1805,7 +1805,17 @@ namespace LeetCodeConsoleApp
             //  var se = sol.getSecondsElapsed(10, 2, new long[] { 1, 6 }, new long[] { 3, 7 }, 7);
 
 
-            var mdd = sol.getMaxDamageDealtbetter(4, new int[] { 1, 1, 2, 100 }, new int[] { 1, 2, 1, 3 }, 8);
+            // var mdd = sol.getMaxDamageDealtbetter(4, new int[] { 1, 1, 2, 100 }, new int[] { 1, 2, 1, 3 }, 8);
+
+            var sums = sol.runningsum(new int[] { 2, 2, 2 }, 4);
+            Console.WriteLine(sums);
+
+            var sums2 = sol.runningsum(new int[] { 3, 2, 1 }, 3);
+            Console.WriteLine(sums2);
+
+            var sums3 = sol.runningsum(new int[] { 2, 2, -4, 1, 1, 2 }, -3);
+            Console.WriteLine(sums3);
+
 
         }
 
@@ -1813,6 +1823,34 @@ namespace LeetCodeConsoleApp
 
     class Solution
     {
+
+
+
+        public int runningsum(int[] nums, int k)
+        {
+
+            var dict = new Dictionary<int, int>();
+            var subarrays = 0;
+            var sum = 0;
+            dict.Add(0, 1);
+            for (var i = 0; i < nums.Length; i++)
+            {
+                sum += nums[i];
+
+                var diff = sum - k;
+                if (dict.ContainsKey(diff))
+                    subarrays += dict[diff];
+
+                dict.TryGetValue(sum, out int count);
+                dict[sum] = count + 1;
+
+            }
+
+
+            return subarrays;
+
+        }
+
 
 
         public int[] indices(int[] nums, int target)
