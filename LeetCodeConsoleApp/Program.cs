@@ -1815,6 +1815,88 @@ namespace LeetCodeConsoleApp
     {
 
 
+
+
+        //implement a file system using Trie.
+        // as your implementation below is not good, you just used
+        // a dictionary and not complete.
+
+        //class FileSystem
+        //{
+
+        //    private Dictionary<string, List<Path>> _paths;
+
+        //    FileSystem()
+        //    {
+        //        _paths = new Dictionary<string, Path>();
+
+        //    }
+
+        //    //If path is a file path, returns a list that only contains this file's name.
+        //    //* If path is a directory path, returns the list of file and directory names in this directory.
+        //    //* The answer should in lexicographic order.
+        //    public List<string> ls(string path)
+        //    {
+        //        var results = new List<string>();
+
+        //        var fileresult = _paths.Where(p => p.Key == path).FirstOrDefault();
+        //        if (fileresult.Value.isfile)
+        //        {
+        //            var split = fileresult.Value.filepath.Split('/');
+        //            results.Add(split[split.Length - 1]);
+
+        //        }
+        //        else
+        //        {
+        //            var filenames = _paths.Where(p => p.Key.StartsWith("path"));
+        //        }
+
+        //        return results;
+        //    }
+
+
+
+
+
+
+        //    public void mkdir(String path)
+        //    {
+
+        //    }
+
+        //    //* If filePath does not exist, creates that file containing given content.
+        //    //* If filePath already exists, appends the given content to original content.
+        //    void addContentToFile(String filePath, String content)
+        //    {
+
+        //    }
+
+        //    public string readContentFromFile(String filePath)
+        //    {
+
+        //    }
+
+
+        //}
+
+
+        //class Path
+        //{
+
+        //    public string filepath { get; set; }
+        //    public bool isfile { get; set; }
+        //    public string content { get; set; }
+        //    public Dictionary<string, Path> children;
+
+        //}
+
+
+
+
+
+
+
+
         public int[] indices(int[] nums, int target)
         {
 
