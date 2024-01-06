@@ -1807,14 +1807,26 @@ namespace LeetCodeConsoleApp
 
             // var mdd = sol.getMaxDamageDealtbetter(4, new int[] { 1, 1, 2, 100 }, new int[] { 1, 2, 1, 3 }, 8);
 
-            var sums = sol.runningsum(new int[] { 2, 2, 2 }, 4);
-            Console.WriteLine(sums);
+            //var sums = sol.runningsum(new int[] { 2, 2, 2 }, 4);
+            //Console.WriteLine(sums);
 
-            var sums2 = sol.runningsum(new int[] { 3, 2, 1 }, 3);
-            Console.WriteLine(sums2);
+            //var sums2 = sol.runningsum(new int[] { 3, 2, 1 }, 3);
+            //Console.WriteLine(sums2);
 
-            var sums3 = sol.runningsum(new int[] { 2, 2, -4, 1, 1, 2 }, -3);
-            Console.WriteLine(sums3);
+            //var sums3 = sol.runningsum(new int[] { 2, 2, -4, 1, 1, 2 }, -3);
+            //Console.WriteLine(sums3);
+
+            //var root = new Solution.MultipleChildrenNode();
+            //root.id = 1;
+            //root.children = new List<Solution.MultipleChildrenNode>() {
+            //new Solution.MultipleChildrenNode(){ id = 2, children = new List<Solution.MultipleChildrenNode>() { new Solution.MultipleChildrenNode() { id = 4 }, new Solution.MultipleChildrenNode() { id = 5 } } }, new Solution.MultipleChildrenNode(){ id = 3 }
+            //};
+            //sol.assignUniqueIds(root);
+
+            Solution.LLNode root = new Solution.LLNode() { val = 5, next = new Solution.LLNode { val = 4, next = new Solution.LLNode { val =3, next = new Solution.LLNode { val = 2, next = new Solution.LLNode { val = 1, next = null } } } } };
+            sol.printllreverse(root);
+
+
 
 
         }
@@ -1824,10 +1836,95 @@ namespace LeetCodeConsoleApp
     class Solution
     {
 
+        //Facebook mock interview (2 questions):  
 
+        //1.
+        //Linked List Iterate Backward
+        // Iterate over a singly linked list backwards calling function print(node) on each node.
+
+        // Example: A->B->C 
+        // Output: “CBA”
+        //Solution 1 was to write with a stack.
+        //Solution 2 was to write with modifying pointer to point backwards.
+        //Solution 3 was to write with counter, then just iterate
+
+        //Write functions for this now!
+
+        public class LLNode
+        {
+            public int val;
+            public LLNode next;
+
+        }
+        public void printllreverse(LLNode root)
+        {
+            var p1 = root.next;
+            var p2 = p1.next;
+
+            root.next = null;
+            while (p1 != null)
+            {
+                p1.next = root;
+                root = p1;
+                p1 = p2;
+                if (p2 == null)
+                    break;
+                p2 = p2.next;
+
+
+            }
+
+
+
+            while (root != null)
+            {
+                Console.WriteLine(root.val);
+                root = root.next;
+            }
+
+
+        }
+
+
+        //2.  write function to assign unique ids to each node.
+        public class MultipleChildrenNode
+        {
+            public int id;
+            public List<MultipleChildrenNode> children;
+        }
+
+        public void assignUniqueIds(MultipleChildrenNode root)
+        {
+
+            var counter = 10; // int.MinValue;
+
+            Traverse(root, ref counter);
+
+        }
+
+        void Traverse(MultipleChildrenNode node, ref int counter)
+        {
+
+            if (node == null)
+                return;
+            node.id = counter++;
+            if (node.children != null)
+            {
+                foreach (var child in node.children)  //DEF
+                {
+                    Traverse(child, ref counter);
+
+                }
+            }
+
+        }
+
+        
 
         public int runningsum(int[] nums, int k)
         {
+
+            var t = new Trie();
 
             var dict = new Dictionary<int, int>();
             var subarrays = 0;
@@ -1855,206 +1952,306 @@ namespace LeetCodeConsoleApp
 
 
 
-        //implement a file system using Trie.
-        // as your implementation below is not good, you just used
-        // a dictionary and not complete.
+                //implement a file system using Trie.
+                // as your implementation below is not good, you just used
+                // a dictionary and not complete.
 
-        //class FileSystem
-        //{
+                //class FileSystem
+                //{
 
-        //    private Dictionary<string, List<Path>> _paths;
+                //    private Dictionary<string, List<Path>> _paths;
 
-        //    FileSystem()
-        //    {
-        //        _paths = new Dictionary<string, Path>();
+                //    FileSystem()
+                //    {
+                //        _paths = new Dictionary<string, Path>();
 
-        //    }
+                //    }
 
-        //    //If path is a file path, returns a list that only contains this file's name.
-        //    //* If path is a directory path, returns the list of file and directory names in this directory.
-        //    //* The answer should in lexicographic order.
-        //    public List<string> ls(string path)
-        //    {
-        //        var results = new List<string>();
+                //    //If path is a file path, returns a list that only contains this file's name.
+                //    //* If path is a directory path, returns the list of file and directory names in this directory.
+                //    //* The answer should in lexicographic order.
+                //    public List<string> ls(string path)
+                //    {
+                //        var results = new List<string>();
 
-        //        var fileresult = _paths.Where(p => p.Key == path).FirstOrDefault();
-        //        if (fileresult.Value.isfile)
-        //        {
-        //            var split = fileresult.Value.filepath.Split('/');
-        //            results.Add(split[split.Length - 1]);
+                //        var fileresult = _paths.Where(p => p.Key == path).FirstOrDefault();
+                //        if (fileresult.Value.isfile)
+                //        {
+                //            var split = fileresult.Value.filepath.Split('/');
+                //            results.Add(split[split.Length - 1]);
 
-        //        }
-        //        else
-        //        {
-        //            var filenames = _paths.Where(p => p.Key.StartsWith("path"));
-        //        }
+                //        }
+                //        else
+                //        {
+                //            var filenames = _paths.Where(p => p.Key.StartsWith("path"));
+                //        }
 
-        //        return results;
-        //    }
-
-
-
-
-
-
-        //    public void mkdir(String path)
-        //    {
-
-        //    }
-
-        //    //* If filePath does not exist, creates that file containing given content.
-        //    //* If filePath already exists, appends the given content to original content.
-        //    void addContentToFile(String filePath, String content)
-        //    {
-
-        //    }
-
-        //    public string readContentFromFile(String filePath)
-        //    {
-
-        //    }
-
-
-        //}
-
-
-        //class Path
-        //{
-
-        //    public string filepath { get; set; }
-        //    public bool isfile { get; set; }
-        //    public string content { get; set; }
-        //    public Dictionary<string, Path> children;
-
-        //}
+                //        return results;
+                //    }
 
 
 
 
 
 
+                //    public void mkdir(String path)
+                //    {
+
+                //    }
+
+                //    //* If filePath does not exist, creates that file containing given content.
+                //    //* If filePath already exists, appends the given content to original content.
+                //    void addContentToFile(String filePath, String content)
+                //    {
+
+                //    }
+
+                //    public string readContentFromFile(String filePath)
+                //    {
+
+                //    }
 
 
-        public int[] indices(int[] nums, int target)
+                //}
+
+
+                //class Path
+                //{
+
+                //    public string filepath { get; set; }
+                //    public bool isfile { get; set; }
+                //    public string content { get; set; }
+                //    public Dictionary<string, Path> children;
+
+                //}
+
+
+
+
+
+
+
+
+                public int[] indices(int[] nums, int target)
+                {
+
+
+                    var dict = new Dictionary<int, int>();
+
+                    for (var i = 0; i < nums.Length; i++)
+                    {
+                        var diff = target - nums[i];
+
+
+                        if (!dict.ContainsKey(diff))
+                        {
+                            dict[nums[i]] = i;
+                        }
+                        else
+                        {
+                            return new int[] { dict[diff], i };
+                        }
+
+                    }
+
+                    return default;
+
+
+                }
+
+
+
+                public int[] subs(string s, string[] words)
+                {
+                    var results = new List<int>();
+                    var slen = s.Length;
+                    var wordlen = words[0].Length;
+                    var wordcount = words.Length;
+                    var totallen = wordlen * wordcount;
+
+                    var dict = words.ToDictionary(w => w, x => 0);
+
+                    // foreach(var d in dict)
+                    //     Console.WriteLine(d.Value);
+
+                    for (var i = 0; i <= s.Length - totallen; i += wordlen)
+                    {
+                        var substr = s.Substring(i, totallen);
+                        //Console.WriteLine("substr: " + substr);
+                        for (var j = 0; j <= substr.Length - wordlen; j += wordlen)
+                        {
+                            var subs2 = substr.Substring(j, wordlen);
+                            // Console.WriteLine("subs2: " + subs2);
+                            if (dict.ContainsKey(subs2))
+                                dict[subs2]++;
+                        }
+                        if (dict.Where(d => d.Value != 1).Count() == 0)
+                        {
+                            results.Add(i);
+                            //  Console.WriteLine(i);
+                        }
+                        // else
+                        // {
+                        //      Console.WriteLine("nothingfound!! i=" + i);
+                        //  }
+                        //   foreach(var d in dict)
+                        //       Console.WriteLine(d.Value);
+                        //  Console.WriteLine("*********************************");
+                        dict = words.ToDictionary(w => w, x => 0);
+                    }
+
+                    return results.ToArray();
+
+                }
+
+                public void countnodes(TreeNode root, ref int count)
+                {
+                    if (root == null)
+                        return;
+
+                    count++;
+                    countnodes(root.left, ref count);
+                    countnodes(root.right, ref count);
+
+
+
+                }
+
+
+                //interviewing.IO find 2 lines with the greatest surface area
+                public int find2lines(int[] heights)
+                {
+                    var len = heights.Length;
+                    var maxwater = 0;
+                    var left = 0;
+                    var right = len - 1;
+
+                    while (left < right)
+                    {
+                        var dist = right - left;
+                        var minheight = Math.Min(heights[left], heights[right]);
+                        var height = dist * minheight;
+                        maxwater = Math.Max(maxwater, height);
+
+                        if (heights[left] < heights[right])
+                            left++;
+                        else
+                            right--;
+
+
+                    }
+
+                    return maxwater;
+                }
+
+
+                //PAsses 12
+                //need a better technique.
+
+                public double getMaxDamageDealtbetter(int N, int[] H, int[] D, int B)
+                {
+
+
+                    var warriors = new Tuple<int, int>[N];
+
+                    for (var i = 0; i < N; i++)
+                    {
+                        warriors[i] = new Tuple<int, int>(H[i], D[i]);
+                    }
+
+
+                    warriors = warriors.OrderByDescending(w => w.Item1).ThenByDescending(w => w.Item2).ToArray();
+
+                    double maxdamage = 0;
+                    double totaldamage = 0;
+                    double prevdamage = 0;
+
+                    for (var i = 0; i < N - 1; i++)
+                    {
+                        for (var j = i+1; j < N; j++)
+                        {
+
+                            totaldamage = ((double)warriors[i].Item1 / (double)B * ((double)warriors[i].Item2 + (double)warriors[j].Item2)) + ((double)warriors[j].Item1 / (double)B * (double)warriors[j].Item2);
+                            if (totaldamage < prevdamage)
+                                return maxdamage;
+                            maxdamage = Math.Max(maxdamage, totaldamage);
+                            totaldamage = ((double)warriors[j].Item1 / (double)B * ((double)warriors[j].Item2 + (double)warriors[i].Item2)) + ((double)warriors[i].Item1 / (double)B * (double)warriors[i].Item2);
+                            prevdamage = totaldamage;
+                            maxdamage = Math.Max(maxdamage, totaldamage);
+
+                        }
+                    }
+
+                    return maxdamage;
+
+                }
+
+
+
+        //passes 24. best algo so far, but need to understand it!!!
+        public double getMaxDamageDealt(int N, int[] H, int[] D, int B)
         {
 
-
-            var dict = new Dictionary<int, int>();
-
-            for (var i = 0; i < nums.Length; i++)
+            List<Tuple<int, int>> warriors = new List<Tuple<int, int>>();
+            for (int i = 0; i < H.Length; i++)
             {
-                var diff = target - nums[i];
+                warriors.Add(new Tuple<int, int>(H[i], D[i]));
+            }
 
-
-                if (!dict.ContainsKey(diff))
+            double GetMax(int i, bool isHealth, double allMax)
+            {
+                double curMax = 0;
+                int curJ = -1;
+                for (int j = 0; j < warriors.Count; j++)
                 {
-                    dict[nums[i]] = i;
+                    if (i == j)
+                    {
+                        continue;
+                    }
+
+                    int h1, d1, h2, d2;
+                    if (isHealth)
+                    {
+                        h1 = warriors[i].Item1;
+                        d1 = warriors[i].Item2;
+                        h2 = warriors[j].Item1;
+                        d2 = warriors[j].Item2;
+                    }
+                    else
+                    {
+                        h1 = warriors[j].Item1;
+                        d1 = warriors[j].Item2;
+                        h2 = warriors[i].Item1;
+                        d2 = warriors[i].Item2;
+                    }
+
+                    double damage = h1 * d1 + h1 * d2 + h2 * d2;
+                    if (damage > curMax)
+                    {
+                        curMax = damage;
+                        curJ = j;
+                    }
+                }
+
+                if (curMax > allMax)
+                {
+                    return GetMax(curJ, !isHealth, curMax);
                 }
                 else
                 {
-                    return new int[] { dict[diff], i };
+                    return allMax;
                 }
-
             }
 
-            return default;
-
-
-        }
-
-
-
-        public int[] subs(string s, string[] words)
-        {
-            var results = new List<int>();
-            var slen = s.Length;
-            var wordlen = words[0].Length;
-            var wordcount = words.Length;
-            var totallen = wordlen * wordcount;
-
-            var dict = words.ToDictionary(w => w, x => 0);
-
-            // foreach(var d in dict)
-            //     Console.WriteLine(d.Value);
-
-            for (var i = 0; i <= s.Length - totallen; i += wordlen)
-            {
-                var substr = s.Substring(i, totallen);
-                //Console.WriteLine("substr: " + substr);
-                for (var j = 0; j <= substr.Length - wordlen; j += wordlen)
-                {
-                    var subs2 = substr.Substring(j, wordlen);
-                    // Console.WriteLine("subs2: " + subs2);
-                    if (dict.ContainsKey(subs2))
-                        dict[subs2]++;
-                }
-                if (dict.Where(d => d.Value != 1).Count() == 0)
-                {
-                    results.Add(i);
-                    //  Console.WriteLine(i);
-                }
-                // else
-                // {
-                //      Console.WriteLine("nothingfound!! i=" + i);
-                //  }
-                //   foreach(var d in dict)
-                //       Console.WriteLine(d.Value);
-                //  Console.WriteLine("*********************************");
-                dict = words.ToDictionary(w => w, x => 0);
-            }
-
-            return results.ToArray();
-
-        }
-
-        public void countnodes(TreeNode root, ref int count)
-        {
-            if (root == null)
-                return;
-
-            count++;
-            countnodes(root.left, ref count);
-            countnodes(root.right, ref count);
-
-
+            return Math.Max(GetMax(0, true, 0), GetMax(0, false, 0)) / B;
 
         }
 
 
-        //interviewing.IO find 2 lines with the greatest surface area
-        public int find2lines(int[] heights)
+
+        public double getMaxDamageDealtsux(int N, int[] H, int[] D, int B)
         {
-            var len = heights.Length;
-            var maxwater = 0;
-            var left = 0;
-            var right = len - 1;
-
-            while (left < right)
-            {
-                var dist = right - left;
-                var minheight = Math.Min(heights[left], heights[right]);
-                var height = dist * minheight;
-                maxwater = Math.Max(maxwater, height);
-
-                if (heights[left] < heights[right])
-                    left++;
-                else
-                    right--;
-
-
-            }
-
-            return maxwater;
-        }
-
-
-        //PAsses 12
-        //need a better technique.
-
-        public double getMaxDamageDealtbetter(int N, int[] H, int[] D, int B)
-        {
-
-
+            //passed 7 / 24 with one wrong answer and rest too slow
             var warriors = new Tuple<int, int>[N];
 
             for (var i = 0; i < N; i++)
@@ -2065,2175 +2262,2075 @@ namespace LeetCodeConsoleApp
 
             warriors = warriors.OrderByDescending(w => w.Item1).ThenByDescending(w => w.Item2).ToArray();
 
+
+
+            //var besthealth = H.Max();
+            //var besthealthindex = Array.IndexOf(H, besthealth);
+            //var bestdamage = D.Where(d => Array.IndexOf(D, d) != besthealthindex).Max();
+            //var bestdamageindex = Array.IndexOf(D, bestdamage);
+
             double maxdamage = 0;
             double totaldamage = 0;
-            double prevdamage = 0;
 
-            for (var i = 0; i < N - 1; i++)
+
+            for (var i = 0; i < N - 1 && i < 2; i++)
             {
-                for (var j = i+1; j < N; j++)
+                for (var j = 1; j < N && j < 3; j++)
                 {
 
                     totaldamage = ((double)warriors[i].Item1 / (double)B * ((double)warriors[i].Item2 + (double)warriors[j].Item2)) + ((double)warriors[j].Item1 / (double)B * (double)warriors[j].Item2);
-                    if (totaldamage < prevdamage)
-                        return maxdamage;
                     maxdamage = Math.Max(maxdamage, totaldamage);
                     totaldamage = ((double)warriors[j].Item1 / (double)B * ((double)warriors[j].Item2 + (double)warriors[i].Item2)) + ((double)warriors[i].Item1 / (double)B * (double)warriors[i].Item2);
-                    prevdamage = totaldamage;
                     maxdamage = Math.Max(maxdamage, totaldamage);
-
                 }
             }
 
+            //        totaldamage = ((double)H[i] / (double)B * ((double)D[i] + (double)D[j])) + ((double)H[j] / (double)B * (double)D[j]);
+            //        maxdamage = Math.Max(maxdamage, totaldamage);
+            //        totaldamage = ((double)H[j] / (double)B * ((double)D[j] + (double)D[i])) + ((double)H[i] / (double)B * (double)D[i]);
+            //        maxdamage = Math.Max(maxdamage, totaldamage);
+            //    }
+
+            //}
+
+
+            //double totaldamage = 0;
+
+
+            //    totaldamage = ((double)H[besthealthindex] / (double)B * ((double)D[besthealthindex] + (double)D[bestdamageindex])) + ((double)H[bestdamageindex] / (double)B * (double)D[bestdamageindex]);
+
+
+            //  return totaldamage;
             return maxdamage;
 
         }
 
 
-
-        //passes 24. best algo so far, but need to understand it!!!
-public double getMaxDamageDealt(int N, int[] H, int[] D, int B)
-        {
-
-            List<Tuple<int, int>> warriors = new List<Tuple<int, int>>();
-            for (int i = 0; i < H.Length; i++)
-            {
-                warriors.Add(new Tuple<int, int>(H[i], D[i]));
-            }
-
-        double GetMax(int i, bool isHealth, double allMax)
-        {
-            double curMax = 0;
-            int curJ = -1;
-            for (int j = 0; j < warriors.Count; j++)
-            {
-                if (i == j)
+        public long getSecondsElapsed(long C, int N, long[] A, long[] B, long K)
                 {
-                    continue;
-                }
 
-                int h1, d1, h2, d2;
-                if (isHealth)
-                {
-                    h1 = warriors[i].Item1;
-                    d1 = warriors[i].Item2;
-                    h2 = warriors[j].Item1;
-                    d2 = warriors[j].Item2;
-                }
-                else
-                {
-                    h1 = warriors[j].Item1;
-                    d1 = warriors[j].Item2;
-                    h2 = warriors[i].Item1;
-                    d2 = warriors[i].Item2;
-                }
+                    Array.Sort(A);
+                    Array.Sort(B);
 
-                double damage = h1 * d1 + h1 * d2 + h2 * d2;
-                if (damage > curMax)
-                {
-                    curMax = damage;
-                    curJ = j;
-                }
-            }
+                    long tpr = 0;
+                    for (var i = 0; i < N; i++)
+                    {
+                        tpr += (B[i] - A[i]);
+                    }
 
-            if (curMax > allMax)
-            {
-                return GetMax(curJ, !isHealth, curMax);
-            }
-            else
-            {
-                return allMax;
-            }
-        }
-        
-            return Math.Max(GetMax(0, true, 0), GetMax(0, false, 0)) / B;
+                    long revs = K / tpr; 
+                    long rem = K % tpr; 
+                    long result = 0;
 
-        }
 
-
-
-public double getMaxDamageDealtsux(int N, int[] H, int[] D, int B)
-{
-    //passed 7 / 24 with one wrong answer and rest too slow
-    var warriors = new Tuple<int, int>[N];
-
-    for (var i = 0; i < N; i++)
-    {
-        warriors[i] = new Tuple<int, int>(H[i], D[i]);
-    }
-
-
-    warriors = warriors.OrderByDescending(w => w.Item1).ThenByDescending(w => w.Item2).ToArray();
-
-
-
-    //var besthealth = H.Max();
-    //var besthealthindex = Array.IndexOf(H, besthealth);
-    //var bestdamage = D.Where(d => Array.IndexOf(D, d) != besthealthindex).Max();
-    //var bestdamageindex = Array.IndexOf(D, bestdamage);
-
-    double maxdamage = 0;
-    double totaldamage = 0;
-
-
-    for (var i = 0; i < N - 1 && i < 2; i++)
-    {
-        for (var j = 1; j < N && j < 3; j++)
-        {
-
-            totaldamage = ((double)warriors[i].Item1 / (double)B * ((double)warriors[i].Item2 + (double)warriors[j].Item2)) + ((double)warriors[j].Item1 / (double)B * (double)warriors[j].Item2);
-            maxdamage = Math.Max(maxdamage, totaldamage);
-            totaldamage = ((double)warriors[j].Item1 / (double)B * ((double)warriors[j].Item2 + (double)warriors[i].Item2)) + ((double)warriors[i].Item1 / (double)B * (double)warriors[i].Item2);
-            maxdamage = Math.Max(maxdamage, totaldamage);
-        }
-    }
-
-    //        totaldamage = ((double)H[i] / (double)B * ((double)D[i] + (double)D[j])) + ((double)H[j] / (double)B * (double)D[j]);
-    //        maxdamage = Math.Max(maxdamage, totaldamage);
-    //        totaldamage = ((double)H[j] / (double)B * ((double)D[j] + (double)D[i])) + ((double)H[i] / (double)B * (double)D[i]);
-    //        maxdamage = Math.Max(maxdamage, totaldamage);
-    //    }
-
-    //}
-
-
-    //double totaldamage = 0;
-
-
-    //    totaldamage = ((double)H[besthealthindex] / (double)B * ((double)D[besthealthindex] + (double)D[bestdamageindex])) + ((double)H[bestdamageindex] / (double)B * (double)D[bestdamageindex]);
-
-
-    //  return totaldamage;
-    return maxdamage;
-
-}
-
-
-public long getSecondsElapsed(long C, int N, long[] A, long[] B, long K)
-        {
-           
-            Array.Sort(A);
-            Array.Sort(B);
-          
-            long tpr = 0;
-            for (var i = 0; i < N; i++)
-            {
-                tpr += (B[i] - A[i]);
-            }
-        
-            long revs = K / tpr; 
-            long rem = K % tpr; 
-            long result = 0;
-
-
-            if (rem == 0)
-            {
-                result = C * revs - (C - B[N - 1]);
-            }
-            else
-            {
-
-                var i = 0;
-                while (rem > 0)
-                {
-                    rem -= B[i] - A[i];
-                    i++;
-                }
-
-
-
-                result = C * revs + B[i - 1] + rem;
-
-
-            }
-
-            return result;
-        }
-
-
-        //Service Titan interview"
-
-        //create a multimap class with all the functions but generic multimap<K, V>(){}
-        //Add, list, flatten, remove element, remove value, remove all keys and values, etc.
-        //unit tests to test every possibility
-        //do it here as the multimap created here is crap.
-
-        public void MultiMapTest()
-        {
-            var mmap = new MultiMap<int>();
-
-            mmap.Add("test1", 1);
-            mmap.Add("test1", 1);
-
-
-            var multiMap = new MultiMap<bool>();
-            multiMap.Add("key1", true);
-            multiMap.Add("key1", false);
-            multiMap.Add("key2", false);
-
-            foreach (string key in multiMap.Keys)
-            {
-                foreach (bool value in multiMap[key])
-                {
-                    Console.WriteLine("MULTIMAP: " + key + "=" + value);
-                }
-            }
-
-
-            var k = mmap.Keys;
-
-            foreach(var kk in k)
-            {
-                foreach(var val in mmap[kk])
-                    Console.WriteLine(kk + " " + val);
-            }
-
-
-
-        }
-
-
-        static List<int> leftboundary = new List<int>();
-        static List<int> leafnodes = new List<int>();
-        static List<int> rightboundary = new List<int>();
-
-
-        static int[] findBoundary(TreeNode root)
-        {
-            leftboundary.Add(root.val);
-            traverseleft(root.left);
-            traverseright(root.right);
-            rightboundary.Reverse();
-            return leftboundary.Concat(leafnodes).Concat(rightboundary).ToArray();
-
-        }
-
-        static void traverseleft(TreeNode root)
-        {
-            if (root == null)
-                return;
-            leftboundary.Add(root.val);
-            traverseleft(root.left);
-            traverseleft(root.right);
-
-        }
-
-        static void traverseright(TreeNode root)
-        {
-            if (root == null)
-                return;
-            if (root.left == null && root.right == null)
-                leafnodes.Add(root.val);
-            else
-            {
-                rightboundary.Add(root.val);
-                traverseright(root.left);
-                traverseright(root.right);
-            }
-
-
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public int[] twosum(int[] nums, int target)
-        {
-            var dict = new Dictionary<int, int>();
-            var result = new int[2];
-            for (var i = 0; i < nums.Length; i++)
-            {
-                var diff = target - nums[i];
-                var found = 0;
-                if (dict.TryGetValue(diff, out found))
-                {
-                    result[0] = i;
-                    result[1] = found;
-                    break;
-                }
-                else
-                {
-                    dict[nums[i]] = i;
-                }
-
-            }
-            return result;
-
-
-
-        }
-
-
-
-        //inmterviewing.io AI interviews:
-        public int[] frequentelem(int[] nums, int k)
-        {
-            // var result = new List<int>();
-            var dict = new Dictionary<int, int>();
-
-            for (var i = 0; i < nums.Length; i++)
-            {
-                if (!dict.TryGetValue(nums[i], out _))
-                    dict[nums[i]] = 1;
-                else
-                    dict[nums[i]]++;
-
-            }
-            // var q = new PriorityQueue<int, int>();
-
-            var top2 = dict.OrderByDescending(d => d.Value).Take(2).Select(d => d.Key);
-
-
-            return top2.ToArray();
-
-
-        }
-
-
-
-        //inmterviewing.io AI interviews:
-        //2 pointer solution.
-
-        public int findHeights(int[] lines)
-        {
-            var result = 0;
-            var len = lines.Length;
-            var left = 0;
-            var right = len - 1;
-            while (left <= right)
-            {
-                var area = Math.Min(lines[left], lines[right]) * (right - left);
-                result = Math.Max(area, result);
-                if (lines[right] < lines[left])
-                {
-                    right--;
-                }
-                else
-                {
-                    left++;
-                }
-
-            }
-
-
-            return result;
-
-        }
-
-
-
-        public IList<int> InorderTraversal(TreeNode root)
-        {
-            var list = new List<int>();
-            var stack = new Stack<TreeNode>();
-
-            while (root != null || stack.Count > 0)
-            {
-               
-               if (root != null)
-                { 
-                    stack.Push(root);
-                    root = root.left;
-                }
-               else
-                {
-                    var popped = stack.Pop();
-                    list.Add(popped.val);
-                    root = popped.right;
-                }
-
-
-            }
-            return list;
-        }
-
-        public int[] TwoSum7(int[] nums, int target)
-        {
-         
-
-            var d = new Dictionary<int, int>();
-          
-
-            for (var i = 0; i < nums.Length; i++)
-            {
-           
-                var diff = target - nums[i];
-                if (d.ContainsKey(diff))
-                {
-                    return new int[] { i, d[diff] };
-                }
-                else
-                {
-                    d[nums[i]] = i;
-                }
-            }   
-
-            return default;
-
-        }
-
-        public int MostProfitablePath(int [,] grid)
-        {
-            var m = grid.GetLength(0);
-            var n = grid.GetLength(1);
-           // var profit = 0;
-            var dp = new int[m,n];
-            dp[0,0] = 0;
-            
-            for (var i = 0; i < m; i++)
-            {
-                for (var j = 0; j < n; j++)
-                {
-                    dp[i,j] = Math.Max(i > 0 ? dp[i - 1, j] : 0, j > 0 ? dp[i, j - 1] : 0) + grid[i, j];
-                }
-            }
-
-            return dp[m-1,n-1];
-
-        }   
-
-        public int ClimbStairsPaid(int N, int[] P)
-        {
-            var dp = new int[N + 1];
-            dp[0] = 0;
-            dp[1] = P[1];
-            for (var i = 2; i <= N; i++)
-            {
-                dp[i] = Math.Min(dp[i-1], dp[i-2]) + P[i];
-            }
-
-            return dp[N];   
-
-        }
-
-
-        public int ClimbStairsKstepsSpaceOptimizedRedStairs(int N, int K, bool[] redstairs)
-        {
-            var dp = new int[K];
-            dp[0] = 1;
-
-
-            for (var i = 1; i <= N; i++)
-            {
-                for (var j = 1; j < K; j++)
-                {
-                    if (i - j < 0)
-                        continue;
-                    if (redstairs[i - 1])
-                        dp[i % K] = 0;
+                    if (rem == 0)
+                    {
+                        result = C * revs - (C - B[N - 1]);
+                    }
                     else
-                        dp[i % K] += dp[(i - j) % K];
-
-                }
-            }
-
-
-            return dp[N % K];
-        }
-
-
-
-
-        public int ClimbStairsKstepsSpaceOptimized(int N, int K)
-        {
-            var dp = new int[K];
-            dp[0] = 1;
-            
-
-            for (var i = 1; i <= N; i++)
-            {
-                for (var j = 1; j < K; j++)
-                {
-                    if (i - j < 0)
-                        continue;
-                    dp[i % K] += dp[(i - j) % K];
-
-                }
-            }
-
-
-            return dp[N % K];
-        }
-
-
-        public int ClimbStairsKsteps(int N, int K)
-        {
-            var dp = new int[N + 1];
-            dp[0] = 1;
-            dp[1] = 1;
-
-            for (var i = 2; i <= N; i++)
-            {
-                for (var j = 1; j <= K; j++)
-                {
-                    if (i - K < 0)
-                        continue;
-                    dp[i] += dp[i - j];
-
-                }
-            }
-
-
-            return dp[N];
-        }
-
-
-
-        public long getMinCodeEntryTime3(int N, int M, int[] C)
-        {
-
-            var c = new int[] { 0, 1 }.Concat(C);
-
-            int Cost(int i, int j)
-            {
-                return Math.Min((C[i] - C[j]) % N, (C[j] - C[i]) % N);
-            }
-
-            List<int> dp = new List<int>(new int[M]);
-            dp[0] = Cost(0, 1);
-
-            for (int i = 2; i < C.Count() ; i++)
-            {
-                dp[i - 1] = dp.GetRange(0, i - 1).Select(k => dp[k] + Cost(k, i)).Min();
-
-                for (int k = 0; k < i - 1; k++)
-                {
-                    dp[k] += Cost(i - 1, i);
-                }
-            }
-
-            return dp.Min();
-
-
-        }
-
-
-
-//works with MEMOization
-//Only works for one timer clock. needs to work for two.
-
-public long getMinCodeEntryTime(int N, int M, int[] C)
-        {
-            // var memo = Enumerable.Range(0, M).Select(_ => new Dictionary<int, long>()).ToList();
-
-            var memo = Enumerable.Range(0, M).Select(x => new Dictionary<int, long>()).ToList();
-            long dfs(int left, int step)
-            {
-                if (step == M)
-                {
-                    return 0;
-                }
-              //  if (!memo[step].TryGetValue(left, out long result))
-             //   {
-                    int right = step == 0 ? 1 : C[step - 1];
-                   long result = Math.Min(
-                      moves(left, C[step]) + dfs(right, step + 1),
-                      moves(right, C[step]) + dfs(left, step + 1)
-                    );
-                 //   memo[step].Add(left, result);
-              //  }
-                return result;
-            }
-
-            int moves(int x, int y)
-            {
-                int min = Math.Min(x, y), max = Math.Max(x, y);
-                int fwd = max - min, rev = min + (N - max);
-                return Math.Min(fwd, rev);
-            }
-
-            return dfs(1, 0);
-
-
-
-        }
-
-
-
-
-
-
-
-        //Passed 18/18.  Need to understand this 100% tho
-
-
-        public int getMaxVisitableWebpages(int N, int[] L)
-        {
-
-
-            L = Array.ConvertAll(L, x => x - 1);
-            int[] indegrees = new int[N];
-            foreach (int l in L)
-            {
-                indegrees[l] += 1;
-            }
-            int[] levels = new int[N];
-            bool[] visited = new bool[N];
-            Queue<int> queue = new Queue<int>();
-            for (int i = 0; i < N; i++)
-            {
-                if (indegrees[i] == 0)
-                {
-                    queue.Enqueue(i);
-                }
-            }
-            while (queue.Count > 0)
-            {
-                int i = queue.Dequeue();
-                visited[i] = true;
-                int j = L[i];
-                levels[j] = Math.Max(levels[j], levels[i] + 1);
-                indegrees[j] -= 1;
-                if (indegrees[j] == 0)
-                {
-                    queue.Enqueue(j);
-                }
-            }
-            Dictionary<int, int> roots = new Dictionary<int, int>();
-            Dictionary<int, int> cycleSize = new Dictionary<int, int>();
-            int CountCycle(int start)
-            {
-                if (roots.ContainsKey(start))
-                {
-                    return cycleSize[roots[start]];
-                }
-                int count = 0;
-                int i = start;
-                while (true)
-                {
-                    count += 1;
-                    roots[i] = start;
-                    i = L[i];
-                    if (start == i)
                     {
-                        break;
+
+                        var i = 0;
+                        while (rem > 0)
+                        {
+                            rem -= B[i] - A[i];
+                            i++;
+                        }
+
+
+
+                        result = C * revs + B[i - 1] + rem;
+
+
                     }
+
+                    return result;
                 }
-                cycleSize[start] = count;
-                return count;
-            }
-            int maxChain = 0;
-            for (int i = 0; i < N; i++)
-            {
-                if (!visited[i])
+
+
+                //Service Titan interview"
+
+                //create a multimap class with all the functions but generic multimap<K, V>(){}
+                //Add, list, flatten, remove element, remove value, remove all keys and values, etc.
+                //unit tests to test every possibility
+                //do it here as the multimap created here is crap.
+
+                public void MultiMapTest()
                 {
-                    maxChain = Math.Max(maxChain, levels[i] + CountCycle(i));
-                }
-            }
-            return maxChain;
+                    var mmap = new MultiMap<int>();
 
+                    mmap.Add("test1", 1);
+                    mmap.Add("test1", 1);
 
-        }
 
+                    var multiMap = new MultiMap<bool>();
+                    multiMap.Add("key1", true);
+                    multiMap.Add("key1", false);
+                    multiMap.Add("key2", false);
 
-
-
-
-//Passed 4/18.  suckssss dude  - should try Kahn's algorithm and find the longest cycle and incoming edges.
-
-public int getMaxVisitableWebpages1(int N, int[] L)
-        {
-            var ndegree = new int[N];
-            var maxcount = 0;
-
-
-            //Add incoming edges to each node
-            for (int i = 0; i < N; i++)
-            {
-                ndegree[L[i] - 1]++;
-            }
-            var q = new Queue<int>();
-            for (int i = 0; i < N; i++)
-            {
-                if (ndegree[i] == 0)
-                    q.Enqueue(i);
-            }
-
-            var index = 0;
-            var order = new int[N];
-            while (q.Count > 0)
-            {
-                var node = q.Dequeue();
-                order[index++] = node;
-                ndegree[L[node] - 1]--;
-                if (ndegree[L[node] - 1] == 0)
-                    q.Enqueue(L[node] - 1);
-
-
-
-            }
-
-            return order[N - 1];
-
-
-
-
-
-
-            // Write your code here
-            //return 0;
-
-            //create array of neighbours with all neihbours for each node
-
-
-            // start at each node and find out what is the longest distance with a distance of 1 from 1 node to any other node.
-
-            //   return max distance.
-
-            //Passed 4 / 28:  works but slow as all failed on time
-            //for (int i = 0; i < N; i++)
-            //{
-            //    var count = 1;
-            //    var visited = new bool[N];
-            //    var j = i;
-            //    visited[j] = true;
-            //    while (true)
-            //    {
-
-            //        j = L[j] - 1;
-            //        if (visited[j])
-            //            break;
-            //        visited[j] = true;
-            //        count++;
-
-
-            //    }
-            //    maxcount = Math.Max(maxcount, count);
-            //    if (maxcount == N)
-            //        break;
-
-            //}
-
-            //return maxcount;
-
-
-
-        }
-
-
-
-
-
-
-
-
-
-
-
-        ////Passed 31/31 in java.  convert to C# to understand!
-
-        //int R;
-        //int C;
-        //char[][] G;
-
-        //Map<Character, List<Vertex>> portals = new HashMap<>();
-
-
-        //public int getSecondsRequired(int R, int C, char[][] G)
-        //{
-
-        //    this.R = R;
-        //    this.C = C;
-        //    this.G = G;
-
-        //    List<Vertex> currentMoves = new ArrayList<>();
-
-        //    Vertex startPos;
-        //    // find starting pos and build portal map
-        //    for (int i = 0; i < R; i++)
-        //        for (int j = 0; j < C; j++)
-        //        {
-        //            char cell = G[i][j];
-        //            if (cell == 'S')
-        //            {
-        //                currentMoves.add(new Vertex(i, j));  // Add starting cell to the current moves
-        //            }
-        //            if (cell >= 'a' && cell <= 'z')
-        //            {
-        //                portals.computeIfAbsent(cell, c-> new ArrayList<>())
-        //                        .add(new Vertex(i, j));
-        //            }
-        //        }
-
-        //    int moves = 0;
-        //    while (true)
-        //    {
-        //        moves++;
-        //        // iterate through all available moves
-        //        List<Vertex> newMoves = new ArrayList<>();
-        //        for (Vertex v: currentMoves)
-        //        {
-        //            // try to move left
-        //            if (v.canMoveTo(v.row, v.col - 1))
-        //            {
-        //                Vertex leftCell = new Vertex(v.row, v.col - 1);
-        //                if (leftCell.isExit())
-        //                    return moves;
-        //                newMoves.add(leftCell);
-        //            }
-        //            // try to move right
-        //            if (v.canMoveTo(v.row, v.col + 1))
-        //            {
-        //                Vertex rightCell = new Vertex(v.row, v.col + 1);
-        //                if (rightCell.isExit())
-        //                    return moves;
-        //                newMoves.add(rightCell);
-        //            }
-        //            // try to move up
-        //            if (v.canMoveTo(v.row - 1, v.col))
-        //            {
-        //                Vertex aboveCell = new Vertex(v.row - 1, v.col);
-        //                if (aboveCell.isExit())
-        //                    return moves;
-        //                newMoves.add(aboveCell);
-        //            }
-        //            // try to move down
-        //            if (v.canMoveTo(v.row + 1, v.col))
-        //            {
-        //                Vertex belowCell = new Vertex(v.row + 1, v.col);
-        //                if (belowCell.isExit())
-        //                    return moves;
-        //                newMoves.add(belowCell);
-        //            }
-        //            // try to use a portal
-        //            char cell = v.getValue();
-        //            if (cell >= 'a' && cell <= 'z' && portals.containsKey(cell))
-        //            {
-        //                List<Vertex> portalList = portals.get(cell);
-        //                for (Vertex portalExit: portalList)
-        //                {
-        //                    if (portalExit != v && portalExit.getValue() != 'V')
-        //                        newMoves.add(portalExit);
-        //                }
-        //            }
-        //            G[v.row][v.col] = 'V';  // mark as visited
-        //        }
-        //        if (newMoves.size() == 0)
-        //            return -1;
-        //        currentMoves = newMoves;
-        //    }
-
-        //}
-
-        //class Vertex
-        //{
-        //    private final int row;
-        //    private final int col;
-
-        //    Vertex(int row, int col)
-        //    {
-        //        this.row = row;
-        //        this.col = col;
-        //    }
-
-        //    private boolean canMoveTo(int newRow, int newCol)
-        //    {
-        //        return (newRow >= 0) && (newRow < R) && (newCol >= 0) && (newCol < C)
-        //                && G[newRow][newCol] != '#' && G[newRow][newCol] != 'V';
-        //    }
-
-        //    private char getValue()
-        //    {
-        //        return G[row][col];
-        //    }
-
-        //    private boolean isExit()
-        //    {
-        //        return getValue() == 'E';
-        //    }
-        //}
-
-
-
-        //passed 30/31:  still no good:
-
-
-        public int getSecondsRequired2(int R, int C, char[,] G)
-        {
-            // Write your code here
-            int startX = 0, startY = 0;
-            for (int i = 0; i < R; ++i)
-                for (int j = 0; j < C; ++j)
-                {
-                    if (G[i,j] == 'S')
+                    foreach (string key in multiMap.Keys)
                     {
-                        startX = i;
-                        startY = j;
-                        break;
+                        foreach (bool value in multiMap[key])
+                        {
+                            Console.WriteLine("MULTIMAP: " + key + "=" + value);
+                        }
                     }
-                }
-            return getMinSeconds(R, C, G, startX, startY);
-        }
 
-        private int getMinSeconds(int R, int C, char[,] G, int startX, int startY)
-        {
-            bool[,] visited = new bool[R,C];
-            Queue<Move> q = new Queue<Move>();
-            q.Enqueue(new Move(startX, startY, 0));
-            int minX = -1, minY = -1;
-            int minSeconds = int.MaxValue;
-            while (q.Count > 0)
-            {
-                Move move = q.Dequeue();
-                if (G[move.x,move.y] == 'E')
-                {
-                    if (move.seconds < minSeconds)
+
+                    var k = mmap.Keys;
+
+                    foreach(var kk in k)
                     {
-                        minSeconds = move.seconds;
-                        minX = move.x;
-                        minY = move.y;
+                        foreach(var val in mmap[kk])
+                            Console.WriteLine(kk + " " + val);
                     }
-                    continue;
+
+
+
                 }
-                visited[move.x,move.y] = true;
-                if (move.x > 0)
+
+
+                static List<int> leftboundary = new List<int>();
+                static List<int> leafnodes = new List<int>();
+                static List<int> rightboundary = new List<int>();
+
+
+                static int[] findBoundary(TreeNode root)
                 {
-                    makeMove(q, G, move.x - 1, move.y, move.seconds + 1, visited);
+                    leftboundary.Add(root.val);
+                    traverseleft(root.left);
+                    traverseright(root.right);
+                    rightboundary.Reverse();
+                    return leftboundary.Concat(leafnodes).Concat(rightboundary).ToArray();
+
                 }
-                if (move.y > 0)
+
+                static void traverseleft(TreeNode root)
                 {
-                    makeMove(q, G, move.x, move.y - 1, move.seconds + 1, visited);
+                    if (root == null)
+                        return;
+                    leftboundary.Add(root.val);
+                    traverseleft(root.left);
+                    traverseleft(root.right);
+
                 }
-                if (move.x < R - 1)
+
+                static void traverseright(TreeNode root)
                 {
-                    makeMove(q, G, move.x + 1, move.y, move.seconds + 1, visited);
+                    if (root == null)
+                        return;
+                    if (root.left == null && root.right == null)
+                        leafnodes.Add(root.val);
+                    else
+                    {
+                        rightboundary.Add(root.val);
+                        traverseright(root.left);
+                        traverseright(root.right);
+                    }
+
+
                 }
-                if (move.y < C - 1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                public int[] twosum(int[] nums, int target)
                 {
-                    makeMove(q, G, move.x, move.y + 1, move.seconds + 1, visited);
+                    var dict = new Dictionary<int, int>();
+                    var result = new int[2];
+                    for (var i = 0; i < nums.Length; i++)
+                    {
+                        var diff = target - nums[i];
+                        var found = 0;
+                        if (dict.TryGetValue(diff, out found))
+                        {
+                            result[0] = i;
+                            result[1] = found;
+                            break;
+                        }
+                        else
+                        {
+                            dict[nums[i]] = i;
+                        }
+
+                    }
+                    return result;
+
+
+
                 }
-                if (G[move.x,move.y] >= 'a' && G[move.x,move.y] <= 'z')
+
+
+
+                //inmterviewing.io AI interviews:
+                public int[] frequentelem(int[] nums, int k)
                 {
+                    // var result = new List<int>();
+                    var dict = new Dictionary<int, int>();
+
+                    for (var i = 0; i < nums.Length; i++)
+                    {
+                        if (!dict.TryGetValue(nums[i], out _))
+                            dict[nums[i]] = 1;
+                        else
+                            dict[nums[i]]++;
+
+                    }
+                    // var q = new PriorityQueue<int, int>();
+
+                    var top2 = dict.OrderByDescending(d => d.Value).Take(2).Select(d => d.Key);
+
+
+                    return top2.ToArray();
+
+
+                }
+
+
+
+                //inmterviewing.io AI interviews:
+                //2 pointer solution.
+
+                public int findHeights(int[] lines)
+                {
+                    var result = 0;
+                    var len = lines.Length;
+                    var left = 0;
+                    var right = len - 1;
+                    while (left <= right)
+                    {
+                        var area = Math.Min(lines[left], lines[right]) * (right - left);
+                        result = Math.Max(area, result);
+                        if (lines[right] < lines[left])
+                        {
+                            right--;
+                        }
+                        else
+                        {
+                            left++;
+                        }
+
+                    }
+
+
+                    return result;
+
+                }
+
+
+
+                public IList<int> InorderTraversal(TreeNode root)
+                {
+                    var list = new List<int>();
+                    var stack = new Stack<TreeNode>();
+
+                    while (root != null || stack.Count > 0)
+                    {
+
+                       if (root != null)
+                        { 
+                            stack.Push(root);
+                            root = root.left;
+                        }
+                       else
+                        {
+                            var popped = stack.Pop();
+                            list.Add(popped.val);
+                            root = popped.right;
+                        }
+
+
+                    }
+                    return list;
+                }
+
+                public int[] TwoSum7(int[] nums, int target)
+                {
+
+
+                    var d = new Dictionary<int, int>();
+
+
+                    for (var i = 0; i < nums.Length; i++)
+                    {
+
+                        var diff = target - nums[i];
+                        if (d.ContainsKey(diff))
+                        {
+                            return new int[] { i, d[diff] };
+                        }
+                        else
+                        {
+                            d[nums[i]] = i;
+                        }
+                    }   
+
+                    return default;
+
+                }
+
+                public int MostProfitablePath(int [,] grid)
+                {
+                    var m = grid.GetLength(0);
+                    var n = grid.GetLength(1);
+                   // var profit = 0;
+                    var dp = new int[m,n];
+                    dp[0,0] = 0;
+
+                    for (var i = 0; i < m; i++)
+                    {
+                        for (var j = 0; j < n; j++)
+                        {
+                            dp[i,j] = Math.Max(i > 0 ? dp[i - 1, j] : 0, j > 0 ? dp[i, j - 1] : 0) + grid[i, j];
+                        }
+                    }
+
+                    return dp[m-1,n-1];
+
+                }   
+
+                public int ClimbStairsPaid(int N, int[] P)
+                {
+                    var dp = new int[N + 1];
+                    dp[0] = 0;
+                    dp[1] = P[1];
+                    for (var i = 2; i <= N; i++)
+                    {
+                        dp[i] = Math.Min(dp[i-1], dp[i-2]) + P[i];
+                    }
+
+                    return dp[N];   
+
+                }
+
+
+                public int ClimbStairsKstepsSpaceOptimizedRedStairs(int N, int K, bool[] redstairs)
+                {
+                    var dp = new int[K];
+                    dp[0] = 1;
+
+
+                    for (var i = 1; i <= N; i++)
+                    {
+                        for (var j = 1; j < K; j++)
+                        {
+                            if (i - j < 0)
+                                continue;
+                            if (redstairs[i - 1])
+                                dp[i % K] = 0;
+                            else
+                                dp[i % K] += dp[(i - j) % K];
+
+                        }
+                    }
+
+
+                    return dp[N % K];
+                }
+
+
+
+
+                public int ClimbStairsKstepsSpaceOptimized(int N, int K)
+                {
+                    var dp = new int[K];
+                    dp[0] = 1;
+
+
+                    for (var i = 1; i <= N; i++)
+                    {
+                        for (var j = 1; j < K; j++)
+                        {
+                            if (i - j < 0)
+                                continue;
+                            dp[i % K] += dp[(i - j) % K];
+
+                        }
+                    }
+
+
+                    return dp[N % K];
+                }
+
+
+                public int ClimbStairsKsteps(int N, int K)
+                {
+                    var dp = new int[N + 1];
+                    dp[0] = 1;
+                    dp[1] = 1;
+
+                    for (var i = 2; i <= N; i++)
+                    {
+                        for (var j = 1; j <= K; j++)
+                        {
+                            if (i - K < 0)
+                                continue;
+                            dp[i] += dp[i - j];
+
+                        }
+                    }
+
+
+                    return dp[N];
+                }
+
+
+
+                public long getMinCodeEntryTime3(int N, int M, int[] C)
+                {
+
+                    var c = new int[] { 0, 1 }.Concat(C);
+
+                    int Cost(int i, int j)
+                    {
+                        return Math.Min((C[i] - C[j]) % N, (C[j] - C[i]) % N);
+                    }
+
+                    List<int> dp = new List<int>(new int[M]);
+                    dp[0] = Cost(0, 1);
+
+                    for (int i = 2; i < C.Count() ; i++)
+                    {
+                        dp[i - 1] = dp.GetRange(0, i - 1).Select(k => dp[k] + Cost(k, i)).Min();
+
+                        for (int k = 0; k < i - 1; k++)
+                        {
+                            dp[k] += Cost(i - 1, i);
+                        }
+                    }
+
+                    return dp.Min();
+
+
+                }
+
+
+
+        //works with MEMOization
+        //Only works for one timer clock. needs to work for two.
+
+        public long getMinCodeEntryTime(int N, int M, int[] C)
+                {
+                    // var memo = Enumerable.Range(0, M).Select(_ => new Dictionary<int, long>()).ToList();
+
+                    var memo = Enumerable.Range(0, M).Select(x => new Dictionary<int, long>()).ToList();
+                    long dfs(int left, int step)
+                    {
+                        if (step == M)
+                        {
+                            return 0;
+                        }
+                      //  if (!memo[step].TryGetValue(left, out long result))
+                     //   {
+                            int right = step == 0 ? 1 : C[step - 1];
+                           long result = Math.Min(
+                              moves(left, C[step]) + dfs(right, step + 1),
+                              moves(right, C[step]) + dfs(left, step + 1)
+                            );
+                         //   memo[step].Add(left, result);
+                      //  }
+                        return result;
+                    }
+
+                    int moves(int x, int y)
+                    {
+                        int min = Math.Min(x, y), max = Math.Max(x, y);
+                        int fwd = max - min, rev = min + (N - max);
+                        return Math.Min(fwd, rev);
+                    }
+
+                    return dfs(1, 0);
+
+
+
+                }
+
+
+
+
+
+
+
+                //Passed 18/18.  Need to understand this 100% tho
+
+
+                public int getMaxVisitableWebpages(int N, int[] L)
+                {
+
+
+                    L = Array.ConvertAll(L, x => x - 1);
+                    int[] indegrees = new int[N];
+                    foreach (int l in L)
+                    {
+                        indegrees[l] += 1;
+                    }
+                    int[] levels = new int[N];
+                    bool[] visited = new bool[N];
+                    Queue<int> queue = new Queue<int>();
+                    for (int i = 0; i < N; i++)
+                    {
+                        if (indegrees[i] == 0)
+                        {
+                            queue.Enqueue(i);
+                        }
+                    }
+                    while (queue.Count > 0)
+                    {
+                        int i = queue.Dequeue();
+                        visited[i] = true;
+                        int j = L[i];
+                        levels[j] = Math.Max(levels[j], levels[i] + 1);
+                        indegrees[j] -= 1;
+                        if (indegrees[j] == 0)
+                        {
+                            queue.Enqueue(j);
+                        }
+                    }
+                    Dictionary<int, int> roots = new Dictionary<int, int>();
+                    Dictionary<int, int> cycleSize = new Dictionary<int, int>();
+                    int CountCycle(int start)
+                    {
+                        if (roots.ContainsKey(start))
+                        {
+                            return cycleSize[roots[start]];
+                        }
+                        int count = 0;
+                        int i = start;
+                        while (true)
+                        {
+                            count += 1;
+                            roots[i] = start;
+                            i = L[i];
+                            if (start == i)
+                            {
+                                break;
+                            }
+                        }
+                        cycleSize[start] = count;
+                        return count;
+                    }
+                    int maxChain = 0;
+                    for (int i = 0; i < N; i++)
+                    {
+                        if (!visited[i])
+                        {
+                            maxChain = Math.Max(maxChain, levels[i] + CountCycle(i));
+                        }
+                    }
+                    return maxChain;
+
+
+                }
+
+
+
+
+
+        //Passed 4/18.  suckssss dude  - should try Kahn's algorithm and find the longest cycle and incoming edges.
+
+        public int getMaxVisitableWebpages1(int N, int[] L)
+                {
+                    var ndegree = new int[N];
+                    var maxcount = 0;
+
+
+                    //Add incoming edges to each node
+                    for (int i = 0; i < N; i++)
+                    {
+                        ndegree[L[i] - 1]++;
+                    }
+                    var q = new Queue<int>();
+                    for (int i = 0; i < N; i++)
+                    {
+                        if (ndegree[i] == 0)
+                            q.Enqueue(i);
+                    }
+
+                    var index = 0;
+                    var order = new int[N];
+                    while (q.Count > 0)
+                    {
+                        var node = q.Dequeue();
+                        order[index++] = node;
+                        ndegree[L[node] - 1]--;
+                        if (ndegree[L[node] - 1] == 0)
+                            q.Enqueue(L[node] - 1);
+
+
+
+                    }
+
+                    return order[N - 1];
+
+
+
+
+
+
+                    // Write your code here
+                    //return 0;
+
+                    //create array of neighbours with all neihbours for each node
+
+
+                    // start at each node and find out what is the longest distance with a distance of 1 from 1 node to any other node.
+
+                    //   return max distance.
+
+                    //Passed 4 / 28:  works but slow as all failed on time
+                    //for (int i = 0; i < N; i++)
+                    //{
+                    //    var count = 1;
+                    //    var visited = new bool[N];
+                    //    var j = i;
+                    //    visited[j] = true;
+                    //    while (true)
+                    //    {
+
+                    //        j = L[j] - 1;
+                    //        if (visited[j])
+                    //            break;
+                    //        visited[j] = true;
+                    //        count++;
+
+
+                    //    }
+                    //    maxcount = Math.Max(maxcount, count);
+                    //    if (maxcount == N)
+                    //        break;
+
+                    //}
+
+                    //return maxcount;
+
+
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+                ////Passed 31/31 in java.  convert to C# to understand!
+
+                //int R;
+                //int C;
+                //char[][] G;
+
+                //Map<Character, List<Vertex>> portals = new HashMap<>();
+
+
+                //public int getSecondsRequired(int R, int C, char[][] G)
+                //{
+
+                //    this.R = R;
+                //    this.C = C;
+                //    this.G = G;
+
+                //    List<Vertex> currentMoves = new ArrayList<>();
+
+                //    Vertex startPos;
+                //    // find starting pos and build portal map
+                //    for (int i = 0; i < R; i++)
+                //        for (int j = 0; j < C; j++)
+                //        {
+                //            char cell = G[i][j];
+                //            if (cell == 'S')
+                //            {
+                //                currentMoves.add(new Vertex(i, j));  // Add starting cell to the current moves
+                //            }
+                //            if (cell >= 'a' && cell <= 'z')
+                //            {
+                //                portals.computeIfAbsent(cell, c-> new ArrayList<>())
+                //                        .add(new Vertex(i, j));
+                //            }
+                //        }
+
+                //    int moves = 0;
+                //    while (true)
+                //    {
+                //        moves++;
+                //        // iterate through all available moves
+                //        List<Vertex> newMoves = new ArrayList<>();
+                //        for (Vertex v: currentMoves)
+                //        {
+                //            // try to move left
+                //            if (v.canMoveTo(v.row, v.col - 1))
+                //            {
+                //                Vertex leftCell = new Vertex(v.row, v.col - 1);
+                //                if (leftCell.isExit())
+                //                    return moves;
+                //                newMoves.add(leftCell);
+                //            }
+                //            // try to move right
+                //            if (v.canMoveTo(v.row, v.col + 1))
+                //            {
+                //                Vertex rightCell = new Vertex(v.row, v.col + 1);
+                //                if (rightCell.isExit())
+                //                    return moves;
+                //                newMoves.add(rightCell);
+                //            }
+                //            // try to move up
+                //            if (v.canMoveTo(v.row - 1, v.col))
+                //            {
+                //                Vertex aboveCell = new Vertex(v.row - 1, v.col);
+                //                if (aboveCell.isExit())
+                //                    return moves;
+                //                newMoves.add(aboveCell);
+                //            }
+                //            // try to move down
+                //            if (v.canMoveTo(v.row + 1, v.col))
+                //            {
+                //                Vertex belowCell = new Vertex(v.row + 1, v.col);
+                //                if (belowCell.isExit())
+                //                    return moves;
+                //                newMoves.add(belowCell);
+                //            }
+                //            // try to use a portal
+                //            char cell = v.getValue();
+                //            if (cell >= 'a' && cell <= 'z' && portals.containsKey(cell))
+                //            {
+                //                List<Vertex> portalList = portals.get(cell);
+                //                for (Vertex portalExit: portalList)
+                //                {
+                //                    if (portalExit != v && portalExit.getValue() != 'V')
+                //                        newMoves.add(portalExit);
+                //                }
+                //            }
+                //            G[v.row][v.col] = 'V';  // mark as visited
+                //        }
+                //        if (newMoves.size() == 0)
+                //            return -1;
+                //        currentMoves = newMoves;
+                //    }
+
+                //}
+
+                //class Vertex
+                //{
+                //    private final int row;
+                //    private final int col;
+
+                //    Vertex(int row, int col)
+                //    {
+                //        this.row = row;
+                //        this.col = col;
+                //    }
+
+                //    private boolean canMoveTo(int newRow, int newCol)
+                //    {
+                //        return (newRow >= 0) && (newRow < R) && (newCol >= 0) && (newCol < C)
+                //                && G[newRow][newCol] != '#' && G[newRow][newCol] != 'V';
+                //    }
+
+                //    private char getValue()
+                //    {
+                //        return G[row][col];
+                //    }
+
+                //    private boolean isExit()
+                //    {
+                //        return getValue() == 'E';
+                //    }
+                //}
+
+
+
+                //passed 30/31:  still no good:
+
+
+                public int getSecondsRequired2(int R, int C, char[,] G)
+                {
+                    // Write your code here
+                    int startX = 0, startY = 0;
                     for (int i = 0; i < R; ++i)
                         for (int j = 0; j < C; ++j)
-                            if (G[i,j] == G[move.x,move.y])
+                        {
+                            if (G[i,j] == 'S')
                             {
-                                makeMove(q, G, i, j, move.seconds + 1, visited);
+                                startX = i;
+                                startY = j;
+                                break;
                             }
+                        }
+                    return getMinSeconds(R, C, G, startX, startY);
                 }
-            }
-            return minX != -1 && minY != -1 ? minSeconds : -1;
-        }
 
-        private void makeMove(Queue<Move> q, char[,] G, int x, int y, int secs, bool[,] visited)
-        {
-            if (G[x,y] != '#' && !visited[x,y])
-            {
-                q.Enqueue(new Move(x, y, secs));
-            }
-        }
-
-        class Move
-        {
-            public int x, y;
-            public int seconds;
-            public Move(int x, int y, int seconds)
-            {
-                this.x = x;
-                this.y = y;
-                this.seconds = seconds;
-            }
-        }
-
-
-        //My code:  passess 24/31.  needs work!!!
-
-        public int getSecondsRequired1(int R, int C, char[,] G)
-        {
-            var visited = new bool[R,C];
-            var q = new Queue<ChrisNode>();
-         
-            var minseconds = int.MaxValue;
-            var minr = -1;
-            var minc = -1;
-            //Find the starting point
-            ChrisNode start = new ChrisNode(-1, -1,' ', 0);
-            for (var i = 0; i < R; i++)
-            {
-                for (var j = 0; j < C; j++)
+                private int getMinSeconds(int R, int C, char[,] G, int startX, int startY)
                 {
-                    if (G[i, j] == 'S')
+                    bool[,] visited = new bool[R,C];
+                    Queue<Move> q = new Queue<Move>();
+                    q.Enqueue(new Move(startX, startY, 0));
+                    int minX = -1, minY = -1;
+                    int minSeconds = int.MaxValue;
+                    while (q.Count > 0)
                     {
-                        start = new ChrisNode(i, j, G[i, j], 0);
-                        break;
+                        Move move = q.Dequeue();
+                        if (G[move.x,move.y] == 'E')
+                        {
+                            if (move.seconds < minSeconds)
+                            {
+                                minSeconds = move.seconds;
+                                minX = move.x;
+                                minY = move.y;
+                            }
+                            continue;
+                        }
+                        visited[move.x,move.y] = true;
+                        if (move.x > 0)
+                        {
+                            makeMove(q, G, move.x - 1, move.y, move.seconds + 1, visited);
+                        }
+                        if (move.y > 0)
+                        {
+                            makeMove(q, G, move.x, move.y - 1, move.seconds + 1, visited);
+                        }
+                        if (move.x < R - 1)
+                        {
+                            makeMove(q, G, move.x + 1, move.y, move.seconds + 1, visited);
+                        }
+                        if (move.y < C - 1)
+                        {
+                            makeMove(q, G, move.x, move.y + 1, move.seconds + 1, visited);
+                        }
+                        if (G[move.x,move.y] >= 'a' && G[move.x,move.y] <= 'z')
+                        {
+                            for (int i = 0; i < R; ++i)
+                                for (int j = 0; j < C; ++j)
+                                    if (G[i,j] == G[move.x,move.y])
+                                    {
+                                        makeMove(q, G, i, j, move.seconds + 1, visited);
+                                    }
+                        }
+                    }
+                    return minX != -1 && minY != -1 ? minSeconds : -1;
+                }
+
+                private void makeMove(Queue<Move> q, char[,] G, int x, int y, int secs, bool[,] visited)
+                {
+                    if (G[x,y] != '#' && !visited[x,y])
+                    {
+                        q.Enqueue(new Move(x, y, secs));
                     }
                 }
-            }
 
-
-            q.Enqueue(start);
-            visited[start.r, start.c] = true;
-
-            while (q.Count > 0)
-            {
-                var n = q.Dequeue();
-              
-
-                if (n.val == 'E')
+                class Move
                 {
-
-                    if (n.seconds < minseconds)
+                    public int x, y;
+                    public int seconds;
+                    public Move(int x, int y, int seconds)
                     {
-                        minseconds = n.seconds;
-                        minr = n.r;
-                        minc = n.c;
+                        this.x = x;
+                        this.y = y;
+                        this.seconds = seconds;
                     }
-                
                 }
-                visited[n.r, n.c] = true;
 
 
-                move(n, q, G, R, C, visited);
+                //My code:  passess 24/31.  needs work!!!
 
-                if (n.val >= 'a' && n.val <= 'z')
+                public int getSecondsRequired1(int R, int C, char[,] G)
                 {
-                    
-                    //var found = false;
+                    var visited = new bool[R,C];
+                    var q = new Queue<ChrisNode>();
+
+                    var minseconds = int.MaxValue;
+                    var minr = -1;
+                    var minc = -1;
+                    //Find the starting point
+                    ChrisNode start = new ChrisNode(-1, -1,' ', 0);
                     for (var i = 0; i < R; i++)
                     {
                         for (var j = 0; j < C; j++)
                         {
-                            if (G[i, j] == n.val) // && (i != n.r || j != n.c))
+                            if (G[i, j] == 'S')
                             {
-                               // visited[i, j] = true;
-                                move(new ChrisNode(i, j, n.val, n.seconds+1 ), q, G, R, C, visited);
+                                start = new ChrisNode(i, j, G[i, j], 0);
+                                break;
                             }
                         }
                     }
 
-                  //  continue;
-                    //Find next node with same letter and add neighbours to queue if exists
-                }
 
-                //if (n.val == '.' || n.val == 'S')
-                //{
-                //    visited[n.r, n.c] = true;
-                //    move(n, q, G, R, C, visited);
-                //}
-            }
+                    q.Enqueue(start);
+                    visited[start.r, start.c] = true;
 
-           return minr != -1 && minc!= -1 ? minseconds : -1;
-
-        }
-
-
-        private void move(ChrisNode n, Queue<ChrisNode> q, char[,] G, int R, int C, bool[,] visited)
-        {
-            if (n.r > 0 && G[n.r - 1, n.c] != '#' && !visited[n.r-1, n.c])
-            {
-                q.Enqueue(new ChrisNode(n.r - 1, n.c, G[n.r - 1, n.c], n.seconds+1));
-            }
-
-            if (n.c > 0 && G[n.r, n.c - 1] != '#' && !visited[n.r, n.c-1])
-            {
-                q.Enqueue(new ChrisNode(n.r, n.c - 1, G[n.r, n.c - 1], n.seconds + 1));
-            }
-
-            if (n.r < R - 1 && G[n.r + 1, n.c] != '#' && !visited[n.r+1, n.c])
-            {
-                q.Enqueue(new ChrisNode(n.r + 1, n.c, G[n.r + 1, n.c], n.seconds + 1));
-            }
-
-            if (n.c < C - 1 && G[n.r, n.c + 1] != '#' && !visited[n.r, n.c+1])
-            {
-                q.Enqueue(new ChrisNode(n.r, n.c + 1, G[n.r, n.c + 1], n.seconds + 1));
-            }
-        }
-
-
-        private class ChrisNode
-        {
-            public int r;
-            public int c;
-            public char val;
-            public int seconds;
-            public ChrisNode(int r, int c, char val, int seconds)
-            {
-                this.r = r;
-                this.c = c;
-                this.val = val;
-                this.seconds = seconds;
-            }
-        }
-
-
-
-        //Passed 24/24 test cases on metacareers portal;
-        //What is the BigO notation of the getMaxExpectedProfit2 below? 
-        //O(N^2)  - 2 nested loops.  N^2 is the worst case scenario.  Best case is O(N) if all values are the same.
-
-        public double getMaxExpectedProfit2(int N, int[] V, int C, double S)
-        {
-
-            var stolenpercent = 1 - S;
-            var DP = new double[N + 1];
-
-            for (var i = 1; i <= N; i++)
-            {
-                double total = 0;
-                double P = 1;
-                for (var j = i - 1; j >= 0; j--)
-                {
-
-                    total += V[j] * P;
-                    P *= stolenpercent;
-
-                    DP[i] = Math.Max(DP[i], total + DP[j]);
-
-
-                }
-                DP[i] -= C;
-            }
-
-            return DP.Max();
-        }
-
-
-        //Solved 6/33 test cases. but wrong approach.  need backwards loops  Use Dynamic Programming to solve.  
-        public double getMaxExpectedProfit(int N, int[] V, int C, double S)
-        {
-
-
-            //maybe working?
-            //const int n = v.size();
-            S = 1 - S;
-            double[] dp = new double[N+1];
-            for (int i = 1; i <= N; ++i)
-            {
-                double sum = 0, w = 1;
-                for (int j = i - 1; j >= 0; --j)
-                {
-                    sum += V[j] * w;
-                    w *= S;
-                    dp[i] = Math.Max(dp[i], dp[j] + sum);
-
-                }
-                dp[i] -= C;
-            }
-            return dp.Max(); // *max_element(dp.begin(), dp.end());
-
-
-
-
-            //garbage:
-
-            S = 1 - S;
-            double total = 0;
-
-            double[] dV = new double[N + 1];
-            // dV = Array.ConvertAll<int, double>(V, x => x);
-
-           
-
-            for (var i = 0; i < N; i++)
-            {
-
-//                if (V[i] - C > V[i] * (S))
-                    total += V[i] - C;
-                if (i < N - 1)
-                    dV[i + 1] = Math.Max(total, (double)(V[i] * (S)));
-            }
-            
-            return dV.Max();
-
-        }
-
-
-
-
-
-
-        public long getSecondsRequired(long N, int f, long[] P)
-        {
-            P = new long[] { 2, 3, 4, 5 };
-            var min = P.Min();
-
-            return N - min;
-
-        }
-        
-
-
-
-            public int getUniformIntegerCountInInterval(long A, long B)
-        {
-
-
-            var total = 0;
-
-            for (var i = 1; i < 13; i++)
-            {
-                for (var j = 1; j < 10; j++)
-                {
-                    var num = Convert.ToInt64(string.Concat(Enumerable.Repeat(j.ToString(), i)));
-
-                    if (num >= A && num <= B)
-                        total++;
-
-                }
-            }
-
-            return total;
-
-
-
-        }
-
-
-
-        //PAssed 32/33
-        public int getMinimumDeflatedDiscCount1(int N, int[] R)
-        {
-            if (R[N - 1] < N)
-                return -1;
-
-            var total = 0;
-            for (var i = N - 1; i > 0; i--)
-            {
-                if (R[i - 1] >= R[i])
-                {
-                    if (R[i] > 1)
+                    while (q.Count > 0)
                     {
-                        R[i - 1] = R[i] - 1;
-                        total++;
+                        var n = q.Dequeue();
+
+
+                        if (n.val == 'E')
+                        {
+
+                            if (n.seconds < minseconds)
+                            {
+                                minseconds = n.seconds;
+                                minr = n.r;
+                                minc = n.c;
+                            }
+
+                        }
+                        visited[n.r, n.c] = true;
+
+
+                        move(n, q, G, R, C, visited);
+
+                        if (n.val >= 'a' && n.val <= 'z')
+                        {
+
+                            //var found = false;
+                            for (var i = 0; i < R; i++)
+                            {
+                                for (var j = 0; j < C; j++)
+                                {
+                                    if (G[i, j] == n.val) // && (i != n.r || j != n.c))
+                                    {
+                                       // visited[i, j] = true;
+                                        move(new ChrisNode(i, j, n.val, n.seconds+1 ), q, G, R, C, visited);
+                                    }
+                                }
+                            }
+
+                          //  continue;
+                            //Find next node with same letter and add neighbours to queue if exists
+                        }
+
+                        //if (n.val == '.' || n.val == 'S')
+                        //{
+                        //    visited[n.r, n.c] = true;
+                        //    move(n, q, G, R, C, visited);
+                        //}
                     }
-                    else
+
+                   return minr != -1 && minc!= -1 ? minseconds : -1;
+
+                }
+
+
+                private void move(ChrisNode n, Queue<ChrisNode> q, char[,] G, int R, int C, bool[,] visited)
+                {
+                    if (n.r > 0 && G[n.r - 1, n.c] != '#' && !visited[n.r-1, n.c])
+                    {
+                        q.Enqueue(new ChrisNode(n.r - 1, n.c, G[n.r - 1, n.c], n.seconds+1));
+                    }
+
+                    if (n.c > 0 && G[n.r, n.c - 1] != '#' && !visited[n.r, n.c-1])
+                    {
+                        q.Enqueue(new ChrisNode(n.r, n.c - 1, G[n.r, n.c - 1], n.seconds + 1));
+                    }
+
+                    if (n.r < R - 1 && G[n.r + 1, n.c] != '#' && !visited[n.r+1, n.c])
+                    {
+                        q.Enqueue(new ChrisNode(n.r + 1, n.c, G[n.r + 1, n.c], n.seconds + 1));
+                    }
+
+                    if (n.c < C - 1 && G[n.r, n.c + 1] != '#' && !visited[n.r, n.c+1])
+                    {
+                        q.Enqueue(new ChrisNode(n.r, n.c + 1, G[n.r, n.c + 1], n.seconds + 1));
+                    }
+                }
+
+
+                private class ChrisNode
+                {
+                    public int r;
+                    public int c;
+                    public char val;
+                    public int seconds;
+                    public ChrisNode(int r, int c, char val, int seconds)
+                    {
+                        this.r = r;
+                        this.c = c;
+                        this.val = val;
+                        this.seconds = seconds;
+                    }
+                }
+
+
+
+                //Passed 24/24 test cases on metacareers portal;
+                //What is the BigO notation of the getMaxExpectedProfit2 below? 
+                //O(N^2)  - 2 nested loops.  N^2 is the worst case scenario.  Best case is O(N) if all values are the same.
+
+                public double getMaxExpectedProfit2(int N, int[] V, int C, double S)
+                {
+
+                    var stolenpercent = 1 - S;
+                    var DP = new double[N + 1];
+
+                    for (var i = 1; i <= N; i++)
+                    {
+                        double total = 0;
+                        double P = 1;
+                        for (var j = i - 1; j >= 0; j--)
+                        {
+
+                            total += V[j] * P;
+                            P *= stolenpercent;
+
+                            DP[i] = Math.Max(DP[i], total + DP[j]);
+
+
+                        }
+                        DP[i] -= C;
+                    }
+
+                    return DP.Max();
+                }
+
+
+                //Solved 6/33 test cases. but wrong approach.  need backwards loops  Use Dynamic Programming to solve.  
+                public double getMaxExpectedProfit(int N, int[] V, int C, double S)
+                {
+
+
+                    //maybe working?
+                    //const int n = v.size();
+                    S = 1 - S;
+                    double[] dp = new double[N+1];
+                    for (int i = 1; i <= N; ++i)
+                    {
+                        double sum = 0, w = 1;
+                        for (int j = i - 1; j >= 0; --j)
+                        {
+                            sum += V[j] * w;
+                            w *= S;
+                            dp[i] = Math.Max(dp[i], dp[j] + sum);
+
+                        }
+                        dp[i] -= C;
+                    }
+                    return dp.Max(); // *max_element(dp.begin(), dp.end());
+
+
+
+
+                    //garbage:
+
+                    S = 1 - S;
+                    double total = 0;
+
+                    double[] dV = new double[N + 1];
+                    // dV = Array.ConvertAll<int, double>(V, x => x);
+
+
+
+                    for (var i = 0; i < N; i++)
+                    {
+
+        //                if (V[i] - C > V[i] * (S))
+                            total += V[i] - C;
+                        if (i < N - 1)
+                            dV[i + 1] = Math.Max(total, (double)(V[i] * (S)));
+                    }
+
+                    return dV.Max();
+
+                }
+
+
+
+
+
+
+                public long getSecondsRequired(long N, int f, long[] P)
+                {
+                    P = new long[] { 2, 3, 4, 5 };
+                    var min = P.Min();
+
+                    return N - min;
+
+                }
+
+
+
+
+                    public int getUniformIntegerCountInInterval(long A, long B)
+                {
+
+
+                    var total = 0;
+
+                    for (var i = 1; i < 13; i++)
+                    {
+                        for (var j = 1; j < 10; j++)
+                        {
+                            var num = Convert.ToInt64(string.Concat(Enumerable.Repeat(j.ToString(), i)));
+
+                            if (num >= A && num <= B)
+                                total++;
+
+                        }
+                    }
+
+                    return total;
+
+
+
+                }
+
+
+
+                //PAssed 32/33
+                public int getMinimumDeflatedDiscCount1(int N, int[] R)
+                {
+                    if (R[N - 1] < N)
                         return -1;
-                }
 
-            }
-            return total;
-        }
-
-        //Facebook metacareers.com - passed 34/34 test cases!
-        public int getMinProblemCount(int N, int[] S)
-        {
-
-            var isodd = false;
-            var total = 0;
-
-            for (var i = 0; i < S.Count(); i++)
-            {
-                if (S[i] % 2 > 0)
-                    isodd = true;
-
-                total = Math.Max(total, S[i] / 2);
-            }
-
-            return total + (isodd ? 1 : 0);
-
-        }
-
-
-        //Passed  32 out of 32 test cases
-
-
-        public long getMinCodeEntryTimeOneLock(int N, int M, int[] C)
-        {
-
-            var current = 1;
-            long result = 0;
-            for (var i = 0; i < M; i++)
-            {
-                var pick = C[i];
-                if (current == pick)
-                    continue;
-
-
-
-                long forward = (N + pick - current) % N;
-
-                long back = (N - pick + current) % N;
-
-                result += Math.Min(forward, back);
-                current = pick;
-            }
-
-            return result;
-        }
-
-
-
-
-
-
-        //Facebook - passed 33/33 test cases on Meta careers coding questions
-
-        public int getMaximumEatenDishCount(int N, int[] D, int K)
-        {
-            // Write your code here
-            var dict = new Dictionary<int, int>();
-
-            var total = 0;
-
-            for (var i = 0; i < N; i++)
-            {
-                var v = D[i];
-                if (!dict.ContainsKey(v) || dict[v] < total - K + 1)
-                {
-                    total++;
-                    dict[v] = total;
-                }
-
-
-            }
-
-
-            return total;
-
-        }
-
-
-
-
-
-
-        //Facebook meta careers:  passed 32/33 - need to fix this!!
-
-        public int getMaximumEatenDishCountSLOW(int N, int[] D, int K)
-        {
-
-            //Prefix Sum + dictionary is most efficient, as Q.Contains is very inefficient.
-            //use a dictionary and then set Dictionary I to eaten counter running total;
-            // Write your code here
-
-            var q = new Queue<int>();
-
-
-            var total = 0;
-
-            for (var i = 0; i < N; i++)
-            {
-                var v = D[i];
-
-              
-                    if (q.Count > 0 && q.Count == K)
-                { 
-                        q.Dequeue();
-                    q.Enqueue(v);
-                    total++;
-                }
-                else
-                {
-
-
-                    continue;
-                }
-            }
-
-
-            return total;
-
-        }
-
-
-
-
-        public int getArtisticPhotographCount(int N, string C, int X, int Y)
-        {
-
-            var P = new int[N + 1];
-            var B = new int[N + 1];
-            var result = 0;
-
-            for (var i = 1; i <= N; i++)
-            {
-                P[i] = P[i-1] + (C[i-1] == 'P' ? 1 : 0);
-                B[i] = B[i-1] + (C[i-1] == 'B' ? 1 : 0);  
-            }
-
-            for (var i = 0; i < N; i++)
-            {
-                if (C[i] == 'A')
-                { 
-                    
-                    var beforeEnd = i-X+1 > 0 ? i-X+1 : 0;
-                    var beforeStart = i-Y > 0 ? i-Y : 0;
-                        
-                    var afterEnd = i + Y + 1 < N ? i + Y + 1 : N;
-                    var afterStart = i + X < N ? i + X : N;
-                    result += (P[beforeEnd] - P[beforeStart]) * (B[afterEnd] - B[afterStart]);
-                    result += (P[afterEnd] - P[afterStart]) * (B[beforeEnd] - B[beforeStart]);
-                }
-            }
-            return result;
-
-
-            //Passed most test cases, but bad attempt!!:
-            //for (var i = 0; i < N; i++)
-            //{
-            //    if (C[i] == 'A')
-            //    {
-            //        var forwardP = 0;
-            //        var forwardB = 0;
-            //        var backwardP = 0;
-            //        var backwardB = 0;
-
-
-            //        for (var j = i-Y > 0 ? i-Y : 0; j < i -X + 1; j++)
-            //        {
-            //            if (C[j] == 'P')
-            //            {
-            //                forwardP++;
-            //            }
-            //            else if (C[j] == 'B')
-            //            {
-            //                backwardB++;
-            //            }
-
-            //        }
-
-            //        for (var k = i +X < N - 1 ? i + X : N - 1; k < N && k < i + Y + 1; k++)
-            //        {
-            //            if (C[k] == 'P')
-            //            {
-            //                backwardP++;
-            //            }
-            //            else if (C[k] == 'B')
-            //            {
-            //                forwardB++;
-            //            }
-
-            //        }
-            //        result += forwardP * forwardB;
-            //        result += backwardP * backwardB;
-
-
-
-
-            //    }   
-            //}
-
-          
-
-
-
-
-        }
-
-    
-
-    public long getMaxAdditionalDinersCount(long N, long K, int M, long[] S)
-        {
-
-            Array.Sort(S);
-            long result = 0;
-            long spread = K + 1;
-            result += ((S[0] - 1) / spread);
-            result += ((N - S[M - 1]) / spread);
-            for (long i = 0; i < M - 1; i++)
-            {
-                result += ((S[i + 1] - S[i]) / spread - 1);
-            }
-            return result;
-
-
-
-            //Below works but onlyh passess 29/32 test cases on Meta careers coding questions
-            //var dict = S.ToDictionary(s => s, t => t);
-
-            //var result = 0;
-            //long i = 0;
-            //while (i < N)
-            //{
-            //    if (dict.ContainsKey(i + 1))
-            //    {
-            //        i += K + 1;
-            //        continue;
-            //    }
-            //    var found = false;
-            //    for (long j = i + 1; j < N && j < i + K + 1; j++)
-            //    {
-            //        if (dict.ContainsKey(j + 1))
-            //        {
-            //            found = true;
-            //            i = j + K + 1;
-            //            break;
-            //        }
-            //    }
-            //    if (!found)
-            //    {
-            //        result++;
-            //        i += K + 1;
-            //    }
-
-
-
-            //    return result;
-
-
-        }
-
-
-
-
-
-        public int CalculateDaysBetweenDates(string date1, string date2)
-        {
-            var d1 = DateTime.Parse(date1);
-            var d2 = DateTime.Parse(date2);
-
-            return (d2 - d1).Days;
-        }
-
-        void preOrderTree(TreeNode root)
-        {
-            if (root == null)
-                return;
-
-            Console.WriteLine(root.val);
-            preOrderTree(root.left);
-            preOrderTree(root.right);
-        }
-
-        void postOrderTree(TreeNode root)
-        {
-            if (root == null)
-                return;
-
-            postOrderTree(root.left);
-            postOrderTree(root.right);
-            Console.WriteLine(root.val);
-        }
-
-        //Crossover - passed step 3 20/22 test cases.  need to debug
-        
-
-        
-       //Write function that adds two numbers
-       public int add(int a, int b)
-        {
-            return a + b;
-        }
-
-
-
-
-        public string[] solution(string[][] queries)
-        {
-
-            var output = new List<string>();
-            var container = new Dictionary<string, Dictionary<string, Field>>();
-
-            
-            foreach (var q in queries)
-            {
-               
-                if (q[0] == "SET")
-                {
-
-
-                    if (!container.ContainsKey(q[1]))
+                    var total = 0;
+                    for (var i = N - 1; i > 0; i--)
                     {
-                        container.Add(q[1], new Dictionary<string, Field>() { { q[2], new Field() { value = q[3], mods = 1 }
-                    }                 });
-                    }
-                    else
-                    {
-
-                        if (container[q[1]].ContainsKey(q[2]))
+                        if (R[i - 1] >= R[i])
                         {
-                            container[q[1]][q[2]].value = q[3];
-                            container[q[1]][q[2]].mods++;
+                            if (R[i] > 1)
+                            {
+                                R[i - 1] = R[i] - 1;
+                                total++;
+                            }
+                            else
+                                return -1;
+                        }
+
+                    }
+                    return total;
+                }
+
+                //Facebook metacareers.com - passed 34/34 test cases!
+                public int getMinProblemCount(int N, int[] S)
+                {
+
+                    var isodd = false;
+                    var total = 0;
+
+                    for (var i = 0; i < S.Count(); i++)
+                    {
+                        if (S[i] % 2 > 0)
+                            isodd = true;
+
+                        total = Math.Max(total, S[i] / 2);
+                    }
+
+                    return total + (isodd ? 1 : 0);
+
+                }
+
+
+                //Passed  32 out of 32 test cases
+
+
+                public long getMinCodeEntryTimeOneLock(int N, int M, int[] C)
+                {
+
+                    var current = 1;
+                    long result = 0;
+                    for (var i = 0; i < M; i++)
+                    {
+                        var pick = C[i];
+                        if (current == pick)
+                            continue;
+
+
+
+                        long forward = (N + pick - current) % N;
+
+                        long back = (N - pick + current) % N;
+
+                        result += Math.Min(forward, back);
+                        current = pick;
+                    }
+
+                    return result;
+                }
+
+
+
+
+
+
+                //Facebook - passed 33/33 test cases on Meta careers coding questions
+
+                public int getMaximumEatenDishCount(int N, int[] D, int K)
+                {
+                    // Write your code here
+                    var dict = new Dictionary<int, int>();
+
+                    var total = 0;
+
+                    for (var i = 0; i < N; i++)
+                    {
+                        var v = D[i];
+                        if (!dict.ContainsKey(v) || dict[v] < total - K + 1)
+                        {
+                            total++;
+                            dict[v] = total;
+                        }
+
+
+                    }
+
+
+                    return total;
+
+                }
+
+
+
+
+
+
+                //Facebook meta careers:  passed 32/33 - need to fix this!!
+
+                public int getMaximumEatenDishCountSLOW(int N, int[] D, int K)
+                {
+
+                    //Prefix Sum + dictionary is most efficient, as Q.Contains is very inefficient.
+                    //use a dictionary and then set Dictionary I to eaten counter running total;
+                    // Write your code here
+
+                    var q = new Queue<int>();
+
+
+                    var total = 0;
+
+                    for (var i = 0; i < N; i++)
+                    {
+                        var v = D[i];
+
+
+                            if (q.Count > 0 && q.Count == K)
+                        { 
+                                q.Dequeue();
+                            q.Enqueue(v);
+                            total++;
                         }
                         else
                         {
-                            container[q[1]].Add(q[2], new Field() { value = q[3], mods = 1 });
+
+
+                            continue;
                         }
                     }
-                    output.Add("");
+
+
+                    return total;
+
                 }
 
-                else if (q[0] == "SET_AT")
+
+
+
+                public int getArtisticPhotographCount(int N, string C, int X, int Y)
                 {
 
+                    var P = new int[N + 1];
+                    var B = new int[N + 1];
+                    var result = 0;
 
-                    if (!container.ContainsKey(q[1]))
+                    for (var i = 1; i <= N; i++)
                     {
-                        container.Add(q[1], new Dictionary<string, Field>() { { q[2], new Field() { value = q[3], timestamp = Convert.ToInt32(q[4]), ttl = -1 } } });
+                        P[i] = P[i-1] + (C[i-1] == 'P' ? 1 : 0);
+                        B[i] = B[i-1] + (C[i-1] == 'B' ? 1 : 0);  
                     }
-                    else
+
+                    for (var i = 0; i < N; i++)
+                    {
+                        if (C[i] == 'A')
+                        { 
+
+                            var beforeEnd = i-X+1 > 0 ? i-X+1 : 0;
+                            var beforeStart = i-Y > 0 ? i-Y : 0;
+
+                            var afterEnd = i + Y + 1 < N ? i + Y + 1 : N;
+                            var afterStart = i + X < N ? i + X : N;
+                            result += (P[beforeEnd] - P[beforeStart]) * (B[afterEnd] - B[afterStart]);
+                            result += (P[afterEnd] - P[afterStart]) * (B[beforeEnd] - B[beforeStart]);
+                        }
+                    }
+                    return result;
+
+
+                    //Passed most test cases, but bad attempt!!:
+                    //for (var i = 0; i < N; i++)
+                    //{
+                    //    if (C[i] == 'A')
+                    //    {
+                    //        var forwardP = 0;
+                    //        var forwardB = 0;
+                    //        var backwardP = 0;
+                    //        var backwardB = 0;
+
+
+                    //        for (var j = i-Y > 0 ? i-Y : 0; j < i -X + 1; j++)
+                    //        {
+                    //            if (C[j] == 'P')
+                    //            {
+                    //                forwardP++;
+                    //            }
+                    //            else if (C[j] == 'B')
+                    //            {
+                    //                backwardB++;
+                    //            }
+
+                    //        }
+
+                    //        for (var k = i +X < N - 1 ? i + X : N - 1; k < N && k < i + Y + 1; k++)
+                    //        {
+                    //            if (C[k] == 'P')
+                    //            {
+                    //                backwardP++;
+                    //            }
+                    //            else if (C[k] == 'B')
+                    //            {
+                    //                forwardB++;
+                    //            }
+
+                    //        }
+                    //        result += forwardP * forwardB;
+                    //        result += backwardP * backwardB;
+
+
+
+
+                    //    }   
+                    //}
+
+
+
+
+
+
+                }
+
+
+
+            public long getMaxAdditionalDinersCount(long N, long K, int M, long[] S)
+                {
+
+                    Array.Sort(S);
+                    long result = 0;
+                    long spread = K + 1;
+                    result += ((S[0] - 1) / spread);
+                    result += ((N - S[M - 1]) / spread);
+                    for (long i = 0; i < M - 1; i++)
+                    {
+                        result += ((S[i + 1] - S[i]) / spread - 1);
+                    }
+                    return result;
+
+
+
+                    //Below works but onlyh passess 29/32 test cases on Meta careers coding questions
+                    //var dict = S.ToDictionary(s => s, t => t);
+
+                    //var result = 0;
+                    //long i = 0;
+                    //while (i < N)
+                    //{
+                    //    if (dict.ContainsKey(i + 1))
+                    //    {
+                    //        i += K + 1;
+                    //        continue;
+                    //    }
+                    //    var found = false;
+                    //    for (long j = i + 1; j < N && j < i + K + 1; j++)
+                    //    {
+                    //        if (dict.ContainsKey(j + 1))
+                    //        {
+                    //            found = true;
+                    //            i = j + K + 1;
+                    //            break;
+                    //        }
+                    //    }
+                    //    if (!found)
+                    //    {
+                    //        result++;
+                    //        i += K + 1;
+                    //    }
+
+
+
+                    //    return result;
+
+
+                }
+
+
+
+
+
+                public int CalculateDaysBetweenDates(string date1, string date2)
+                {
+                    var d1 = DateTime.Parse(date1);
+                    var d2 = DateTime.Parse(date2);
+
+                    return (d2 - d1).Days;
+                }
+
+                void preOrderTree(TreeNode root)
+                {
+                    if (root == null)
+                        return;
+
+                    Console.WriteLine(root.val);
+                    preOrderTree(root.left);
+                    preOrderTree(root.right);
+                }
+
+                void postOrderTree(TreeNode root)
+                {
+                    if (root == null)
+                        return;
+
+                    postOrderTree(root.left);
+                    postOrderTree(root.right);
+                    Console.WriteLine(root.val);
+                }
+
+                //Crossover - passed step 3 20/22 test cases.  need to debug
+
+
+
+               //Write function that adds two numbers
+               public int add(int a, int b)
+                {
+                    return a + b;
+                }
+
+
+
+
+                public string[] solution(string[][] queries)
+                {
+
+                    var output = new List<string>();
+                    var container = new Dictionary<string, Dictionary<string, Field>>();
+
+
+                    foreach (var q in queries)
                     {
 
-                        if (container[q[1]].ContainsKey(q[2]))
+                        if (q[0] == "SET")
                         {
-                            container[q[1]][q[2]].value = q[3];
-                            container[q[1]][q[2]].timestamp = Convert.ToInt32(q[4]);
-                            container[q[1]][q[2]].ttl = -1; 
 
-                          
+
+                            if (!container.ContainsKey(q[1]))
+                            {
+                                container.Add(q[1], new Dictionary<string, Field>() { { q[2], new Field() { value = q[3], mods = 1 }
+                            }                 });
+                            }
+                            else
+                            {
+
+                                if (container[q[1]].ContainsKey(q[2]))
+                                {
+                                    container[q[1]][q[2]].value = q[3];
+                                    container[q[1]][q[2]].mods++;
+                                }
+                                else
+                                {
+                                    container[q[1]].Add(q[2], new Field() { value = q[3], mods = 1 });
+                                }
+                            }
+                            output.Add("");
+                        }
+
+                        else if (q[0] == "SET_AT")
+                        {
+
+
+                            if (!container.ContainsKey(q[1]))
+                            {
+                                container.Add(q[1], new Dictionary<string, Field>() { { q[2], new Field() { value = q[3], timestamp = Convert.ToInt32(q[4]), ttl = -1 } } });
+                            }
+                            else
+                            {
+
+                                if (container[q[1]].ContainsKey(q[2]))
+                                {
+                                    container[q[1]][q[2]].value = q[3];
+                                    container[q[1]][q[2]].timestamp = Convert.ToInt32(q[4]);
+                                    container[q[1]][q[2]].ttl = -1; 
+
+
+                                }
+                                else
+                                {
+                                    container[q[1]].Add(q[2], new Field() { value = q[3], timestamp = Convert.ToInt32(q[4]), ttl = -1 });
+                                }
+                            }
+                            output.Add(""); 
+                        }
+
+
+                        else if (q[0] == "SET_AT_WITH_TTL")
+                        {
+
+
+                            if (!container.ContainsKey(q[1]))
+                            {
+                                container.Add(q[1], new Dictionary<string, Field>() { { q[2], new Field() { value = q[3], timestamp = Convert.ToInt32(q[4]), ttl = Convert.ToInt32(q[5]) } } });
+                            }
+                            else
+                            {
+
+                                if (container[q[1]].ContainsKey(q[2]))
+                                {
+                                    container[q[1]][q[2]].value = q[3];
+                                    container[q[1]][q[2]].timestamp = Convert.ToInt32(q[4]);
+                                    container[q[1]][q[2]].ttl = Convert.ToInt32(q[5]);
+
+                                }
+                                else
+                                {
+                                    container[q[1]].Add(q[2], new Field() { value = q[3], timestamp = Convert.ToInt32(q[4]), ttl = Convert.ToInt32(q[5]) });
+                                }
+                            }
+                            output.Add(""); 
+                        }
+
+
+
+
+                        else if (q[0] == "GET")
+                        {
+                            if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
+                            {
+                                output.Add(container[q[1]][q[2]].value.ToString());
+                            }
+                            else
+                            {
+                                output.Add("");
+                            }
+
+                        }
+
+                        else if (q[0] == "GET_AT")
+                        {
+                            var timestamp = Convert.ToInt32(q[3]);
+                            if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]) && (container[q[1]][q[2]].ttl == -1 ? true : (timestamp >= container[q[1]][q[2]].timestamp && timestamp < (container[q[1]][q[2]].timestamp + container[q[1]][q[2]].ttl))))
+                            {
+                                output.Add(container[q[1]][q[2]].value.ToString());
+                            }
+                            else
+                            {
+                                output.Add("");
+                            }
+
+                        }
+
+
+
+                        else if (q[0] == "DELETE")
+                        {
+
+                            if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
+                            {
+                                container[q[1]].Remove(q[2]);
+                                output.Add("true");
+                            }
+                            else
+                                output.Add("false");
+                        }
+
+                        else if (q[0] == "DELETE_AT")
+                        {
+                            var timestamp = Convert.ToInt32(q[3]);
+                            if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]) && (container[q[1]][q[2]].ttl == 0 ? true : (timestamp >= container[q[1]][q[2]].timestamp && timestamp < (container[q[1]][q[2]].timestamp + container[q[1]][q[2]].ttl))))
+                            {
+                                container[q[1]].Remove(q[2]);
+                                output.Add("true");
+                            }
+                            else
+                                output.Add("false");
+
+                        } 
+
+
+                        else if (q[0] == "SCAN")
+                        {
+
+
+                            if (container.ContainsKey(q[1]))
+                            {
+                                var p = container[q[1]].Select(p => p.Key + "(" + p.Value.value + ")").OrderBy(x => x).ThenBy(x => x.Length);
+                                output.Add(String.Join(", ", p));
+                            }
+                            else
+                            {
+                                output.Add("");
+                            }
+                        }
+
+
+                        else if (q[0] == "SCAN_AT")
+                        {
+
+                            var timestamp = Convert.ToInt32(q[2]);
+
+                            if (container.ContainsKey(q[1]))
+                            {
+                                var p = container[q[1]].Where(c => timestamp >= c.Value.timestamp && c.Value.ttl == -1 || (timestamp < c.Value.timestamp + c.Value.ttl)).Select(p => p.Key + "(" + p.Value.value + ")").OrderBy(x => x).ThenBy(x => x.Length);
+                                output.Add(String.Join(", ", p));
+                            }
+                            else
+                            {
+                                output.Add("");
+                            }
+                        }
+
+
+
+
+                        else if (q[0] == "SCAN_BY_PREFIX")
+                        {
+
+                            if (container.ContainsKey(q[1]))
+                            {
+
+                                var p = container[q[1]].Where(c => c.Key.StartsWith(q[2])).Select(p => p.Key + "(" + p.Value.value + ")").OrderBy(x => x).ThenBy(x => x.Length);
+
+                                output.Add(String.Join(", ", p));
+                            }
+                            else
+                            {
+                                output.Add("");
+                            }
+                        }
+
+
+
+                        else if (q[0] == "SCAN_BY_PREFIX_AT")
+                        {
+
+
+                            if (container.ContainsKey(q[1]))
+                            {
+                                var timestamp = Convert.ToInt32(q[3]);
+
+
+                                var p = container[q[1]].Where(c => c.Key.StartsWith(q[2]) && (q[2] == "" ? true : c.Key.StartsWith(q[2])) && timestamp >= c.Value.timestamp && (timestamp < c.Value.timestamp + c.Value.ttl))
+                                  .Select(p => p.Key + "(" + p.Value.value + ")").OrderBy(x => x).ThenBy(x => x.Length);
+
+                                output.Add(String.Join(", ", p));
+                            }
+                            else
+                            {
+                                output.Add("");
+                            }
+                        }
+
+                    }
+
+                    return output.ToArray();
+
+                }
+
+
+
+
+                class Field
+                {
+
+                    public string value { get; set; }
+                    public int timestamp { get; set; }
+                    public int ttl { get; set; }
+                    public int mods { get; set; }
+                }
+
+
+
+
+                public void preOrder2(TreeNode node)
+                {
+                    if (node == null)
+                        return;
+
+                    Console.WriteLine(node.val);
+                    preOrder2(node.left);
+                    preOrder2(node.right);
+
+
+
+
+                }
+
+                public int[] TwoSum6(int[] nums, int target)
+                {
+                    //efficient beats 68% on leetcode
+                    var dict = new Dictionary<int, int>();
+
+                    for (var i = 0; i < nums.Length; i++)
+                    {
+                        if (dict.ContainsKey(target - nums[i]))
+                            return new int[]{dict[target - nums[i]], i};
+                        else
+                            dict.TryAdd(nums[i], i);
+                    }
+                    return default;
+                }
+
+                public int[] TwoSum5(int[] nums, int target)
+                {
+
+                    //dictionary working but inefficient.
+                    var dict = Enumerable.Range(0, nums.Length).ToDictionary(n => n, n => nums[n]);
+                    var result = new int[2];
+                    for (var i = 0; i < nums.Length; i++)
+                    {
+
+                        var value = target - nums[i];
+
+                        var key = -1;
+
+                        var keys = dict.Where(pair => pair.Value == value).Select(pair => pair.Key).ToList();
+                        for(var j = 0; j < keys.Count; j++)
+                        {
+                            if (keys[j] != i)
+                            {
+                                key = keys[j];
+                            }
+                        }
+
+                        if (key != -1 && dict.ContainsValue(value)) 
+                        {
+
+                            result[0] = i;
+                            result[1] = key;
+
+                            break;
+                        }
+
+                    }
+
+                    return result;
+
+
+                }
+
+
+
+                // Amazon OA - Passed 6 / 18
+
+                public int countkSpikes(List<int> prices, int k)
+                {
+                    var len = prices.Count();
+                    var leftmax = 0;
+                    var rightmax = 0;
+
+                    var l = 0;
+                    var lstart = 0;
+                    for (; l < k; l++)
+                    {
+                        leftmax = Math.Max(leftmax, prices[l]);
+                    }
+
+                    var r = k + 1;
+                    var rstart = r;
+                    for (; r <= k + k; r++)
+                    {
+                        rightmax = Math.Max(rightmax, prices[r]);
+                    }
+
+                    var spikes = 0;
+
+
+                    for (var i = k; i < len - k; i++)
+                    {
+                        if (prices[i] > leftmax && prices[i] > rightmax)
+                        {
+                            spikes++;
+                        }
+
+                        lstart++;
+                        leftmax = 0;
+                        for (l = lstart; l < i+1; l++)
+                        {
+                            leftmax = Math.Max(leftmax, prices[l]);
+                        }
+                        rstart++;
+                        rightmax = 0;
+                        for (r = rstart; r <= i+1 +k; r++)
+                        {
+                            if (r == len)
+                                break;
+                            rightmax = Math.Max(rightmax, prices[r]);
+                        }
+
+
+
+                    }
+                    return spikes;
+
+
+                }
+
+
+
+
+                //AMAzon OA - passed 12/18
+                public int findMinimumNumberOfPages(List<int> pages, int days)
+                {
+                    var len = pages.Count;
+                    if (len > days)
+                        return -1;
+
+                    bool checkpages(int x) 
+                    {
+                        var res = 0;
+                        foreach (var p in pages)
+                        {
+                            res += (int) Math.Ceiling((decimal)(p / x));
+                        }
+                        return res <= days;
+                    }
+
+                    var left = 1;
+                    var right = pages.Max();
+
+                    while (left < right)
+                    {
+                        var mid = (left + right) / 2;
+
+                        if (checkpages(mid))
+                            right = mid;
+                        else
+                            left = mid + 1;
+                    }
+                    return left;
+
+                }
+
+
+
+                public void noPrefix2(List<string> words)
+                {
+                    var trie = new TrieWithCheck();
+
+                    foreach (var w in words)
+                    {
+                        if (trie.Insert(w))
+                        {
+                            Console.WriteLine("BAD SET");
+                            Console.WriteLine(w);
+                            return;
+                        }
+                    }
+
+                    Console.WriteLine("GOOD SET");
+
+                    //var found = new Dictionary<int, string>();
+
+                    //for(var i = 0; i < words.Count; i++)
+                    //{
+                    //    var subs = words.Where(w => w.StartsWith(words[i]));
+                    //    if (subs.Count() > 1)
+                    //    {
+                    //        var sublist = subs.ToList();
+                    //        var index = words.IndexOf(sublist[1]);
+                    //        found[index] = sublist[1];
+                    //    }
+
+                    //}
+
+                    //if (found.Count() > 0) { 
+
+                    //    var word = found.OrderBy(w => w.Key).Select(w => w.Value).First();
+
+
+                    //    Console.WriteLine("BAD SET");
+                    //    Console.WriteLine(word);
+
+                    //}
+                    //else
+                    //    Console.WriteLine("GOOD SET");
+
+
+
+                }
+
+
+
+                public void decodeHuff(string s, HuffNode root)
+                {
+
+                    var ss = new List<string>();
+
+                    var t = ss;
+
+
+                    var node = root;
+                    var sb = new StringBuilder();
+
+                    for (var i = 0; i < s.Length; i++)
+                    {
+                        if (s[i] == '1')
+                        {
+                            node = node.right;
+                            if (node.left == null && node.right == null)
+                            {
+                                sb.Append(node.data);
+                                node = root;
+                            }
+
                         }
                         else
                         {
-                            container[q[1]].Add(q[2], new Field() { value = q[3], timestamp = Convert.ToInt32(q[4]), ttl = -1 });
+                            node = node.left;
+                            if (node.left == null && node.right == null)
+                            {
+                                sb.Append(node.data);
+                                node = root;
+                            }
+
                         }
+
+
+
                     }
-                    output.Add(""); 
+
+
+                    Console.WriteLine(sb.ToString());
+
+
+
+
                 }
 
 
-                else if (q[0] == "SET_AT_WITH_TTL")
+
+
+
+
+                static void preOrder(TreeNode node)
+                {
+                    if (node == null)
+                        return;
+                    Console.Write(node.val + " ");
+                    preOrder(node.left);
+                    preOrder(node.right);
+                }
+
+
+                public List<int> bfs3(int n, int m, List<List<int>> edges, int s)
                 {
 
-
-                    if (!container.ContainsKey(q[1]))
+                    var graph = new List<List<int>>();
+                    for (var i = 0; i <= n; i++)
                     {
-                        container.Add(q[1], new Dictionary<string, Field>() { { q[2], new Field() { value = q[3], timestamp = Convert.ToInt32(q[4]), ttl = Convert.ToInt32(q[5]) } } });
+                        graph.Add(new List<int>());
                     }
-                    else
-                    {
 
-                        if (container[q[1]].ContainsKey(q[2]))
+                    foreach (var e in edges)
+                    {
+                        graph[e[0]].Add(e[1]);
+                        graph[e[1]].Add(e[0]);
+                    }
+
+                    var distances = new List<int>();
+                    for (var j = 0; j <= n; j++)
+                    {
+                        distances.Add(-1);
+                    }
+                    distances[s] = 0;
+
+                    var mult = 6;
+                    var q = new Queue<int>();
+
+                    q.Enqueue(s);
+                    while (q.Count > 0)
+                    {
+                        var node = q.Dequeue();
+                        foreach (var neighbour in graph[node])
                         {
-                            container[q[1]][q[2]].value = q[3];
-                            container[q[1]][q[2]].timestamp = Convert.ToInt32(q[4]);
-                            container[q[1]][q[2]].ttl = Convert.ToInt32(q[5]);
-
+                            if (distances[neighbour] == -1)
+                            {
+                                distances[neighbour] = distances[node] + mult;
+                                q.Enqueue(neighbour);
+                            }
                         }
-                        else
-                        {
-                            container[q[1]].Add(q[2], new Field() { value = q[3], timestamp = Convert.ToInt32(q[4]), ttl = Convert.ToInt32(q[5]) });
-                        }
+
                     }
-                    output.Add(""); 
+
+                    distances.RemoveAt(s);
+                    distances.RemoveAt(0);
+                    return distances;
+
+
                 }
 
 
 
 
-                else if (q[0] == "GET")
+
+                //passess all test cases.  array does not.
+                public int cookies(int k, List<int> A)
                 {
-                    if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
+                    var operations = 0;
+                    var q = new PriorityQueue<int, int>();  //do we need priority?  seems to need priority on older .NET versions?
+
+                    foreach (var a in A)
+                        q.Enqueue(a, a);
+
+                    while (q.Peek() < k)
                     {
-                        output.Add(container[q[1]][q[2]].value.ToString());
+                        var c1 = q.Dequeue();
+                        if (q.Count == 0)
+                            return -1;
+                        var c2 = q.Dequeue();
+                        var sum = c1 + (2 * c2);
+                        q.Enqueue(sum, sum);
+                        operations++;
                     }
-                    else
-                    {
-                        output.Add("");
-                    }
+                    return operations;
 
-                }
-
-                else if (q[0] == "GET_AT")
-                {
-                    var timestamp = Convert.ToInt32(q[3]);
-                    if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]) && (container[q[1]][q[2]].ttl == -1 ? true : (timestamp >= container[q[1]][q[2]].timestamp && timestamp < (container[q[1]][q[2]].timestamp + container[q[1]][q[2]].ttl))))
-                    {
-                        output.Add(container[q[1]][q[2]].value.ToString());
-                    }
-                    else
-                    {
-                        output.Add("");
-                    }
-
-                }
-
-
-                 
-                else if (q[0] == "DELETE")
-                {
-
-                    if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
-                    {
-                        container[q[1]].Remove(q[2]);
-                        output.Add("true");
-                    }
-                    else
-                        output.Add("false");
-                }
-
-                else if (q[0] == "DELETE_AT")
-                {
-                    var timestamp = Convert.ToInt32(q[3]);
-                    if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]) && (container[q[1]][q[2]].ttl == 0 ? true : (timestamp >= container[q[1]][q[2]].timestamp && timestamp < (container[q[1]][q[2]].timestamp + container[q[1]][q[2]].ttl))))
-                    {
-                        container[q[1]].Remove(q[2]);
-                        output.Add("true");
-                    }
-                    else
-                        output.Add("false");
-                    
-                } 
-
-
-                else if (q[0] == "SCAN")
-                {
-                 
-
-                    if (container.ContainsKey(q[1]))
-                    {
-                        var p = container[q[1]].Select(p => p.Key + "(" + p.Value.value + ")").OrderBy(x => x).ThenBy(x => x.Length);
-                        output.Add(String.Join(", ", p));
-                    }
-                    else
-                    {
-                        output.Add("");
-                    }
-                }
-
-
-                else if (q[0] == "SCAN_AT")
-                {
-
-                    var timestamp = Convert.ToInt32(q[2]);
-
-                    if (container.ContainsKey(q[1]))
-                    {
-                        var p = container[q[1]].Where(c => timestamp >= c.Value.timestamp && c.Value.ttl == -1 || (timestamp < c.Value.timestamp + c.Value.ttl)).Select(p => p.Key + "(" + p.Value.value + ")").OrderBy(x => x).ThenBy(x => x.Length);
-                        output.Add(String.Join(", ", p));
-                    }
-                    else
-                    {
-                        output.Add("");
-                    }
                 }
 
 
 
 
-                else if (q[0] == "SCAN_BY_PREFIX")
+                public void testeditor(List<List<string>> ops)
                 {
 
-                    if (container.ContainsKey(q[1]))
-                    {
+                     var a = new List<int> { 1, 2, 3 };
 
-                        var p = container[q[1]].Where(c => c.Key.StartsWith(q[2])).Select(p => p.Key + "(" + p.Value.value + ")").OrderBy(x => x).ThenBy(x => x.Length);
-                     
-                        output.Add(String.Join(", ", p));
-                    }
-                    else
-                    {
-                        output.Add("");
-                    }
-                }
+                    // a.Remove(0);
 
+                    var q = new PriorityQueue<int>();
 
 
-                else if (q[0] == "SCAN_BY_PREFIX_AT")
-                {
+                    q.Enqueue(3);
+                    q.Enqueue(1);
+                    q.Enqueue(2);
 
+                    var test = q.Peek();
 
-                    if (container.ContainsKey(q[1]))
-                    {
-                        var timestamp = Convert.ToInt32(q[3]);
+                    //var test2 = q.PeekMax();
+                    var test3 = q.Dequeue();
 
-                     
-                        var p = container[q[1]].Where(c => c.Key.StartsWith(q[2]) && (q[2] == "" ? true : c.Key.StartsWith(q[2])) && timestamp >= c.Value.timestamp && (timestamp < c.Value.timestamp + c.Value.ttl))
-                          .Select(p => p.Key + "(" + p.Value.value + ")").OrderBy(x => x).ThenBy(x => x.Length);
-                     
-                        output.Add(String.Join(", ", p));
-                    }
-                    else
-                    {
-                        output.Add("");
-                    }
-                }
 
-            }
 
-            return output.ToArray();
-
-        }
-
-
-
-
-        class Field
-        {
-
-            public string value { get; set; }
-            public int timestamp { get; set; }
-            public int ttl { get; set; }
-            public int mods { get; set; }
-        }
-
-
-
-
-        public void preOrder2(TreeNode node)
-        {
-            if (node == null)
-                return;
-
-            Console.WriteLine(node.val);
-            preOrder2(node.left);
-            preOrder2(node.right);
-
-
-
-
-        }
-
-        public int[] TwoSum6(int[] nums, int target)
-        {
-            //efficient beats 68% on leetcode
-            var dict = new Dictionary<int, int>();
-
-            for (var i = 0; i < nums.Length; i++)
-            {
-                if (dict.ContainsKey(target - nums[i]))
-                    return new int[]{dict[target - nums[i]], i};
-                else
-                    dict.TryAdd(nums[i], i);
-            }
-            return default;
-        }
-
-        public int[] TwoSum5(int[] nums, int target)
-        {
-            
-            //dictionary working but inefficient.
-            var dict = Enumerable.Range(0, nums.Length).ToDictionary(n => n, n => nums[n]);
-            var result = new int[2];
-            for (var i = 0; i < nums.Length; i++)
-            {
-
-                var value = target - nums[i];
-
-                var key = -1;
-
-                var keys = dict.Where(pair => pair.Value == value).Select(pair => pair.Key).ToList();
-                for(var j = 0; j < keys.Count; j++)
-                {
-                    if (keys[j] != i)
-                    {
-                        key = keys[j];
-                    }
-                }
-                
-                if (key != -1 && dict.ContainsValue(value)) 
-                {
-                    
-                    result[0] = i;
-                    result[1] = key;
-
-                    break;
-                }
-
-            }
-
-            return result;
-
-
-        }
-
-
-
-        // Amazon OA - Passed 6 / 18
-
-        public int countkSpikes(List<int> prices, int k)
-        {
-            var len = prices.Count();
-            var leftmax = 0;
-            var rightmax = 0;
-
-            var l = 0;
-            var lstart = 0;
-            for (; l < k; l++)
-            {
-                leftmax = Math.Max(leftmax, prices[l]);
-            }
-          
-            var r = k + 1;
-            var rstart = r;
-            for (; r <= k + k; r++)
-            {
-                rightmax = Math.Max(rightmax, prices[r]);
-            }
-
-            var spikes = 0;
-
-
-            for (var i = k; i < len - k; i++)
-            {
-                if (prices[i] > leftmax && prices[i] > rightmax)
-                {
-                    spikes++;
-                }
-
-                lstart++;
-                leftmax = 0;
-                for (l = lstart; l < i+1; l++)
-                {
-                    leftmax = Math.Max(leftmax, prices[l]);
-                }
-                rstart++;
-                rightmax = 0;
-                for (r = rstart; r <= i+1 +k; r++)
-                {
-                    if (r == len)
-                        break;
-                    rightmax = Math.Max(rightmax, prices[r]);
-                }
-
-
-
-            }
-            return spikes;
-
-
-        }
-
-
-
-        
-        //AMAzon OA - passed 12/18
-        public int findMinimumNumberOfPages(List<int> pages, int days)
-        {
-            var len = pages.Count;
-            if (len > days)
-                return -1;
-
-            bool checkpages(int x) 
-            {
-                var res = 0;
-                foreach (var p in pages)
-                {
-                    res += (int) Math.Ceiling((decimal)(p / x));
-                }
-                return res <= days;
-            }
-
-            var left = 1;
-            var right = pages.Max();
-
-            while (left < right)
-            {
-                var mid = (left + right) / 2;
-
-                if (checkpages(mid))
-                    right = mid;
-                else
-                    left = mid + 1;
-            }
-            return left;
-
-        }
-
-
-
-        public void noPrefix2(List<string> words)
-        {
-            var trie = new TrieWithCheck();
-
-            foreach (var w in words)
-            {
-                if (trie.Insert(w))
-                {
-                    Console.WriteLine("BAD SET");
-                    Console.WriteLine(w);
-                    return;
-                }
-            }
-
-            Console.WriteLine("GOOD SET");
-
-            //var found = new Dictionary<int, string>();
-
-            //for(var i = 0; i < words.Count; i++)
-            //{
-            //    var subs = words.Where(w => w.StartsWith(words[i]));
-            //    if (subs.Count() > 1)
-            //    {
-            //        var sublist = subs.ToList();
-            //        var index = words.IndexOf(sublist[1]);
-            //        found[index] = sublist[1];
-            //    }
-
-            //}
-
-            //if (found.Count() > 0) { 
-
-            //    var word = found.OrderBy(w => w.Key).Select(w => w.Value).First();
-
-
-            //    Console.WriteLine("BAD SET");
-            //    Console.WriteLine(word);
-
-            //}
-            //else
-            //    Console.WriteLine("GOOD SET");
-
-
-
-        }
-
-
-
-        public void decodeHuff(string s, HuffNode root)
-        {
-
-            var ss = new List<string>();
-
-            var t = ss;
-            
-
-            var node = root;
-            var sb = new StringBuilder();
-
-            for (var i = 0; i < s.Length; i++)
-            {
-                if (s[i] == '1')
-                {
-                    node = node.right;
-                    if (node.left == null && node.right == null)
-                    {
-                        sb.Append(node.data);
-                        node = root;
-                    }
-
-                }
-                else
-                {
-                    node = node.left;
-                    if (node.left == null && node.right == null)
-                    {
-                        sb.Append(node.data);
-                        node = root;
-                    }
-
-                }
-
-
-
-            }
-
-
-            Console.WriteLine(sb.ToString());
-
-
-
-
-        }
-
-
-
-
-
-
-        static void preOrder(TreeNode node)
-        {
-            if (node == null)
-                return;
-            Console.Write(node.val + " ");
-            preOrder(node.left);
-            preOrder(node.right);
-        }
-
-
-        public List<int> bfs3(int n, int m, List<List<int>> edges, int s)
-        {
-
-            var graph = new List<List<int>>();
-            for (var i = 0; i <= n; i++)
-            {
-                graph.Add(new List<int>());
-            }
-
-            foreach (var e in edges)
-            {
-                graph[e[0]].Add(e[1]);
-                graph[e[1]].Add(e[0]);
-            }
-
-            var distances = new List<int>();
-            for (var j = 0; j <= n; j++)
-            {
-                distances.Add(-1);
-            }
-            distances[s] = 0;
-
-            var mult = 6;
-            var q = new Queue<int>();
-
-            q.Enqueue(s);
-            while (q.Count > 0)
-            {
-                var node = q.Dequeue();
-                foreach (var neighbour in graph[node])
-                {
-                    if (distances[neighbour] == -1)
-                    {
-                        distances[neighbour] = distances[node] + mult;
-                        q.Enqueue(neighbour);
-                    }
-                }
-
-            }
-
-            distances.RemoveAt(s);
-            distances.RemoveAt(0);
-            return distances;
-
-
-        }
-
-
-
-
-
-        //passess all test cases.  array does not.
-        public int cookies(int k, List<int> A)
-        {
-            var operations = 0;
-            var q = new PriorityQueue<int, int>();  //do we need priority?  seems to need priority on older .NET versions?
-
-            foreach (var a in A)
-                q.Enqueue(a, a);
-
-            while (q.Peek() < k)
-            {
-                var c1 = q.Dequeue();
-                if (q.Count == 0)
-                    return -1;
-                var c2 = q.Dequeue();
-                var sum = c1 + (2 * c2);
-                q.Enqueue(sum, sum);
-                operations++;
-            }
-            return operations;
-
-        }
-
-
-
-
-        public void testeditor(List<List<string>> ops)
-        {
-
-             var a = new List<int> { 1, 2, 3 };
-
-            // a.Remove(0);
-
-            var q = new PriorityQueue<int>();
-
-            
-            q.Enqueue(3);
-            q.Enqueue(1);
-            q.Enqueue(2);
-
-            var test = q.Peek();
-
-            //var test2 = q.PeekMax();
-            var test3 = q.Dequeue();
-
-
-
-            /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution */
+                    /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution */
 
         //  var n = Convert.ToInt32(Console.ReadLine());
         var ed = new editor();
