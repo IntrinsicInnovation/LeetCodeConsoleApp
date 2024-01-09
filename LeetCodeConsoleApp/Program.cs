@@ -1823,10 +1823,10 @@ namespace LeetCodeConsoleApp
             //};
             //sol.assignUniqueIds(root);
 
-            Solution.LLNode root = new Solution.LLNode() { val = 5, next = new Solution.LLNode { val = 4, next = new Solution.LLNode { val =3, next = new Solution.LLNode { val = 2, next = new Solution.LLNode { val = 1, next = null } } } } };
-            sol.printllreverse(root);
+            //Solution.LLNode root = new Solution.LLNode() { val = 5, next = new Solution.LLNode { val = 4, next = new Solution.LLNode { val =3, next = new Solution.LLNode { val = 2, next = new Solution.LLNode { val = 1, next = null } } } } };
+            //sol.printllreverse(root);
 
-
+            var fs = new Solution.FileSystem();
 
 
         }
@@ -1835,6 +1835,196 @@ namespace LeetCodeConsoleApp
 
     class Solution
     {
+
+
+        //find longest non-repeating substring.
+        static int substrlen(string s)
+        {
+            var max = 0;
+            var dict = new Dictionary<char, int>();
+            var left = 0;
+            //var right = 1;
+            var len = s.Length;
+            dict[s[0]] = 1;
+            //var count = 0;
+            for (var i = 1; i < len; i++)
+            {
+                if (dict.ContainsKey(s[i]))
+                {
+                    dict.Clear();
+                    dict[s[i]] = 1;
+                    max = Math.Max(max, i - left);
+                    left = i;
+
+                }
+
+
+
+            }
+            return max;
+
+
+        }
+
+
+
+        //Interviewing.IO Mock interview:
+        //implement a file system using Trie.
+        // as your implementation below is not good, you just used
+        // a dictionary and not complete.
+
+        public class FileSystem
+        {
+
+            public class Trie
+            {
+
+                /** Initialize your data structure here. */
+                public Trie()
+                {
+                    root = new Node();
+                }
+
+                /** Inserts a word into the trie. */
+                public void Insert(string word)
+                {
+                    var node = root;
+                    for (var i = 0; i < word.Length; i++)
+                    {
+                        if (node.children[word[i] - 'a'] == null)
+                            node.children[word[i] - 'a'] = new Node();
+
+                        node = node.children[word[i] - 'a'];
+                    }
+                    node.isfile = true;
+                }
+
+                /** Returns if the word is in the trie. */
+                public bool Search(string word)
+                {
+                    var node = FindWord(word);
+                    if (node != null && node.isfile)
+                        return true;
+                    else
+                        return false;
+                }
+
+                /** Returns if there is any word in the trie that starts with the given prefix. */
+                public bool StartsWith(string prefix)
+                {
+                    return FindWord(prefix) != null;
+                }
+
+                private Node FindWord(string word)
+                {
+                    var node = root;
+                    for (var i = 0; i < word.Length; i++)
+                    {
+                        if (node.children[word[i] - 'a'] == null)
+                            return null;
+                        node = node.children[word[i] - 'a'];
+
+                    }
+                    return node;
+                }
+
+
+                private Node root;
+
+                public class Node
+                {
+                    public Node()
+                    {
+                        
+                        isfile = false;
+                        children = new Node[26];
+                    }
+                    //char c;
+                    public bool isfile;
+                    public string content;
+                    public Node[] children;
+                }
+            }
+
+            private Trie trie; // = new Trie();
+            
+            //private Dictionary<string, List<Path>> _paths;
+
+            public FileSystem()
+            {
+                //_paths = new Dictionary<string, Path>();
+                trie = new Trie();
+            }
+
+            //If path is a file path, returns a list that only contains this file's name.
+            //* If path is a directory path, returns the list of file and directory names in this directory.
+            //* The answer should in lexicographic order.
+
+
+            //inputs:    abc/def/ghuj/sdfsdf.txt
+            //           abc/def/
+            public List<string> ls(string path)
+            {
+                var results = new List<string>();
+
+                var split = path.Split('/');
+                results.Add(split[split.Length - 1]);
+
+
+                var fileresult = _paths.Where(p => p.Key == path).FirstOrDefault();
+                if (fileresult.Value.isfile)
+                {
+                    var split = fileresult.Value.filepath.Split('/');
+                    results.Add(split[split.Length - 1]);
+
+                }
+                else
+                {
+                    var filenames = _paths.Where(p => p.Key.StartsWith("path"));
+                }
+
+                return results;
+            }
+
+
+
+
+
+
+            public void mkdir(String path)
+            {
+
+            }
+
+            //* If filePath does not exist, creates that file containing given content.
+            //* If filePath already exists, appends the given content to original content.
+            void addContentToFile(String filePath, String content)
+            {
+
+            }
+
+            public string readContentFromFile(String filePath)
+            {
+
+            }
+
+
+        }
+
+
+        //class Path
+        //{
+
+        //    public string filepath { get; set; }
+        //    public bool isfile { get; set; }
+        //    public string content { get; set; }
+        //    public Dictionary<string, Path> children;
+
+        //}
+
+
+
+
 
         //Facebook mock interview (2 questions):  
 
@@ -1885,13 +2075,15 @@ namespace LeetCodeConsoleApp
 
         }
 
-
-        //2.  write function to assign unique ids to each node.
+               
         public class MultipleChildrenNode
         {
             public int id;
             public List<MultipleChildrenNode> children;
         }
+
+        //Facebook mock interview question2:
+        //assign unique ID's to tree.
 
         public void assignUniqueIds(MultipleChildrenNode root)
         {
@@ -1920,11 +2112,11 @@ namespace LeetCodeConsoleApp
         }
 
         
-
+        //how many combinations of nums add up to k
         public int runningsum(int[] nums, int k)
         {
 
-            var t = new Trie();
+       
 
             var dict = new Dictionary<int, int>();
             var subarrays = 0;
@@ -1947,87 +2139,6 @@ namespace LeetCodeConsoleApp
             return subarrays;
 
         }
-
-
-
-
-
-                //implement a file system using Trie.
-                // as your implementation below is not good, you just used
-                // a dictionary and not complete.
-
-                //class FileSystem
-                //{
-
-                //    private Dictionary<string, List<Path>> _paths;
-
-                //    FileSystem()
-                //    {
-                //        _paths = new Dictionary<string, Path>();
-
-                //    }
-
-                //    //If path is a file path, returns a list that only contains this file's name.
-                //    //* If path is a directory path, returns the list of file and directory names in this directory.
-                //    //* The answer should in lexicographic order.
-                //    public List<string> ls(string path)
-                //    {
-                //        var results = new List<string>();
-
-                //        var fileresult = _paths.Where(p => p.Key == path).FirstOrDefault();
-                //        if (fileresult.Value.isfile)
-                //        {
-                //            var split = fileresult.Value.filepath.Split('/');
-                //            results.Add(split[split.Length - 1]);
-
-                //        }
-                //        else
-                //        {
-                //            var filenames = _paths.Where(p => p.Key.StartsWith("path"));
-                //        }
-
-                //        return results;
-                //    }
-
-
-
-
-
-
-                //    public void mkdir(String path)
-                //    {
-
-                //    }
-
-                //    //* If filePath does not exist, creates that file containing given content.
-                //    //* If filePath already exists, appends the given content to original content.
-                //    void addContentToFile(String filePath, String content)
-                //    {
-
-                //    }
-
-                //    public string readContentFromFile(String filePath)
-                //    {
-
-                //    }
-
-
-                //}
-
-
-                //class Path
-                //{
-
-                //    public string filepath { get; set; }
-                //    public bool isfile { get; set; }
-                //    public string content { get; set; }
-                //    public Dictionary<string, Path> children;
-
-                //}
-
-
-
-
 
 
 
