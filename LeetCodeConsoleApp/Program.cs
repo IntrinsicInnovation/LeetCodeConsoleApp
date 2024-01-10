@@ -1836,6 +1836,58 @@ namespace LeetCodeConsoleApp
     class Solution
     {
 
+        //Interviewing.io:  Traverse the boundary (outer edges) of a tree:
+
+        static int[] boundary(TreeNode root)
+        {
+            var leftlist = new List<int>();
+            var leaflist = new List<int>();
+            var rightlist = new List<int>();
+
+            traverseleft(root, ref leftlist);
+            traverseleaves(root.left, ref leaflist);
+            traverseleaves(root.right, ref leaflist);
+            traverseright(root.right, ref rightlist);
+            return leftlist.Concat(leaflist).Concat(rightlist.OrderByDescending(r => r)).ToArray();
+
+        }
+
+        static void traverseleft(TreeNode node, ref List<int> list)
+        {
+            if (node == null || (node.left == null && node.right == null))
+                return;
+
+            list.Add(node.val);
+            traverseleft(node.left, ref list);
+        }
+
+        static void traverseleaves(TreeNode node, ref List<int> list)
+        {
+            if (node == null)
+                return;
+            if (node.left == null && node.right == null)
+                list.Add(node.val);
+            traverseleaves(node.left, ref list);
+            traverseleaves(node.right, ref list);
+
+        }
+
+        static void traverseright(TreeNode node, ref List<int> list)
+        {
+            if (node == null || (node.left == null && node.right == null))
+                return;
+
+            list.Add(node.val);
+            traverseright(node.right, ref list);
+        }
+
+
+
+
+
+
+
+
 
         //find longest non-repeating substring.
         static int substrlen(string s)
@@ -1967,21 +2019,21 @@ namespace LeetCodeConsoleApp
             {
                 var results = new List<string>();
 
-                var split = path.Split('/');
-                results.Add(split[split.Length - 1]);
+                //var split = path.Split('/');
+                //results.Add(split[split.Length - 1]);
 
 
-                var fileresult = _paths.Where(p => p.Key == path).FirstOrDefault();
-                if (fileresult.Value.isfile)
-                {
-                    var split = fileresult.Value.filepath.Split('/');
-                    results.Add(split[split.Length - 1]);
+                //var fileresult = _paths.Where(p => p.Key == path).FirstOrDefault();
+                //if (fileresult.Value.isfile)
+                //{
+                //    var split = fileresult.Value.filepath.Split('/');
+                //    results.Add(split[split.Length - 1]);
 
-                }
-                else
-                {
-                    var filenames = _paths.Where(p => p.Key.StartsWith("path"));
-                }
+                //}
+                //else
+                //{
+                //    var filenames = _paths.Where(p => p.Key.StartsWith("path"));
+                //}
 
                 return results;
             }
@@ -2005,7 +2057,7 @@ namespace LeetCodeConsoleApp
 
             public string readContentFromFile(String filePath)
             {
-
+                return null;
             }
 
 
