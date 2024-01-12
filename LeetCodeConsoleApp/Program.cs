@@ -1984,6 +1984,60 @@ namespace LeetCodeConsoleApp
         }
 
 
+
+
+
+        //I.io
+        //Given an unsorted array of unique integers(size n + 1) and a first array identical to the second array but missing one integer(size n), find and output the missing integer.
+        static int findMissing(int[] list1, int[] list2)
+        {
+            var i = 0;
+            while (i < list1.Length || i < list2.Length)
+            {
+                if (i == list1.Length)
+                    return list2[i];
+                else if (i == list2.Length)
+                    return list1[i];
+
+
+                if (list1[i] != list2[i])
+                    return (list1.Length > list2.Length) ? list1[i] : list2[i];
+
+
+                i++;
+            }
+            return default;
+        }
+
+
+
+        //Interviewing.io:  
+        //Given an input string (s) and a pattern(p), implement wildcard pattern matching with support for '?' and '*' where:
+
+        //'?' Matches any single character.
+        //'*' Matches any sequence of characters (including the empty sequence).
+        //The matching should cover the entire input string (not partial).
+        static bool match(string s, string p)
+        {
+
+            for (var i = 0; i < s.Length; i++)
+            {
+
+                if (i < p.Length && p[i] == '*')
+                    return true;
+
+                if (i < p.Length && (p[i] == s[i] || p[i] == '?'))
+                    continue;
+
+                else
+                    return false;
+            }
+
+            return true;
+        }
+
+
+
         //Interviewing.io:  Traverse the boundary (outer edges) of a tree:
 
         static int[] boundary(TreeNode root)
