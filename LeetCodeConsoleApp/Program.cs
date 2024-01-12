@@ -1826,7 +1826,10 @@ namespace LeetCodeConsoleApp
             //Solution.LLNode root = new Solution.LLNode() { val = 5, next = new Solution.LLNode { val = 4, next = new Solution.LLNode { val =3, next = new Solution.LLNode { val = 2, next = new Solution.LLNode { val = 1, next = null } } } } };
             //sol.printllreverse(root);
 
-            var fs = new Solution.FileSystem();
+            // var fs = new Solution.FileSystem();
+
+
+            var vfw = sol.ValidWordAbbreviation("internationalization", "i12iz4n");
 
 
         }
@@ -1835,6 +1838,151 @@ namespace LeetCodeConsoleApp
 
     class Solution
     {
+
+
+
+
+
+
+
+
+        public bool ValidWordAbbreviation(string word, string abbr)
+        {
+
+
+            if (word.Length < abbr.Length)
+                return false;
+            var i = 0;
+            var j = 0;
+            while (i < word.Length && j < abbr.Length)
+            {
+                if (word[i] == abbr[j])
+                {
+                    i++;
+                    j++;
+                }
+                else
+                {
+                    if (Char.IsNumber(abbr[j]))
+                    {
+                        var testzero = abbr[j] - '0';
+                        if (testzero == 0)
+                            return false;
+                        var sb = new StringBuilder();
+                        sb.Append(abbr[j]);
+                        j++;
+                        while (j < abbr.Length && Char.IsNumber(abbr[j]))
+                        {
+                            sb.Append(abbr[j]);
+                            j++;
+                        }
+                       
+                        var inc = Convert.ToInt32(sb.ToString());
+                        i += inc;
+                       
+                    }
+                    else
+                        return false;
+                }
+            }
+           
+            return i == word.Length && j == abbr.Length;
+
+        }
+
+
+
+        //Leetcode 1249
+        public string MinRemoveToMakeValid2(string s)
+        {
+            var sb = new StringBuilder();
+            var stack = new Stack<Tuple<char, int>>();
+            var rl = new List<int>();
+
+            for (var i = 0; i < s.Length; i++)
+            {
+                switch (s[i])
+                {
+                    case '(':
+                        stack.Push(new Tuple<char, int>(s[i], i));
+                        break;
+
+                    case ')':
+                        if (stack.Count > 0)
+                        {
+                            var last = stack.Peek();
+                            if (last.Item1 == '(')
+                                stack.Pop();
+                            else
+                                rl.Add(i);
+                        }
+                        else
+                        {
+                            rl.Add(i);
+                        }
+                        break;
+
+                    default:
+                        break;
+
+
+                }
+            }
+
+            while (stack.Count > 0)
+            {
+                rl.Add(stack.Pop().Item2);
+            }
+
+            for (var i = 0; i < s.Length; i++)
+            {
+                if (!rl.Contains(i))
+                    sb.Append(s[i]);
+            }
+
+            return sb.ToString();
+        }
+
+
+        //Leetcode 314
+        public IList<IList<int>> VerticalOrder(TreeNode root)
+        {
+            var results = new List<IList<int>>();
+            if (root == null)
+                return results;
+            var dict = new Dictionary<int, List<int>>();
+
+            var queue = new Queue<Tuple<TreeNode, int>>();
+
+            queue.Enqueue(new Tuple<TreeNode, int>(root, 0));
+            while (queue.Count > 0)
+            {
+                var t = queue.Dequeue();
+                if (!dict.ContainsKey(t.Item2))
+                {
+                    dict[t.Item2] = new List<int>() { t.Item1.val };
+                }
+                else
+                {
+                    dict[t.Item2].Add(t.Item1.val);
+                }
+                if (t.Item1.left != null)
+                {
+                    queue.Enqueue(new Tuple<TreeNode, int>(t.Item1.left, t.Item2 - 1));
+                }
+                if (t.Item1.right != null)
+                {
+                    queue.Enqueue(new Tuple<TreeNode, int>(t.Item1.right, t.Item2 + 1));
+                }
+            }
+
+
+
+            results.AddRange(dict.OrderBy(d => d.Key).Select(d => d.Value).ToList());
+            return results;
+
+        }
+
 
         //Interviewing.io:  Traverse the boundary (outer edges) of a tree:
 
