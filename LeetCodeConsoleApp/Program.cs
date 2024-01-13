@@ -1840,8 +1840,67 @@ namespace LeetCodeConsoleApp
     {
 
 
+        //Leetcode125
+        public bool IsPalindrome3(string s)
+        {
+            if (s.Trim() == "")
+                return true;
+
+            var left = 0;
+            var right = s.Length - 1;
+
+            while (left < right)
+            {
+                while (left < right && !Char.IsLetterOrDigit(s[left]))
+                    left++;
+                while (left < right && !Char.IsLetterOrDigit(s[right]))
+                    right--;
+                if (Char.ToLower(s[left]) == Char.ToLower(s[right]))
+                {
+                    left++;
+                    right--;
+                }
+                else
+                    return false;
+
+            }
+            return true;
 
 
+        }
+
+
+        //Leetcode 339
+        //public int DepthSum(IList<NestedInteger> nestedList)
+        //{
+
+        //    var sum = 0;
+        //    foreach (var ni in nestedList)
+        //    {
+        //        sum += GetSum(ni, 1);
+        //    }
+
+        //    return sum;
+        //}
+
+
+        //private int GetSum(NestedInteger nestedInt, int level)
+        //{
+
+        //    var sum = 0;
+        //    if (nestedInt.IsInteger())
+        //        sum += nestedInt.GetInteger() * level;
+        //    else
+        //    {
+        //        foreach (var ni in nestedInt.GetList())
+        //        {
+        //            sum += GetSum(ni, level + 1);
+        //        }
+        //    }
+
+        //    return sum;
+
+        //}
 
 
 
