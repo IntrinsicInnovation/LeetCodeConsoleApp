@@ -1829,8 +1829,35 @@ namespace LeetCodeConsoleApp
             // var fs = new Solution.FileSystem();
 
 
-            var vfw = sol.ValidWordAbbreviation("internationalization", "i12iz4n");
+            //var vfw = sol.ValidWordAbbreviation("internationalization", "i12iz4n");
 
+
+
+
+            //var root = new TreeNode(3);
+            //root.left = new TreeNode(5);
+            //root.right = new TreeNode(1);
+            //root.left.left = new TreeNode(6);
+            //root.left.right = new TreeNode(2);
+            //root.right.left = new TreeNode(0);
+            //root.right.right = new TreeNode(8);
+            //root.left.right.left = new TreeNode(7);
+            //root.left.right.right = new TreeNode(4);
+            //var lc = sol.LowestCommonAncestor2(root, root.left, root.left.right.right);
+
+
+
+
+            //   var ts = sol.ThreeSum4(new int[] { -1, 0, 1, 2, -1, -4 });
+
+            var ts = sol.ThreeSum5(new int[] { 3, 0, -2, -1, 1, 2});
+
+            
+
+
+            //var fw = sol.findWord(new string[] { "P>E", "E>R", "R>U" }); //PERU
+        //findWord(["P>E", "E>R", "R>U"]) // PERU
+        //findWord(["I>N", "A>I", "P>A", "S>P"]) // SPAIN)
 
         }
 
@@ -1838,6 +1865,210 @@ namespace LeetCodeConsoleApp
 
     class Solution
     {
+
+        //Leetcode 15:  3Sum
+        public IList<IList<int>> ThreeSum6(int[] nums)
+        {
+            var results = new List<IList<int>>();
+            Array.Sort(nums);
+            var len = nums.Length;
+
+            for (var i = 0; i < len - 2; i++)
+            {
+                var l = i + 1;
+                var r = len - 1;
+                while (l < r)
+                {
+                    if (nums[i] + nums[l] + nums[r] < 0)
+                        l++;
+                    else if (nums[i] + nums[l] + nums[r] > 0)
+                        r--;
+                    else
+                    {
+                        results.Add(new List<int>() { nums[i], nums[l], nums[r] });
+                        while (r > l && nums[r] == nums[r - 1])
+                            r--;
+                        while (r > l && nums[l] == nums[l + 1])
+                            l++;
+                        l++;
+                        r--;
+                    }
+                }
+                while (i < len - 1 && nums[i] == nums[i + 1])
+                    i++;
+
+            }
+            return results;
+        }
+
+
+        //doesn't work
+
+        public IList<IList<int>> ThreeSum5(int[] nums)
+        {
+
+            var dict = new Dictionary<int, int>();
+            Array.Sort(nums);
+            IList<IList<int>> results = new List<IList<int>>();
+            var len = nums.Length;
+            var left = 0;
+            var right = len - 1;
+            var i = 1;
+            while (i < len - 1)
+            {
+                var sum = nums[left] + nums[i] + nums[right]; 
+
+                while (sum < 0 && left < i)
+                {
+                    left++;
+                    if (left == i)
+                    {
+                        i++;
+                        break;
+                    }
+                        
+                    sum = nums[left] + nums[i] + nums[right];
+                }
+                while (sum > 0 && i < right)
+                {
+                    right--;
+                    if (right == i)
+                    {
+                        i--;
+                        break;
+                    }
+                        
+                    sum = nums[left] + nums[i] + nums[right];
+                }
+                if (sum == 0)
+                {
+                    var list = new List<int> { nums[left], nums[i], nums[right] }.OrderBy(l => l).ToList();
+                    if (!results.Any(r => r[0] == list[0] && r[1] == list[1] && r[2] == list[2]))
+                        results.Add(list);
+                }
+
+
+                i++;
+                if (i == right)
+                    right++;
+             }
+
+
+
+            return results;
+        }
+
+
+
+
+
+
+
+
+
+
+
+        //First question was to read an extremely complex json file using quicktype (read quicktype)
+        //TOPTAL  find string out of ordered precedence list of letters chained to gether:
+        //
+        //findWord(["P>E", "E>R", "R>U"]) // PERU
+        //findWord(["I>N", "A>I", "P>A", "S>P"]) // SPAIN)
+
+        public string findWord(string[] words)
+        {
+            var sb = new StringBuilder();
+
+
+            var nodes = new List<ChrisNode2>();
+
+            for (var i = 0; i < words.Length; i++)
+            {
+                var next = Array.IndexOf(words, words.Where(w => w.StartsWith(words[i][2])).FirstOrDefault());
+                nodes.Add(new ChrisNode2() { precedence = 1, c = words[i][0], next = next == -1 ? nodes.Count + 1 : next });
+                if (next == -1)
+                {
+                    nodes.Add(new ChrisNode2() { precedence = 1, c = words[i][2], next = next });
+                }
+            }
+
+            var lastletter = nodes.Where(n => n.next == -1);
+            var a = nodes.Where(n => n.next != -1).OrderBy(n => n.next);
+
+            var final = new string(a.Concat(lastletter).Select(a => a.c).ToArray());
+
+            return final;
+        }
+
+
+
+        public  class ChrisNode2
+        {
+
+            public int precedence;
+            public char c;
+            public int next;
+        }
+
+
+            public IList<IList<int>> ThreeSum4(int[] nums)
+        {
+            var dict = new Dictionary<int, int>();
+            IList<IList<int>> results = new List<IList<int>>();
+
+            var r2 = new Dictionary<ISet<int>, int>();
+            //  var test2 =  new List<IList<IList<int>>>();
+            var len = nums.Length;
+            for (var i = 0; i < len- 2; i++)
+            {
+                for (var j = i + 1; j < len-1; j++)
+                {
+                    var diff = 0 - nums[i] - nums[j];
+                    if (dict.ContainsKey(diff))
+                    {
+                        var list = new List<int>() { nums[i], nums[j], diff }.OrderBy(l => l).ToList();
+                        if (!results.Any(r => r[0] == list[0] && r[1] ==  list[1] && r[2] == list[2]))
+                            results.Add(list);
+                    }
+                    else
+                        dict[nums[j]] = j;
+
+                }
+            }
+
+          //  var testSets = results.Select(s => new HashSet<int>(s));
+
+
+
+           // var groupedSets = testSets.GroupBy(s => s, HashSet<int>.CreateSetComparer());
+            
+
+
+            return results;
+        }
+
+
+        public TreeNode LowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q)
+        {
+
+
+            if (root == null)
+                return null;
+            Console.WriteLine(root.val);
+            if (root.val == p.val || root.val == q.val)
+                return root;
+            var left = LowestCommonAncestor2(root.left, p, q);
+            var right = LowestCommonAncestor2(root.right, p, q);
+            if (left != null && right != null)
+                return root;
+            return left ?? right;
+
+
+
+        }
+
+
+
+
 
 
         //Leetcode125
