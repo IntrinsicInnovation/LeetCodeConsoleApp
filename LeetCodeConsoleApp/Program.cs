@@ -1866,7 +1866,8 @@ namespace LeetCodeConsoleApp
     class Solution
     {
 
-        //Leetcode 15:  3Sum
+        //Leetcode 15:  3Sum  
+        //Beats 96.94% !!
         public IList<IList<int>> ThreeSum6(int[] nums)
         {
             var results = new List<IList<int>>();
