@@ -1850,7 +1850,7 @@ namespace LeetCodeConsoleApp
 
             //   var ts = sol.ThreeSum4(new int[] { -1, 0, 1, 2, -1, -4 });
 
-            var ts = sol.ThreeSum5(new int[] { 3, 0, -2, -1, 1, 2});
+            var ts = sol.ThreeSum4(new int[] { 3, 0, -2, -1, 1, 2});
 
             
 
@@ -1865,6 +1865,88 @@ namespace LeetCodeConsoleApp
 
     class Solution
     {
+
+
+
+
+        //Leetcode 680 Valid palindrome 2
+        //passes 462/469
+        //need to improve!!!
+
+        public bool ValidPalindrome3(string s)
+        {
+
+            var count = 0;
+            var len = s.Length;
+            if (len == 1)
+                return true;
+            var left = 0;
+            var right = len - 1;
+            while (left < right)
+            {
+                // if (left == right && count == 1 && s[left-1] != s[left] && s[left] != s[right+1]  )
+                //     return false;
+                if (s[left] != s[right])
+                {
+                    if (s[left + 1] == s[right])
+                    {
+
+                        count++;
+                        if (count > 1)
+                            return false;
+                        left++;
+                    }
+                    else if (s[right - 1] == s[left])
+                    {
+                        count++;
+                        if (count > 1)
+                            return false;
+
+                        right--;
+                    }
+                    else
+                    {
+
+
+                        return false;
+                    }
+
+                }
+
+                left++;
+                right--;
+
+
+            }
+
+
+            return true;
+
+        }
+
+
+
+
+
+
+        //Leetcode 1762
+
+        public int[] FindBuildings(int[] heights)
+        {
+            var results = new List<int>();
+            var len = heights.Length;
+            var maxtoright = 0;
+            for (var i = len - 1; i >= 0; i--)
+            {
+                if (heights[i] > maxtoright)
+                    results.Add(i);
+                maxtoright = Math.Max(maxtoright, heights[i]);
+
+
+
+            }
+            return results.OrderBy(r => r).ToArray();
+        }
 
         //Leetcode 15:  3Sum  
         //Beats 96.94% !!
@@ -2036,11 +2118,7 @@ namespace LeetCodeConsoleApp
                 }
             }
 
-          //  var testSets = results.Select(s => new HashSet<int>(s));
-
-
-
-           // var groupedSets = testSets.GroupBy(s => s, HashSet<int>.CreateSetComparer());
+         
             
 
 
