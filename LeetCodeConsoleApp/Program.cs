@@ -1850,14 +1850,28 @@ namespace LeetCodeConsoleApp
 
             //   var ts = sol.ThreeSum4(new int[] { -1, 0, 1, 2, -1, -4 });
 
-            var ts = sol.ThreeSum4(new int[] { 3, 0, -2, -1, 1, 2});
+            //  var ts = sol.ThreeSum4(new int[] { 3, 0, -2, -1, 1, 2});
 
-            
+
 
 
             //var fw = sol.findWord(new string[] { "P>E", "E>R", "R>U" }); //PERU
-        //findWord(["P>E", "E>R", "R>U"]) // PERU
-        //findWord(["I>N", "A>I", "P>A", "S>P"]) // SPAIN)
+            //findWord(["P>E", "E>R", "R>U"]) // PERU
+            //findWord(["I>N", "A>I", "P>A", "S>P"]) // SPAIN)
+
+
+            //var vp = sol.ValidPalindrome3("aguokepatgbnvfqmgmlcupuufxoohdfpgjdmysgvhmvffcnqxjjxqncffvmhvgsymdjgpfdhooxfuupuculmgmqfvnbgtapekouga");
+
+
+            //  var vp = sol.ValidPalindrome3("ebcbbececabbacecbbcbe");
+            //var bc = sol.Calculate("3+2*2");
+            //var bc = sol.Calculate("2*3-4");
+
+          //  var bc = sol.Calculate("42");
+            //Output: 7
+
+           // var kl = sol.FindKthLargest(new int[] { 3, 2, 1, 5, 6, 4 }, 2);
+           var kl = sol.FindKthLargest(new int[] { 3, 2, 3, 1, 2, 4, 5, 5, 6 }, 4);
 
         }
 
@@ -1866,11 +1880,386 @@ namespace LeetCodeConsoleApp
     class Solution
     {
 
+        public int FindKthLargest(int[] nums, int k)
+        {
+            var largest = new int[k];
+            for (var i = 0; i < k; i++)
+                largest[i] = -10001;
+
+            for (var i = 0; i < nums.Length; i++)
+            {
+                for (var j = 0; j < largest.Length; j++)
+                {
+                    if (nums[i] >= largest[j])
+                    {
+                     
+                        var temp = largest[j];
+                     
+                        largest[j] = nums[i];
+                     
+                        for (var l = largest.Length - 1; l > j + 1; l--)
+                        {
+                        
+                            largest[l] = largest[l - 1];
+                       
+                        }
+                        if (j + 1 < k)
+                            largest[j + 1] = temp;
+                     
+                        break;
+                    }
+                }
+            }
+
+
+            return largest[k - 1];
+        }
+
+        public class MyStack
+        {
+
+            Queue<int> queue;
+            public MyStack()
+            {
+                queue = new Queue<int>();
+            }
+
+            public void Push(int x)
+            {
+                queue.Enqueue(x);
+            }
+
+            public int Pop()
+            {
+                var q2 = new Queue<int>();
+                while (queue.Count > 1)
+                {
+                    q2.Enqueue(queue.Dequeue());
+                }
+                var returnval = queue.Dequeue();
+                while (q2.Count > 0)
+                {
+                    queue.Enqueue(q2.Dequeue());
+                }
+                return returnval;
+            }
+
+            public int Top()
+            {
+                var q2 = new Queue<int>();
+                while (queue.Count > 1)
+                {
+                    q2.Enqueue(queue.Dequeue());
+                }
+                var returnval = queue.Dequeue();
+                while (q2.Count > 0)
+                {
+                    queue.Enqueue(q2.Dequeue());
+                }
+                queue.Enqueue(returnval);
+                return returnval;
+            }
+
+            public bool Empty()
+            {
+                return queue.Count == 0;
+            }
+        }
+
+
+
+
+
+
+
+
+        //Leetcode 226. Invert Binary Tree
+
+        public TreeNode InvertTree2(TreeNode root)
+        {
+            if (root == null)
+                return null;
+            var temp = root.left;
+            root.left = root.right;
+            root.right = temp;
+            InvertTree2(root.left);
+            InvertTree2(root.right);
+            return root;
+        }
+
+
+
+
+        //Leetcode 227:   Basic calculator II
+        //passed all test cases, but can be improved if you remove stack
+
+        public int Calculate(string s)
+        {
+
+
+            if (String.IsNullOrEmpty(s))
+                return 0;
+            var len = s.Length;
+            var stack = new Stack<int>();
+            var currentnum = 0;
+            var operation = '+';
+
+            for (var i = 0; i < len; i++)
+            {
+                var currentchar = s[i];
+                if (Char.IsNumber(currentchar))
+                {
+                    currentnum = (currentnum * 10) + (currentchar - '0');
+                }
+                if (!Char.IsNumber(currentchar) && currentchar != ' ' || i == len - 1)
+                {
+                    if (operation == '+')
+                        stack.Push(currentnum);
+                    else if (operation == '-')
+                        stack.Push(-currentnum);
+                    else if (operation == '*')
+                    {
+                        var popped = stack.Pop();
+                        stack.Push(popped * currentnum);
+                    }
+                    else if (operation == '/')
+                    {
+                        var popped = stack.Pop();
+                        stack.Push(popped / currentnum);
+                    }
+                    operation = currentchar;
+                    currentnum = 0;
+
+                }
+            }
+
+
+            var result = 0;
+            while (stack.Count > 0)
+            {
+                result += stack.Pop();
+            }
+
+
+            return result;
+        }
+
+
+        //Leetcode 227:   Basic calculator II
+
+        //PAssess 60/80 test cases
+        public int Calculatesux(string s)
+        {
+
+            var sign = 1;
+            var len = s.Length;
+            var curnum = new StringBuilder();
+            var subexpressions = new List<int>();
+            var expressions = new List<int>();
+            var operations = new List<char>();
+
+            for (var i = 0; i < len; i++)
+            {
+                if (Char.IsNumber(s[i]))
+                {
+                  //  Console.WriteLine("1");
+                    while (i < len && Char.IsNumber(s[i]))
+                    {
+                        curnum.Append(s[i]);
+                        i++;
+                    }
+                    var num = Convert.ToInt32(curnum.ToString());
+                    subexpressions.Add(num * sign);
+                    curnum.Clear();
+                    if (i == len)
+                        break;
+                }
+
+                if (s[i] == '+')
+                {
+                    sign = 1;
+                    if (operations.Count > 0)
+                    {
+                        Console.WriteLine("2");
+                        var expression = CalculateSub(subexpressions, operations);
+                        expressions.Add(expression);
+                        subexpressions.Clear();
+                        operations.Clear();
+                    }
+                    else
+                    {
+                        expressions.Add(subexpressions[0]);
+                        subexpressions.Clear();
+                    }
+
+
+                }
+                else if (s[i] == '-')
+                {
+                    sign = -1;
+                    if (operations.Count > 0)
+                    {
+                        Console.WriteLine("3");
+                        var expression = CalculateSub(subexpressions, operations);
+                        expressions.Add(expression * -1);
+                        subexpressions.Clear();
+                        operations.Clear();
+                    }
+                    else
+                    {
+                        expressions.Add(subexpressions[0]);
+                        subexpressions.Clear();
+                    }
+
+                }
+
+
+                else if (s[i] == '*')
+                {
+                    operations.Add('*');
+                    sign = 1;
+                    //var expression = Calculate(subexpressions, operations);
+                    //expressions.Add(expression * -1);
+
+                }
+
+
+                else if (s[i] == '/')
+                {
+                    operations.Add('/');
+                    sign = 1;
+                    //var expression = Calculate(subexpressions, operations);
+                    //expressions.Add(expression * -1);
+
+                }
+
+
+            }
+
+            Console.WriteLine("before  last if");
+            if (subexpressions.Count > 0)
+            {
+                var expression = CalculateSub(subexpressions, operations);
+                expressions.Add(expression);
+            }
+
+            return expressions.Sum();
+
+
+        }
+
+        private int CalculateSub(List<int> subexpressions, List<char> operations)
+        {
+            Console.WriteLine("before calculate");
+            var result = subexpressions[0];
+            Console.WriteLine("after calculate");
+
+            for (var i = 1; i < subexpressions.Count; i++)
+            {
+                if (operations[i-1] == '*')
+                    result *= subexpressions[i];
+                else
+                    result /= subexpressions[i];
+
+            }
+
+            return result;
+        }
+
+
+
+
+        //Leetcode 1570
+        public class SparseVector
+        {
+
+            private Dictionary<int, int> dict;
+
+            public SparseVector(int[] nums)
+            {
+                dict = new Dictionary<int, int>();
+                for (var i = 0; i < nums.Length; i++)
+                {
+                    if (nums[i] != 0)
+                        dict[i] = nums[i];
+
+                }
+            }
+
+            // Return the dotProduct of two sparse vectors
+            public int DotProduct(SparseVector vec)
+            {
+                var sum = 0;
+                foreach (var i in dict.Keys)
+                {
+                    var v = 0;
+                    if (vec.dict.TryGetValue(i, out v))
+                        sum += dict[i] * v;
+                }
+
+                return sum;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+        //PAssed all testcases.  easy to understand now!:
+        //Leetcode 680 Valid palindrome
+        public bool ValidPalindrome4(string s)
+        {
+            var len = s.Length;
+            if (len == 1)
+                return true;
+            var left = 0;
+            var right = len - 1;
+            while (left < right)
+            {
+                if (s[left] != s[right])
+                {
+                    if (isSubPalindrome(s, left, right - 1) || isSubPalindrome(s, left + 1, right))
+                        return true;
+                    else
+                    {
+                        return false;
+                    }
+                }
+                left++;
+                right--;
+            }
+            return true;
+        }
+
+
+        private bool isSubPalindrome(string s, int l, int r)
+        {
+            while (l < r)
+            {
+                if (s[l] != s[r])
+                    return false;
+                l++;
+                r--;
+            }
+
+            return true;
+        }
+
+
+
+
+
 
 
 
         //Leetcode 680 Valid palindrome 2
-        //passes 462/469
+        //passes 464/469
         //need to improve!!!
 
         public bool ValidPalindrome3(string s)
@@ -1888,15 +2277,7 @@ namespace LeetCodeConsoleApp
                 //     return false;
                 if (s[left] != s[right])
                 {
-                    if (s[left + 1] == s[right])
-                    {
-
-                        count++;
-                        if (count > 1)
-                            return false;
-                        left++;
-                    }
-                    else if (s[right - 1] == s[left])
+                    if (s[right - 1] == s[left] && s[right - 2] == s[left-1] && s[right - 3] == s[left-2])
                     {
                         count++;
                         if (count > 1)
@@ -1904,6 +2285,15 @@ namespace LeetCodeConsoleApp
 
                         right--;
                     }
+                    else if (s[left + 1] == s[right])
+                    {
+
+                        count++;
+                        if (count > 1)
+                            return false;
+                        left++;
+                    }
+                   
                     else
                     {
 
