@@ -1867,11 +1867,16 @@ namespace LeetCodeConsoleApp
             //var bc = sol.Calculate("3+2*2");
             //var bc = sol.Calculate("2*3-4");
 
-          //  var bc = sol.Calculate("42");
+            //  var bc = sol.Calculate("42");
             //Output: 7
 
-           // var kl = sol.FindKthLargest(new int[] { 3, 2, 1, 5, 6, 4 }, 2);
-           var kl = sol.FindKthLargest(new int[] { 3, 2, 3, 1, 2, 4, 5, 5, 6 }, 4);
+            // var kl = sol.FindKthLargest(new int[] { 3, 2, 1, 5, 6, 4 }, 2);
+            //  var kl = sol.FindKthLargest(new int[] { 3, 2, 3, 1, 2, 4, 5, 5, 6 }, 4);
+
+
+            //sol.Merge2(new int[] { 2, 0 }, 1, new int[] { 1 }, 1);
+
+            sol.Merge2(new int[] { 4, 5, 6, 0, 0, 0 }, 3, new int[] { 1, 2, 3 }, 3);
 
         }
 
@@ -1879,6 +1884,88 @@ namespace LeetCodeConsoleApp
 
     class Solution
     {
+
+        //Leetcode 88. Merge Sorted Array
+
+        public void Merge2(int[] nums1, int m, int[] nums2, int n)
+        {
+            if (n == 0)
+                return;
+            if (m == 0)
+            {
+                for (var i = 0; i < n; i++)
+                    nums1[i] = nums2[i];
+                return;
+            }
+           
+            var a = m - 1;
+            var b = n - 1;
+            var c = m + n - 1;
+            while (a >= 0 && b >= 0)
+            {
+              
+                if (nums2[b] > nums1[a])
+                {
+                    Console.WriteLine("2");
+                    nums1[c] = nums2[b];
+                    c--;
+                    b--;
+                }
+                else
+                {
+              
+                    nums1[c] = nums1[a];
+                    nums1[a] = nums2[b];
+                    c--;
+                    a--;
+                }
+
+                Console.WriteLine("c = " + c + " A = " + a + " B=" + b);
+
+            }
+
+            while (b >= 0)
+            {
+                nums1[c] = nums2[b];
+                b--;
+                c--;
+            }
+
+
+        }
+
+
+
+        //Leetcode 129. Sum Root to Leaf Numbers
+
+        public int SumNumbers(TreeNode root)
+        {
+
+            var nums = new List<int>();
+            Traverse(root, new StringBuilder(), nums);
+            return nums.Sum();
+        }
+
+        private void Traverse(TreeNode node, StringBuilder sb, List<int> nums)
+        {
+            if (node == null)
+                return;
+
+            //hackey.  should clone?
+            StringBuilder sbclone = new StringBuilder(sb.ToString());
+            sbclone.Append(node.val);
+            if (node.left == null && node.right == null)
+            {
+                nums.Add(Convert.ToInt32(sbclone.ToString()));
+            }
+            else
+            {
+                Traverse(node.left, sbclone, nums);
+                Traverse(node.right, sbclone, nums);
+            }
+        }
+
+
 
         //LeetCode 215 Kth Largest Element in array
         //PAsses 37/41
