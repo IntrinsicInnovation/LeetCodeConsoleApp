@@ -1,11 +1,15 @@
 ﻿using LeetCodeConsoleApp;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.Arm;
@@ -1852,9 +1856,6 @@ namespace LeetCodeConsoleApp
 
             //  var ts = sol.ThreeSum4(new int[] { 3, 0, -2, -1, 1, 2});
 
-
-
-
             //var fw = sol.findWord(new string[] { "P>E", "E>R", "R>U" }); //PERU
             //findWord(["P>E", "E>R", "R>U"]) // PERU
             //findWord(["I>N", "A>I", "P>A", "S>P"]) // SPAIN)
@@ -1876,14 +1877,273 @@ namespace LeetCodeConsoleApp
 
             //sol.Merge2(new int[] { 2, 0 }, 1, new int[] { 1 }, 1);
 
-            sol.Merge2(new int[] { 4, 5, 6, 0, 0, 0 }, 3, new int[] { 1, 2, 3 }, 3);
+            //  sol.Merge2(new int[] { 4, 5, 6, 0, 0, 0 }, 3, new int[] { 1, 2, 3 }, 3);
+
+            //var lls = sol.LengthOfLongestSubstringTwoDistinct("eceba");
+            //   var lls = sol.LengthOfLongestSubstringTwoDistinct("ccaabbb");
+
+            var fs = new Solution.FileSystem();
+
+            fs.mkdir("abc/def");
+            fs.mkdir("abc/def/ghi");
+            fs.mkdir("abc/def/jkl");
+
+            fs.addContentToFile("abc/def/file.txt", "contentsoffile!!!!");
+            var dirs = fs.ls("abc/def");
+            fs.addContentToFile("abc/def/file.txt", "morestuff");
+
+            var file = fs.readContentFromFile("abc/def/file.txt");
+
 
         }
 
     }
-
     class Solution
     {
+
+
+
+
+
+
+        //Interviewing.IO Mock interview:
+        //implement a file system using Trie.
+        // as your implementation below is not good, you just used
+        // a dictionary and not complete.
+
+        public class FileSystem
+        {
+
+         
+
+            public FileSystem()
+            {
+               
+                root = new Node("/");
+            }
+
+            /** Inserts a word into the trie. */
+            //public void Insert(string word)
+            //{
+            //    var node = root;
+            //    for (var i = 0; i < word.Length; i++)
+            //    {
+            //        if (node.children[word[i] - 'a'] == null)
+            //            node.children[word[i] - 'a'] = new Node();
+
+            //        node = node.children[word[i] - 'a'];
+            //    }
+            //    node.isfile = true;
+            //}
+
+
+            public void mkdir(String path)
+            {
+                var node = root;
+
+                var splits = path.Split('/');
+              
+                foreach (var split in splits)
+                {
+                    var next = node.children.Where(c => c.path == split).FirstOrDefault();
+                    if (next == null)
+                    {
+                        node.children.Add(new Node(split));
+                        next = node.children[0];
+                    }
+                   
+                    node = next;
+                }
+            }
+
+
+            //inputs:    abc/def/ghuj/sdfsdf.txt
+            //           abc/def/
+            public List<string> ls(string path)
+            {
+                var node = root;
+
+                var splits = path.Split('/');
+
+                foreach (var split in splits)
+                {
+                    var next = node.children.Where(c => c.path == split).FirstOrDefault();
+                    if (next != null)
+                        node = next;
+                }
+                
+                var results = node.children.Select(c => c.path).ToList();
+                return results;
+
+            }
+
+
+
+            //* If filePath does not exist, creates that file containing given content.
+            //* If filePath already exists, appends the given content to original content.
+            public void addContentToFile(string path, string content)
+            {
+                var node = root;
+                var splits = path.Split('/');
+
+                foreach (var split in splits)
+                {
+                    var next = node.children.Where(c => c.path == split).FirstOrDefault();
+                    if (next == null)
+                    {
+                        node.children.Add(new Node(split));
+                        next = node.children[node.children.Count-1];
+                    }
+
+                    node = next;
+                }
+
+                node.isfile = true;
+                node.content += content;
+
+                //abc / def/File.txt"
+
+
+
+            }
+
+
+
+
+            public string readContentFromFile(string path)
+            {
+                var node = root;
+                var splits = path.Split('/');
+                foreach (var split in splits)
+                {
+                    var next = node.children.Where(c => c.path == split).FirstOrDefault();
+                    if (next != null)
+                        node = next;
+                }
+
+                return node.content; // children.Select(c => c.path).ToList();
+                
+
+
+            }
+
+
+
+
+
+            /** Returns if the word is in the trie. */
+            //public bool Search(string word)
+            //    {
+            //        var node = FindWord(word);
+            //        if (node != null && node.isfile)
+            //            return true;
+            //        else
+            //            return false;
+            //    }
+
+            //    /** Returns if there is any word in the trie that starts with the given prefix. */
+            //    public bool StartsWith(string prefix)
+            //    {
+            //        return FindWord(prefix) != null;
+            //    }
+
+            //    private Node FindWord(string word)
+            //    {
+            //        var node = root;
+            //        for (var i = 0; i < word.Length; i++)
+            //        {
+            //            if (node.children[word[i] - 'a'] == null)
+            //                return null;
+            //            node = node.children[word[i] - 'a'];
+
+            //        }
+            //        return node;
+            //    }
+
+
+            private Node root;
+
+            public class Node
+            {
+                public Node(string path)
+                {
+                    this.path = path;
+                    isfile = false;
+                    children = new List<Node>();
+                }
+                //char c;
+                public string path;  //   / for root?
+                public bool isfile;
+                public string content;
+                public List<Node> children;
+            }
+        }
+
+     
+
+
+    public int LengthOfLongestSubstringTwoDistinct(string s)
+        {
+            var len = s.Length;
+            if (len < 3)
+                return len;
+            var left = 0;
+            var right = 1;
+            var dict = new Dictionary<char, int>();
+            dict[s[left]] = 1;
+            if (!dict.ContainsKey(s[right]))
+                dict[s[right]] = 1;
+            else
+                dict[s[right]]++;
+            right = 2;
+            var max = 0;
+            var count = 3;
+            while (right < len)
+            {
+                if (!dict.ContainsKey(s[right]))
+                    dict[s[right]] = 1;
+                else
+                    dict[s[right]]++;
+
+       
+                if (dict.Keys.Count < 3)
+                {
+                  
+                    max = Math.Max(max, count);
+                }
+                else
+                {
+       
+                    while (dict.Keys.Count > 2)
+                    {
+                        var v = 0;
+                        if (dict.TryGetValue(s[left], out v))
+                        {
+                            if (v == 1)
+
+                          // var del_idx = Collection.m  //Collections.min(dict.Values);
+                            //dict.Remove(s.charAt(del_idx));
+
+
+                            dict.Remove(s[left]);
+                            else
+                                dict[s[left]]--;
+                            left++;
+                            count--;
+                        }
+                    }
+                }
+                right++;
+                count++;
+            }
+            return max;
+        }
+
+
+
+
+
+
 
         //Leetcode 88. Merge Sorted Array
 
@@ -1942,26 +2202,33 @@ namespace LeetCodeConsoleApp
         {
 
             var nums = new List<int>();
-            Traverse(root, new StringBuilder(), nums);
+            //Traverse(root, new StringBuilder(), nums);  //stringbuilder was O(n) space to store current number
+            Traverse(root, 0, nums);    //int is O(1) much better, and faster too.
             return nums.Sum();
         }
 
-        private void Traverse(TreeNode node, StringBuilder sb, List<int> nums)
+        //private void Traverse(TreeNode node, StringBuilder sb, List<int> nums)
+        private void Traverse(TreeNode node, int sofar, List<int> nums)
         {
             if (node == null)
                 return;
 
-            //hackey.  should clone?
-            StringBuilder sbclone = new StringBuilder(sb.ToString());
-            sbclone.Append(node.val);
+            //StringBuilder sbclone = new StringBuilder(sb.ToString());
+            //sbclone.Append(node.val);
+            sofar = sofar * 10 + node.val;
             if (node.left == null && node.right == null)
             {
-                nums.Add(Convert.ToInt32(sbclone.ToString()));
+                //nums.Add(Convert.ToInt32(sbclone.ToString()));
+                nums.Add(sofar);
             }
             else
             {
-                Traverse(node.left, sbclone, nums);
-                Traverse(node.right, sbclone, nums);
+                //Traverse(node.left, sbclone, nums);
+                //Traverse(node.right, sbclone, nums);
+
+                Traverse(node.left, sofar, nums);
+                Traverse(node.right, sofar, nums);
+
             }
         }
 
@@ -2969,162 +3236,6 @@ namespace LeetCodeConsoleApp
 
 
         }
-
-
-
-        //Interviewing.IO Mock interview:
-        //implement a file system using Trie.
-        // as your implementation below is not good, you just used
-        // a dictionary and not complete.
-
-        public class FileSystem
-        {
-
-            public class Trie
-            {
-
-                /** Initialize your data structure here. */
-                public Trie()
-                {
-                    root = new Node();
-                }
-
-                /** Inserts a word into the trie. */
-                public void Insert(string word)
-                {
-                    var node = root;
-                    for (var i = 0; i < word.Length; i++)
-                    {
-                        if (node.children[word[i] - 'a'] == null)
-                            node.children[word[i] - 'a'] = new Node();
-
-                        node = node.children[word[i] - 'a'];
-                    }
-                    node.isfile = true;
-                }
-
-                /** Returns if the word is in the trie. */
-                public bool Search(string word)
-                {
-                    var node = FindWord(word);
-                    if (node != null && node.isfile)
-                        return true;
-                    else
-                        return false;
-                }
-
-                /** Returns if there is any word in the trie that starts with the given prefix. */
-                public bool StartsWith(string prefix)
-                {
-                    return FindWord(prefix) != null;
-                }
-
-                private Node FindWord(string word)
-                {
-                    var node = root;
-                    for (var i = 0; i < word.Length; i++)
-                    {
-                        if (node.children[word[i] - 'a'] == null)
-                            return null;
-                        node = node.children[word[i] - 'a'];
-
-                    }
-                    return node;
-                }
-
-
-                private Node root;
-
-                public class Node
-                {
-                    public Node()
-                    {
-                        
-                        isfile = false;
-                        children = new Node[26];
-                    }
-                    //char c;
-                    public bool isfile;
-                    public string content;
-                    public Node[] children;
-                }
-            }
-
-            private Trie trie; // = new Trie();
-            
-            //private Dictionary<string, List<Path>> _paths;
-
-            public FileSystem()
-            {
-                //_paths = new Dictionary<string, Path>();
-                trie = new Trie();
-            }
-
-            //If path is a file path, returns a list that only contains this file's name.
-            //* If path is a directory path, returns the list of file and directory names in this directory.
-            //* The answer should in lexicographic order.
-
-
-            //inputs:    abc/def/ghuj/sdfsdf.txt
-            //           abc/def/
-            public List<string> ls(string path)
-            {
-                var results = new List<string>();
-
-                //var split = path.Split('/');
-                //results.Add(split[split.Length - 1]);
-
-
-                //var fileresult = _paths.Where(p => p.Key == path).FirstOrDefault();
-                //if (fileresult.Value.isfile)
-                //{
-                //    var split = fileresult.Value.filepath.Split('/');
-                //    results.Add(split[split.Length - 1]);
-
-                //}
-                //else
-                //{
-                //    var filenames = _paths.Where(p => p.Key.StartsWith("path"));
-                //}
-
-                return results;
-            }
-
-
-
-
-
-
-            public void mkdir(String path)
-            {
-
-            }
-
-            //* If filePath does not exist, creates that file containing given content.
-            //* If filePath already exists, appends the given content to original content.
-            void addContentToFile(String filePath, String content)
-            {
-
-            }
-
-            public string readContentFromFile(String filePath)
-            {
-                return null;
-            }
-
-
-        }
-
-
-        //class Path
-        //{
-
-        //    public string filepath { get; set; }
-        //    public bool isfile { get; set; }
-        //    public string content { get; set; }
-        //    public Dictionary<string, Path> children;
-
-        //}
 
 
 
