@@ -1901,6 +1901,50 @@ namespace LeetCodeConsoleApp
     class Solution
     {
 
+        //Facebook phone screen:
+        // 1) merge as per below
+        // 2) three way merge but merge two sorted lists of lists like the following:
+        // A=  [1,2], [3, 9], 
+        // B=   [4, 6], [8,10],  [11,12]
+        //Write this one above .  you had the first 2 use cases, but bombed the last 2 use cases!!!!!!!!!
+
+
+        public void MergeFBPhone(int[] nums1, int m, int[] nums2, int n)
+        {
+
+
+            var a = m - 1;
+            var b = n - 1;
+            var c = m + n - 1;
+            while (a >= 0 && b >= 0)
+            {
+
+                if (nums2[b] > nums1[a])
+                {
+                    Console.WriteLine("2");
+                    nums1[c] = nums2[b];
+                    c--;
+                    b--;
+                }
+                else
+                {
+                    nums1[c] = nums1[a];
+                    c--;
+                    a--;
+                }
+
+            }
+
+            while (b >= 0)
+            {
+                nums1[c] = nums2[b];
+                b--;
+                c--;
+            }
+
+
+
+        }
 
 
 
