@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -1882,24 +1883,450 @@ namespace LeetCodeConsoleApp
             //var lls = sol.LengthOfLongestSubstringTwoDistinct("eceba");
             //   var lls = sol.LengthOfLongestSubstringTwoDistinct("ccaabbb");
 
-            var fs = new Solution.FileSystem();
+            //var fs = new Solution.FileSystem();
 
-            fs.mkdir("abc/def");
-            fs.mkdir("abc/def/ghi");
-            fs.mkdir("abc/def/jkl");
+            //fs.mkdir("abc/def");
+            //fs.mkdir("abc/def/ghi");
+            //fs.mkdir("abc/def/jkl");
 
-            fs.addContentToFile("abc/def/file.txt", "contentsoffile!!!!");
-            var dirs = fs.ls("abc/def");
-            fs.addContentToFile("abc/def/file.txt", "morestuff");
+            //fs.addContentToFile("abc/def/file.txt", "contentsoffile!!!!");
+            //var dirs = fs.ls("abc/def");
+            //fs.addContentToFile("abc/def/file.txt", "morestuff");
 
-            var file = fs.readContentFromFile("abc/def/file.txt");
+            //var file = fs.readContentFromFile("abc/def/file.txt");
 
+
+            // var queries = new string[][] { new string[] { "GET", "dept4", "floors" }, new string[] { "SET_OR_INC", "dept4", "floors", "10" }, new string[] { "SET_OR_INC", "dept4", "floors", "4" }, new string[] {"TOP_N_KEYS", "1"}};
+            // var re = sol.solution(queries);
+
+
+
+
+
+
+            var r = sol.solution6(new string[] { "notion:180", "voyage:185", "sample:180" }, new string[] { "circles:360", "squares:180", "lines:37" });
 
         }
 
     }
     class Solution
     {
+
+
+
+
+        public int[][] Merge2(int[][] intervals)
+        {
+
+            var len = intervals.Length;
+
+            var results = new List<int[]>();
+            for (var i = 0; i < intervals.Length - 1; i++)
+            {
+                var start = intervals[i][0];
+                var end = intervals[i][1];
+                var overlapped = false;
+                while (i < intervals.Length - 1 && intervals[i][1] > intervals[i + 1][0])
+                {
+                    overlapped = true;
+                    end = intervals[i + 1][1];
+                    i++;
+                }
+                results.Add(new int[] { start, end });
+                if (!overlapped && i == intervals.Length - 1)
+                    results.Add(new int[] { intervals[i][0], intervals[i][1] });
+            }
+            return results.ToArray();
+
+        }
+
+
+
+
+        //Crossover  4 Feb 2024 - passed with 40% passing rate, LOL, this function was almost working though:
+        public int[] solution7(int[] memory, int[][] queries)
+        {
+
+
+            var results = new List<int>();
+            var allocated = new List<Tuple<int, int>>();
+            for (var i = 0; i < queries.Length; i++)
+            {
+                if (queries[i][0] == 0)
+                {
+                    var alloc = queries[i][1];
+                    for (var j = 0; j < memory.Length; j += 8)
+                    {
+
+                        if (memory[j] == 0)
+                        {
+                            var iszero = true;
+                            for (var k = j + 1; k < j + alloc; k++)
+                            {
+                                if (memory[k] == 1)
+                                {
+                                    iszero = false;
+                                    break;
+                                }
+
+
+                            }
+                            if (iszero)
+                            {
+                                for (var k = j + 1; k < j + alloc; k++)
+                                {
+                                    memory[k] = 1;
+
+
+                                }
+                                allocated.Add(new Tuple<int, int>(j, j + alloc));
+                                results.Add(j);
+
+
+                            }
+                            else
+                                results.Add(-1);
+
+
+                        }
+                    }
+                }
+                else
+                {
+                    var eraseindex = queries[i][1];
+                    if (allocated.Count >= eraseindex)
+                    {
+                        var allocstart = allocated[eraseindex - 1].Item1;
+                        var allocend = allocated[eraseindex - 1].Item2;
+                        var result = allocend - allocstart;
+                        for (var l = allocstart; l < allocend; l++)
+                        {
+                            if (memory[l] == 0)
+                            {
+                                result = -1;
+                                break;
+                            }
+
+                            else
+                                memory[l] = 0;
+
+
+                        }
+                        results.Add(result);
+
+                    }
+                    else
+                    {
+
+                        results.Add(-1);
+                    }
+                }
+
+            }
+            return results.ToArray();
+        }
+
+
+
+
+
+
+
+
+
+
+
+        public string[] solution6(string[] songs, string[] animations)
+        {
+
+
+            var output = new List<string>();
+            for (var i = 0; i < songs.Length; i++)
+            {
+                for (var j = 0; j < animations.Length; j++)
+                {
+                    var songi = songs[i].IndexOf(":");
+                    var song = Convert.ToInt32(songs[i].Substring(songi + 1));
+
+                    var animi = animations[j].IndexOf(":");
+                    var anim = Convert.ToInt32(animations[j].Substring(animi + 1));
+
+                    if (song % anim == 0)
+                    {
+                        // Console.WriteLine()
+                        var times = song / anim;
+                        output.Add(animations[j].Substring(0, animi) + ":" + times);
+                        break;
+                    }
+                }
+
+            }
+
+            return output.ToArray();
+
+        }
+
+
+
+        //string solution(int[] numbers, int pivot)
+        //{
+        //    var a = ":123";
+
+        //    var b = a.Substring()
+        //    var sumright = 0;
+        //    var sumleft = 0;
+
+        //    for (var i = 0; i < numbers.Length; i++)
+        //    {
+        //        if (numbers[i] > pivot)
+        //            sumright++;
+        //        else if (numbers[i] < pivot)
+        //            sumleft++;
+
+
+
+        //    }
+
+        //    if (sumright > sumleft)
+        //        return "greater";
+        //    else if (sumright < sumleft)
+        //        return "smaller";
+        //    else
+        //        return "tie";
+
+
+
+        //}
+
+
+
+        //Crossover 3 Feb 2024  passed 50%
+        //ran out of time.  copied and pasted this from older assessment, full of bugs
+
+
+
+        public string[] solution(string[][] queries)
+        {
+
+
+
+            var output = new List<string>();
+            var container = new Dictionary<string, Dictionary<string, Field>>();
+
+
+            foreach (var q in queries)
+            {
+
+
+                if (q[0] == "SET_OR_INC")
+                {
+
+
+                    if (!container.ContainsKey(q[1]))
+                    {
+                        container.Add(q[1], new Dictionary<string, Field>() { { q[2], new Field() { value = Convert.ToInt32(q[3]), mods = 1 } } });
+                    }
+                    else
+                    {
+
+                        if (container[q[1]].ContainsKey(q[2]))
+                        {
+                            container[q[1]][q[2]].value += Convert.ToInt32(q[3]);
+                            container[q[1]][q[2]].mods++;
+                        }
+                        else
+                        {
+                            container[q[1]].Add(q[2], new Field() { value = Convert.ToInt32(q[3]), mods = 1 });
+                        }
+                    }
+                    output.Add(container[q[1]][q[2]].value.ToString());
+                }
+
+                if (q[0] == "GET")
+                {
+                    if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
+                    {
+                        output.Add(container[q[1]][q[2]].value.ToString());
+                    }
+                    else
+                    {
+                        output.Add("");
+                    }
+
+                }
+                else if (q[0] == "DELETE")
+                {
+
+                    if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
+                    {
+                        container[q[1]].Remove(q[2]);
+                        // container[q[1]][q[2]].mods++;
+                        output.Add("true");
+                    }
+                    else
+                        output.Add("false");
+                }
+
+
+                else if (q[0] == "TOP_N_KEYS")
+                {
+                    var mods = new List<Tuple<int, string>>();
+                    foreach (var k in container)
+                    {
+                        var m = k.Value.Values.Select(v => v.mods).Sum();
+                        var k1 = k.Key + "(" + m + ")";
+                        mods.Add(new Tuple<int, string>(m, k1));
+                    }
+                    var o = mods.OrderByDescending(m => m.Item1).Select(m => m.Item2).Take(Convert.ToInt32(q[1])).ToList();
+                    output.Add(String.Join(' ', o));
+                }
+
+            }
+
+            return output.ToArray();
+
+        }
+
+
+
+
+
+        class Field
+        {
+
+            public int value { get; set; }
+            public int timestamp { get; set; }
+            public int ttl { get; set; }
+            public int mods { get; set; }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //public string[] solution(string[][] queries)
+        //{
+
+
+
+        //    var output = new List<string>();
+        //    var container = new Dictionary<string, Dictionary<string, Field>>();
+
+
+        //    foreach (var q in queries)
+        //    {
+
+
+        //        if (q[0] == "SET_OR_INC")
+        //        {
+
+
+        //            if (!container.ContainsKey(q[1]))
+        //            {
+        //                container.Add(q[1], new Dictionary<string, Field>() { { q[2], new Field() { value = Convert.ToInt32(q[3]), mods = 1 } } });
+        //            }
+        //            else
+        //            {
+
+        //                if (container[q[1]].ContainsKey(q[2]))
+        //                {
+        //                    container[q[1]][q[2]].value += Convert.ToInt32(q[3]);
+        //                    container[q[1]][q[2]].mods++;
+        //                }
+        //                else
+        //                {
+        //                    container[q[1]].Add(q[2], new Field() { value = Convert.ToInt32(q[3]), mods = 1 });
+        //                }
+        //            }
+        //            output.Add(container[q[1]][q[2]].value.ToString());
+        //        }
+
+        //        if (q[0] == "GET")
+        //        {
+        //            if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
+        //            {
+        //                output.Add(container[q[1]][q[2]].value.ToString());
+        //            }
+        //            else
+        //            {
+        //                output.Add("");
+        //            }
+
+        //        }
+        //        else if (q[0] == "DELETE")
+        //        {
+
+        //            if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
+        //            {
+        //                container[q[1]].Remove(q[2]);
+        //                output.Add("true");
+        //            }
+        //            else
+        //                output.Add("false");
+        //        }
+
+
+        //        else if (q[0] == "TOP_N_KEYS")
+        //        {
+        //            var mods = new List<Tuple<int, string>>();
+        //            foreach (var k in container)
+        //            {
+        //                var m = k.Value.Values.Select(v => v.mods).Sum();
+        //                var k1 = k.Key + "(" + m + ")";
+        //                mods.Add(new Tuple<int, string>(m, k1));
+        //            }
+        //            var o = mods.OrderByDescending(m => m.Item1).Select(m => m.Item2).ToList();
+        //            output.Add(String.Join(' ', o));
+        //        }
+
+        //    }
+
+        //    return output.ToArray();
+
+        //}
+
+
+
+
+
+        //class Field
+        //{
+
+        //    public int value { get; set; }
+        //    public int timestamp { get; set; }
+        //    public int ttl { get; set; }
+        //    public int mods { get; set; }
+        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //Facebook phone screen:
         // 1) merge as per below
@@ -5077,256 +5504,286 @@ namespace LeetCodeConsoleApp
                     Console.WriteLine(root.val);
                 }
 
-                //Crossover - passed step 3 20/22 test cases.  need to debug
 
 
+             
+                //Crossover - passed step 3 - 20/22 test cases.  need to debug
+                //dEC 3 2023
 
-               //Write function that adds two numbers
-               public int add(int a, int b)
-                {
-                    return a + b;
-                }
 
+            
 
 
+        //class Field
+        //{
 
-                public string[] solution(string[][] queries)
-                {
+        //    public string value { get; set; }
+        //    public int timestamp { get; set; }
+        //    public int ttl { get; set; }
+        //    public int mods { get; set; }
+        //}
 
-                    var output = new List<string>();
-                    var container = new Dictionary<string, Dictionary<string, Field>>();
 
+        //public string[] solution(string[][] queries)
+        //        {
 
-                    foreach (var q in queries)
-                    {
+        //var output = new List<string>();
+        //            var container = new Dictionary<string, Dictionary<string, Field>>();
 
-                        if (q[0] == "SET")
-                        {
 
+        //            foreach (var q in queries)
+        //            {
 
-                            if (!container.ContainsKey(q[1]))
-                            {
-                                container.Add(q[1], new Dictionary<string, Field>() { { q[2], new Field() { value = q[3], mods = 1 }
-                            }                 });
-                            }
-                            else
-                            {
 
-                                if (container[q[1]].ContainsKey(q[2]))
-                                {
-                                    container[q[1]][q[2]].value = q[3];
-                                    container[q[1]][q[2]].mods++;
-                                }
-                                else
-                                {
-                                    container[q[1]].Add(q[2], new Field() { value = q[3], mods = 1 });
-                                }
-                            }
-                            output.Add("");
-                        }
+        //                var mods = new List<Tuple<int, string>>();
+        //                 if (q[0] == "TOP_N_KEYS")
+        //                {
+                    
+        //                    foreach (var k in container)
+        //                    {
 
-                        else if (q[0] == "SET_AT")
-                        {
+        //                        var m = k.Value.Values.Select(v => v.mods).Count();
+        //                        var k1 = k.Key + "(" + k.Value.Values.Select(v => v.mods).Count() + ")";
+        //                        mods.Add(new Tuple<int, string>(m, k1));
+                        
+        //                    }
+        //            //var mods3 = container.SelectMany(c => c.Value.Values).OrderByDescending(v => v.mods).Select(v) .Count();
 
 
-                            if (!container.ContainsKey(q[1]))
-                            {
-                                container.Add(q[1], new Dictionary<string, Field>() { { q[2], new Field() { value = q[3], timestamp = Convert.ToInt32(q[4]), ttl = -1 } } });
-                            }
-                            else
-                            {
-
-                                if (container[q[1]].ContainsKey(q[2]))
-                                {
-                                    container[q[1]][q[2]].value = q[3];
-                                    container[q[1]][q[2]].timestamp = Convert.ToInt32(q[4]);
-                                    container[q[1]][q[2]].ttl = -1; 
+        //            //var mods2 = container.SelectMany(c => c.Value.Values);
+        //            //   var nummods = mods.OrderByDescending(m => m).ThenBy(m => m.Key).Take(Convert.ToInt32(q[1])).Select(m => m.Key + "(" + m.Value + ")");
+        //            //  output.Add(nummods != null && nummods.Count() > 0 ? string.Join(", ", nummods) : "");
 
 
-                                }
-                                else
-                                {
-                                    container[q[1]].Add(q[2], new Field() { value = q[3], timestamp = Convert.ToInt32(q[4]), ttl = -1 });
-                                }
-                            }
-                            output.Add(""); 
-                        }
-
+        //                    var o = mods.OrderByDescending(m => m.Item1).Select(m => m.Item2).ToList();
+        //                    output.Add(String.Join(' ', o));
 
-                        else if (q[0] == "SET_AT_WITH_TTL")
-                        {
+        //                }
+        //                //else
+        //                //{
+        //                //    output.Add("");
+        //                //}
+                   
 
 
-                            if (!container.ContainsKey(q[1]))
-                            {
-                                container.Add(q[1], new Dictionary<string, Field>() { { q[2], new Field() { value = q[3], timestamp = Convert.ToInt32(q[4]), ttl = Convert.ToInt32(q[5]) } } });
-                            }
-                            else
-                            {
 
-                                if (container[q[1]].ContainsKey(q[2]))
-                                {
-                                    container[q[1]][q[2]].value = q[3];
-                                    container[q[1]][q[2]].timestamp = Convert.ToInt32(q[4]);
-                                    container[q[1]][q[2]].ttl = Convert.ToInt32(q[5]);
+        //    else if (q[0] == "SET")
+        //                {
 
-                                }
-                                else
-                                {
-                                    container[q[1]].Add(q[2], new Field() { value = q[3], timestamp = Convert.ToInt32(q[4]), ttl = Convert.ToInt32(q[5]) });
-                                }
-                            }
-                            output.Add(""); 
-                        }
 
+        //                    if (!container.ContainsKey(q[1]))
+        //                    {
+        //                        container.Add(q[1], new Dictionary<string, Field>() { { q[2], new Field() { value = q[3], mods = 1 }
+        //                    }                 });
+        //                    }
+        //                    else
+        //                    {
 
+        //                        if (container[q[1]].ContainsKey(q[2]))
+        //                        {
+        //                            container[q[1]][q[2]].value = q[3];
+        //                            container[q[1]][q[2]].mods++;
+        //                        }
+        //                        else
+        //                        {
+        //                            container[q[1]].Add(q[2], new Field() { value = q[3], mods = 1 });
+        //                        }
+        //                    }
+        //                    output.Add("");
+        //                }
 
+        //                else if (q[0] == "SET_AT")
+        //                {
 
-                        else if (q[0] == "GET")
-                        {
-                            if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
-                            {
-                                output.Add(container[q[1]][q[2]].value.ToString());
-                            }
-                            else
-                            {
-                                output.Add("");
-                            }
 
-                        }
+        //                    if (!container.ContainsKey(q[1]))
+        //                    {
+        //                        container.Add(q[1], new Dictionary<string, Field>() { { q[2], new Field() { value = q[3], timestamp = Convert.ToInt32(q[4]), ttl = -1 } } });
+        //                    }
+        //                    else
+        //                    {
 
-                        else if (q[0] == "GET_AT")
-                        {
-                            var timestamp = Convert.ToInt32(q[3]);
-                            if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]) && (container[q[1]][q[2]].ttl == -1 ? true : (timestamp >= container[q[1]][q[2]].timestamp && timestamp < (container[q[1]][q[2]].timestamp + container[q[1]][q[2]].ttl))))
-                            {
-                                output.Add(container[q[1]][q[2]].value.ToString());
-                            }
-                            else
-                            {
-                                output.Add("");
-                            }
+        //                        if (container[q[1]].ContainsKey(q[2]))
+        //                        {
+        //                            container[q[1]][q[2]].value = q[3];
+        //                            container[q[1]][q[2]].timestamp = Convert.ToInt32(q[4]);
+        //                            container[q[1]][q[2]].ttl = -1; 
+
+
+        //                        }
+        //                        else
+        //                        {
+        //                            container[q[1]].Add(q[2], new Field() { value = q[3], timestamp = Convert.ToInt32(q[4]), ttl = -1 });
+        //                        }
+        //                    }
+        //                    output.Add(""); 
+        //                }
+
+
+        //                else if (q[0] == "SET_AT_WITH_TTL")
+        //                {
+
+
+        //                    if (!container.ContainsKey(q[1]))
+        //                    {
+        //                        container.Add(q[1], new Dictionary<string, Field>() { { q[2], new Field() { value = q[3], timestamp = Convert.ToInt32(q[4]), ttl = Convert.ToInt32(q[5]) } } });
+        //                    }
+        //                    else
+        //                    {
+
+        //                        if (container[q[1]].ContainsKey(q[2]))
+        //                        {
+        //                            container[q[1]][q[2]].value = q[3];
+        //                            container[q[1]][q[2]].timestamp = Convert.ToInt32(q[4]);
+        //                            container[q[1]][q[2]].ttl = Convert.ToInt32(q[5]);
+
+        //                        }
+        //                        else
+        //                        {
+        //                            container[q[1]].Add(q[2], new Field() { value = q[3], timestamp = Convert.ToInt32(q[4]), ttl = Convert.ToInt32(q[5]) });
+        //                        }
+        //                    }
+        //                    output.Add(""); 
+        //                }
+
+
 
-                        }
 
+        //                else if (q[0] == "GET")
+        //                {
+        //                    if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
+        //                    {
+        //                        output.Add(container[q[1]][q[2]].value.ToString());
+        //                    }
+        //                    else
+        //                    {
+        //                        output.Add("");
+        //                    }
 
+        //                }
 
-                        else if (q[0] == "DELETE")
-                        {
+        //                else if (q[0] == "GET_AT")
+        //                {
+        //                    var timestamp = Convert.ToInt32(q[3]);
+        //                    if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]) && (container[q[1]][q[2]].ttl == -1 ? true : (timestamp >= container[q[1]][q[2]].timestamp && timestamp < (container[q[1]][q[2]].timestamp + container[q[1]][q[2]].ttl))))
+        //                    {
+        //                        output.Add(container[q[1]][q[2]].value.ToString());
+        //                    }
+        //                    else
+        //                    {
+        //                        output.Add("");
+        //                    }
 
-                            if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
-                            {
-                                container[q[1]].Remove(q[2]);
-                                output.Add("true");
-                            }
-                            else
-                                output.Add("false");
-                        }
+        //                }
 
-                        else if (q[0] == "DELETE_AT")
-                        {
-                            var timestamp = Convert.ToInt32(q[3]);
-                            if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]) && (container[q[1]][q[2]].ttl == 0 ? true : (timestamp >= container[q[1]][q[2]].timestamp && timestamp < (container[q[1]][q[2]].timestamp + container[q[1]][q[2]].ttl))))
-                            {
-                                container[q[1]].Remove(q[2]);
-                                output.Add("true");
-                            }
-                            else
-                                output.Add("false");
 
-                        } 
 
+        //                else if (q[0] == "DELETE")
+        //                {
 
-                        else if (q[0] == "SCAN")
-                        {
+        //                    if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
+        //                    {
+        //                        container[q[1]].Remove(q[2]);
+        //                        output.Add("true");
+        //                    }
+        //                    else
+        //                        output.Add("false");
+        //                }
 
+        //                else if (q[0] == "DELETE_AT")
+        //                {
+        //                    var timestamp = Convert.ToInt32(q[3]);
+        //                    if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]) && (container[q[1]][q[2]].ttl == 0 ? true : (timestamp >= container[q[1]][q[2]].timestamp && timestamp < (container[q[1]][q[2]].timestamp + container[q[1]][q[2]].ttl))))
+        //                    {
+        //                        container[q[1]].Remove(q[2]);
+        //                        output.Add("true");
+        //                    }
+        //                    else
+        //                        output.Add("false");
 
-                            if (container.ContainsKey(q[1]))
-                            {
-                                var p = container[q[1]].Select(p => p.Key + "(" + p.Value.value + ")").OrderBy(x => x).ThenBy(x => x.Length);
-                                output.Add(String.Join(", ", p));
-                            }
-                            else
-                            {
-                                output.Add("");
-                            }
-                        }
+        //                } 
 
 
-                        else if (q[0] == "SCAN_AT")
-                        {
+        //                else if (q[0] == "SCAN")
+        //                {
 
-                            var timestamp = Convert.ToInt32(q[2]);
 
-                            if (container.ContainsKey(q[1]))
-                            {
-                                var p = container[q[1]].Where(c => timestamp >= c.Value.timestamp && c.Value.ttl == -1 || (timestamp < c.Value.timestamp + c.Value.ttl)).Select(p => p.Key + "(" + p.Value.value + ")").OrderBy(x => x).ThenBy(x => x.Length);
-                                output.Add(String.Join(", ", p));
-                            }
-                            else
-                            {
-                                output.Add("");
-                            }
-                        }
+        //                    if (container.ContainsKey(q[1]))
+        //                    {
+        //                        var p = container[q[1]].Select(p => p.Key + "(" + p.Value.value + ")").OrderBy(x => x).ThenBy(x => x.Length);
+        //                        output.Add(String.Join(", ", p));
+        //                    }
+        //                    else
+        //                    {
+        //                        output.Add("");
+        //                    }
+        //                }
 
 
+        //                else if (q[0] == "SCAN_AT")
+        //                {
 
+        //                    var timestamp = Convert.ToInt32(q[2]);
 
-                        else if (q[0] == "SCAN_BY_PREFIX")
-                        {
+        //                    if (container.ContainsKey(q[1]))
+        //                    {
+        //                        var p = container[q[1]].Where(c => timestamp >= c.Value.timestamp && c.Value.ttl == -1 || (timestamp < c.Value.timestamp + c.Value.ttl)).Select(p => p.Key + "(" + p.Value.value + ")").OrderBy(x => x).ThenBy(x => x.Length);
+        //                        output.Add(String.Join(", ", p));
+        //                    }
+        //                    else
+        //                    {
+        //                        output.Add("");
+        //                    }
+        //                }
 
-                            if (container.ContainsKey(q[1]))
-                            {
 
-                                var p = container[q[1]].Where(c => c.Key.StartsWith(q[2])).Select(p => p.Key + "(" + p.Value.value + ")").OrderBy(x => x).ThenBy(x => x.Length);
 
-                                output.Add(String.Join(", ", p));
-                            }
-                            else
-                            {
-                                output.Add("");
-                            }
-                        }
 
+        //                else if (q[0] == "SCAN_BY_PREFIX")
+        //                {
 
+        //                    if (container.ContainsKey(q[1]))
+        //                    {
 
-                        else if (q[0] == "SCAN_BY_PREFIX_AT")
-                        {
+        //                        var p = container[q[1]].Where(c => c.Key.StartsWith(q[2])).Select(p => p.Key + "(" + p.Value.value + ")").OrderBy(x => x).ThenBy(x => x.Length);
 
+        //                        output.Add(String.Join(", ", p));
+        //                    }
+        //                    else
+        //                    {
+        //                        output.Add("");
+        //                    }
+        //                }
 
-                            if (container.ContainsKey(q[1]))
-                            {
-                                var timestamp = Convert.ToInt32(q[3]);
 
 
-                                var p = container[q[1]].Where(c => c.Key.StartsWith(q[2]) && (q[2] == "" ? true : c.Key.StartsWith(q[2])) && timestamp >= c.Value.timestamp && (timestamp < c.Value.timestamp + c.Value.ttl))
-                                  .Select(p => p.Key + "(" + p.Value.value + ")").OrderBy(x => x).ThenBy(x => x.Length);
+        //                else if (q[0] == "SCAN_BY_PREFIX_AT")
+        //                {
 
-                                output.Add(String.Join(", ", p));
-                            }
-                            else
-                            {
-                                output.Add("");
-                            }
-                        }
 
-                    }
+        //                    if (container.ContainsKey(q[1]))
+        //                    {
+        //                        var timestamp = Convert.ToInt32(q[3]);
 
-                    return output.ToArray();
 
-                }
+        //                        var p = container[q[1]].Where(c => c.Key.StartsWith(q[2]) && (q[2] == "" ? true : c.Key.StartsWith(q[2])) && timestamp >= c.Value.timestamp && (timestamp < c.Value.timestamp + c.Value.ttl))
+        //                          .Select(p => p.Key + "(" + p.Value.value + ")").OrderBy(x => x).ThenBy(x => x.Length);
 
+        //                        output.Add(String.Join(", ", p));
+        //                    }
+        //                    else
+        //                    {
+        //                        output.Add("");
+        //                    }
+        //                }
 
+        //            }
 
+        //            return output.ToArray();
 
-                class Field
-                {
+        //        }
 
-                    public string value { get; set; }
-                    public int timestamp { get; set; }
-                    public int ttl { get; set; }
-                    public int mods { get; set; }
-                }
+
 
 
 
@@ -6532,104 +6989,104 @@ public  int lonelyinteger2(List<int> a)
         //    {
         //        //       0       1    2       3
         //        //q = setoring | A | field1 | 2 
-        //        if (q[0] == "SET_OR_INC")
-        //        {
+//                if (q[0] == "SET_OR_INC")
+//                {
 
 
-        //            if (!container.ContainsKey(q[1]))
-        //            {
-        //                container.Add(q[1], new Dictionary<string, Field3>() { { q[2], new Field3() { value = Convert.ToInt32(q[3]), mods = 1 }
-        //        }
-        //    });
-        //                mods.Add(q[1], 1);
-        //            }
-        //            else
-        //            {
+//                    if (!container.ContainsKey(q[1]))
+//                    {
+//                        container.Add(q[1], new Dictionary<string, Field3>() { { q[2], new Field3() { value = Convert.ToInt32(q[3]), mods = 1 }
+//                        }
+//                    });
+//                    mods.Add(q[1], 1);
+//                                        }
+//                                        else
+//                    {
 
-        //                if (container[q[1]].ContainsKey(q[2]))
-        //                {
-        //                    //var val = Convert.ToInt32(container[q[1]][q[2]])  + Convert.ToInt32(q[3]);
-        //                    container[q[1]][q[2]].value += Convert.ToInt32(q[3]);
-        //                    //container[q[1]][q[2]].mods++;
-        //                    mods[q[1]]++;
-        //                }
-        //                else
-        //                {
-        //                    container[q[1]].Add(q[2], new Field3() { value = Convert.ToInt32(q[3]), mods = 1 });
-        //                    mods[q[1]]++;
-        //                }
-        //            }
-        //            output.Add(container[q[1]][q[2]].value.ToString());
-        //        }
-
-
-
-        //        else if (q[0] == "GET")
-        //        {
-        //            if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
-        //            {
-        //                output.Add(container[q[1]][q[2]].value.ToString());
-        //            }
-        //            else
-        //            {
-        //                output.Add("");
-        //            }
-
-        //        }
-
-
-        //        else if (q[0] == "TOP_N_KEYS")
-        //        {
-        //            // if (container.ContainsKey(q[1]))
-        //            // {
-        //            //var mods2 = container[q[1]].OrderByDescending(c => c.Value.mods).Select(c => c.Key).FirstOrDefault();
-
-        //            var nummods = mods.OrderByDescending(m => m.Value).ThenBy(m => m.Key).Take(Convert.ToInt32(q[1])).Select(m => m.Key + "(" + m.Value + ")");
-
-        //            output.Add(nummods != null && nummods.Count() > 0 ? string.Join(", ", nummods) : "");
-        //            // }
-        //            // else
-        //            // {
-        //            //     output.Add("");
-        //            // }
-        //        }
+//                        if (container[q[1]].ContainsKey(q[2]))
+//                        {
+//                            //var val = Convert.ToInt32(container[q[1]][q[2]])  + Convert.ToInt32(q[3]);
+//                            container[q[1]][q[2]].value += Convert.ToInt32(q[3]);
+//                            //container[q[1]][q[2]].mods++;
+//                            mods[q[1]]++;
+//                        }
+//                        else
+//                        {
+//                            container[q[1]].Add(q[2], new Field3() { value = Convert.ToInt32(q[3]), mods = 1 });
+//                            mods[q[1]]++;
+//                        }
+//                    }
+//                    output.Add(container[q[1]][q[2]].value.ToString());
+//                                    }
 
 
 
+//                else if (q[0] == "GET")
+//{
+//    if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
+//    {
+//        output.Add(container[q[1]][q[2]].value.ToString());
+//    }
+//    else
+//    {
+//        output.Add("");
+//    }
 
-        //        else if (q[0] == "DELETE")
-        //        {
-
-        //            if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
-        //            {
-        //                container[q[1]].Remove(q[2]);
-        //                mods[q[1]]++;
-        //                if (container[q[1]].Count == 0)
-        //                {
-        //                    container.Remove(q[1]);
-        //                    mods.Remove(q[1]);
-        //                }
-        //                output.Add("true");
-        //            }
-        //            else
-        //                output.Add("false");
-        //        }
-
-        //    }
-        //    return output.ToArray();
+//}
 
 
-        //}
+//else if (q[0] == "TOP_N_KEYS")
+//{
+//    // if (container.ContainsKey(q[1]))
+//    // {
+//    //var mods2 = container[q[1]].OrderByDescending(c => c.Value.mods).Select(c => c.Key).FirstOrDefault();
+
+//    var nummods = mods.OrderByDescending(m => m.Value).ThenBy(m => m.Key).Take(Convert.ToInt32(q[1])).Select(m => m.Key + "(" + m.Value + ")");
+
+//    output.Add(nummods != null && nummods.Count() > 0 ? string.Join(", ", nummods) : "");
+//    // }
+//    // else
+//    // {
+//    //     output.Add("");
+//    // }
+//}
 
 
 
 
+//        else if (q[0] == "DELETE")
+//        {
+
+//            if (container.ContainsKey(q[1]) && container[q[1]].ContainsKey(q[2]))
+//            {
+//                container[q[1]].Remove(q[2]);
+//                mods[q[1]]++;
+//                if (container[q[1]].Count == 0)
+//                {
+//                    container.Remove(q[1]);
+//                    mods.Remove(q[1]);
+//                }
+//                output.Add("true");
+//            }
+//            else
+//                output.Add("false");
+//        }
+
+//    }
+//    return output.ToArray();
 
 
-        //Crossover
+//}
 
-        //        public string[] solution2(string[][] queries)
-        //        {
+
+
+
+
+
+//Crossover
+
+//        public string[] solution2(string[][] queries)
+//        {
 
 
 //        var output = new List<string>();
@@ -6641,7 +7098,7 @@ public  int lonelyinteger2(List<int> a)
 //                //q = setoring | A | field1 | 2 
 //                if (q[0] == "SET")
 //                {
-                    
+
 
 //                    if (!container.ContainsKey(q[1]))
 //                    {
