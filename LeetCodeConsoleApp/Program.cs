@@ -1901,11 +1901,14 @@ namespace LeetCodeConsoleApp
 
 
 
+            //var r = sol.solution6(new string[] { "notion:180", "voyage:185", "sample:180" }, new string[] { "circles:360", "squares:180", "lines:37" });
 
 
+            //var m = sol.Merge2(new int[][] { new int[] { 1, 3 }, new int[] { 2, 6 }, new int[] { 8, 10 }, new int[] { 15, 18 } });
 
-            var r = sol.solution6(new string[] { "notion:180", "voyage:185", "sample:180" }, new string[] { "circles:360", "squares:180", "lines:37" });
+            var m = sol.Merge2(new int[][] { new int[] { 2, 3 }, new int[] { 4, 5 }, new int[] { 6, 7 }, new int[] { 8, 9 }, new int[] { 1, 10} });
 
+        //    [],[4,5],[6,7],[8,9],[1,10]]
         }
 
     }
@@ -1917,27 +1920,21 @@ namespace LeetCodeConsoleApp
 
         public int[][] Merge2(int[][] intervals)
         {
-
             var len = intervals.Length;
-
+            Array.Sort(intervals, (a, b) => a[0] - b[0]);
             var results = new List<int[]>();
-            for (var i = 0; i < intervals.Length - 1; i++)
+            results.Add(intervals[0]);
+            for (var i = 1; i < len; i++)
             {
-                var start = intervals[i][0];
-                var end = intervals[i][1];
-                var overlapped = false;
-                while (i < intervals.Length - 1 && intervals[i][1] > intervals[i + 1][0])
-                {
-                    overlapped = true;
-                    end = intervals[i + 1][1];
-                    i++;
-                }
-                results.Add(new int[] { start, end });
-                if (!overlapped && i == intervals.Length - 1)
-                    results.Add(new int[] { intervals[i][0], intervals[i][1] });
-            }
-            return results.ToArray();
+                var rlast = results.Count - 1;
+                if (results[rlast][1] >= intervals[i][0])
+                    results[rlast][1] = Math.Max(results[rlast][1], intervals[i][1]);
+                else
+                    results.Add(intervals[i]);
 
+            }
+
+            return results.ToArray();
         }
 
 
