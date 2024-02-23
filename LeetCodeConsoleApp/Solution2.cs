@@ -12,9 +12,61 @@ namespace LeetCodeConsoleApp
     {
 
 
+        //PAsses all test cases
         //LC 2781 - length of the longest valid substring
-        // my real attempt from scratch!  (613 / 763 testcases passed)
+        //note move from left to right lengthening the substring
+        //only check if the current substring in the forbidden list
+        //and if so, set minleft past the current left index 
         public int LongestValidSubstring(string word, IList<string> forbidden)
+        {
+            var max = 0;
+            var left = 0;
+            var len = word.Length;
+            var fhs = new HashSet<string>(forbidden);
+
+            for (var i = 0; i < len; i++)
+            {
+                for (var j = Math.Max(left, i - 9); j <= i; j++)
+                {
+                    var substr = word.Substring(j, i - j + 1);
+                     if (fhs.Contains(substr))
+                        left = j + 1;
+                }
+                max = Math.Max(max, i - left + 1);
+            }
+            return max;
+
+
+        }
+
+        public int LongestValidSubstringLC(string word, IList<string> forbidden)
+        {
+            HashSet<string> setF = new HashSet<string>(forbidden);
+            int res = 0;
+            int left = 0;
+
+            for (int i = 0; i < word.Length; i++)
+            {
+                for (int j = Math.Max(left, i - 9); j <= i; j++)
+                {
+                   // var subSpan = word.AsSpan(j, i - j + 1);
+                    var substr = word.Substring(j, i - j + 1);
+                    if (setF.Contains(substr)) // subSpan.ToString()))
+                    {  // Convert span to string for hashset lookup
+                        left = j + 1;
+                    }
+                }
+                res = Math.Max(res, i - left + 1);
+            }
+
+            return res;
+        }
+
+
+
+//LC 2781 - length of the longest valid substring
+// my real attempt from scratch!  (613 / 763 testcases passed)
+public int LongestValidSubstringOK(string word, IList<string> forbidden)
         {
             var hash = new HashSet<string>(forbidden);
             var maxlength = 0;

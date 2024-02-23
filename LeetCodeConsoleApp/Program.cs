@@ -1936,6 +1936,10 @@ namespace LeetCodeConsoleApp
             //  var ls = sol2.findReviewScore("FastDeliveryOkayProduct", new List<string> { "eryoka", "yo", "eli" });
 
             var lvs = sol2.LongestValidSubstring("cbaaaabc", new List<string> { "aaa", "cb" });
+            //var lvs = sol2.LongestValidSubstring("aaabccccacacacaabcbaaabacbbbcabcbcaacbabccbababcabaacaacbbcbaabc",
+            //    new List<string> {"bbbacbcb","bcbaaabacb","abbbbcb","bcbcbac","cbaabbbbbb","bbbbaabcb","cccaaaacaa",
+            //        "cbabaaca","baaabacbb","abcabaacaa" }); 
+
 
         }
 
