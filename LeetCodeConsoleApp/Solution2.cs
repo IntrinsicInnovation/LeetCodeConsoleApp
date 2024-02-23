@@ -13,14 +13,13 @@ namespace LeetCodeConsoleApp
 
 
         //LC 2781 - length of the longest valid substring
-        // my real attempt from scratch!  (passing most test cases so far)
+        // my real attempt from scratch!  (613 / 763 testcases passed)
         public int LongestValidSubstring(string word, IList<string> forbidden)
         {
             var hash = new HashSet<string>(forbidden);
-            if (hash.Any(h => word.Contains(h)))
-                return 0;
             var maxlength = 0;
             var len = word.Length;
+            var found = false;
 
             for (var r = 0; r < len; r++)
             {
@@ -29,20 +28,16 @@ namespace LeetCodeConsoleApp
                 {
                     var w = word.Substring(l, r - l + 1);
                     if (!hash.Any(h => w.Contains(h)))
-                    //if (!hash.Contains(w))
                     {
                         leftmin = Math.Min(leftmin, l);
+                        found = true;
                     }
                     else
                         break;
                 }
-
                 maxlength = Math.Max(maxlength, r - leftmin + 1);
-
             }
-
-            return maxlength;
-
+            return found ? maxlength : 0;
         }
 
 

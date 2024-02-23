@@ -1933,7 +1933,9 @@ namespace LeetCodeConsoleApp
             //var rb = sol2.maxSetSize(new List<int> { 5, 625, 4, 2, 5, 25 });
             //var rb = sol2.maxSetSize(new List<int> { 2, 3, 4, 9, 16 });
 
-            var ls = sol2.findReviewScore("FastDeliveryOkayProduct", new List<string> { "eryoka", "yo", "eli" });
+            //  var ls = sol2.findReviewScore("FastDeliveryOkayProduct", new List<string> { "eryoka", "yo", "eli" });
+
+            var lvs = sol2.LongestValidSubstring("cbaaaabc", new List<string> { "aaa", "cb" });
 
         }
 
