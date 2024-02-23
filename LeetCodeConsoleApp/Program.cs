@@ -1906,9 +1906,35 @@ namespace LeetCodeConsoleApp
 
             //var m = sol.Merge2(new int[][] { new int[] { 1, 3 }, new int[] { 2, 6 }, new int[] { 8, 10 }, new int[] { 15, 18 } });
 
-            var m = sol.Merge2(new int[][] { new int[] { 2, 3 }, new int[] { 4, 5 }, new int[] { 6, 7 }, new int[] { 8, 9 }, new int[] { 1, 10} });
+            //  var m = sol.Merge2(new int[][] { new int[] { 2, 3 }, new int[] { 4, 5 }, new int[] { 6, 7 }, new int[] { 8, 9 }, new int[] { 1, 10} });
 
-        //    [],[4,5],[6,7],[8,9],[1,10]]
+            //Created a new class (Solution2). now loads faster, as loading solution slowed right down with too many methods in it.
+            var sol2 = new Solution2();
+
+            //var lvs = sol2.LongestValidSubstring("leetcode", new List<string> { "de", "le", "e" });
+
+            //var pbc = sol2.PlatesBetweenCandles("**|**|***|", new int[][] { new int[] { 2, 5 }, new int[] { 5, 9 } });
+
+            //  var pbc = sol2.PlatesBetweenCandles("***|**|*****|**||**|*", new int[][] { new int[] { 1, 17 }, new int[] { 4, 5 }, new int[] { 14, 17 }, new int[] { 5, 11 }, new int[] { 15, 16 } });
+            //sol2.miniMaxSum(new List<int> { 256741038, 623958417, 467905213, 714532089, 938071625 });
+            // sol2.miniMaxSum(new List<int> { 1, 2, 3, 4, 5 });
+
+
+            //var l = new SinglyLinkedListNode(1);
+            //l.next = new SinglyLinkedListNode(3);
+            //l.next.next = new SinglyLinkedListNode(7);
+
+
+            //var l2 = new SinglyLinkedListNode(1);
+            //l2.next = new SinglyLinkedListNode(2);
+
+            //var ml = sol2.mergeLists(l, l2);
+
+            //var rb = sol2.maxSetSize(new List<int> { 5, 625, 4, 2, 5, 25 });
+            //var rb = sol2.maxSetSize(new List<int> { 2, 3, 4, 9, 16 });
+
+            var ls = sol2.findReviewScore("FastDeliveryOkayProduct", new List<string> { "eryoka", "yo", "eli" });
+
         }
 
     }
