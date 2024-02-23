@@ -12,6 +12,39 @@ namespace LeetCodeConsoleApp
     {
 
 
+        //LC 2781 - length of the longest valid substring
+        // my real attempt from scratch!  (passing most test cases so far)
+        public int LongestValidSubstring(string word, IList<string> forbidden)
+        {
+            var hash = new HashSet<string>(forbidden);
+            if (hash.Any(h => word.Contains(h)))
+                return 0;
+            var maxlength = 0;
+            var len = word.Length;
+
+            for (var r = 0; r < len; r++)
+            {
+                var leftmin = r;
+                for (var l = r; l >= 0 && l > r - 10; l--)
+                {
+                    var w = word.Substring(l, r - l + 1);
+                    if (!hash.Any(h => w.Contains(h)))
+                    //if (!hash.Contains(w))
+                    {
+                        leftmin = Math.Min(leftmin, l);
+                    }
+                    else
+                        break;
+                }
+
+                maxlength = Math.Max(maxlength, r - leftmin + 1);
+
+            }
+
+            return maxlength;
+
+        }
+
 
 
 
@@ -48,7 +81,8 @@ namespace LeetCodeConsoleApp
         }
 
 
-
+        //Amazon question 1 - passed all test cases - used DP
+        //need to understand
 
         public int maxSetSize(List<int> riceBags)
         {
