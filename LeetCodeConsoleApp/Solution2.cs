@@ -12,9 +12,220 @@ namespace LeetCodeConsoleApp
     {
 
 
+        public int SuitableLocations(List<int> centers, long d)
+        {
+            if (centers == null || centers.Count == 0) return 0;
+
+            // Sort the centers to apply a more efficient algorithm
+            centers.Sort();
+
+            int suitableLocations = 0;
+            long currentSum = 0;
+            int left = 0; // Start of the window
+
+            // Initialize currentSum with the distance from the first center to all others
+            for (int i = 0; i < centers.Count; i++)
+            {
+                currentSum += Math.Abs(centers[i] - centers[0]);
+            }
+
+            for (int right = 0; right < centers.Count; right++)
+            {
+                // Adjust the window to maintain the sum of distances <= d
+                while (currentSum > d && left < right)
+                {
+                    currentSum -= Math.Abs(centers[right] - centers[left]);
+                    left++;
+                }
+
+                // If currentSum is within the limit, update suitableLocations
+                if (currentSum <= d)
+                {
+                    int currentSuitable = right - left + 1;
+                    suitableLocations = Math.Max(suitableLocations, currentSuitable);
+                }
+
+                // Prepare currentSum for the next iteration (next right)
+                if (right < centers.Count - 1)
+                {
+                    currentSum += (centers[right + 1] - centers[right]) * (right - left + 1);
+                }
+            }
+
+            return suitableLocations;
+        }
+
+
+
+
+        //Amazon suitable delivery locations.  - AOE - 27Feb2024
+        //Find all the locations  that you can deliver to and from all indexes in center that are <= d.
+        //This passes 7/15 test case.  good brute force start.
+
+
+        public int SuitableLocations1(List<int> center, long d)
+        {
+
+            var min = center.Min();
+            var max = center.Max();
+
+            while (true)
+            {
+                long minsum = 0;
+                long maxsum = 0;
+
+                for (var i = 0; i < center.Count; i++) {
+
+                    minsum += Math.Abs(center[i] - min);
+                    maxsum += Math.Abs(center[i] - max);
+
+                }
+
+                minsum *= 2; maxsum *= 2;
+
+                if (minsum > d)
+                {
+                    min++;
+
+
+                }
+                else if (minsum < d)
+                {
+                    min--;
+
+
+                }
+                
+                if (maxsum > d)
+                {
+                    max--;
+
+
+                }
+                else if (maxsum < d)
+                {
+                    max++;
+
+
+                }
+
+                if (maxsum == d && minsum == d)
+                    break;
+
+
+
+            }
+
+
+            return Math.Abs(min - max) + 1;
+
+        }
+
+
+
+
+        //Amazon Locate Longest non-increasing linked list segment  - AOE - 27Feb2024
+        //Find the longest NON-Increasing (eg.  5 4 4 3) in a linked list, and return the start to only that segment.
+        //This passes 15/15 test case.  perfect score!!!
+
+        public SinglyLinkedListNode locateLongestList(SinglyLinkedListNode head)
+        {
+            
+            var start = head;
+            int curr_len = 1, max_len = 1;
+            int total_count = 1, res_index = 0;
+            for (SinglyLinkedListNode curr = head; curr.next != null;
+                                   curr = curr.next)
+            {
+            
+                if (curr.data >= curr.next.data)
+                    curr_len++;
+                else
+                {
+            
+                    if (max_len < curr_len)
+                    {
+                        max_len = curr_len;
+                        res_index = total_count - curr_len;
+                    }
+
+                    curr_len = 1;
+                }
+                total_count++;
+            }
+
+            if (max_len < curr_len)
+            {
+                max_len = curr_len;
+                res_index = total_count - max_len;
+            }
+         
+            var i = 0;
+            for (SinglyLinkedListNode curr = head; curr != null;
+                                   curr = curr.next)
+            {
+                if (i == res_index)
+                {
+                    start = curr;
+         
+                    while (max_len > 0)
+                    {
+                        if (max_len == 1)
+                            curr.next = null;
+                        else
+                            curr = curr.next;
+                        max_len--;
+                    }
+                    break;
+                }
+                i++;
+            }
+            return start;
+        }
+
+
+
+
+
+
+
+
+
+
+        //LC 2781 - length of the longest valid substring
+        // my real attempt from scratch!  (763 / 763 testcases passed!!)
+
+        public int LongestValidSubstring(string word, IList<string> forbidden)
+        {
+            var max = 0;
+            var left = 0;
+            var len = word.Length;
+            var fhs = new HashSet<string>(forbidden);
+
+            for (var i = 0; i < len; i++)
+            {
+                for (var j = Math.Max(left, i - 9); j <= i; j++)
+                {
+                    var substr = word.Substring(j, i - j + 1);
+                    if (fhs.Contains(substr))
+                    {
+                        left = j + 1;
+
+                    }
+
+                }
+                max = Math.Max(max, i - left + 1);
+            }
+            return max;
+
+
+        }
+
+
+
         //LC 2781 - length of the longest valid substring
         // my real attempt from scratch!  (613 / 763 testcases passed)
-        public int LongestValidSubstring(string word, IList<string> forbidden)
+        public int LongestValidSubstringOK(string word, IList<string> forbidden)
         {
             var hash = new HashSet<string>(forbidden);
             var maxlength = 0;
