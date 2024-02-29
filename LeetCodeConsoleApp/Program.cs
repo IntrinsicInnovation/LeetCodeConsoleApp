@@ -1938,19 +1938,19 @@ namespace LeetCodeConsoleApp
             //var lvs = sol2.LongestValidSubstring("cbaaaabc", new List<string> { "aaa", "cb" });
 
 
-            //var l = new SinglyLinkedListNode(2);
-            //l.next = new SinglyLinkedListNode(5);
-            //l.next.next = new SinglyLinkedListNode(4);
-            //l.next.next.next = new SinglyLinkedListNode(4);
-            //l.next.next.next.next = new SinglyLinkedListNode(5);
-            //var ll = sol2.locateLongestList(l);
+            var l = new SinglyLinkedListNode(2);
+            l.next = new SinglyLinkedListNode(5);
+            l.next.next = new SinglyLinkedListNode(4);
+            l.next.next.next = new SinglyLinkedListNode(4);
+            l.next.next.next.next = new SinglyLinkedListNode(5);
+            var ll = sol2.locateLongestList(l);
 
 
-          //  var sl = sol2.SuitableLocations(new List<int> { -2, 1, 0 }, 8);
+            //  var sl = sol2.SuitableLocations(new List<int> { -2, 1, 0 }, 8);
 
 
-            var sl = sol2.SuitableLocations(new List<int> { 2,  0,3,-4 }, 22);
-            sl = sol2.SuitableLocations1(new List<int> { 2, 0, 3, -4 }, 22);
+            //   var sl = sol2.SuitableLocations(new List<int> { 2,  0,3,-4 }, 22);
+            //    sl = sol2.SuitableLocations1(new List<int> { 2, 0, 3, -4 }, 22);
 
         }
 

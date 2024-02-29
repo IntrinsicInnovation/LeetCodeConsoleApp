@@ -61,6 +61,9 @@ namespace LeetCodeConsoleApp
         //Amazon suitable delivery locations.  - AOE - 27Feb2024
         //Find all the locations  that you can deliver to and from all indexes in center that are <= d.
         //This passes 7/15 test case.  good brute force start.
+        //you forgot the case where the maxsum or minsum can only be <= and not ==, so you may need a flag
+        //to determine if both directions (eg + and -), then if so, and it's <= then break out of loop. 
+        //otherwise it's an infinite loop.
 
 
         public int SuitableLocations1(List<int> center, long d)
