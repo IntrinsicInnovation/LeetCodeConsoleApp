@@ -1938,12 +1938,12 @@ namespace LeetCodeConsoleApp
             //var lvs = sol2.LongestValidSubstring("cbaaaabc", new List<string> { "aaa", "cb" });
 
 
-            var l = new SinglyLinkedListNode(2);
-            l.next = new SinglyLinkedListNode(5);
-            l.next.next = new SinglyLinkedListNode(4);
-            l.next.next.next = new SinglyLinkedListNode(4);
-            l.next.next.next.next = new SinglyLinkedListNode(5);
-            var ll = sol2.locateLongestList(l);
+            //var l = new SinglyLinkedListNode(2);
+            //l.next = new SinglyLinkedListNode(5);
+            //l.next.next = new SinglyLinkedListNode(4);
+            //l.next.next.next = new SinglyLinkedListNode(4);
+            //l.next.next.next.next = new SinglyLinkedListNode(5);
+            //var ll = sol2.locateLongestList(l);
 
 
             //  var sl = sol2.SuitableLocations(new List<int> { -2, 1, 0 }, 8);
@@ -1951,6 +1951,9 @@ namespace LeetCodeConsoleApp
 
             //   var sl = sol2.SuitableLocations(new List<int> { 2,  0,3,-4 }, 22);
             //    sl = sol2.SuitableLocations1(new List<int> { 2, 0, 3, -4 }, 22);
+
+
+            sol2.plusMinus(new List<int> { -4, 3, -9, 0, 4, 1});
 
         }
 
@@ -8040,7 +8043,7 @@ n: length of the badge records array
         public string timeConversion2(string s)
         {
             var ampm = s.Substring(8);
-            var t = s.Substring(0, 8);
+           // var t = s.Substring(0, 8);
             var hour = Convert.ToInt32(s.Substring(0, 2));
             var sb = new StringBuilder();
             if (ampm == "PM")

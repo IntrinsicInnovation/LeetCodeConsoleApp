@@ -12,6 +12,111 @@ namespace LeetCodeConsoleApp
     {
 
 
+
+
+        //Hacker  rank easy questions
+        //can make this better by assigning dictionary to be identical with counter
+        public bool IsIsomorphic(string s, string t)
+        {
+            var dict = new Dictionary<char, char>();
+            var dict2 = new Dictionary<char, char>();
+            var len = s.Length;
+            for (var i = 0; i < len; i++)
+            {
+                if (dict.ContainsKey(s[i]))
+                {
+                    if (dict[s[i]] != t[i])
+                        return false;
+                }
+                else if (dict2.ContainsKey(t[i]))
+                {
+                    if (dict2[t[i]] != s[i])
+                        return false;
+                }
+
+                else
+                    dict[s[i]] = t[i];
+                dict2[t[i]] = s[i];
+
+            }
+
+            return true;
+        }
+
+
+
+        public string timeConversion(string s)
+        {
+            var am = true;
+            var sb = new StringBuilder();
+            if (s[8] == 'P')
+                am = false;
+            if (am)
+            {
+                if (s[1] - '0' == 2)
+                {
+                    sb.Append("00");
+                }
+                else
+                {
+                    sb.Append(s[0]);
+                    sb.Append(s[1]);
+
+                }
+
+
+            }
+            else
+            {
+                var hour = Convert.ToInt32(s.Substring(0, 2));
+                if (hour < 12)
+                {
+
+                    hour += 12;
+                }
+
+                sb.Append(hour);
+
+
+            }
+
+
+
+            sb.Append(s.Substring(2, 6));
+
+            return sb.ToString();
+        }
+
+
+        public void plusMinus(List<int> arr)
+        {
+
+            var zero = 0;
+            double neg = 0;
+            float pos = 0;
+            double len = arr.Count;
+
+            for (var i = 0; i < len; i++)
+            {
+                if (arr[i] < 0)
+                    neg++;
+                else if (arr[i] == 0)
+                    zero++;
+                else
+                    pos++;
+
+            }
+
+         
+
+            Console.WriteLine((pos / len).ToString("0.000000"));
+            Console.WriteLine((neg / len).ToString("F6"));
+            Console.WriteLine((zero / len).ToString("F6"));
+
+
+        }
+
+
         public int SuitableLocations(List<int> centers, long d)
         {
             if (centers == null || centers.Count == 0) return 0;
