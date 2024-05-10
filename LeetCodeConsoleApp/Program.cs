@@ -1953,7 +1953,10 @@ namespace LeetCodeConsoleApp
             //    sl = sol2.SuitableLocations1(new List<int> { 2, 0, 3, -4 }, 22);
 
 
-            sol2.plusMinus(new List<int> { -4, 3, -9, 0, 4, 1});
+//            sol2.plusMinus(new List<int> { -4, 3, -9, 0, 4, 1});
+
+            sol2.truckTour(new List<List<int>> { new List<int> { 1, 5 }, new List<int> { 10, 3 }, new List<int> { 3, 4 } });
+
 
         }
 
