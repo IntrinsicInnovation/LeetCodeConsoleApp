@@ -8,6 +8,50 @@ namespace LeetCodeConsoleApp
 
 
 
+
+    class MyQueue3
+    {
+
+        private Stack<int> s1 = new Stack<int>();
+
+        public int a { get; set; }
+
+
+        public void Enqueue(int val)
+        {
+            var s2 = new Stack<int>();
+
+
+            while (s1.Count > 0)
+            {
+                s2.Push(s1.Pop());
+            }
+            s1.Push(val);
+            while (s2.Count > 0)
+            {
+                s1.Push(s2.Pop());
+            }
+
+        }
+
+        public int Dequeue()
+        {
+            if (s1.Count > 0)
+                return s1.Pop();
+            else
+                return -1;
+        }
+
+
+        public int Peek()
+        {
+
+            return s1.Peek();
+        }
+
+    }
+
+
     public class MultiMap<V>
     {
         Dictionary<string, List<V>> _dictionary =

@@ -12,6 +12,75 @@ namespace LeetCodeConsoleApp
     {
 
 
+        public static string gridChallenge2(List<string> grid)
+        {
+            var leni = grid.Count;
+            var lenj = grid[0].Length;
+            for (var idx = 0; idx < grid.Count; idx++)
+            {
+                char[] ga = grid[idx].ToCharArray();
+                Array.Sort(ga);
+                var ns = new string(ga);
+                grid[idx] = ns;
+            }
+
+
+
+
+            for (var i = 0; i < leni - 1; i++)
+            {
+                for (var j = 0; j < lenj; j++)
+                {
+
+
+                    var f = grid[i][j] - 'a';
+                    var s = grid[i + 1][j] - 'a';
+
+                    if (f > s)
+                        return "NO";
+
+                }
+
+            }
+            return "YES";
+        }
+
+            //hacker rank easy.  clean code well done!!
+            SinglyLinkedListNode mergeLists2(SinglyLinkedListNode head1, SinglyLinkedListNode head2)
+        {
+
+
+            var ll = new SinglyLinkedListNode(0);
+            var head = ll;
+
+            while (head1 != null || head2 != null)
+            {
+
+                var val1 = head1 == null ? 1001 : head1.data;
+                var val2 = head2 == null ? 1001 : head2.data;
+
+
+                if (val1 <= val2)
+                {
+                    ll.next = new SinglyLinkedListNode(val1);
+                    ll = ll.next;
+                    head1 = head1.next;
+
+                }
+                else
+                {
+                    ll.next = new SinglyLinkedListNode(val2);
+                    ll = ll.next;
+                    head2 = head2.next;
+
+                }
+
+            }
+
+            return head.next;
+
+
+        }
 
 
         //Hacker  rank easy questions

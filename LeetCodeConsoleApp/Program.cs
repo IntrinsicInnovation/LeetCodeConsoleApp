@@ -1953,7 +1953,11 @@ namespace LeetCodeConsoleApp
             //    sl = sol2.SuitableLocations1(new List<int> { 2, 0, 3, -4 }, 22);
 
 
-            sol2.plusMinus(new List<int> { -4, 3, -9, 0, 4, 1});
+            //   sol2.plusMinus(new List<int> { -4, 3, -9, 0, 4, 1});
+
+
+
+            sol.pairs(2, new List<int> { 1, 5, 3, 4, 2 });
 
         }
 
@@ -15644,6 +15648,12 @@ public int FindMin2(int[] nums)
 
     internal int numberOfWays2(int[] arr, int k)
         {
+
+            
+
+
+            
+
             var n = arr.Length;
             var sum = k;
             Dictionary<int, int> hm
