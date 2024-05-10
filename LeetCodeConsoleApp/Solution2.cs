@@ -11,6 +11,54 @@ namespace LeetCodeConsoleApp
     internal class Solution2
     {
 
+
+
+
+
+
+        public  int superDigit(string n, int k)
+        {
+            
+           
+
+            var numstr = n;
+            BigInteger sum = 0;
+            do
+            {
+                sum = 0;
+                foreach (var c in numstr)
+                {
+                    sum += (c - '0');
+                }
+                numstr = sum.ToString();
+            }
+            while (sum > 9);
+
+            sum *= k;
+            numstr = sum.ToString();
+            while (sum > 9)
+            {
+                sum = 0;
+                foreach (var c in numstr)
+                {
+                    sum += (c - '0');
+                }
+                numstr = sum.ToString();
+            }
+
+
+
+            return (int)sum;
+
+
+        }
+
+
+
+
+
+
+
         public  int truckTour(List<List<int>> petrolpumps)
         {
             var len = petrolpumps.Count;
