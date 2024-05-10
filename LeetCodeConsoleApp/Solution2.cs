@@ -83,9 +83,96 @@ namespace LeetCodeConsoleApp
         }
 
 
-        //Hacker  rank easy questions
-        //can make this better by assigning dictionary to be identical with counter
-        public bool IsIsomorphic(string s, string t)
+
+
+        public  int superDigit(string n, int k)
+        {
+            
+           
+
+            var numstr = n;
+            BigInteger sum = 0;
+            do
+            {
+                sum = 0;
+                foreach (var c in numstr)
+                {
+                    sum += (c - '0');
+                }
+                numstr = sum.ToString();
+            }
+            while (sum > 9);
+
+            sum *= k;
+            numstr = sum.ToString();
+            while (sum > 9)
+            {
+                sum = 0;
+                foreach (var c in numstr)
+                {
+                    sum += (c - '0');
+                }
+                numstr = sum.ToString();
+            }
+
+
+
+            return (int)sum;
+
+
+        }
+
+
+
+
+
+
+
+        public  int truckTour(List<List<int>> petrolpumps)
+        {
+            var len = petrolpumps.Count;
+            var startindex = 0;
+            var petrol = 0;
+            var i = 0;
+            var count = 1;
+            while (true)
+            {
+                petrol += petrolpumps[i][0];
+                petrol -= petrolpumps[i][1];
+                if (petrol < 0)
+                {
+
+                    petrol = 0;
+                    i++;
+                    if (i == petrolpumps.Count)
+                        i = 0;
+                    startindex = i;
+                    count = 1;
+                }
+                else if (count == len)
+                {
+                    break;
+                }
+                else
+                {
+                    i++;
+                    if (i == petrolpumps.Count)
+                        i = 0;
+                    count++;
+                }
+                    
+            }
+        
+
+        return startindex;
+
+        }
+
+
+
+    //Hacker  rank easy questions
+    //can make this better by assigning dictionary to be identical with counter
+    public bool IsIsomorphic(string s, string t)
         {
             var dict = new Dictionary<char, char>();
             var dict2 = new Dictionary<char, char>();
