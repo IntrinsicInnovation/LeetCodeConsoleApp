@@ -12,11 +12,297 @@ namespace LeetCodeConsoleApp
     {
 
 
-        //PAsses all test cases
+
+
+        //Hacker  rank easy questions
+        //can make this better by assigning dictionary to be identical with counter
+        public bool IsIsomorphic(string s, string t)
+        {
+            var dict = new Dictionary<char, char>();
+            var dict2 = new Dictionary<char, char>();
+            var len = s.Length;
+            for (var i = 0; i < len; i++)
+            {
+                if (dict.ContainsKey(s[i]))
+                {
+                    if (dict[s[i]] != t[i])
+                        return false;
+                }
+                else if (dict2.ContainsKey(t[i]))
+                {
+                    if (dict2[t[i]] != s[i])
+                        return false;
+                }
+
+                else
+                    dict[s[i]] = t[i];
+                dict2[t[i]] = s[i];
+
+            }
+
+            return true;
+        }
+
+
+
+        public string timeConversion(string s)
+        {
+            var am = true;
+            var sb = new StringBuilder();
+            if (s[8] == 'P')
+                am = false;
+            if (am)
+            {
+                if (s[1] - '0' == 2)
+                {
+                    sb.Append("00");
+                }
+                else
+                {
+                    sb.Append(s[0]);
+                    sb.Append(s[1]);
+
+                }
+
+
+            }
+            else
+            {
+                var hour = Convert.ToInt32(s.Substring(0, 2));
+                if (hour < 12)
+                {
+
+                    hour += 12;
+                }
+
+                sb.Append(hour);
+
+
+            }
+
+
+
+            sb.Append(s.Substring(2, 6));
+
+            return sb.ToString();
+        }
+
+
+        public void plusMinus(List<int> arr)
+        {
+
+            var zero = 0;
+            double neg = 0;
+            float pos = 0;
+            double len = arr.Count;
+
+            for (var i = 0; i < len; i++)
+            {
+                if (arr[i] < 0)
+                    neg++;
+                else if (arr[i] == 0)
+                    zero++;
+                else
+                    pos++;
+
+            }
+
+         
+
+            Console.WriteLine((pos / len).ToString("0.000000"));
+            Console.WriteLine((neg / len).ToString("F6"));
+            Console.WriteLine((zero / len).ToString("F6"));
+
+
+        }
+
+
+        public int SuitableLocations(List<int> centers, long d)
+        {
+            if (centers == null || centers.Count == 0) return 0;
+
+            // Sort the centers to apply a more efficient algorithm
+            centers.Sort();
+
+            int suitableLocations = 0;
+            long currentSum = 0;
+            int left = 0; // Start of the window
+
+            // Initialize currentSum with the distance from the first center to all others
+            for (int i = 0; i < centers.Count; i++)
+            {
+                currentSum += Math.Abs(centers[i] - centers[0]);
+            }
+
+            for (int right = 0; right < centers.Count; right++)
+            {
+                // Adjust the window to maintain the sum of distances <= d
+                while (currentSum > d && left < right)
+                {
+                    currentSum -= Math.Abs(centers[right] - centers[left]);
+                    left++;
+                }
+
+                // If currentSum is within the limit, update suitableLocations
+                if (currentSum <= d)
+                {
+                    int currentSuitable = right - left + 1;
+                    suitableLocations = Math.Max(suitableLocations, currentSuitable);
+                }
+
+                // Prepare currentSum for the next iteration (next right)
+                if (right < centers.Count - 1)
+                {
+                    currentSum += (centers[right + 1] - centers[right]) * (right - left + 1);
+                }
+            }
+
+            return suitableLocations;
+        }
+
+
+
+
+        //Amazon suitable delivery locations.  - AOE - 27Feb2024
+        //Find all the locations  that you can deliver to and from all indexes in center that are <= d.
+        //This passes 7/15 test case.  good brute force start.
+        //you forgot the case where the maxsum or minsum can only be <= and not ==, so you may need a flag
+        //to determine if both directions (eg + and -), then if so, and it's <= then break out of loop. 
+        //otherwise it's an infinite loop.
+
+
+        public int SuitableLocations1(List<int> center, long d)
+        {
+
+            var min = center.Min();
+            var max = center.Max();
+
+            while (true)
+            {
+                long minsum = 0;
+                long maxsum = 0;
+
+                for (var i = 0; i < center.Count; i++) {
+
+                    minsum += Math.Abs(center[i] - min);
+                    maxsum += Math.Abs(center[i] - max);
+
+                }
+
+                minsum *= 2; maxsum *= 2;
+
+                if (minsum > d)
+                {
+                    min++;
+
+
+                }
+                else if (minsum < d)
+                {
+                    min--;
+
+
+                }
+                
+                if (maxsum > d)
+                {
+                    max--;
+
+
+                }
+                else if (maxsum < d)
+                {
+                    max++;
+
+
+                }
+
+                if (maxsum == d && minsum == d)
+                    break;
+
+
+
+            }
+
+
+            return Math.Abs(min - max) + 1;
+
+        }
+
+
+
+
+        //Amazon Locate Longest non-increasing linked list segment  - AOE - 27Feb2024
+        //Find the longest NON-Increasing (eg.  5 4 4 3) in a linked list, and return the start to only that segment.
+        //This passes 15/15 test case.  perfect score!!!
+
+        public SinglyLinkedListNode locateLongestList(SinglyLinkedListNode head)
+        {
+            
+            var start = head;
+            int curr_len = 1, max_len = 1;
+            int total_count = 1, res_index = 0;
+            for (SinglyLinkedListNode curr = head; curr.next != null;
+                                   curr = curr.next)
+            {
+            
+                if (curr.data >= curr.next.data)
+                    curr_len++;
+                else
+                {
+            
+                    if (max_len < curr_len)
+                    {
+                        max_len = curr_len;
+                        res_index = total_count - curr_len;
+                    }
+
+                    curr_len = 1;
+                }
+                total_count++;
+            }
+
+            if (max_len < curr_len)
+            {
+                max_len = curr_len;
+                res_index = total_count - max_len;
+            }
+         
+            var i = 0;
+            for (SinglyLinkedListNode curr = head; curr != null;
+                                   curr = curr.next)
+            {
+                if (i == res_index)
+                {
+                    start = curr;
+         
+                    while (max_len > 0)
+                    {
+                        if (max_len == 1)
+                            curr.next = null;
+                        else
+                            curr = curr.next;
+                        max_len--;
+                    }
+                    break;
+                }
+                i++;
+            }
+            return start;
+        }
+
+
+
+
+
+
+
+
+
+
         //LC 2781 - length of the longest valid substring
-        //note move from left to right lengthening the substring
-        //only check if the current substring in the forbidden list
-        //and if so, set minleft past the current left index 
+        // my real attempt from scratch!  (763 / 763 testcases passed!!)
+
         public int LongestValidSubstring(string word, IList<string> forbidden)
         {
             var max = 0;
@@ -29,8 +315,12 @@ namespace LeetCodeConsoleApp
                 for (var j = Math.Max(left, i - 9); j <= i; j++)
                 {
                     var substr = word.Substring(j, i - j + 1);
-                     if (fhs.Contains(substr))
+                    if (fhs.Contains(substr))
+                    {
                         left = j + 1;
+
+                    }
+
                 }
                 max = Math.Max(max, i - left + 1);
             }
@@ -39,34 +329,11 @@ namespace LeetCodeConsoleApp
 
         }
 
-        public int LongestValidSubstringLC(string word, IList<string> forbidden)
-        {
-            HashSet<string> setF = new HashSet<string>(forbidden);
-            int res = 0;
-            int left = 0;
-
-            for (int i = 0; i < word.Length; i++)
-            {
-                for (int j = Math.Max(left, i - 9); j <= i; j++)
-                {
-                   // var subSpan = word.AsSpan(j, i - j + 1);
-                    var substr = word.Substring(j, i - j + 1);
-                    if (setF.Contains(substr)) // subSpan.ToString()))
-                    {  // Convert span to string for hashset lookup
-                        left = j + 1;
-                    }
-                }
-                res = Math.Max(res, i - left + 1);
-            }
-
-            return res;
-        }
 
 
-
-//LC 2781 - length of the longest valid substring
-// my real attempt from scratch!  (613 / 763 testcases passed)
-public int LongestValidSubstringOK(string word, IList<string> forbidden)
+        //LC 2781 - length of the longest valid substring
+        // my real attempt from scratch!  (613 / 763 testcases passed)
+        public int LongestValidSubstringOK(string word, IList<string> forbidden)
         {
             var hash = new HashSet<string>(forbidden);
             var maxlength = 0;
