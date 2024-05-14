@@ -12,6 +12,174 @@ namespace LeetCodeConsoleApp
     {
 
 
+        public  int palindromeIndex(string s)
+        {
+            var sb = new StringBuilder(s);
+            for (var i = 0; i < s.Length; i++)
+            {
+                var c = s[i];
+                var sub = sb.Remove(i, 1).ToString();
+                if (isPalindrome(sub))
+                {
+                    return i;
+                }
+                sb.Insert(i, c);
+            }
+            return -1;
+        }
+
+        private  bool isPalindrome(string s)
+        {
+            var left = 0;
+            var right = s.Length - 1;
+
+            while (left < right)
+            {
+                if (s[left] != s[right])
+                    return false;
+                left++;
+                right--;
+            }
+            return true;
+        }
+
+
+
+
+
+        public class Trie
+        {
+
+            private TrieNode trienode;
+
+            public Trie()
+            {
+                trienode = new TrieNode();
+
+            }
+
+            public void Insert(string word)
+            {
+                var node = trienode;
+                for (var i = 0; i < word.Length; i++)
+                {
+                    var c = word[i];
+                    var chr = c - 'a';
+                    if (node.nodes[chr] == null)
+                        node.nodes[chr] = new TrieNode();
+                    node = node.nodes[chr];
+                    if (i == word.Length - 1)
+                    {
+                        node.isEnd = true;
+                        break;
+                    }
+                }
+            }
+
+
+
+
+            public bool Search(string word)
+            {
+                var node = trienode;
+
+                if (Contains(word, ref node))
+                {
+                    return node.isEnd;
+                }
+
+                return false;
+
+
+
+            }
+
+            public bool StartsWith(string prefix)
+            {
+                var node = trienode;
+                if (Contains(prefix, ref node))
+                    return true;
+                return false;
+            }
+
+
+            private bool Contains(string prefix, ref TrieNode node)
+            {
+                for (var i = 0; i < prefix.Length; i++)
+                {
+                    var c = prefix[i];
+                    var chr = c - 'a';
+                    if (node.nodes[chr] != null)
+                    {
+                        node = node.nodes[chr];
+                        if (i == prefix.Length - 1)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                return false;
+            }
+
+
+
+
+
+
+
+        }
+
+        public class TrieNode
+        {
+
+            public bool isEnd { get; set; }
+            public TrieNode[] nodes;
+
+            public TrieNode()
+            {
+                nodes = new TrieNode[26];
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public static int flippingMatrix(List<List<int>> matrix)
+        {
+
+            var end = matrix.Count - 1;
+            
+            var sum = 0;
+            for (var i = 0; i < matrix.Count /2 ; i++)
+            {
+                for (var j = 0; j < matrix.Count/2; j++)
+
+                {
+                    var max = Math.Max(Math.Max(matrix[i][j], matrix[i][end - j]), Math.Max(matrix[end - i][j], matrix[end - i][end - j]));
+                    sum += max;
+                }
+            }
+            return sum;
+
+        }
+
+
         public static string gridChallenge2(List<string> grid)
         {
             var leni = grid.Count;
