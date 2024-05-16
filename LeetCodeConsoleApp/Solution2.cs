@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,6 +12,89 @@ namespace LeetCodeConsoleApp
 {
     internal class Solution2
     {
+        
+
+        public int[] FindOrder(int numCourses, int[][] prerequisites)
+        {
+            var results = new List<int>();
+            if (prerequisites.Length == 0)
+            {
+                for (var i = 0; i < numCourses; i++)
+                {
+                    results.Add(i);
+                }
+                return results.ToArray();
+            }
+            var dict = new Dictionary<int, List<int>>();
+            var indegree = new Dictionary<int, int>();
+            for (var i = 0; i < numCourses; i++)
+            {
+                indegree[i] = 0;
+                dict[i] = new List<int>();
+            }
+
+            foreach (var pre in prerequisites)
+            {
+                dict[pre[1]].Add(pre[0]);
+                indegree[pre[0]]++;
+            }
+
+            if (indegree.Values.Where(v => v == 1).Count() == indegree.Count)
+            {
+                return results.ToArray();
+            }
+
+            var queue = new Queue<int>();
+            var startnode = indegree.Where(ind => ind.Value == 0); 
+
+            foreach (var st in startnode)
+                queue.Enqueue(st.Key);
+            while (queue.Count > 0)
+            {
+                var node = queue.Dequeue();
+                results.Add(node);
+                if (dict.ContainsKey(node))
+                {
+                    foreach (var k in dict[node])
+                    {
+                        queue.Enqueue(k);
+                    }
+                }
+
+            }
+
+            var distin = results.Distinct();
+            return results.Distinct().ToArray();
+
+
+
+        }
+
+
+
+        public int MinSubArrayLen(int target, int[] nums)
+        {
+         
+            var left = 0;
+         
+            var minlen = Int32.MaxValue;
+            var sum = 0;
+            for (var right = 0; right < nums.Length; right++)
+            {
+                sum += nums[right];
+
+                while (sum >= target)
+                {
+                    minlen = Math.Min(minlen, right - left + 1);
+                    sum -= nums[left];
+                    left++;
+                }
+
+            
+
+            }
+            return minlen == Int32.MaxValue ? 0 : minlen;
+        }
 
 
         public  int palindromeIndex(string s)
