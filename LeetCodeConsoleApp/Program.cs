@@ -1982,10 +1982,15 @@ namespace LeetCodeConsoleApp
 
             //var FO = sol2.FindOrder(4, new int[][] { new int[] { 1, 0 }, new int[] { 2, 0 }, new int[] { 3, 1 }, new int[] { 3, 2 } });
 
-            //  var FO = sol2.FindOrder(2, new int[][] { new int[] {  0,1 } });
+             // var FO = sol2.FindOrder(2, new int[][] { new int[] {  0,1 } });
 
-              var FO = sol2.FindOrder(3, new int[][] { new int[] {  0,1 }, new int[] { 0, 2 }, new int[] { 1,2 } });
 
+            //  var FO = sol2.FindOrder(3, new int[][] { new int[] {  0,1 }, new int[] { 0, 2 }, new int[] { 1,2 } });
+
+            //var FO = sol2.FindOrder(3, new int[][] { new int[] { 1,0 } });
+
+            var FO = sol2.FindOrder(3, new int[][] { new int[] { 1, 0 }, new int[] { 1, 2 }, new int[] { 0,1 } });
+            
 
         }
 

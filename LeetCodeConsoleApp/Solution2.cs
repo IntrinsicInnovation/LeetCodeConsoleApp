@@ -25,49 +25,52 @@ namespace LeetCodeConsoleApp
                 }
                 return results.ToArray();
             }
-            var dict = new Dictionary<int, List<int>>();
-            var indegree = new Dictionary<int, int>();
+            var graph = new List<List<int>>();
+            var indegree = new int[numCourses];
+
             for (var i = 0; i < numCourses; i++)
             {
-                indegree[i] = 0;
-                dict[i] = new List<int>();
+                graph.Add(new List<int>());
             }
 
             foreach (var pre in prerequisites)
             {
-                dict[pre[1]].Add(pre[0]);
+                graph[pre[1]].Add(pre[0]);
                 indegree[pre[0]]++;
             }
 
-            if (indegree.Values.Where(v => v == 1).Count() == indegree.Count)
-            {
-                return results.ToArray();
-            }
+          
 
             var queue = new Queue<int>();
-            var startnode = indegree.Where(ind => ind.Value == 0); 
+            for (var i = 0; i < indegree.Length; i++)
+            {
+                if (indegree[i] == 0)
+                    queue.Enqueue(i);
+            }
+            
 
-            foreach (var st in startnode)
-                queue.Enqueue(st.Key);
+            
+
+            
             while (queue.Count > 0)
             {
                 var node = queue.Dequeue();
                 results.Add(node);
-                if (dict.ContainsKey(node))
+                foreach (var child in graph[node])
                 {
-                    foreach (var k in dict[node])
-                    {
-                        queue.Enqueue(k);
-                    }
+                    indegree[child]--;
+                    if (indegree[child] == 0)
+                        queue.Enqueue(child);
                 }
-
             }
 
-            var distin = results.Distinct();
-            return results.Distinct().ToArray();
+            if (!indegree.Any(i => i != 0))
+            {
+                return new int[0];
+            }
 
 
-
+            return results.ToArray();
         }
 
 
