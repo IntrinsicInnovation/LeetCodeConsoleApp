@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,13 +12,420 @@ namespace LeetCodeConsoleApp
 {
     internal class Solution2
     {
+        
+
+        public int[] FindOrder(int numCourses, int[][] prerequisites)
+        {
+            var results = new List<int>();
+            if (prerequisites.Length == 0)
+            {
+                for (var i = 0; i < numCourses; i++)
+                {
+                    results.Add(i);
+                }
+                return results.ToArray();
+            }
+            var dict = new Dictionary<int, List<int>>();
+            var indegree = new Dictionary<int, int>();
+            for (var i = 0; i < numCourses; i++)
+            {
+                indegree[i] = 0;
+                dict[i] = new List<int>();
+            }
+
+            foreach (var pre in prerequisites)
+            {
+                dict[pre[1]].Add(pre[0]);
+                indegree[pre[0]]++;
+            }
+
+            if (indegree.Values.Where(v => v == 1).Count() == indegree.Count)
+            {
+                return results.ToArray();
+            }
+
+            var queue = new Queue<int>();
+            var startnode = indegree.Where(ind => ind.Value == 0); 
+
+            foreach (var st in startnode)
+                queue.Enqueue(st.Key);
+            while (queue.Count > 0)
+            {
+                var node = queue.Dequeue();
+                results.Add(node);
+                if (dict.ContainsKey(node))
+                {
+                    foreach (var k in dict[node])
+                    {
+                        queue.Enqueue(k);
+                    }
+                }
+
+            }
+
+            var distin = results.Distinct();
+            return results.Distinct().ToArray();
+
+
+
+        }
+
+
+
+        public int MinSubArrayLen(int target, int[] nums)
+        {
+         
+            var left = 0;
+         
+            var minlen = Int32.MaxValue;
+            var sum = 0;
+            for (var right = 0; right < nums.Length; right++)
+            {
+                sum += nums[right];
+
+                while (sum >= target)
+                {
+                    minlen = Math.Min(minlen, right - left + 1);
+                    sum -= nums[left];
+                    left++;
+                }
+
+            
+
+            }
+            return minlen == Int32.MaxValue ? 0 : minlen;
+        }
+
+
+        public  int palindromeIndex(string s)
+        {
+            var sb = new StringBuilder(s);
+            for (var i = 0; i < s.Length; i++)
+            {
+                var c = s[i];
+                var sub = sb.Remove(i, 1).ToString();
+                if (isPalindrome(sub))
+                {
+                    return i;
+                }
+                sb.Insert(i, c);
+            }
+            return -1;
+        }
+
+        private  bool isPalindrome(string s)
+        {
+            var left = 0;
+            var right = s.Length - 1;
+
+            while (left < right)
+            {
+                if (s[left] != s[right])
+                    return false;
+                left++;
+                right--;
+            }
+            return true;
+        }
 
 
 
 
-        //Hacker  rank easy questions
-        //can make this better by assigning dictionary to be identical with counter
-        public bool IsIsomorphic(string s, string t)
+
+        public class Trie
+        {
+
+            private TrieNode trienode;
+
+            public Trie()
+            {
+                trienode = new TrieNode();
+
+            }
+
+            public void Insert(string word)
+            {
+                var node = trienode;
+                for (var i = 0; i < word.Length; i++)
+                {
+                    var c = word[i];
+                    var chr = c - 'a';
+                    if (node.nodes[chr] == null)
+                        node.nodes[chr] = new TrieNode();
+                    node = node.nodes[chr];
+                    if (i == word.Length - 1)
+                    {
+                        node.isEnd = true;
+                        break;
+                    }
+                }
+            }
+
+
+
+
+            public bool Search(string word)
+            {
+                var node = trienode;
+
+                if (Contains(word, ref node))
+                {
+                    return node.isEnd;
+                }
+
+                return false;
+
+
+
+            }
+
+            public bool StartsWith(string prefix)
+            {
+                var node = trienode;
+                if (Contains(prefix, ref node))
+                    return true;
+                return false;
+            }
+
+
+            private bool Contains(string prefix, ref TrieNode node)
+            {
+                for (var i = 0; i < prefix.Length; i++)
+                {
+                    var c = prefix[i];
+                    var chr = c - 'a';
+                    if (node.nodes[chr] != null)
+                    {
+                        node = node.nodes[chr];
+                        if (i == prefix.Length - 1)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                return false;
+            }
+
+
+
+
+
+
+
+        }
+
+        public class TrieNode
+        {
+
+            public bool isEnd { get; set; }
+            public TrieNode[] nodes;
+
+            public TrieNode()
+            {
+                nodes = new TrieNode[26];
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public static int flippingMatrix(List<List<int>> matrix)
+        {
+
+            var end = matrix.Count - 1;
+            
+            var sum = 0;
+            for (var i = 0; i < matrix.Count /2 ; i++)
+            {
+                for (var j = 0; j < matrix.Count/2; j++)
+
+                {
+                    var max = Math.Max(Math.Max(matrix[i][j], matrix[i][end - j]), Math.Max(matrix[end - i][j], matrix[end - i][end - j]));
+                    sum += max;
+                }
+            }
+            return sum;
+
+        }
+
+
+        public static string gridChallenge2(List<string> grid)
+        {
+            var leni = grid.Count;
+            var lenj = grid[0].Length;
+            for (var idx = 0; idx < grid.Count; idx++)
+            {
+                char[] ga = grid[idx].ToCharArray();
+                Array.Sort(ga);
+                var ns = new string(ga);
+                grid[idx] = ns;
+            }
+
+
+
+
+            for (var i = 0; i < leni - 1; i++)
+            {
+                for (var j = 0; j < lenj; j++)
+                {
+
+
+                    var f = grid[i][j] - 'a';
+                    var s = grid[i + 1][j] - 'a';
+
+                    if (f > s)
+                        return "NO";
+
+                }
+
+            }
+            return "YES";
+        }
+
+            //hacker rank easy.  clean code well done!!
+            SinglyLinkedListNode mergeLists2(SinglyLinkedListNode head1, SinglyLinkedListNode head2)
+        {
+
+
+            var ll = new SinglyLinkedListNode(0);
+            var head = ll;
+
+            while (head1 != null || head2 != null)
+            {
+
+                var val1 = head1 == null ? 1001 : head1.data;
+                var val2 = head2 == null ? 1001 : head2.data;
+
+
+                if (val1 <= val2)
+                {
+                    ll.next = new SinglyLinkedListNode(val1);
+                    ll = ll.next;
+                    head1 = head1.next;
+
+                }
+                else
+                {
+                    ll.next = new SinglyLinkedListNode(val2);
+                    ll = ll.next;
+                    head2 = head2.next;
+
+                }
+
+            }
+
+            return head.next;
+
+
+        }
+
+
+
+
+        public  int superDigit(string n, int k)
+        {
+            
+           
+
+            var numstr = n;
+            BigInteger sum = 0;
+            do
+            {
+                sum = 0;
+                foreach (var c in numstr)
+                {
+                    sum += (c - '0');
+                }
+                numstr = sum.ToString();
+            }
+            while (sum > 9);
+
+            sum *= k;
+            numstr = sum.ToString();
+            while (sum > 9)
+            {
+                sum = 0;
+                foreach (var c in numstr)
+                {
+                    sum += (c - '0');
+                }
+                numstr = sum.ToString();
+            }
+
+
+
+            return (int)sum;
+
+
+        }
+
+
+
+
+
+
+
+        public  int truckTour(List<List<int>> petrolpumps)
+        {
+            var len = petrolpumps.Count;
+            var startindex = 0;
+            var petrol = 0;
+            var i = 0;
+            var count = 1;
+            while (true)
+            {
+                petrol += petrolpumps[i][0];
+                petrol -= petrolpumps[i][1];
+                if (petrol < 0)
+                {
+
+                    petrol = 0;
+                    i++;
+                    if (i == petrolpumps.Count)
+                        i = 0;
+                    startindex = i;
+                    count = 1;
+                }
+                else if (count == len)
+                {
+                    break;
+                }
+                else
+                {
+                    i++;
+                    if (i == petrolpumps.Count)
+                        i = 0;
+                    count++;
+                }
+                    
+            }
+        
+
+        return startindex;
+
+        }
+
+
+
+    //Hacker  rank easy questions
+    //can make this better by assigning dictionary to be identical with counter
+    public bool IsIsomorphic(string s, string t)
         {
             var dict = new Dictionary<char, char>();
             var dict2 = new Dictionary<char, char>();
