@@ -1982,15 +1982,39 @@ namespace LeetCodeConsoleApp
 
             //var FO = sol2.FindOrder(4, new int[][] { new int[] { 1, 0 }, new int[] { 2, 0 }, new int[] { 3, 1 }, new int[] { 3, 2 } });
 
-             // var FO = sol2.FindOrder(2, new int[][] { new int[] {  0,1 } });
+            // var FO = sol2.FindOrder(2, new int[][] { new int[] {  0,1 } });
 
 
             //  var FO = sol2.FindOrder(3, new int[][] { new int[] {  0,1 }, new int[] { 0, 2 }, new int[] { 1,2 } });
 
             //var FO = sol2.FindOrder(3, new int[][] { new int[] { 1,0 } });
 
-            var FO = sol2.FindOrder(3, new int[][] { new int[] { 1, 0 }, new int[] { 1, 2 }, new int[] { 0,1 } });
-            
+            // var FO = sol2.FindOrder(3, new int[][] { new int[] { 1, 0 }, new int[] { 1, 2 }, new int[] { 0,1 } });
+
+
+            // var ai = sol2.AreIsomorphic("egg", new List<string> { "add", "foo", "bar", "bee", "", "dude" });
+
+            //var l = new ListNode(2); 
+            //l.next = new ListNode(4);
+            //l.next.next = new ListNode(3);
+
+
+            // var l2 = new ListNode(5);
+            // l2.next = new ListNode(6);
+            // l2.next.next = new ListNode(4);
+            //var nn = sol2.AddTwoNumbers(l, l2);
+
+            var cache = new Solution2.LRUCache(2);
+
+            cache.Put(1, 1);
+            cache.Put(2, 2);
+            Console.WriteLine(cache.Get(1)); // Output: 1
+            cache.Put(3, 3);
+            Console.WriteLine(cache.Get(2)); // Output: -1 (not found)
+            cache.Put(4, 4);
+            Console.WriteLine(cache.Get(1)); // Output: -1 (not found)
+            Console.WriteLine(cache.Get(3)); // Output: 3
+            Console.WriteLine(cache.Get(4)); // Output: 4
 
         }
 
@@ -8004,6 +8028,27 @@ n: length of the badge records array
             return results.ToList();
         }
 
+
+
+        public int diagonalDifference2(List<List<int>> arr)
+        {
+
+            var lsum = 0;
+            var rsum = 0;
+            var len = arr.Count;
+            var left = 0;
+            var right = len - 1;
+            for (var r = 0; r < arr.Count; r++)
+            {
+                lsum += arr[r][left++];
+                rsum += arr[r][right--];
+
+            }
+
+            return Math.Abs(lsum - rsum);
+
+
+        }
 
 
 

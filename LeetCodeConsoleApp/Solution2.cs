@@ -12,7 +12,209 @@ namespace LeetCodeConsoleApp
 {
     internal class Solution2
     {
+
+
+        public  List<int> countingSort(List<int> arr)
+        {
+            var len = arr.Count;
+            var freq = new int[100];
+            for (var i = 0; i < len; i++)
+            {
+                freq[arr[i]]++;
+            }
+            return freq.ToList();
+        }
+
+
+        public class LRUCache
+        {
+            private int _capacity;
+            private int _lru;
+
+            private int count;
+
+            private Queue<Tuple<int, int>> cache;
+
+
+            //Dictionary<int, int> cache;
+
+            public LRUCache(int capacity)
+            {
+                _capacity = capacity;
+
+
+                cache = new Queue<Tuple<int, int>>(capacity);
+
+
+            }
+            public void Put(int key, int value)
+            {
+                if (cache.Count == _capacity)
+                {
+                    cache.Dequeue();
+                }
+
+                cache.Enqueue(Tuple.Create(key, value));
+
+
+            }
+
+
+            public int Get(int key)
+            {
+                var f = cache.Where(c => c.Item1 == key).FirstOrDefault();
+                if (f == null)
+                    return -1;
+                //var lru = cache.re
+                //cache.Enqueue(lru);
+                return 0; // lru.Item2;  //value
+
+            }
+
+
+
+        }
+
+
+
+
+
+            public string timeConversion2(string s)
+            {
+
+                var sb = new StringBuilder();
+                var hour = Convert.ToInt32(s.Substring(0, 2));
+                if (s[8] == 'P')
+                {
+
+                    if (hour < 12)
+                    {
+                        hour += 12;
+                    }
+
+                }
+                else
+                {
+                    if (hour == 12)
+                    {
+                        hour = 0;
+                    }
+                }
+
+                sb.Append(hour.ToString("00"));
+                sb.Append(s.Substring(2, 6));
+                return sb.ToString();
+            }
         
+
+
+
+
+
+
+
+        public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
+        {
+            var sb1 = new StringBuilder();
+            var sb2 = new StringBuilder();
+            while (l1 != null)
+            {
+                sb1.Insert(0, l1.val);
+
+                l1 = l1.next;
+            }
+            while (l2 != null)
+            {
+                sb2.Insert(0, l2.val);
+                l2 = l2.next;
+            }
+
+
+            BigInteger num1 = BigInteger.Parse(sb1.ToString());
+            BigInteger num2 = BigInteger.Parse(sb2.ToString());
+
+            BigInteger sum = num1 + num2;
+
+
+
+            var reversed = new string(sum.ToString().Reverse().ToArray());
+
+
+
+            var result = new ListNode(reversed[0] - '0');
+
+            var head = result;
+
+            for (var i = 1; i < reversed.Length; i++)
+            {
+
+                result.next = new ListNode(reversed[i] - '0');
+                result = result.next;
+
+            }
+
+
+            return head;
+
+
+
+
+        }
+
+
+
+        //Hacker  rank easy questions
+        //can make this better by assigning dictionary to be identical with counter
+        public List<string> AreIsomorphic(string s, List<string> words)
+        {
+           
+            var results = new List<string>();
+            var len = s.Length;
+
+            foreach (var w in words) {
+
+                var isiso = true;
+                if (w.Length != s.Length)
+                {
+                    isiso = false;
+                    continue;
+                }
+                var dict = new Dictionary<char, char>();
+                var dict2 = new Dictionary<char, char>();
+                for (var i = 0; i < len; i++)
+                {
+                    if (dict.ContainsKey(s[i]))
+                    {
+                        if (dict[s[i]] != w[i])
+                        {
+                            isiso = false;
+                            break;
+                        }
+                            
+                    }
+                    else if (dict2.ContainsKey(w[i]))
+                    {
+                        if (dict2[w[i]] != s[i])
+                        {
+                            isiso = false;
+                            break;
+                        }
+                    }
+                    else
+                        dict[s[i]] = w[i];
+                        dict2[w[i]] = s[i];
+
+                }
+                if (isiso)
+                {
+                    results.Add(w);
+                }
+            }
+
+            return results;
+        }
+
+
 
         public int[] FindOrder(int numCourses, int[][] prerequisites)
         {
