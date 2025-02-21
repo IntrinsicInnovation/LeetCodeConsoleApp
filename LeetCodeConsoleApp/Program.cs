@@ -2004,17 +2004,21 @@ namespace LeetCodeConsoleApp
             // l2.next.next = new ListNode(4);
             //var nn = sol2.AddTwoNumbers(l, l2);
 
-            var cache = new Solution2.LRUCache(2);
+            //var cache = new Solution2.LRUCache(2);
 
-            cache.Put(1, 1);
-            cache.Put(2, 2);
-            Console.WriteLine(cache.Get(1)); // Output: 1
-            cache.Put(3, 3);
-            Console.WriteLine(cache.Get(2)); // Output: -1 (not found)
-            cache.Put(4, 4);
-            Console.WriteLine(cache.Get(1)); // Output: -1 (not found)
-            Console.WriteLine(cache.Get(3)); // Output: 3
-            Console.WriteLine(cache.Get(4)); // Output: 4
+            //cache.Put(1, 1);
+            //cache.Put(2, 2);
+            //Console.WriteLine(cache.Get(1)); // Output: 1
+            //cache.Put(3, 3);
+            //Console.WriteLine(cache.Get(2)); // Output: -1 (not found)
+            //cache.Put(4, 4);
+            //Console.WriteLine(cache.Get(1)); // Output: -1 (not found)
+            //Console.WriteLine(cache.Get(3)); // Output: 3
+            //Console.WriteLine(cache.Get(4)); // Output: 4
+
+
+            var pi = sol.palindromeIndex("cbabbc");
+
 
         }
 
@@ -6824,13 +6828,6 @@ namespace LeetCodeConsoleApp
             }
 
 
-
-
-
-
-
-
-
             var len = arr.Length;
     if (len == 1)
         return arr;
@@ -8885,7 +8882,7 @@ public long maximumQuality(List<int> packets, int channels)
 
         public string caesarCipher(string s, int k)
         {
-            var r = s[0] + 1;
+           // var r = s[0] + 1;
 
             //Console.WriteLine(s[0] + ": " + r);
             var sb = new StringBuilder();
@@ -9859,6 +9856,9 @@ public int superDigit(string n, int k)
                 end--;
 
             }
+
+            //return s.SequenceEqual(s.Reverse());
+
             return true;
         }
 

@@ -14,6 +14,242 @@ namespace LeetCodeConsoleApp
     {
 
 
+        //Hackerrank practice:
+        //18Feb2025
+
+
+        public static int cookies(int k, List<int> A)
+        {
+
+            var test = new Trie<int, int>();
+
+            var q = new PriorityQueue<int, int>();
+            foreach (var a in A)
+                q.Enqueue(a, a);
+            var count = 0;
+
+            while (q.Peek() < k)
+            {
+                var lowest = q.Dequeue();
+                if (q.Count == 0)
+                    return -1;
+                var scndlowest = q.Dequeue();
+                var newel = lowest + (scndlowest * 2);
+                q.Enqueue(newel, newel);
+                count++;
+            }
+            return count;
+        }
+
+        public class Editor
+        {
+
+
+            StringBuilder sb;
+            Stack<Tuple<string, string>> undoes;
+
+            public Editor()
+            {
+                sb = new StringBuilder();
+                undoes = new Stack<Tuple<string, string>>();
+            }
+
+            public void append(string s)
+            {
+                sb.Append(s);
+                undoes.Push(new Tuple<string, string>("appended", s));
+            }
+
+            public void delete(int n)
+            {
+                var len = sb.Length;
+                var subs = sb.ToString().Substring(len - n, n);
+                sb.Remove(len - n, n);
+                undoes.Push(new Tuple<string, string>("deleted", subs));
+            }
+
+            public void print(int n)
+            {
+                var len = sb.Length;
+                Console.WriteLine(sb[n - 1]);
+
+            }
+
+            public void undo()
+            {
+                var toundo = undoes.Pop();
+                var len = sb.Length;
+                var lenofundostr = toundo.Item2.Count();
+                if (toundo.Item1 == "appended")
+                {
+
+                    sb.Remove(len - lenofundostr, lenofundostr);
+                }
+                else
+                {
+                    sb.Append(toundo.Item2);
+                }
+
+
+            }
+
+        }
+
+
+
+
+
+        public SinglyLinkedListNode mergeLists3(SinglyLinkedListNode head1, SinglyLinkedListNode head2)
+        {
+            var curr = new SinglyLinkedListNode(-1);
+            var head = curr;
+
+            while (head1 != null || head2 != null)
+            {
+                if ((head1 != null && head2 != null && head2.data < head1.data)
+                    || head1 == null)
+                {
+                    curr.next = head2;
+                    curr = curr.next;
+                    head2 = head2.next;
+                }
+                else
+                {
+                    curr.next = head1;
+                    curr = curr.next;
+                    head1 = head1.next;
+                }
+
+
+            }
+            return head.next;
+
+        }
+
+
+        public void minimumBribes4(List<int> q)
+        {
+            var i = 1;
+            var len = q.Count;
+            var count = 0;
+
+
+            for (var j = 0; j < len; j++)
+            {
+                if (q[j] - (j + 1) >= 3)
+                {
+                    Console.WriteLine("Too chaotic");
+                    return;
+                }
+            }
+
+            while (i < len)
+            {
+                if (q[i - 1] > q[i])
+                {
+
+                    (q[i - 1], q[i]) = (q[i], q[i - 1]);
+                    count++;
+                    i -= 2;
+                    if (i < 0)
+                        i = 0;
+                }
+                i++;
+
+            }
+
+
+
+            Console.WriteLine(count);
+
+
+        }
+
+        public static int superDigit2(string n, int k)
+        {
+            var sd = new StringBuilder(n);
+
+            //too slow, so optimize below:
+            // for (var i = 0; i < k; i++)
+            // {
+            //     sd.Append(n);
+            // } 
+            var firsttime = true;
+            while (sd.Length > 1)
+            {
+
+                long sum = 0;
+                for (var i = 0; i < sd.Length; i++)
+                {
+                    sum += Convert.ToInt32(sd[i].ToString());
+                   
+                }
+
+                
+
+                if (firsttime)
+                {
+                    sum *= k;
+                    firsttime = false;
+                }
+
+                sd.Clear();
+                sd.Append(sum);
+            }
+
+            return Convert.ToInt32(sd.ToString());
+        }
+
+
+
+
+
+
+
+
+
+
+        public int flippingMatrix2(List<List<int>> matrix)
+        {
+            var len = matrix.Count;
+            var sum = 0;
+            for (var row = 0; row < len / 2; row++)
+            {
+                for (var col = 0; col < len / 2; col++)
+                {
+                    sum += Math.Max(Math.Max(matrix[row][col], matrix[row][len - 1 - col]), Math.Max(matrix[len - 1 - row][col], matrix[len - 1 - row][len - 1 - col]));
+                }
+            }
+            return sum;
+        }
+
+
+
+        public int diagonalDifference(List<List<int>> arr)
+        {
+            var len = arr.Count; //width = length;
+                                 //var cols = arr[0].Count;
+
+            //Console.WriteLine(len + " " + cols);
+
+
+            var ltr = 0;
+            var rtl = 0;
+            var lindex = 0;
+            var rindex = len - 1;
+            for (var row = 0; row < arr.Count; row++)
+            {
+                ltr += arr[row][lindex];
+                rtl += arr[row][rindex];
+                lindex++;
+                rindex--;
+            }
+
+            return Math.Abs(ltr - rtl);
+        }
+
+
+
         public  List<int> countingSort(List<int> arr)
         {
             var len = arr.Count;
@@ -435,15 +671,6 @@ namespace LeetCodeConsoleApp
             }
 
         }
-
-
-
-
-
-
-
-
-
 
 
 
