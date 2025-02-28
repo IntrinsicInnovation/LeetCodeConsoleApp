@@ -127,6 +127,7 @@ namespace LeetCodeConsoleApp
                 while (instack.Count > 0)
                 {
                     outstack.Push(instack.Pop());
+                    outstack.Push(instack.Pop());
                 }
             }
             outstack.Pop();
@@ -1105,30 +1106,30 @@ namespace LeetCodeConsoleApp
         public StringListNode(string s) { val = s; }
     }
 
-    //class ChrisCustom : IComparable<ChrisCustom>
-    //{
+    class ChrisCustom : IComparable<ChrisCustom>
+    {
 
-    //    public int val { get; set; }
+        public int val { get; set; }
 
-    //    public ChrisCustom(int val)
-    //    {
-    //        this.val = val;
-    //    }
-
-
-    //    public int CompareTo(ChrisCustom that)
-    //    {
-    //        if (this.val > that.val)
-    //            return -1;
-    //        else if (this.val == that.val)
-    //            return 0;
-    //        else return 1;
-    //    }
-    //}
+        public ChrisCustom(int val)
+        {
+            this.val = val;
+        }
 
 
+        public int CompareTo(ChrisCustom that)
+        {
+            if (this.val > that.val)
+                return -1;
+            else if (this.val == that.val)
+                return 0;
+            else return 1;
+        }
+        }
 
-    public class DuplicateKeyComparer<TKey>
+
+
+        public class DuplicateKeyComparer<TKey>
                 :
              IComparer<TKey> where TKey : IComparable
     {

@@ -13,15 +13,220 @@ namespace LeetCodeConsoleApp
     internal class Solution2
     {
 
+        public int LongestSubarray(int[] nums)
+        {
+            var left = 0;
+            var right = 0;
+            var len = nums.Length;
+            while (left < len && nums[left] == 0)
+                left++;
+            right = left;
+            var nextleft = left;
+            var zeros = 0;
+            var maxcount = 0;
+            while (right < len)
+            {
+                if (nums[right] == 0)
+                {
+                    zeros++;
+                    if (zeros > 1)
+                    {
+                        maxcount = Math.Max(maxcount, right - 1 - left);
+                        Console.WriteLine("maxcount: " + maxcount + "right: " + right);
+                        left = nextleft; //right + 1;
+                        right = left;
+                        zeros = 0;
+                    }
+                    else
+                    {
+                        nextleft = right;
+                        while (nextleft < len && nums[nextleft] == 0)
+                            nextleft++;
+                    }
+                }
+                right++;
+                Console.WriteLine("right: " + right);
+            }
+
+            if (zeros == 0 && left == 0)
+                zeros = 1;
+            maxcount = Math.Max(maxcount, right - zeros - left);
+            return maxcount;
+        }
+
+
+        //exponent practice interview:
+        public int decodeVariations(string S)
+        {
+            // your code goes here
+            var len = S.Length;
+            var dp = new int[len + 1];
+            dp[len] = 1;
+            for (var i = len - 1; i >= 0; i--)
+            {
+                if (S[i] == '0')
+                    dp[i] = 0;
+                else if (S[i] == '1')
+                {
+                    dp[i] = dp[i + 1];
+                    if (i < len -1)
+                        dp[i] += dp[i + 2];
+                }
+                    
+                else if (S[i] == '2')
+                {
+                    dp[i] = dp[i + 1]; 
+                    if (i < len -1 && S[i+1] <= '6')
+                        dp[i] += dp[i + 2];
+                }
+
+                    
+
+                else
+                    dp[i] = dp[i + 1];
+
+
+
+            }
+            return dp[0];
+
+
+        }
+
 
         //Hackerrank practice:
-        //18Feb2025
+        public void inorderTreeTraversal(TreeNode node, List<int> list)
+        {
+
+            if (node == null)
+                return;
+
+            inorderTreeTraversal(node.left, list);
+            list.Add(node.val);
+            inorderTreeTraversal(node.right, list);
+
+
+
+        }
+
+
+
+
+        class MyTrie
+        {
+
+            private Node head;
+
+
+            public bool search(string word)
+            {
+                var node = head;
+                var len = word.Length;
+                for (var i = 0; i < len; i++)
+                {
+                    if (node.nodes.ContainsKey(word[i]))
+                    {
+                        node = node.nodes[word[i]];
+
+                        if (node.nodes[word[i]].isword)
+                        {
+                            return false;
+                        }
+                        
+                    }
+
+                }
+
+
+
+                return true;
+            }
+
+
+            class Node
+            {
+
+                public Node()
+                {
+                    nodes = new Dictionary<char, Node> ();   
+                }
+
+                public bool isword;
+                public Dictionary<char, Node> nodes;
+
+            }               
+                
+                
+                
+        }
+
+
+
+
+        //this fails about 15 test cases though, and too slow:
+        //Need to use a TRIE class, create your own
+        public void noPrefix(List<string> words)
+        {
+            var dict = new Dictionary<int, string>();
+
+            var len = words.Count;
+
+            for (var i = 0; i < len; i++)
+            {
+
+                var found = words.Where(w => w.StartsWith(words[i]));
+                if (found.Count() > 1)
+                {
+                    var fl = found.ToList();
+                    var index = words.IndexOf(fl[1]);
+                    dict[index] = fl[1];
+                }
+
+            }
+
+            if (dict.Count > 0)
+            {
+                var badset = dict.OrderBy(d => d.Key).Select(d => d.Value).FirstOrDefault();
+                Console.WriteLine("BAD SET");
+                Console.WriteLine(badset);
+            }
+            else
+                Console.WriteLine("GOOD SET");
+            
+        }
+    
+
+
+
+    public class Trie2
+        {
+
+
+
+
+            private class TrieNode2
+            {
+
+
+                TrieNode2() 
+                {
+                    trieNodes = new TrieNode2[26];
+                }
+
+                private TrieNode2[] trieNodes;
+                private bool isfound;
+
+
+
+            }
+        }
+
 
 
         public static int cookies(int k, List<int> A)
         {
 
-            var test = new Trie<int, int>();
+           
 
             var q = new PriorityQueue<int, int>();
             foreach (var a in A)
