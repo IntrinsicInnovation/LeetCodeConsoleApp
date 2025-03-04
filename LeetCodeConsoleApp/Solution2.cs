@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Security;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
@@ -12,6 +13,154 @@ namespace LeetCodeConsoleApp
 {
     internal class Solution2
     {
+
+
+        //amazon:
+        //phone interview leetcode HARD!!
+        //28Feb2025
+        //create a solution 
+
+
+
+
+        //to find the shortest path from a word where you only change one letter on each traversal
+        //so from "bit"  to "hog"
+        //https://leetcode.com/problems/word-ladder/description/
+        // Create solution yourself first,  
+        //my initial thought was create a graph ie dictionary<string, List<string>>();
+
+        //Then do BFS
+        //
+
+       
+
+        public int LadderLength(string beginWord, string endWord, IList<string> wordList)
+        {
+
+
+            Dictionary<string, int> distances = new Dictionary<string, int>();
+
+            distances[beginWord] = 1;
+            var count = 1;
+            var q = new Queue<string>();
+            q.Enqueue(beginWord);
+            var len = wordList.Count();
+            while (q.Count > 0)
+            {
+                var node = q.Dequeue();
+                Console.WriteLine("dequeued: " + node);
+                
+                //if (!distances.ContainsKey(node))
+               // {
+               //     distances[node] = count;
+                //}
+
+                if (node == endWord)
+                    break;
+                var newnodes = diffbyonechar(node, wordList);
+                foreach (var newnode in newnodes)
+                {
+                    if (!distances.ContainsKey(newnode))
+                    {
+                        distances[newnode] = distances[node] + 1;
+                        q.Enqueue(newnode);
+                    }
+                }
+            }
+
+            if (!distances.ContainsKey(endWord))
+                return 0;
+            else
+                return distances[endWord];
+
+
+
+        }
+
+        private IList<string> diffbyonechar(string word, IList<string> wordList)
+        {
+            var results = new List<string>();
+            foreach (var wordcompare in wordList)
+            {
+                if (wordcompare == word) // || distances.ContainsKey(wordcompare))
+                    continue;
+                var diff = 0;
+                for (var i = 0; i < wordcompare.Length; i++)
+                {
+                    if (word[i] != wordcompare[i])
+                        diff++;
+                }
+                if (diff == 1)
+                    results.Add(wordcompare);
+
+            }
+            return results;
+
+        }
+
+
+
+
+
+
+
+        public int NumIslands(char[][] grid)
+        {
+            var islands = 0;
+            for (var i = 0; i < grid.Length; i++)
+            {
+                for (var j = 0; j < grid[0].Length; j++)
+                {
+                    if (grid[i][j] == '1')
+                    {
+                        DFS(i, j, grid);
+                        islands++;
+                    }
+                }
+            }
+            return islands;
+        }
+
+        private void DFS(int i, int j, char[][] grid)
+        {
+            if (i < 0 || i >= grid.Length || j < 0 || j >= grid[0].Length || grid[i][j] == '0')
+                return;
+            grid[i][j] = '0';
+            DFS(i + 1, j, grid);
+            DFS(i - 1, j, grid);
+            DFS(i, j + 1, grid);
+            DFS(i, j - 1, grid);
+        }
+
+        public int PartitionString(string s)
+        {
+
+            var len = s.Length;
+            //var sb = new StringBuilder();
+            var hs = new Dictionary<char, int>();
+            hs.Add(s[0], 1);
+            var count = 1;
+            for (var i = 1; i < len; i++)
+            {
+                if (hs.ContainsKey(s[i]))
+                {
+                    //Console.WriteLine("DUPE foiund " + s[i]);
+                    count++;
+                    hs.Clear();
+                    hs.Add(s[i], 1);
+                }
+                else
+                {
+                    //Console.WriteLine("Added " + s[i]);
+                    hs.Add(s[i], 1);
+                }
+            }
+
+            return count;
+
+
+        }
+
 
         public int LongestSubarray(int[] nums)
         {

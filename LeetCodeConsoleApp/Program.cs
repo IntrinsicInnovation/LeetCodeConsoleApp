@@ -2021,42 +2021,42 @@ namespace LeetCodeConsoleApp
 
 
 
-            var root = new TreeNode(1);
-            root.left = new TreeNode(3);
-            root.right = new TreeNode(2);
-            root.left.left = new TreeNode(5);
-            root.left.right = new TreeNode(3);
-            root.right.right = new TreeNode(9);
+            //var root = new TreeNode(1);
+            //root.left = new TreeNode(3);
+            //root.right = new TreeNode(2);
+            //root.left.left = new TreeNode(5);
+            //root.left.right = new TreeNode(3);
+            //root.right.right = new TreeNode(9);
             
 
-            //   1
-            //  / \
-            //  3   2
-            // / \   \
-            //5   3   9
-            //5 3 3 1 2 9
-            var l1 = new List<int>();
+            ////   1
+            ////  / \
+            ////  3   2
+            //// / \   \
+            ////5   3   9
+            ////5 3 3 1 2 9
+            //var l1 = new List<int>();
 
 
-            var root2 = new TreeNode(1);
-            root2.left = new TreeNode(3);
-            root2.right = new TreeNode(2);
-            root2.left.left = new TreeNode(5);
-            root2.left.right = new TreeNode(3);
-            root2.right.right = new TreeNode(9);
-            var l2 = new List<int>();
-
-
-
-            sol2.inorderTreeTraversal(root, l1);
-            sol2.inorderTreeTraversal(root2, l2);
-            Console.WriteLine(l1.SequenceEqual(l2));
+            //var root2 = new TreeNode(1);
+            //root2.left = new TreeNode(3);
+            //root2.right = new TreeNode(2);
+            //root2.left.left = new TreeNode(5);
+            //root2.left.right = new TreeNode(3);
+            //root2.right.right = new TreeNode(9);
+            //var l2 = new List<int>();
 
 
 
-            var dv = sol2.decodeVariations("12621");
+            //sol2.inorderTreeTraversal(root, l1);
+            //sol2.inorderTreeTraversal(root2, l2);
+            //Console.WriteLine(l1.SequenceEqual(l2));
 
 
+
+            //var dv = sol2.decodeVariations("12621");
+
+            var ll = sol2.LadderLength("hit", "cog", new List<string> { "hot", "dot", "dog", "lot", "log", "cog" });
 
 
 
