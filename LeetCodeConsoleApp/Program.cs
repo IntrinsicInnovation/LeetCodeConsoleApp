@@ -2027,7 +2027,7 @@ namespace LeetCodeConsoleApp
             //root.left.left = new TreeNode(5);
             //root.left.right = new TreeNode(3);
             //root.right.right = new TreeNode(9);
-            
+
 
             ////   1
             ////  / \
@@ -2056,8 +2056,17 @@ namespace LeetCodeConsoleApp
 
             //var dv = sol2.decodeVariations("12621");
 
-            var ll = sol2.LadderLength("hit", "cog", new List<string> { "hot", "dot", "dog", "lot", "log", "cog" });
+            //    var ll = sol2.LadderLength("hit", "cog", new List<string> { "hot", "dot", "dog", "lot", "log", "cog" });
 
+            //  var mc = new mycar();  - private constrcutor!!
+            //mycar.increment();
+            //Console.WriteLine(mycar.count);
+            //            var mc = new mycar(3);
+
+
+
+            var prices = new int[] { 7, 6, 5, 3, 9, 1, 4 };
+            var mp = sol2.maxprofit(prices);
 
 
         }
@@ -2068,7 +2077,52 @@ namespace LeetCodeConsoleApp
 
 
 
+        //Meta past question:
+        //Try to write this one from scratch again.
+        public int[] ExclusiveTime(int n, IList<string> logs)
+        {
 
+            var results = new int[n];
+            var stack = new Stack<int>();
+            var funcs = logs[0].Split(":");
+            stack.Push(Convert.ToInt32(funcs[0]));
+            var prev = Convert.ToInt32(funcs[2]);
+
+            for (var i = 1; i < logs.Count; i++)
+            {
+                funcs = logs[i].Split(":");
+                var funcid = Convert.ToInt32(funcs[0]);
+                var time = Convert.ToInt32(funcs[2]);
+                //  foreach (var f in funcs)
+                //    Console.WriteLine("func: " + f);
+
+                if (funcs[1] == "start")
+                {
+                    if (stack.Count > 0)
+                    {
+                        var peeked = stack.Peek();
+                        results[peeked] += time - prev;
+                        //       Console.WriteLine("peeked: " + peeked.Item1 + " - " + peeked.Item2);
+                        //       foreach (var d in dt)
+                        //           Console.WriteLine(d.Key);
+
+                    }
+                    stack.Push(funcid);
+                    prev = time;
+                }
+                else
+                {
+                    var popped = stack.Pop();
+                    //Console.WriteLine("Item1: " + popped.Item1 + " item2: " + popped.Item2);
+                    results[popped] += time - prev + 1;
+                    prev = time + 1;
+                }
+            }
+            //  foreach (var d in dt)
+            //   Console.WriteLine(d.Key + " val: " + d.Value);
+            return results;
+
+        }
 
 
         public int[][] Merge2(int[][] intervals)

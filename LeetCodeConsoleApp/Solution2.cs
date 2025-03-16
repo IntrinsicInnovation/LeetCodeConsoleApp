@@ -20,9 +20,6 @@ namespace LeetCodeConsoleApp
         //28Feb2025
         //create a solution 
 
-
-
-
         //to find the shortest path from a word where you only change one letter on each traversal
         //so from "bit"  to "hog"
         //https://leetcode.com/problems/word-ladder/description/
@@ -31,8 +28,85 @@ namespace LeetCodeConsoleApp
 
         //Then do BFS
         //
+        //But, you can skip creating the graph, as you can just bfs through the list of words.
 
-       
+
+
+
+
+        public long maxprofit(int[] prices)
+        {
+
+
+            var min = Int32.MaxValue;
+            long maxprofit = 0;
+
+            for (var i = 0; i < prices.Length; i++)
+            {
+
+
+
+
+                if (prices[i] < min)
+                    min = prices[i];
+                else
+                    maxprofit = Math.Max(prices[i] - min, maxprofit);
+
+            }
+
+            return maxprofit;
+
+        }
+
+
+
+
+
+
+        public string ReverseWords(string s)
+            {
+                var stack = new Stack<char>();
+                var len = s.Length;
+                var i = len - 1;
+                var sb = new StringBuilder();
+
+                while (s[i] == ' ')
+                    i--;
+
+                for (; i >= 0; i--)
+                {
+                    var c = s[i];
+                    if (c != ' ')
+                        stack.Push(c);
+                    else
+                    {
+                        if (stack.Count > 0)
+                        {
+                            while (stack.Count > 0)
+                                sb.Append(stack.Pop());
+                            sb.Append(' ');
+                            stack.Clear();
+                        }
+
+                    }
+
+
+                }
+                while (stack.Count > 0)
+                    sb.Append(stack.Pop());
+
+                return sb.ToString().Trim();
+
+            }
+
+
+
+
+
+
+
+
+
 
         public int LadderLength(string beginWord, string endWord, IList<string> wordList)
         {
@@ -48,7 +122,7 @@ namespace LeetCodeConsoleApp
             while (q.Count > 0)
             {
                 var node = q.Dequeue();
-                Console.WriteLine("dequeued: " + node);
+              //  Console.WriteLine("dequeued: " + node);
                 
                 //if (!distances.ContainsKey(node))
                // {

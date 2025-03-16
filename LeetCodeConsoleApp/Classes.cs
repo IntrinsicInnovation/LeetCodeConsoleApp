@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
 
@@ -7,6 +8,54 @@ namespace LeetCodeConsoleApp
 {
 
 
+    public class mycar
+    {
+
+        public static int count {  get; private set; }
+        public int count2 { get; set; }
+
+
+        private mycar()
+        {
+            Console.WriteLine("in Private Consstructor!!");
+
+        }
+
+        static mycar()
+        {
+            Console.WriteLine("in STATIC Consstructor!!");
+        }
+
+        public mycar(int count)
+        {
+            count2 = count;
+            Console.WriteLine("in Regular Consstructor!!");
+        }
+
+        public static void increment()
+        {
+            count++;
+        }
+
+    }
+
+
+
+    //class a
+    //{
+    //    public virtual  void area()
+    //    {
+
+    //    }
+    //}
+
+    //class b : a
+    //{
+    //    public  override void area()
+    //    {
+
+    //    }
+    //}
 
 
     class MyQueue3
@@ -1125,11 +1174,11 @@ namespace LeetCodeConsoleApp
                 return 0;
             else return 1;
         }
-        }
+    }
 
 
 
-        public class DuplicateKeyComparer<TKey>
+    public class DuplicateKeyComparer<TKey>
                 :
              IComparer<TKey> where TKey : IComparable
     {
@@ -1189,52 +1238,38 @@ namespace LeetCodeConsoleApp
 
 
 
-    //public class c1
-    //{
-    //    c2 o = new c2();
-    //    public c1()
-    //        {
+    public class c1
+    {
+        c2 o = new c2();
+        public c1()
+        {
 
-    //            Console.WriteLine("in class 2");
+            Console.WriteLine("in class c1");
 
-    //        }
+        }
 
-    //}
-
-
-    //public class c2
-    //{
-    //    c1 o = new c1();
-    //    public c2()
-    //    {
-
-    //        Console.WriteLine("in class 1");
-
-    //    }
-
-    //}
+    }
 
 
+    public class c2
+    {
+        c1 o = new c1();
+        public c2()
+        {
+
+            Console.WriteLine("in class c2");
+
+        }
+
+    }
 
 
 
-    //    class a
-    //        {
-    //           public virtual void area()
-    //        {
-
-    //        }
-    //        }
-
-    //  class b : a
-    //{
-    //        public virtual  override void area()
-    //        {
-
-    //        }
-    //    }
 
 
+
+
+    //learn to create class to read files:
 
     //    public class Reader4
     //    {
