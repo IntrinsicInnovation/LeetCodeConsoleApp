@@ -15,6 +15,77 @@ namespace LeetCodeConsoleApp
     {
 
 
+        //leetcode possible Meta question:
+        public string MinRemoveToMakeValid(string s)
+        {
+            var sb = new StringBuilder();
+
+            var len = s.Length;
+            //var stack = new Stack<char>();
+            //var start = -1;
+            //var left = 0;
+            //var right = len-1;
+
+
+            var count = 0;
+            for (var i = 0; i < len; i++)
+            {
+                var c = s[i];
+                if (c == '(')
+                {
+                    sb.Append(c);
+                    count++;
+                }
+                else if (c == ')')
+                {
+                    if (count > 0)
+                    {
+                        sb.Append(c);
+                        count--;
+                    }
+
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+            }
+
+            count = 0;
+            var s2 = sb.ToString();
+            sb.Clear();
+            for (var i = s2.Length - 1; i >= 0; i--)
+            {
+                var c = s2[i];
+                if (c == ')')
+                {
+                    sb.Insert(0, c);
+                    count++;
+                }
+                else if (c == '(')
+                {
+                    if (count > 0)
+                    {
+                        sb.Insert(0, c);
+                        count--;
+                    }
+
+                }
+                else
+                {
+                    sb.Insert(0, c);
+                }
+            }
+
+            return sb.ToString();
+
+        }
+
+
+
+
+
+
         //amazon:
         //phone interview leetcode HARD!!
         //28Feb2025
