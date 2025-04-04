@@ -2065,8 +2065,12 @@ namespace LeetCodeConsoleApp
 
 
 
-            var prices = new int[] { 7, 6, 5, 3, 9, 1, 4 };
-            var mp = sol2.maxprofit(prices);
+            //   var prices = new int[] { 7, 6, 5, 3, 9, 1, 4 };
+            //   var mp = sol2.maxprofit(prices);
+
+
+            var arexp = "3*5+2";
+            var arithresult = sol2.EvaluateArithmeticExpression(arexp);
 
 
         }
