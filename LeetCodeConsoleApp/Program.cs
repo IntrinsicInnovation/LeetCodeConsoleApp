@@ -2069,8 +2069,68 @@ namespace LeetCodeConsoleApp
             //   var mp = sol2.maxprofit(prices);
 
 
-            var arexp = "3*5+2";
-            var arithresult = sol2.EvaluateArithmeticExpression(arexp);
+            //  var arexp = "3*5+2";
+            //  var arithresult = sol2.EvaluateArithmeticExpression(arexp);
+
+
+
+            
+            var allone = new AllOne();
+
+          /*  allone.Inc("hello");
+            allone.Inc("goodbye");
+            allone.Inc("hello");
+            allone.Inc("hello");
+            var mk = allone.GetMaxKey();
+            allone.Inc("leet");
+            allone.Inc("code");
+            allone.Inc("leet");
+            allone.Dec("hello");
+            allone.Inc("leet");
+            allone.Inc("code");
+            allone.Inc("code");
+            mk = allone.GetMaxKey(); */
+
+            // 2nd test:
+            allone = new AllOne();
+
+            allone.Inc("a");
+            allone.Inc("b");
+            allone.Inc("c");
+            allone.Inc("d");
+            allone.Inc("e");
+            allone.Inc("f");
+            allone.Inc("g");
+            allone.Inc("h");
+            allone.Inc("i");
+            allone.Inc("j");
+            allone.Inc("k");
+            allone.Inc("l");
+            allone.Dec("a");
+            allone.Dec("b");
+            allone.Dec("c");
+            allone.Dec("d");
+            allone.Dec("e");
+            allone.Dec("f");
+            allone.Inc("g");
+            allone.Inc("h");
+            allone.Inc("i");
+            allone.Inc("j");
+            var maxk = allone.GetMaxKey();
+            var mink = allone.GetMinKey();
+            allone.Inc("k");
+            allone.Inc("l");
+            maxk = allone.GetMaxKey();
+            mink = allone.GetMinKey();
+            allone.Inc("a");
+            allone.Dec("j");
+            maxk = allone.GetMaxKey();
+            mink = allone.GetMinKey();
+
+
+         //   ["AllOne", "inc", "inc", "inc", "inc", "inc", "inc", "inc", "inc", "inc", "inc", "inc", "inc", "dec", "dec", "dec", "dec", "dec", "dec", "inc", "inc", "inc", "inc", "getMaxKey", "getMinKey", "inc", "inc", "getMaxKey", "getMinKey", "inc", "dec", "getMaxKey", "getMinKey"]
+         //          [[], ["a"], ["b"], ["c"], ["d"], ["e"], ["f"], ["g"], ["h"], ["i"], ["j"], ["k"], ["l"], ["a"], ["b"], ["c"], ["d"], ["e"], ["f"], ["g"], ["h"], ["i"], ["j"], [], [],                  ["k"], ["l"], [], [],                   ["a"], ["j"], [], []]
+
 
 
         }

@@ -16,6 +16,366 @@ using static LeetCodeConsoleApp.Solution.editor;
 
 namespace LeetCodeConsoleApp
 {
+
+
+
+
+
+
+
+    //Leetcode hard for doubly linked list, 432. All O`one Data Structure
+
+
+    public class AllOne
+    {
+
+        public class Node
+        {
+
+            public int frequency;
+            public HashSet<string> keys;
+            public Node prev;
+            public Node next;
+
+
+            public Node(int val)
+            {
+                frequency = val;
+                keys = new HashSet<string>();
+            }
+        }
+
+
+        private Node head;
+        private Node tail;
+        private Dictionary<string, Node> dict;
+
+        public AllOne()
+        {
+            head = new Node(0);
+            tail = new Node(0);
+            head.next = tail;
+            tail.prev = head;
+
+            dict = new Dictionary<string, Node>();
+        }
+
+        public void Inc(string key)
+        {
+
+            if (dict.ContainsKey(key))
+            {
+
+                var node = dict[key];
+                node.keys.Remove(key);
+
+                var frequency = node.frequency;
+                var nextnode = node.next;
+
+                if (node.keys.Count == 0)
+                {
+                    node = node.prev;
+                    dict.Remove(key);
+                }
+                  
+
+                if (nextnode == tail || nextnode.frequency != frequency + 1)
+                {
+                    //create new node, etc.
+                    var newnode = new Node(frequency + 1);
+                    newnode.keys.Add(key);
+                    newnode.prev = node;
+                    newnode.next = nextnode;
+                    node.next = newnode;
+                    nextnode.prev = newnode;
+                    dict[key] = newnode;
+                    Console.WriteLine("dict has key of " + key + " AND next=tail or not equal freq+1");
+                    debug();
+
+                }
+                else
+                {
+                    nextnode.keys.Add(key);
+                    dict[key] = nextnode;
+
+                    if (node.next.keys.Count == 0)
+                    {
+                        node.next = nextnode;
+                        nextnode.prev = node;
+                    }
+
+
+                    Console.WriteLine("dict has key of " + key + " AND next NOT equals tail etd");
+                    debug();
+                }
+
+
+            }
+            else
+            {
+
+                var nextnode = head.next;
+                if (nextnode == tail || nextnode.frequency != 1)
+                {
+                    //create new node, etc.
+                    var newnode = new Node(1);
+                    newnode.keys.Add(key);
+                    newnode.prev = head;
+                    newnode.next = nextnode;
+                    head.next = newnode;
+                    nextnode.prev = newnode;
+                    dict[key] = newnode;
+
+                    Console.WriteLine("dict NOT have key and frequency != or tail");
+                    debug();
+
+                }
+                else
+                {
+                    nextnode.keys.Add(key);
+                    dict[key] = nextnode;
+                    Console.WriteLine("dict NOT have key of " + key);
+                    debug();
+
+                }
+
+            }
+
+
+        }
+
+        public void Dec(string key)
+        {
+
+
+            if (dict.ContainsKey(key))
+            {
+
+                var node = dict[key];
+                node.keys.Remove(key);
+
+                var frequency = node.frequency;
+                var prevnode = node.prev;
+
+                if (node.keys.Count == 0)
+                { 
+                    node = node.next;
+                    dict.Remove(key);
+                }
+
+            var newfrequency = frequency - 1;
+                if (newfrequency == 0)
+                {
+                    dict.Remove(key);
+                }
+                else
+                if (prevnode == head || prevnode.frequency != frequency - 1)
+                {
+                    //create new node, etc.
+                    var newnode = new Node(newfrequency);
+                    newnode.keys.Add(key);
+                    newnode.prev = prevnode;
+                    newnode.next = node;
+                    prevnode.next = newnode;
+                    node.prev = newnode;
+                    dict[key] = newnode;
+                    Console.WriteLine("DEC: dict has key of " + key + " AND next=tail or not equal freq+1");
+                    debug();
+
+                }
+                else
+                {
+                    prevnode.keys.Add(key);
+                    dict[key] = prevnode;
+
+                    if (node.prev.keys.Count == 0)
+                    {
+                        prevnode.next = node;
+                        node.prev = prevnode;
+                    }
+
+                    Console.WriteLine("DEC: dict has key of " + key + " AND next NOT equals tail etd");
+                    debug();
+                }
+
+            }
+            else
+            {
+
+                Console.WriteLine("DEC: dict NOT have key and frequency != or tail");
+                debug();
+
+            }
+
+        }
+
+
+
+
+       private void AddNode(Node node, string key,  Node nextnode, int newfrequency, Node headortail)
+        { 
+                if (headortail == tail || headortail.frequency != newfrequency)
+                {
+                    //create new node, etc.
+                    var newnode = new Node(newfrequency);
+                    newnode.keys.Add(key);
+                    newnode.prev = node;
+                    newnode.next = nextnode;
+                    node.next = newnode;
+                    nextnode.prev = newnode;
+                    dict[key] = newnode;
+                    //Console.WriteLine("dict has key of " + key + " AND next=tail or not equal freq+1");
+                    //debug();
+
+                }
+                else
+                {
+                    nextnode.keys.Add(key);
+                    dict[key] = nextnode;
+                    //Console.WriteLine("dict has key of " + key + " AND next NOT equals tail etd");
+                    //debug();
+                }   
+
+
+        }
+
+
+
+public string GetMaxKey()
+        {
+            Console.WriteLine("B4 get max");
+            var max = tail.prev.keys.FirstOrDefault();
+            return max ?? "";
+        }
+
+        public string GetMinKey()
+        {
+            Console.WriteLine("B4 get MIN");
+            var min = head.next.keys.FirstOrDefault();
+            return min ?? "";
+        }
+
+        private void debug()
+        {
+            var testnode = head.next;
+            while (testnode != tail)
+            {
+                Console.WriteLine("frequency: " + testnode.frequency);
+                foreach (var k in testnode.keys)
+                    Console.WriteLine("key: " + k);
+                testnode = testnode.next;
+            }
+            Console.WriteLine("_____________");
+        }
+
+    }
+
+    /**
+     * Your AllOne object will be instantiated and called as such:
+     * AllOne obj = new AllOne();
+     * obj.Inc(key);
+     * obj.Dec(key);
+     * string param_3 = obj.GetMaxKey();
+     * string param_4 = obj.GetMinKey();
+     */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public class StockPrice
+    {
+
+        private PriorityQueue<int, int> minprice;
+        private PriorityQueue<int, int> maxprice;
+        int latestprice = -1;
+        int latesttime = -1;
+
+        public StockPrice()
+        {
+            minprice = new PriorityQueue<int, int>();
+            maxprice = new PriorityQueue<int, int>(Comparer<int>.Create((x, y) => y.CompareTo(x)));
+        }
+
+        public void Update(int timestamp, int price)
+        {
+
+
+            minprice.Enqueue(timestamp, price);
+            maxprice.Enqueue(timestamp, price);
+            extensions.TryUpdatePriority(minprice, timestamp, price, out _);
+            extensions.TryUpdatePriority(maxprice, timestamp, price, out _);
+
+
+            //Console.WriteLine(minprice.Peek());
+            //Console.WriteLine(maxprice.Peek());
+            if (timestamp >= latesttime)
+            {
+                latestprice = price;
+                latesttime = timestamp;
+            }
+
+        }
+
+        public int Current()
+        {
+
+            return latestprice;
+        }
+
+        public int Maximum()
+        {
+            int timestamp, price = 0;
+            var success = maxprice.TryPeek(out timestamp, out price);
+            return price;
+        }
+
+        public int Minimum()
+        {
+            int timestamp, price = 0;
+            var success = minprice.TryPeek(out timestamp, out price);
+            return price;
+        }
+
+
+    }
+
+    public static class extensions
+    {
+
+
+        public static bool TryUpdatePriority<TElement, TPriority>(
+        this PriorityQueue<TElement, TPriority> source,
+        TElement element, TPriority newPriority, out TPriority oldPriority)
+        {
+            ArgumentNullException.ThrowIfNull(source);
+            if (source.Remove(element, out TElement removedElement, out oldPriority))
+            {
+                source.Enqueue(removedElement, newPriority);
+                return true;
+            }
+            return false;
+        }
+
+
+    }
+
+
+
+
+
     internal class Solution2
     {
         //META phone interview:
