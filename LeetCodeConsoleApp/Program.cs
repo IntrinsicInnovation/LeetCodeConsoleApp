@@ -2077,20 +2077,21 @@ namespace LeetCodeConsoleApp
             
             var allone = new AllOne();
 
-          /*  allone.Inc("hello");
-            allone.Inc("goodbye");
-            allone.Inc("hello");
-            allone.Inc("hello");
-            var mk = allone.GetMaxKey();
-            allone.Inc("leet");
-            allone.Inc("code");
-            allone.Inc("leet");
-            allone.Dec("hello");
-            allone.Inc("leet");
-            allone.Inc("code");
-            allone.Inc("code");
-            mk = allone.GetMaxKey(); */
+            /*  allone.Inc("hello");
+              allone.Inc("goodbye");
+              allone.Inc("hello");
+              allone.Inc("hello");
+              var mk = allone.GetMaxKey();
+              allone.Inc("leet");
+              allone.Inc("code");
+              allone.Inc("leet");
+              allone.Dec("hello");
+              allone.Inc("leet");
+              allone.Inc("code");
+              allone.Inc("code");
+              mk = allone.GetMaxKey(); */
 
+            /*
             // 2nd test:
             allone = new AllOne();
 
@@ -2125,12 +2126,12 @@ namespace LeetCodeConsoleApp
             allone.Inc("a");
             allone.Dec("j");
             maxk = allone.GetMaxKey();
-            mink = allone.GetMinKey();
+            mink = allone.GetMinKey(); */
 
 
-         //   ["AllOne", "inc", "inc", "inc", "inc", "inc", "inc", "inc", "inc", "inc", "inc", "inc", "inc", "dec", "dec", "dec", "dec", "dec", "dec", "inc", "inc", "inc", "inc", "getMaxKey", "getMinKey", "inc", "inc", "getMaxKey", "getMinKey", "inc", "dec", "getMaxKey", "getMinKey"]
-         //          [[], ["a"], ["b"], ["c"], ["d"], ["e"], ["f"], ["g"], ["h"], ["i"], ["j"], ["k"], ["l"], ["a"], ["b"], ["c"], ["d"], ["e"], ["f"], ["g"], ["h"], ["i"], ["j"], [], [],                  ["k"], ["l"], [], [],                   ["a"], ["j"], [], []]
+            var r = sol2.FindClosestElements(new int[] { 1, 2, 3, 4, 5 }, 4, 3);
 
+            r = sol2.FindClosestElements( new int[] { 1, 1, 2, 3, 4, 5 },  4,  -1);
 
 
         }
