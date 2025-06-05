@@ -2135,30 +2135,19 @@ namespace LeetCodeConsoleApp
 
 
 
-
+            /*
 
             var roads = new List<(string from, string to, int duration)>
         {
 
-
-
-
                  ("Bridgewater", "Caledonia", 30),
-    ("Caledonia", "New Grafton", 15),
-    ("New Grafton", "Campground", 5),
-   ("Milton", "New Grafton", 30),
-    ("Liverpool", "Milton", 10)
+                ("Caledonia", "New Grafton", 15),
+                ("New Grafton", "Campground", 5),
+               ("Milton", "New Grafton", 30),
+                ("Liverpool", "Milton", 10)
 
         };
 
-
-
-            /*var starts1 = new string[] { "Bridgewater", "Liverpool" };
-            var people1 = new string[][] {
-    new string[] {"Jessie", "Bridgewater"},
-    new string[] {"Travis", "Caledonia"},
-    new string[] {"Jeremy", "New Grafton"},
-    new string[] {"Katie", "Liverpool"} */
 
 
 
@@ -2166,21 +2155,27 @@ namespace LeetCodeConsoleApp
             string car2Start = "Liverpool";
             var peopleLocations = new List<string> { "Jessie", "Travis", "Jeremy", "Katie", "G" };
 
-            var result = sol2. DeterminePickupOrder(roads, car1Start, car2Start, peopleLocations);
+             var result = sol2. DeterminePickupOrder(roads, car1Start, car2Start, peopleLocations);
             Console.WriteLine(string.Join(",", result));
-
-
-
-
-
-
-
-
-
-
-
-
+            
             var f = sol2.CanPlaceFlowers(new int[] { 0, 1, 0 }, 1);
+            */
+
+            var price = new StockPrice();
+            price.
+
+                
+
+                
+                ["StockPrice", "update", "maximum", "current", "minimum", "maximum", "maximum", "maximum", "minimum", "minimum", "maximum", "update", "maximum", "minimum", "update", "maximum", "minimum", "current", "maximum", "update", "minimum", "maximum", "update", "maximum", "maximum", "current", "update", "current", "minimum", "update", "update", "minimum", "minimum", "update", "current", "update", "maximum", "update", "minimum"]
+                        [[], [38, 2308], [], [], [], [], [], [], [], [], [], [47, 7876], [], [], [58, 1866], [], [], [], [], [43, 121], [], [], [40, 5339], [], [], [], [32, 5339], [], [], [43, 6414], [49, 9369], [], [], [36, 3192], [], [48, 1006], [], [53, 8013], []]
+
+
+
+
+
+
+
 
 
         }

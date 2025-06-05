@@ -70,7 +70,7 @@ namespace LeetCodeConsoleApp
                     return true;
 
             }
-       
+
 
 
 
@@ -107,8 +107,14 @@ namespace LeetCodeConsoleApp
                     else if (i > 0 && i < len - 1 && flowerbed[i - 1] == 0 && flowerbed[i + 1] == 0)
                     {
 
-    internal class Solution2
-    {
+                    }
+                }
+         
+            
+            }
+
+            return false;
+        }
 
 
 
@@ -187,7 +193,7 @@ n = number of roads
 
         // Atlassian coding results:
 
-  //Generated from chat gpt .  works
+  //Generated from chat gpt .  works.  broken.  regenerate again.
 
         public  List<string> DeterminePickupOrder(List<(string from, string to, int duration)> roads, string car1Start, string car2Start, List<string> peopleLocations)
         {
@@ -202,7 +208,7 @@ n = number of roads
 
             // List to store the order of pickups
             List<string> pickupOrder = new List<string>();
-                        flowerbed[i] = 1;
+                      /*(  flowerbed[i] = 1;
                         count++;
                         i += 2;
 
@@ -218,11 +224,12 @@ n = number of roads
                     i++;
                 }
             }
-            if (count < n)
-                return false;
-            else
-                return true;
-        }
+*/
+            //if (count < n)
+               // return false;
+            //else
+              //  return true;
+        
 
 
 
@@ -248,7 +255,7 @@ n = number of roads
                 }
             }
 
-            return pickupOrder;
+             return pickupOrder;
         }
 
         private  void CalculateMinTimes(string start, List<(string from, string to, int duration)> roads, Dictionary<string, int> times)
@@ -3007,7 +3014,7 @@ public IList<int> FindClosestElements4(int[] arr, int k, int x)
 
     //Wrong answer.  Scrap it or rework.
 
-    public class StockPrice
+    public class StockPrice1
     {
 
         private PriorityQueue<int, int> minprice;
@@ -3015,7 +3022,7 @@ public IList<int> FindClosestElements4(int[] arr, int k, int x)
         int latestprice = -1;
         int latesttime = -1;
 
-        public StockPrice()
+        public StockPrice1()
         {
             minprice = new PriorityQueue<int, int>();
             maxprice = new PriorityQueue<int, int>(Comparer<int>.Create((x, y) => y.CompareTo(x)));
@@ -3155,7 +3162,84 @@ public IList<int> FindClosestElements4(int[] arr, int k, int x)
 
 
 
+    public class StockPrice
+    {
 
+
+        int latest;
+        Dictionary<int, int> timeStampPrices;
+        PriorityQueue<int, int> minPrice;
+        PriorityQueue<int, int> maxPrice;
+
+
+        public StockPrice()
+        {
+
+            timeStampPrices = new Dictionary<int, int>();
+            minPrice = new PriorityQueue<int, int>();
+            maxPrice = new PriorityQueue<int, int>(Comparer<int>.Create((a, b) => b.CompareTo(a)));
+
+
+        }
+
+        public void Update(int timestamp, int price)
+        {
+            latest = Math.Max(latest, timestamp);
+            timeStampPrices[timestamp] = price;
+
+            minPrice.Enqueue(timestamp, price);
+            maxPrice.Enqueue(timestamp, price);
+        }
+
+        public int Current()
+        {
+            return timeStampPrices[latest];
+        }
+
+        public int Maximum()
+        {
+            if (maxPrice.TryPeek(out int time, out int max))
+            {
+                while (max != timeStampPrices[time])
+                {
+                    var success = maxPrice.TryDequeue(out time, out max);
+                    if (!success)
+                        break;
+                }
+
+                return max;
+            }
+            else
+                return 0;
+
+        }
+
+        public int Minimum()
+        {
+            if (minPrice.TryPeek(out int time, out int min))
+            {
+                while (min != timeStampPrices[time])
+                {
+                    var success = maxPrice.TryDequeue(out time, out min);
+                    if (!success)
+                        break;
+                }
+
+                return min;
+            }
+            else
+                return 0;
+        }
+    }
+
+    /**
+     * Your StockPrice object will be instantiated and called as such:
+     * StockPrice obj = new StockPrice();
+     * obj.Update(timestamp,price);
+     * int param_2 = obj.Current();
+     * int param_3 = obj.Maximum();
+     * int param_4 = obj.Minimum();
+     */
 
 
 
