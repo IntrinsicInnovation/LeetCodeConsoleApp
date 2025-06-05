@@ -2129,9 +2129,11 @@ namespace LeetCodeConsoleApp
             mink = allone.GetMinKey(); */
 
 
-            var r = sol2.FindClosestElements(new int[] { 1, 2, 3, 4, 5 }, 4, 3);
+            //  var r = sol2.FindClosestElements(new int[] { 1, 2, 3, 4, 5 }, 4, 3);
 
-            r = sol2.FindClosestElements( new int[] { 1, 1, 2, 3, 4, 5 },  4,  -1);
+            //  r = sol2.FindClosestElements( new int[] { 1, 1, 2, 3, 4, 5 },  4,  -1);
+
+            var f = sol2.CanPlaceFlowers(new int[] { 0, 1, 0 }, 1);
 
 
         }

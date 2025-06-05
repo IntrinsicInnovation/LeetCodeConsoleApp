@@ -19,13 +19,117 @@ namespace LeetCodeConsoleApp
 {
 
 
-
-
-
-
-
     internal class Solution2
     {
+
+
+
+
+
+       
+            public bool CanPlaceFlowers(int[] flowerbed, int n)
+            {
+
+                var len = flowerbed.Length;
+                var count = 0;
+                var i = 0;
+                if (len == 1 && n == 1 & flowerbed[0] == 0)
+                    return true;
+                while (count < n && i < len)
+                {
+                    if (flowerbed[i] == 0)
+                    {
+                        if (i == 0 && flowerbed[i + 1] == 0)
+                        {
+                            Console.WriteLine("1");
+                            count++;
+                            flowerbed[i] = 1;
+                        }
+                        else if (i == len - 1 && flowerbed[i - 1] == 0)
+                        {
+                            Console.WriteLine("2");
+                            count++;
+                            flowerbed[i] = 1;
+                        }
+                        else if (i > 0 && i < len - 1 && flowerbed[i - 1] == 0 && flowerbed[i + 1] == 0)
+                        {
+                            Console.WriteLine("3");
+                            count++;
+                            flowerbed[i] = 1;
+                        }
+                    }
+                    i++;
+                }
+
+
+                if (count < n)
+                    return false;
+                else
+                    return true;
+
+            }
+       
+
+
+
+
+
+
+
+        public bool CanPlaceFlowers1(int[] flowerbed, int n)
+        {
+            var count = 0;
+            var len = flowerbed.Length;
+            if (len == 1 && n == 1 && flowerbed[0] == 0)
+                return true;
+            var i = 0;
+
+            while (count < n && i < len)
+            {
+                if (flowerbed[i] == 0)
+                {
+                    if (i == 0 && flowerbed[i + 1] == 0)
+                    {
+                        flowerbed[i] = 1;
+                        count++;
+                        i += 2;
+                    }
+
+                    else if (i == len - 1 && flowerbed[i - 1] == 0)
+                    {
+                        flowerbed[i] = 1;
+                        count++;
+                        i += 2;
+                    }
+
+                    else if (i > 0 && i < len - 1 && flowerbed[i - 1] == 0 && flowerbed[i + 1] == 0)
+                    {
+
+                        flowerbed[i] = 1;
+                        count++;
+                        i += 2;
+
+                    }
+                    else
+                        i++;
+
+
+                }
+                else
+                {
+                    Console.WriteLine("before i++");
+                    i++;
+                }
+            }
+            if (count < n)
+                return false;
+            else
+                return true;
+        }
+
+
+
+
 
 
         public IList<int> FindClosestElements(int[] arr, int k, int x)
@@ -72,10 +176,6 @@ namespace LeetCodeConsoleApp
         //Fails, as you need a custom comparer on two levels (a - x), then a.
         public IList<int> FindClosestElements2(int[] arr, int k, int x)
         {
-
-
-
-
 
             Array.Sort(arr, (a, b) => Math.Abs(a - x) - (Math.Abs(b-x)));
             Array.Sort(arr);
