@@ -2180,6 +2180,7 @@ namespace LeetCodeConsoleApp
 
 
 
+            var f = sol2.CanPlaceFlowers(new int[] { 0, 1, 0 }, 1);
 
 
         }
