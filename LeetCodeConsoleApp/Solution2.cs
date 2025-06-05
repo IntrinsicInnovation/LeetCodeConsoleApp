@@ -14,6 +14,8 @@ using System.Text;
 using System.Threading.Tasks;
 using static LeetCodeConsoleApp.Solution.editor;
 using System.Collections.Immutable;
+using System.Security.Cryptography;
+using LeetCodeConsoleApp;
 
 namespace LeetCodeConsoleApp
 {
@@ -28,29 +30,347 @@ namespace LeetCodeConsoleApp
     {
 
 
+
+
+        //Atlassian:
+
+
+        /*
+You and your friends are driving to a Campground to go camping. Only 2 of you have cars, so you will be carpooling. 
+
+Routes to the campground are linear, so each location will only lead to 1 location and there will be no loops or detours. Both cars will leave from their starting locations at the same time. The first car to pass someone's location will pick them up. If both cars arrive at the same time, the person can go in either car.
+
+Roads are provided as a directed list of connected locations with the duration (in minutes) it takes to drive between the locations. 
+[Origin, Destination, Duration it takes to drive]
+
+Given a list of roads, a list of starting locations and a list of people/where they live, return a collection of who will be in each car upon arrival to the Campground.
+------------------------------------------------------
+Bridgewater--(30)-->Caledonia--(15)-->New Grafton--(5)-->Campground
+                                       ^
+Liverpool---(10)---Milton-----(30)-----^
+
+roads1 = [
+    ["Bridgewater", "Caledonia", "30"], <= The road from Bridgewater to Caledonia takes 30 minutes to drive.
+    ["Caledonia", "New Grafton", "15"], 
+    ["New Grafton", "Campground", "5"], 
+    ["Milton", "New Grafton", "30"],
+    ["Liverpool", "Milton", "10"]
+]
+starts1 = ["Bridgewater", "Liverpool"]
+people1 = [
+    ["Jessie", "Bridgewater"], ["Travis", "Caledonia"], 
+    ["Jeremy", "New Grafton"], ["Katie", "Liverpool"]
+]
+
+Car1 path: (from Bridgewater): [Bridgewater(0, Jessie)->Caledonia(30, Travis)->New Grafton(45)->Campground(50)]
+Car2 path: (from Liverpool): [Liverpool(0, Katie)->Milton(10)->New Grafton(40, Jeremy)->Campground(45)]
+
+Output (In any order/format):
+    [Jessie, Travis], [Katie, Jeremy]
+--------------------------------------
+Riverport->Chester->Campground
+             ^
+Halifax------^
+
+roads2 = [["Riverport", "Chester", "40"], ["Chester", "Campground", "60"], ["Halifax", "Chester", "40"]]
+starts2 = ["Riverport", "Halifax"]
+people2 = [["Colin", "Riverport"], ["Sam", "Chester"], ["Alyssa", "Halifax"]]
+
+Output (In any order/format):
+    [Colin, Sam], [Alyssa] OR [Colin], [Alyssa, Sam]
+----------------------------------------
+Riverport->Bridgewater->Liverpool->Campground
+
+roads3 = [["Riverport", "Bridgewater", "1"], ["Bridgewater", "Liverpool", "1"], ["Liverpool", "Campground", "1"]]
+starts3_1 = ["Riverport", "Bridgewater"]
+starts3_2 = ["Bridgewater", "Riverport"]
+starts3_3 = ["Riverport", "Liverpool"]
+people3 = [["Colin", "Riverport"], ["Jessie", "Bridgewater"], ["Sam", "Liverpool"]]
+
+Output (starts3_1/starts3_2):  [Colin], [Jessie, Sam] - (Cars can be in any order)
+Output (starts3_3): [Jessie, Colin], [Sam]
+----------------------------------------
+All Test Cases: (Cars can be in either order)
+carpool(roads1, starts1, people1) => [Jessie, Travis], [Katie, Jeremy]
+carpool(roads2, starts2, people2) => [Colin, Sam], [Alyssa] OR [Colin], [Alyssa, Sam]
+carpool(roads3, starts3_1, people3) => [Colin], [Jessie, Sam]
+carpool(roads3, starts3_2, people3) => [Jessie, Sam], [Colin]
+carpool(roads3, starts3_3, people3) => [Jessie, Colin], [Sam]
+----------------------------------------
+Complexity Variable:
+n = number of roads
+
+
+
+*/
+
+        // Atlassian coding results:
+
+  //Generated from chat gpt .  works
+
+        public  List<string> DeterminePickupOrder(List<(string from, string to, int duration)> roads, string car1Start, string car2Start, List<string> peopleLocations)
+        {
+            // Dictionary to store the minimum time to reach each location from each car's starting point
+            Dictionary<string, int> car1Times = new Dictionary<string, int>();
+            Dictionary<string, int> car2Times = new Dictionary<string, int>();
+
+            // BFS to calculate minimum time from car1Start
+            CalculateMinTimes(car1Start, roads, car1Times);
+            // BFS to calculate minimum time from car2Start
+            CalculateMinTimes(car2Start, roads, car2Times);
+
+            // List to store the order of pickups
+            List<string> pickupOrder = new List<string>();
+
+            // Determine the order of pickup based on the minimum time
+            foreach (var person in peopleLocations)
+            {
+                int timeCar1 = car1Times.ContainsKey(person) ? car1Times[person] : int.MaxValue;
+                int timeCar2 = car2Times.ContainsKey(person) ? car2Times[person] : int.MaxValue;
+
+                if (timeCar1 < timeCar2)
+                {
+                    pickupOrder.Add(person);
+                }
+                else if (timeCar2 < timeCar1)
+                {
+                    pickupOrder.Add(person);
+                }
+                else
+                {
+                    pickupOrder.Add(person); // If both times are equal, they can choose either car
+                }
+            }
+
+            return pickupOrder;
+        }
+
+        private  void CalculateMinTimes(string start, List<(string from, string to, int duration)> roads, Dictionary<string, int> times)
+        {
+            Queue<(string location, int time)> queue = new Queue<(string location, int time)>();
+            queue.Enqueue((start, 0));
+            times[start] = 0;
+
+            while (queue.Count > 0)
+            {
+                var (currentLocation, currentTime) = queue.Dequeue();
+
+                foreach (var road in roads)
+                {
+                    if (road.from == currentLocation)
+                    {
+                        int newTime = currentTime + road.duration;
+                        if (!times.ContainsKey(road.to) || newTime < times[road.to])
+                        {
+                            times[road.to] = newTime;
+                            queue.Enqueue((road.to, newTime));
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        public int CalculateSaved(string[] shoppingList, string[][] products)
+        {
+            if (shoppingList == null || shoppingList.Count() == 0)
+                return 0;
+
+            HashSet<string> uniqueDepartments = new HashSet<string>();
+            var lastDepartment = "";
+            var transitions = 0;
+
+            foreach (var item in shoppingList)
+            {
+                var currentDepartment = lookup(item, products);
+                uniqueDepartments.Add(currentDepartment);
+
+                if (currentDepartment != lastDepartment)
+                {
+                    transitions++;
+                    lastDepartment = currentDepartment;
+                }
+            }
+
+
+            var difference = transitions - uniqueDepartments.Count;
+            return difference;
+        }
+
+        static string lookup(string item, string[][] products)
+        {
+            foreach (var product in products)
+            {
+                if (product[0] == item)
+                    return product[1];
+            }
+            return "";
+        }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+        //beats 91% -- generated from cocheat!!  awesome job!
         public IList<int> FindClosestElements(int[] arr, int k, int x)
+        {
+            int left = 0;
+            int right = arr.Length - 1;
+
+            // Binary search to find the closest element
+            while (right - left >= k)
+            {
+                if (Math.Abs(arr[left] - x) > Math.Abs(arr[right] - x))
+                {
+                    left++;
+                }
+                else
+                {
+                    right--;
+                }
+            }
+
+            // Collect the k closest elements
+            List<int> result = new List<int>();
+            for (int i = left; i <= right; i++)
+            {
+                result.Add(arr[i]);
+            }
+
+            return result;
+        }
+
+
+
+        //good - beets 70%
+        public IList<int> FindClosestElements5(int[] arr, int k, int x)
+        {
+
+
+                                                          var result = new List<int>();
+
+            // Base case
+            if (arr.Length == k)
+            {
+                for (int i = 0; i < k; i++)
+                {
+                    result.Add(arr[i]);
+                }
+
+                return result;
+            }
+
+            // Binary search to find the closest element
+            int left = 0;
+            int right = arr.Length;
+            int mid = 0;
+            while (left < right)
+            {
+                mid = (left + right) / 2;
+                if (arr[mid] >= x)
+                {
+                    right = mid;
+                }
+                else
+                {
+                    left = mid + 1;
+                }
+            }
+
+            // Initialize our sliding window's bounds
+            left -= 1;
+            right = left + 1;
+
+            // While the window size is less than k
+            while (right - left - 1 < k)
+            {
+                // Be careful to not go out of bounds
+                if (left == -1)
+                {
+                    right += 1;
+                    continue;
+                }
+
+                // Expand the window towards the side with the closer number
+                // Be careful to not go out of bounds with the pointers
+                if (right == arr.Length || Math.Abs(arr[left] - x) <= Math.Abs(arr[right] - x))
+                {
+                    left -= 1;
+                }
+                else
+                {
+                    right += 1;
+                }
+            }
+
+            // Build and return the window
+            for (int i = left + 1;  i < right; i++)
+            {
+                result.Add(arr[i]);
+            }
+
+            return result;
+        }
+
+
+
+public IList<int> FindClosestElements4(int[] arr, int k, int x)
         {
             var len = arr.Length;
             if (len == k)
                 return arr;
-            var mid = Array.BinarySearch(arr, x); // Comparer<int>.Create((a, b) => a.CompareTo(b)));
+            //var mid = Array.BinarySearch(arr, x); // Comparer<int>.Create((a, b) => a.CompareTo(b)));
+            var left = 0;
+            var right = len - 1;
+            var mid = 0;
 
-            var left = mid - 1;
-            var right = mid + 1;
-            while (right - left +1 < k)
+
+            do
+            {
+                mid = left + (right - left) / 2;
+                if (x > arr[mid])
+                    left = mid + 1;
+                else
+                    right = mid - 1;
+                if (x == arr[mid])
+                    break;
+            } while (left <= right);
+
+
+
+
+
+            left--;
+            right = left + 1;
+            while (right - left -1 < k)
             {
                 if (left < 0)
                 {
-                    left++;
+                    right++;
+                    continue;
                     
                 }
-                if (right == len)
-                {
-                    left++;
+                
 
-                }
-
-                if (Math.Abs(arr[left] - x) <= Math.Abs(arr[right] - x))
+                if (right == len || Math.Abs(arr[left] - x) <= Math.Abs(arr[right] - x))
                     left--;
                 else
                     right++;
@@ -2583,20 +2903,7 @@ namespace LeetCodeConsoleApp
      */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //Wrong answer.  Scrap it or rework.
 
     public class StockPrice
     {
@@ -2674,6 +2981,81 @@ namespace LeetCodeConsoleApp
 
 
     }
+
+
+
+
+
+
+
+
+
+
+    public class StockPrice2
+    {
+        private Dictionary<int, int> timestampPriceMap;
+        private SortedDictionary<int, int> priceFrequencyMap;
+        private int latestTimestamp;
+
+        public StockPrice2()
+        {
+            timestampPriceMap = new Dictionary<int, int>();
+            priceFrequencyMap = new SortedDictionary<int, int>();
+            latestTimestamp = 0;
+        }
+
+        public void Update(int timestamp, int price)
+        {
+            // If the timestamp already exists, update the price frequency map
+            if (timestampPriceMap.ContainsKey(timestamp))
+            {
+                int oldPrice = timestampPriceMap[timestamp];
+                priceFrequencyMap[oldPrice]--;
+                if (priceFrequencyMap[oldPrice] == 0)
+                {
+                    priceFrequencyMap.Remove(oldPrice);
+                }
+            }
+
+            // Update the timestamp to price mapping
+            timestampPriceMap[timestamp] = price;
+
+            // Update the price frequency map
+            if (!priceFrequencyMap.ContainsKey(price))
+            {
+                priceFrequencyMap[price] = 0;
+            }
+            priceFrequencyMap[price]++;
+
+            // Update the latest timestamp
+            if (timestamp > latestTimestamp)
+            {
+                latestTimestamp = timestamp;
+            }
+        }
+
+        public int Current()
+        {
+            return timestampPriceMap[latestTimestamp];
+        }
+
+        public int Maximum()
+        {
+            return priceFrequencyMap.Keys.Max();
+        }
+
+        public int Minimum()
+        {
+            return priceFrequencyMap.Keys.Min();
+        }
+    }
+
+
+
+
+
+
+
 
 
 

@@ -2129,9 +2129,57 @@ namespace LeetCodeConsoleApp
             mink = allone.GetMinKey(); */
 
 
-            var r = sol2.FindClosestElements(new int[] { 1, 2, 3, 4, 5 }, 4, 3);
+            //var r = sol2.FindClosestElements(new int[] { 1, 2, 3, 4, 5 }, 4, 3);
 
-            r = sol2.FindClosestElements( new int[] { 1, 1, 2, 3, 4, 5 },  4,  -1);
+            //r = sol2.FindClosestElements( new int[] { 1, 1, 2, 3, 4, 5 },  4,  -1);
+
+
+
+
+
+            var roads = new List<(string from, string to, int duration)>
+        {
+
+
+
+
+                 ("Bridgewater", "Caledonia", 30),
+    ("Caledonia", "New Grafton", 15),
+    ("New Grafton", "Campground", 5),
+   ("Milton", "New Grafton", 30),
+    ("Liverpool", "Milton", 10)
+
+        };
+
+
+
+            /*var starts1 = new string[] { "Bridgewater", "Liverpool" };
+            var people1 = new string[][] {
+    new string[] {"Jessie", "Bridgewater"},
+    new string[] {"Travis", "Caledonia"},
+    new string[] {"Jeremy", "New Grafton"},
+    new string[] {"Katie", "Liverpool"} */
+
+
+
+            string car1Start = "Bridgewater";
+            string car2Start = "Liverpool";
+            var peopleLocations = new List<string> { "Jessie", "Travis", "Jeremy", "Katie", "G" };
+
+            var result = sol2. DeterminePickupOrder(roads, car1Start, car2Start, peopleLocations);
+            Console.WriteLine(string.Join(",", result));
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         }
