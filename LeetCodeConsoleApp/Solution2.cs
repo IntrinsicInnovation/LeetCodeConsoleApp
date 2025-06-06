@@ -82,12 +82,14 @@ namespace LeetCodeConsoleApp
                 return string.Compare(key, val, StringComparison.OrdinalIgnoreCase);
             }));
 
-            foreach (var product in products)
-            {
-                if (product[0] == item)
-                    return product[1];
-            }
-            return "";
+            /*  foreach (var product in products)
+              {
+                  if (product[0] == item)
+                      return product[1];
+              }
+               return ""; */
+
+            return products[result][1];
         }
 
 
@@ -276,95 +278,84 @@ n = number of roads
 
         // Atlassian coding results:
 
-  //Generated from chat gpt .  works.  broken.  regenerate again.
+        //Generated from chat gpt .  works:
 
-        public  List<string> DeterminePickupOrder(List<(string from, string to, int duration)> roads, string car1Start, string car2Start, List<string> peopleLocations)
+
+
+        public class Carpooling
         {
-            // Dictionary to store the minimum time to reach each location from each car's starting point
-            Dictionary<string, int> car1Times = new Dictionary<string, int>();
-            Dictionary<string, int> car2Times = new Dictionary<string, int>();
-
-            // BFS to calculate minimum time from car1Start
-            CalculateMinTimes(car1Start, roads, car1Times);
-            // BFS to calculate minimum time from car2Start
-            CalculateMinTimes(car2Start, roads, car2Times);
-
-            // List to store the order of pickups
-            List<string> pickupOrder = new List<string>();
-                      /*(  flowerbed[i] = 1;
-                        count++;
-                        i += 2;
-
-                    }
-                    else
-                        i++;
-
-
-                }
-                else
-                {
-                    Console.WriteLine("before i++");
-                    i++;
-                }
-            }
-*/
-            //if (count < n)
-               // return false;
-            //else
-              //  return true;
-        
-
-
-
-
-
-            // Determine the order of pickup based on the minimum time
-            foreach (var person in peopleLocations)
+            public class Road
             {
-                int timeCar1 = car1Times.ContainsKey(person) ? car1Times[person] : int.MaxValue;
-                int timeCar2 = car2Times.ContainsKey(person) ? car2Times[person] : int.MaxValue;
-
-                if (timeCar1 < timeCar2)
-                {
-                    pickupOrder.Add(person);
-                }
-                else if (timeCar2 < timeCar1)
-                {
-                    pickupOrder.Add(person);
-                }
-                else
-                {
-                    pickupOrder.Add(person); // If both times are equal, they can choose either car
-                }
+                public string Start { get; set; }
+                public string End { get; set; }
+                public int Duration { get; set; }
             }
 
-             return pickupOrder;
-        }
-
-        private  void CalculateMinTimes(string start, List<(string from, string to, int duration)> roads, Dictionary<string, int> times)
-        {
-            Queue<(string location, int time)> queue = new Queue<(string location, int time)>();
-            queue.Enqueue((start, 0));
-            times[start] = 0;
-
-            while (queue.Count > 0)
+            public List<string> DeterminePickupOrder(List<Road> roads, string car1Start, string car2Start, List<string> peopleLocations)
             {
-                var (currentLocation, currentTime) = queue.Dequeue();
-
+                // Create a graph from the roads
+                var graph = new Dictionary<string, List<(string, int)>>();
                 foreach (var road in roads)
                 {
-                    if (road.from == currentLocation)
+                    if (!graph.ContainsKey(road.Start))
                     {
-                        int newTime = currentTime + road.duration;
-                        if (!times.ContainsKey(road.to) || newTime < times[road.to])
+                        graph[road.Start] = new List<(string, int)>();
+                    }
+                    graph[road.Start].Add((road.End, road.Duration));
+                }
+
+                // Priority queue to simulate the movement of cars
+                var pq = new SortedSet<(int, string, int)>(); // (time, location, carId)
+                pq.Add((0, car1Start, 1));
+                pq.Add((0, car2Start, 2));
+
+                // Dictionary to track the earliest time a car can reach a location
+                var earliestArrival = new Dictionary<string, (int, int)>(); // location -> (time, carId)
+
+                // Result list to store the pickup order
+                var pickupOrder = new List<string>();
+
+                while (pq.Count > 0)
+                {
+                    var current = pq.Min;
+                    pq.Remove(current);
+
+                    int currentTime = current.Item1;
+                    string currentLocation = current.Item2;
+                    int currentCarId = current.Item3;
+
+                    // If this location is a person's location, pick them up
+                    if (peopleLocations.Contains(currentLocation))
+                    {
+                        pickupOrder.Add(currentLocation);
+                        peopleLocations.Remove(currentLocation);
+                    }
+
+                    // Explore neighbors
+                    if (graph.ContainsKey(currentLocation))
+                    {
+                        foreach (var neighbor in graph[currentLocation])
                         {
-                            times[road.to] = newTime;
-                            queue.Enqueue((road.to, newTime));
+                            int newTime = currentTime + neighbor.Item2;
+                            string neighborLocation = neighbor.Item1;
+
+                            if (!earliestArrival.ContainsKey(neighborLocation) || newTime < earliestArrival[neighborLocation].Item1)
+                            {
+                                earliestArrival[neighborLocation] = (newTime, currentCarId);
+                                pq.Add((newTime, neighborLocation, currentCarId));
+                            }
                         }
                     }
                 }
+
+                return pickupOrder;
             }
+
+
         }
+
+
+
 
 
 
@@ -3285,9 +3276,6 @@ public IList<int> FindClosestElements4(int[] arr, int k, int x)
      * int param_3 = obj.Maximum();
      * int param_4 = obj.Minimum();
      */
-
-
-
 
 
 

@@ -17,6 +17,7 @@ using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography;
 using System.Text;
+using static LeetCodeConsoleApp.Carpooling;
 
 
 namespace LeetCodeConsoleApp
@@ -2136,31 +2137,32 @@ namespace LeetCodeConsoleApp
 
 
 
-            /*
+            var carpooling = new Carpooling();
 
-            var roads = new List<(string from, string to, int duration)>
+
+            var roads = new List<Road>
         {
-
-                 ("Bridgewater", "Caledonia", 30),
-                ("Caledonia", "New Grafton", 15),
-                ("New Grafton", "Campground", 5),
-               ("Milton", "New Grafton", 30),
-                ("Liverpool", "Milton", 10)
-
+            new Road { Start = "Jessie", End = "Travis", Duration = 10 },
+            new Road { Start = "Travis", End = "Katie", Duration = 5 },
+            new Road { Start = "Katie", End = "Jeremy", Duration = 15 },
+            new Road { Start = "Jeremy", End = "Alyssa", Duration = 20 },
+            new Road { Start = "Alyssa", End = "Sam", Duration = 10 },
+            new Road { Start = "Sam", End = "Colin", Duration = 5 }
         };
 
 
+            string car1Start = "Jessie";
+            string car2Start = "Sam";
+            var peopleLocations = new List<string> { "Travis", "Katie", "Jeremy", "Alyssa", "Sam", "Colin" };
+
+            var pickupOrder = carpooling.DeterminePickupOrder(roads, car1Start, car2Start, peopleLocations);
+
+            Console.WriteLine(string.Join(",", pickupOrder));
 
 
-            string car1Start = "Bridgewater";
-            string car2Start = "Liverpool";
-            var peopleLocations = new List<string> { "Jessie", "Travis", "Jeremy", "Katie", "G" };
 
-             var result = sol2. DeterminePickupOrder(roads, car1Start, car2Start, peopleLocations);
-            Console.WriteLine(string.Join(",", result));
-            
-            var f = sol2.CanPlaceFlowers(new int[] { 0, 1, 0 }, 1);
-            */
+            //var f = sol2.CanPlaceFlowers(new int[] { 0, 1, 0 }, 1);
+
 
             //Got it beats 96%
             /*var price = new StockPrice();
@@ -2203,10 +2205,10 @@ namespace LeetCodeConsoleApp
             price.Update(53, 8013);
             price.Minimum(); */
 
-            var shoppinglist = new string[] { "steak", "butter", "apples", "milk" };
-            var products = new string[][] {new string[] { "apples", "produce" },  new string[] { "butter","dairy" }, new string[] { "milk", "dairy" }, new string[] { "steak", "meat" }};
+            /*  var shoppinglist = new string[] { "steak", "butter", "apples", "milk" };
+              var products = new string[][] {new string[] { "apples", "produce" },  new string[] { "butter","dairy" }, new string[] { "milk", "dairy" }, new string[] { "steak", "meat" }};
 
-            var saved = sol2.CalculateSaved(shoppinglist, products);
+              var saved = sol2.CalculateSaved(shoppinglist, products); */
 
 
         }
@@ -2214,8 +2216,6 @@ namespace LeetCodeConsoleApp
     }
     class Solution
     {
-
-
 
         //Meta past question:
         //Try to write this one from scratch again.
