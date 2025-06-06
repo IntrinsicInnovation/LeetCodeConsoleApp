@@ -27,9 +27,92 @@ namespace LeetCodeConsoleApp
 
 
 
+        //Atlassian.
 
-       
-            public bool CanPlaceFlowers(int[] flowerbed, int n)
+        //change to binary search to optimize
+        // var shoppinglist = new string[] { "steak", "butter", "apples", "milk" };
+        // var products = new string[][] { new string[] { "apples", "produce" }, new string[] { "butter", "dairy" }, new string[] { "milk", "dairy" }, new string[] { "steak", "meat" } };
+
+
+
+        public int CalculateSaved(string[] shoppingList, string[][] products)
+        {
+            if (shoppingList == null || shoppingList.Count() == 0)
+                return 0;
+
+            HashSet<string> uniqueDepartments = new HashSet<string>();
+            var lastDepartment = "";
+            var transitions = 0;
+
+            foreach (var item in shoppingList)
+            {
+                var currentDepartment = lookup(item, products);
+                uniqueDepartments.Add(currentDepartment);
+
+                if (currentDepartment != lastDepartment)
+                {
+                    transitions++;
+                    lastDepartment = currentDepartment;
+                }
+            }
+
+
+            var difference = transitions - uniqueDepartments.Count;
+            return difference;
+        }
+
+        static string lookup(string item, string[][] products)
+        {
+
+
+
+            /* int index = Array.BinarySearch(
+           products,
+           searchKey,
+           Comparer<string[]>.Create((a, b) => string.Compare(a[0], b[0], StringComparison.OrdinalIgnoreCase))
+       );  */
+
+
+
+            //var rowzero = products[0];
+            var result = Array.BinarySearch(products, item, Comparer<object>.Create((x, y) =>
+            {
+                string key = x as string ?? (x as string[])?[0] ?? "";
+                string val = y as string ?? (y as string[])?[0] ?? "";
+                return string.Compare(key, val, StringComparison.OrdinalIgnoreCase);
+            }));
+
+            foreach (var product in products)
+            {
+                if (product[0] == item)
+                    return product[1];
+            }
+            return "";
+        }
+
+
+
+
+        //IComparer comparer = Comparer<object>.Create((x, y) =>
+        //{
+        //    string keyX = x is string[] arrX ? arrX[0] : x?.ToString() ?? "";
+        //    string keyY = y is string[] arrY ? arrY[0] : y?.ToString() ?? "";
+        //    return string.Compare(keyX, keyY, StringComparison.OrdinalIgnoreCase);
+        //});
+
+        //// Sort the jagged array
+      
+
+        //// Perform binary search
+        //string searchKey = "milk";
+        //int index = Array.BinarySearch(products, searchKey, comparer);
+
+
+
+
+
+
+        public bool CanPlaceFlowers(int[] flowerbed, int n)
             {
 
                 var len = flowerbed.Length;
@@ -286,50 +369,6 @@ n = number of roads
 
 
 
-
-
-
-
-
-
-
-
-        public int CalculateSaved(string[] shoppingList, string[][] products)
-        {
-            if (shoppingList == null || shoppingList.Count() == 0)
-                return 0;
-
-            HashSet<string> uniqueDepartments = new HashSet<string>();
-            var lastDepartment = "";
-            var transitions = 0;
-
-            foreach (var item in shoppingList)
-            {
-                var currentDepartment = lookup(item, products);
-                uniqueDepartments.Add(currentDepartment);
-
-                if (currentDepartment != lastDepartment)
-                {
-                    transitions++;
-                    lastDepartment = currentDepartment;
-                }
-            }
-
-
-            var difference = transitions - uniqueDepartments.Count;
-            return difference;
-        }
-
-        static string lookup(string item, string[][] products)
-        {
-            foreach (var product in products)
-            {
-                if (product[0] == item)
-                    return product[1];
-            }
-            return "";
-        }
-    
 
 
 
@@ -2944,6 +2983,10 @@ public IList<int> FindClosestElements4(int[] arr, int k, int x)
 
 
 
+
+
+
+
         private void AddNode(Node node, string key, Node nextnode, int newfrequency, Node headortail)
         {
             if (headortail == tail || headortail.frequency != newfrequency)
@@ -3161,7 +3204,7 @@ public IList<int> FindClosestElements4(int[] arr, int k, int x)
 
 
 
-
+    //Works.  Beats 96%
     public class StockPrice
     {
 
@@ -3202,7 +3245,8 @@ public IList<int> FindClosestElements4(int[] arr, int k, int x)
             {
                 while (max != timeStampPrices[time])
                 {
-                    var success = maxPrice.TryDequeue(out time, out max);
+                    maxPrice.Dequeue();
+                    var success = maxPrice.TryPeek(out time, out max);
                     if (!success)
                         break;
                 }
@@ -3220,7 +3264,8 @@ public IList<int> FindClosestElements4(int[] arr, int k, int x)
             {
                 while (min != timeStampPrices[time])
                 {
-                    var success = maxPrice.TryDequeue(out time, out min);
+                    minPrice.Dequeue();
+                    var success = minPrice.TryPeek(out time, out min);
                     if (!success)
                         break;
                 }

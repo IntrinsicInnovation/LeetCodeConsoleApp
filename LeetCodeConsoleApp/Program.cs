@@ -12,6 +12,7 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography;
@@ -2161,21 +2162,51 @@ namespace LeetCodeConsoleApp
             var f = sol2.CanPlaceFlowers(new int[] { 0, 1, 0 }, 1);
             */
 
-            var price = new StockPrice();
-            price.
+            //Got it beats 96%
+            /*var price = new StockPrice();
+            price.Update(38, 2308);
+            price.Maximum();
+            price.Current();
+            price.Minimum(); 
+            price.Maximum(); 
+            price.Maximum(); 
+            price.Maximum(); 
+            price.Minimum();
+            price.Minimum(); 
+            price.Maximum();
+            price.Update(47, 7876);
+            price.Maximum();
+            price.Minimum();
+            price.Update(58, 1866);
+            price.Maximum(); 
+            price.Minimum();
+            price.Current();
+            price.Maximum(); 
+            price.Update(43, 121); 
+            price.Minimum();
+            price.Maximum(); 
+            price.Update(40, 5339);
+            price.Maximum(); 
+            price.Maximum();
+            price.Current();
+            price.Update(32, 5339);
+            price.Current();
+            price.Minimum(); 
+            price.Update(43, 6414); 
+            price.Update(49, 9369);
+            price.Minimum();
+            price.Minimum();
+            price.Update(36, 3192);
+            price.Current();
+            price.Update(48, 1006);
+            price.Maximum(); 
+            price.Update(53, 8013);
+            price.Minimum(); */
 
-                
+            var shoppinglist = new string[] { "steak", "butter", "apples", "milk" };
+            var products = new string[][] {new string[] { "apples", "produce" },  new string[] { "butter","dairy" }, new string[] { "milk", "dairy" }, new string[] { "steak", "meat" }};
 
-                
-                ["StockPrice", "update", "maximum", "current", "minimum", "maximum", "maximum", "maximum", "minimum", "minimum", "maximum", "update", "maximum", "minimum", "update", "maximum", "minimum", "current", "maximum", "update", "minimum", "maximum", "update", "maximum", "maximum", "current", "update", "current", "minimum", "update", "update", "minimum", "minimum", "update", "current", "update", "maximum", "update", "minimum"]
-                        [[], [38, 2308], [], [], [], [], [], [], [], [], [], [47, 7876], [], [], [58, 1866], [], [], [], [], [43, 121], [], [], [40, 5339], [], [], [], [32, 5339], [], [], [43, 6414], [49, 9369], [], [], [36, 3192], [], [48, 1006], [], [53, 8013], []]
-
-
-
-
-
-
-
+            var saved = sol2.CalculateSaved(shoppinglist, products);
 
 
         }
