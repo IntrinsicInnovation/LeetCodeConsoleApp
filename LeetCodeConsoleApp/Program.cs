@@ -2136,29 +2136,29 @@ namespace LeetCodeConsoleApp
             //r = sol2.FindClosestElements( new int[] { 1, 1, 2, 3, 4, 5 },  4,  -1);
 
 
-
-            var carpooling = new Carpooling();
-
-
-            var roads = new List<Road>
-        {
-            new Road { Start = "Jessie", End = "Travis", Duration = 10 },
-            new Road { Start = "Travis", End = "Katie", Duration = 5 },
-            new Road { Start = "Katie", End = "Jeremy", Duration = 15 },
-            new Road { Start = "Jeremy", End = "Alyssa", Duration = 20 },
-            new Road { Start = "Alyssa", End = "Sam", Duration = 10 },
-            new Road { Start = "Sam", End = "Colin", Duration = 5 }
-        };
+            /*
+                        var carpooling = new Carpooling();
 
 
-            string car1Start = "Jessie";
-            string car2Start = "Sam";
-            var peopleLocations = new List<string> { "Travis", "Katie", "Jeremy", "Alyssa", "Sam", "Colin" };
+                        var roads = new List<Road>
+                    {
+                        new Road { Start = "Jessie", End = "Travis", Duration = 10 },
+                        new Road { Start = "Travis", End = "Katie", Duration = 5 },
+                        new Road { Start = "Katie", End = "Jeremy", Duration = 15 },
+                        new Road { Start = "Jeremy", End = "Alyssa", Duration = 20 },
+                        new Road { Start = "Alyssa", End = "Sam", Duration = 10 },
+                        new Road { Start = "Sam", End = "Colin", Duration = 5 }
+                    };
 
-            var pickupOrder = carpooling.DeterminePickupOrder(roads, car1Start, car2Start, peopleLocations);
 
-            Console.WriteLine(string.Join(",", pickupOrder));
+                        string car1Start = "Jessie";
+                        string car2Start = "Sam";
+                        var peopleLocations = new List<string> { "Travis", "Katie", "Jeremy", "Alyssa", "Sam", "Colin" };
 
+                        var pickupOrder = carpooling.DeterminePickupOrder(roads, car1Start, car2Start, peopleLocations);
+
+                        Console.WriteLine(string.Join(",", pickupOrder));
+            */
 
 
             //var f = sol2.CanPlaceFlowers(new int[] { 0, 1, 0 }, 1);
@@ -2210,7 +2210,11 @@ namespace LeetCodeConsoleApp
 
               var saved = sol2.CalculateSaved(shoppinglist, products); */
 
-
+            var tr = sol2.RankTeams(new string[] { "ABC", 
+                                                   "ACB", 
+                                                   "ABC", 
+                                                   "ACB", 
+                                                   "ACB" });
         }
 
     }

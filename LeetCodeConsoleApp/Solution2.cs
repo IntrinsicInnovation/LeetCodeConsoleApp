@@ -26,10 +26,61 @@ namespace LeetCodeConsoleApp
 
 
 
+            public string RankTeams(string[] votes)
+            {
+                var len = votes.Length;
+                if (len == 1)
+                    return votes[0];
+                var result = new StringBuilder();
+                var dict = new Dictionary<int, Dictionary<char, int>>();
+
+
+                for (var row = 0; row < len; row++)
+                {
+                    for (var col = 0; col < votes[0].Length; col++)
+                    {
+                        if (!dict.ContainsKey(col))
+                        {
+                            dict[col] = new Dictionary<char, int>()
+                            {
+                                { votes[row][col], 1 }
+                            };
+                        }
+
+                        else
+                        {
+                            if (dict[col].ContainsKey(votes[row][col]))
+                            {
+                                dict[col][votes[row][col]]++;
+                            }
+                            else
+                            {
+                                dict[col][votes[row][col]] = 1;
+                            }
+                        }
+
+                    }
+
+                }
+
+                foreach(var d in dict)
+            {
+                var counts = d.Value.OrderByDescending(d => d.Value, Comparer<int>.Create((a,b) => a.CompareTo(b))).Select(d => d.Key).First();
+                result.Append(counts);
+                //var a = d.Key;
+                //var b = d.Value;
+
+            }
+                return result.ToString();
+
+            }
+      
+
+
 
         //Atlassian.
 
-        //change to binary search to optimize
+        //changed to binary search to optimize
         // var shoppinglist = new string[] { "steak", "butter", "apples", "milk" };
         // var products = new string[][] { new string[] { "apples", "produce" }, new string[] { "butter", "dairy" }, new string[] { "milk", "dairy" }, new string[] { "steak", "meat" } };
 
@@ -280,94 +331,7 @@ n = number of roads
 
         //Generated from chat gpt .  works:
 
-
-
-        public class Carpooling
-        {
-            public class Road
-            {
-                public string Start { get; set; }
-                public string End { get; set; }
-                public int Duration { get; set; }
-            }
-
-            public List<string> DeterminePickupOrder(List<Road> roads, string car1Start, string car2Start, List<string> peopleLocations)
-            {
-                // Create a graph from the roads
-                var graph = new Dictionary<string, List<(string, int)>>();
-                foreach (var road in roads)
-                {
-                    if (!graph.ContainsKey(road.Start))
-                    {
-                        graph[road.Start] = new List<(string, int)>();
-                    }
-                    graph[road.Start].Add((road.End, road.Duration));
-                }
-
-                // Priority queue to simulate the movement of cars
-                var pq = new SortedSet<(int, string, int)>(); // (time, location, carId)
-                pq.Add((0, car1Start, 1));
-                pq.Add((0, car2Start, 2));
-
-                // Dictionary to track the earliest time a car can reach a location
-                var earliestArrival = new Dictionary<string, (int, int)>(); // location -> (time, carId)
-
-                // Result list to store the pickup order
-                var pickupOrder = new List<string>();
-
-                while (pq.Count > 0)
-                {
-                    var current = pq.Min;
-                    pq.Remove(current);
-
-                    int currentTime = current.Item1;
-                    string currentLocation = current.Item2;
-                    int currentCarId = current.Item3;
-
-                    // If this location is a person's location, pick them up
-                    if (peopleLocations.Contains(currentLocation))
-                    {
-                        pickupOrder.Add(currentLocation);
-                        peopleLocations.Remove(currentLocation);
-                    }
-
-                    // Explore neighbors
-                    if (graph.ContainsKey(currentLocation))
-                    {
-                        foreach (var neighbor in graph[currentLocation])
-                        {
-                            int newTime = currentTime + neighbor.Item2;
-                            string neighborLocation = neighbor.Item1;
-
-                            if (!earliestArrival.ContainsKey(neighborLocation) || newTime < earliestArrival[neighborLocation].Item1)
-                            {
-                                earliestArrival[neighborLocation] = (newTime, currentCarId);
-                                pq.Add((newTime, neighborLocation, currentCarId));
-                            }
-                        }
-                    }
-                }
-
-                return pickupOrder;
-            }
-
-
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+     //   moved down:
 
 
 
@@ -3276,6 +3240,84 @@ public IList<int> FindClosestElements4(int[] arr, int k, int x)
      * int param_3 = obj.Maximum();
      * int param_4 = obj.Minimum();
      */
+
+
+
+    public class Carpooling
+    {
+        public class Road
+        {
+            public string Start { get; set; }
+            public string End { get; set; }
+            public int Duration { get; set; }
+        }
+
+        public List<string> DeterminePickupOrder(List<Road> roads, string car1Start, string car2Start, List<string> peopleLocations)
+        {
+            // Create a graph from the roads
+            var graph = new Dictionary<string, List<(string, int)>>();
+            foreach (var road in roads)
+            {
+                if (!graph.ContainsKey(road.Start))
+                {
+                    graph[road.Start] = new List<(string, int)>();
+                }
+                graph[road.Start].Add((road.End, road.Duration));
+            }
+
+            // Priority queue to simulate the movement of cars
+            var pq = new SortedSet<(int, string, int)>(); // (time, location, carId)
+            pq.Add((0, car1Start, 1));
+            pq.Add((0, car2Start, 2));
+
+            // Dictionary to track the earliest time a car can reach a location
+            var earliestArrival = new Dictionary<string, (int, int)>(); // location -> (time, carId)
+
+            // Result list to store the pickup order
+            var pickupOrder = new List<string>();
+
+            while (pq.Count > 0)
+            {
+                var current = pq.Min;
+                pq.Remove(current);
+
+                int currentTime = current.Item1;
+                string currentLocation = current.Item2;
+                int currentCarId = current.Item3;
+
+                // If this location is a person's location, pick them up
+                if (peopleLocations.Contains(currentLocation))
+                {
+                    pickupOrder.Add(currentLocation);
+                    peopleLocations.Remove(currentLocation);
+                }
+
+                // Explore neighbors
+                if (graph.ContainsKey(currentLocation))
+                {
+                    foreach (var neighbor in graph[currentLocation])
+                    {
+                        int newTime = currentTime + neighbor.Item2;
+                        string neighborLocation = neighbor.Item1;
+
+                        if (!earliestArrival.ContainsKey(neighborLocation) || newTime < earliestArrival[neighborLocation].Item1)
+                        {
+                            earliestArrival[neighborLocation] = (newTime, currentCarId);
+                            pq.Add((newTime, neighborLocation, currentCarId));
+                        }
+                    }
+                }
+            }
+
+            return pickupOrder;
+        }
+
+
+    }
+
+
+
+
 
 
 
