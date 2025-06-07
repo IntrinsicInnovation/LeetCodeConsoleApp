@@ -24,7 +24,7 @@ namespace LeetCodeConsoleApp
     internal class Solution2
     {
 
-
+        //Need custom comparer to improve function below!!!
 
             public string RankTeams(string[] votes)
             {
