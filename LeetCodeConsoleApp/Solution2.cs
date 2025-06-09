@@ -24,9 +24,84 @@ namespace LeetCodeConsoleApp
     internal class Solution2
     {
 
+
+
+
+
+
+        public string FindScrambledWord(string[] words, string note)
+        {
+            var noteCharCount = getFrequency(note);
+
+            foreach (var word in words)
+            {
+                var wordCharCount = getFrequency(word);
+
+                if (canFormWord(wordCharCount, noteCharCount))
+                {
+                    return word;
+                }
+
+            }
+
+            return "-";
+
+        }
+
+        private  Dictionary<char, int> getFrequency(string str)
+        {
+            var charCount = new Dictionary<char, int>();
+            foreach (var c in str)
+            {
+                if (charCount.ContainsKey(c))
+                {
+                    charCount[c]++;
+                }
+                else
+                {
+                    charCount[c] = 1;
+                }
+            }
+
+            /*  foreach (var c in charCount)
+              {
+                  Console.WriteLine("key: " + c.Key);
+                  Console.WriteLine("value: " + c.Value);
+              }  */
+
+            Console.WriteLine();
+            return charCount;
+
+
+        }
+
+
+        private  bool canFormWord(Dictionary<char, int> wordCharCount, Dictionary<char, int> noteCharCount)
+        {
+            foreach (var kvp in wordCharCount)
+            {
+
+                var c = kvp.Key;
+                var count = kvp.Value;
+
+                Console.WriteLine("key: " + c);
+                Console.WriteLine("value: " + count);
+
+
+                if (!noteCharCount.ContainsKey(c) || noteCharCount[c] < count)
+                    return false;
+
+            }
+
+            return true;
+        }
+
+
+
+
         //Need custom comparer to improve function below!!!
 
-            public string RankTeams(string[] votes)
+        public string RankTeams(string[] votes)
             {
                 var len = votes.Length;
                 if (len == 1)

@@ -2210,11 +2210,47 @@ namespace LeetCodeConsoleApp
 
               var saved = sol2.CalculateSaved(shoppinglist, products); */
 
+            /*
             var tr = sol2.RankTeams(new string[] { "ABC", 
                                                    "ACB", 
                                                    "ABC", 
                                                    "ACB", 
                                                    "ACB" });
+            */
+
+
+
+
+
+
+
+
+            var words = new string[] { "baby", "referee", "cat", "dada", "dog", "bird", "ax", "baz" };
+            var note1 = "ctay"; // "cat"
+            var note2 = "bcanihjsrrrferet";
+            var note3 = "tbaykkjlga"; // "-"
+            var note4 = "bbbblkkjbaby";
+            var note5 = "dad";
+            var note6 = "breadmaking";
+            var note7 = "dadaa";
+
+
+
+            var r = sol2.FindScrambledWord(words, note1);
+            r = sol2.FindScrambledWord(words, note2);
+            r = sol2.FindScrambledWord(words, note3);
+
+            r = sol2.FindScrambledWord(words, note4);
+            r = sol2.FindScrambledWord(words, note5);
+            r = sol2.FindScrambledWord(words, note6);
+            r = sol2.FindScrambledWord(words, note7);
+
+
+
+
+
+
+
         }
 
     }
