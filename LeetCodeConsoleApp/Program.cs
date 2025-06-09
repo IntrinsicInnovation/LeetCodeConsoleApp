@@ -3708,11 +3708,7 @@ namespace LeetCodeConsoleApp
                 return root;
             return left ?? right;
 
-
-
         }
-
-
 
 
 
