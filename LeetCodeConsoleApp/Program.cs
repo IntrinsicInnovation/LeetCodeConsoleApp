@@ -17,6 +17,7 @@ using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using static LeetCodeConsoleApp.Carpooling;
 
 
@@ -2223,7 +2224,7 @@ namespace LeetCodeConsoleApp
 
 
 
-
+            /*
 
             var words = new string[] { "baby", "referee", "cat", "dada", "dog", "bird", "ax", "baz" };
             var note1 = "ctay"; // "cat"
@@ -2234,8 +2235,6 @@ namespace LeetCodeConsoleApp
             var note6 = "breadmaking";
             var note7 = "dadaa";
 
-
-
             var r = sol2.FindScrambledWord(words, note1);
             r = sol2.FindScrambledWord(words, note2);
             r = sol2.FindScrambledWord(words, note3);
@@ -2244,11 +2243,54 @@ namespace LeetCodeConsoleApp
             r = sol2.FindScrambledWord(words, note5);
             r = sol2.FindScrambledWord(words, note6);
             r = sol2.FindScrambledWord(words, note7);
+            */
+
+           // var fj = sol2.FullJustify(new string[] { "This", "is", "an", "example", "of", "text", "justification." }, 16);
+
+            var company = new Sol2.EmpGroup("Company");
+            var engg = new Sol2.Group("Engg");
+            var hr = new Group("HR");
+            var be = new Group("BE");
+            var fe = new Group("FE");
+
+            company.SubGroups.Add(engg);
+            company.SubGroups.Add(hr);
+
+            engg.SubGroups.Add(be);
+            engg.SubGroups.Add(fe);
+
+            be.Employees.Add("Alice");
+            be.Employees.Add("Bob");
+
+            fe.Employees.Add("Lisa");
+            fe.Employees.Add("Marley");
+            fe.Employees.Add("Bob");
 
 
+            hr.Employees.Add("Mona");
+            hr.Employees.Add("Springs");
+
+            var directory = new EmployeeDirectory(company);
+
+            var targets = new List<string>() { "Lisa", "Marley" };
+
+            var result = directory.FindClosestCommonParent(targets);
+            Console.WriteLine(result);
+
+            targets = new List<string>() { "Alice", "Marley" };
+
+            result = directory.FindClosestCommonParent(targets);
+            Console.WriteLine(result);
 
 
+            targets = new List<string>() { "Lisa", "Mona", "Bob" };
+            result = directory.FindClosestCommonParent(targets);
+            Console.WriteLine(result);
 
+
+            targets = new List<string>() { "Alice", "Bob" };
+            result = directory.FindClosestCommonParent(targets);
+            Console.WriteLine(result);
 
 
         }
@@ -12946,6 +12988,36 @@ public int superDigit(string n, int k)
             return result;
         }
 
+
+
+
+            public int MaxProfit4(int[] prices)
+            {
+
+
+                var maxprofit = 0;
+                var len = prices.Length;
+
+
+                if (len == 1)
+                    return 0;
+
+                var minprice = 10001;
+              
+                for (var i = 0; i < len; i++)
+                {
+                    if (prices[i] < minprice)
+                    {
+                        minprice = prices[i];
+                    }
+                    else if (prices[i] - minprice > maxprofit)
+                    {
+                        maxprofit = prices[i] - minprice;
+                    }
+                }
+
+                return maxprofit;
+            }
 
 
 

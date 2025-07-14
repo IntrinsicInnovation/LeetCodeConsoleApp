@@ -21,8 +21,222 @@ namespace LeetCodeConsoleApp
 {
 
 
+    //Practice nested classes:
+
+    public class OuterClass
+    {
+        public InnerClass Ic { get; set; }
+
+        public class InnerClass
+        {
+            public InnerClass()
+            {
+                Foo = 42;
+            }
+
+            public int Foo { get; set; }
+        }
+    }
+
+    
+
     internal class Solution2
     {
+
+
+
+
+
+
+
+        //Atlassian Full stack 2nd interview.  
+        //
+        //Imagine you are the team that maintains the Atlassian employee directory.
+        //At Atlassian - there are multiple groups, and each can have one or more groups. Every employee is part of a group.
+        //You are tasked with designing a system that could find the closest common parent group given a target set of employees in the organization.
+        //Write it using depth first search if possible
+
+        //Just wrote it using recursion.
+
+
+
+        class EmpGroup
+        {
+
+            public string Name { get; set; }
+            public List<EmpGroup> SubGroups { get; set; }
+            public List<string> Employees { get; set; }
+
+
+            public EmpGroup(string name)
+            {
+
+                Name = name;
+                SubGroups = new List<EmpGroup>();
+                Employees = new List<string>();
+
+            }
+
+        }
+
+        class EmployeeDirectory
+        {
+
+            private EmpGroup root;
+
+
+            public EmployeeDirectory(EmpGroup root)
+            {
+                this.root = root;
+            }
+
+            public string FindClosestCommonParent(List<string> employees)
+            {
+                return FindLCA(root, employees).Name;
+
+            }
+
+
+            private EmpGroup FindLCA(EmpGroup currentGroup, List<string> targetEmployees)
+            {
+
+                if (currentGroup == null)
+                    return null;
+
+                if (currentGroup.Employees.Exists(emp => targetEmployees.Contains(emp)))
+                    return currentGroup;
+
+
+                EmpGroup temp = null;
+                var count = 0;
+
+                foreach (var subgroup in currentGroup.SubGroups)
+                {
+                    var result = FindLCA(subgroup, targetEmployees);
+                    if (result != null)
+                    {
+                        count++;
+                        temp = result;
+                    }
+
+                }
+
+                if (count > 1)
+                    return currentGroup;
+
+
+                return temp;
+
+            }
+
+
+        }
+
+
+
+
+
+            public IList<string> FullJustify(string[] words, int maxWidth)
+        {
+
+            var len = words.Length;
+
+
+            var results = new List<string>();
+            var i = 0;
+            var lastwordadded = false;
+            while (i < len && !lastwordadded)
+            {
+                var linelen = 0;
+                var startindex = i;
+                var tempspaces = 0;
+                while (i < len && (linelen + tempspaces) < maxWidth)
+                {
+                   /* if (linelen + words[i].Length >= maxWidth)
+                    {
+                        //i++;
+                        break;
+                    } */
+
+                    linelen += words[i].Length;
+                    if (startindex < i)
+                        tempspaces++;
+                    i++;
+                }
+                i--;
+
+
+                float numspaces = 0;
+                if (i > startindex)
+                { 
+                    linelen -= words[i].Length;
+                    numspaces = ((maxWidth - linelen) / (i - 1 - startindex));
+                }
+                else
+                {
+                    numspaces = maxWidth - linelen;
+                }
+
+                    var numspacesrounded = 0;
+
+                var isint = Int32.TryParse(numspaces.ToString(), out numspacesrounded);
+                if (!isint)
+                {
+                    numspacesrounded = Convert.ToInt32(Math.Ceiling(numspaces));
+                }
+
+                var sb = new StringBuilder();
+
+                var lastnumspaces = 0;
+                if (!isint)
+                {
+                    lastnumspaces = maxWidth - (i - 1 - startindex - 1) * numspacesrounded;
+                }
+
+
+
+                if (startindex == i)
+                {
+
+                    sb.Append(words[i]);
+                    sb.Append("".PadRight(numspacesrounded));
+                    if (i == len - 1)
+                        lastwordadded = true;
+                }
+                else
+
+                { 
+                    for (var j = startindex; j < i; j++)
+                    {
+                        sb.Append(words[j]);
+                        if (j == i - 1 && !isint)
+                        {
+                            sb.Append("".PadRight(lastnumspaces));
+                        }
+                        else if (j < i - 1)
+                        {
+                            sb.Append("".PadRight(numspacesrounded));
+                        }
+                        if (j == len - 1)
+                            lastwordadded = true;
+                    }
+                }
+                results.Add(sb.ToString());
+
+
+            }
+
+
+            return results;
+        }
+
+
+
+
+
+
+
+
 
         //Generated by CoCheat.com:
         public TreeNode LowestCommonAncestor(TreeNode root, TreeNode[] nodes)
@@ -256,18 +470,51 @@ namespace LeetCodeConsoleApp
         //});
 
         //// Sort the jagged array
-      
+
 
         //// Perform binary search
         //string searchKey = "milk";
         //int index = Array.BinarySearch(products, searchKey, comparer);
 
 
-
-
-
-
         public bool CanPlaceFlowers(int[] flowerbed, int n)
+        {
+
+            var len = flowerbed.Length;
+
+            if (len == 1)
+            {
+
+                if ((n <= 1 && flowerbed[0] == 0) || (n == 0 && flowerbed[0] == 1))
+                    return true;
+                else
+                    return false;
+            }
+
+            var count = 0;
+
+            for (var i = 0; i < flowerbed.Length; i++)
+            {
+                if (flowerbed[i] == 0)
+                {
+
+                    if ((i == 0 && flowerbed[i + 1] == 0) || (i > 0 && i < len - 1 && flowerbed[i - 1] == 0 && flowerbed[i + 1] == 0) || (i == len - 1 && flowerbed[i - 1] == 0))
+                    {
+                        flowerbed[i] = 1;
+                        count++;
+                    }
+
+                }
+
+            }
+
+            return count >= n ? true : false;
+
+        }
+
+
+
+        public bool CanPlaceFlowers2(int[] flowerbed, int n)
             {
 
                 var len = flowerbed.Length;
@@ -3190,10 +3437,6 @@ public IList<int> FindClosestElements4(int[] arr, int k, int x)
 
 
     }
-
-
-
-
 
 
 
