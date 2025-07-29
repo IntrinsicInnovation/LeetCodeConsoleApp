@@ -2245,52 +2245,106 @@ namespace LeetCodeConsoleApp
             r = sol2.FindScrambledWord(words, note7);
             */
 
-           // var fj = sol2.FullJustify(new string[] { "This", "is", "an", "example", "of", "text", "justification." }, 16);
+            // var fj = sol2.FullJustify(new string[] { "This", "is", "an", "example", "of", "text", "justification." }, 16);
 
-            var company = new Sol2.EmpGroup("Company");
-            var engg = new Sol2.Group("Engg");
-            var hr = new Group("HR");
-            var be = new Group("BE");
-            var fe = new Group("FE");
-
-            company.SubGroups.Add(engg);
-            company.SubGroups.Add(hr);
-
-            engg.SubGroups.Add(be);
-            engg.SubGroups.Add(fe);
-
-            be.Employees.Add("Alice");
-            be.Employees.Add("Bob");
-
-            fe.Employees.Add("Lisa");
-            fe.Employees.Add("Marley");
-            fe.Employees.Add("Bob");
+            /*      var company = new Solution2.EmpGroup("Company");
+                  var engg = new Solution2.EmpGroup("Engg");
+                  var hr = new Solution2.EmpGroup("HR");
 
 
-            hr.Employees.Add("Mona");
-            hr.Employees.Add("Springs");
+                  var be = new Solution2.EmpGroup("BE");
+                  var fe = new Solution2.EmpGroup("FE");
 
-            var directory = new EmployeeDirectory(company);
+                  company.SubGroups.Add(engg);
+                  company.SubGroups.Add(hr);
 
-            var targets = new List<string>() { "Lisa", "Marley" };
+                  engg.SubGroups.Add(be);
+                  engg.SubGroups.Add(fe);
 
-            var result = directory.FindClosestCommonParent(targets);
-            Console.WriteLine(result);
+                  be.Employees.Add("Alice");
+                  be.Employees.Add("Bob");
 
-            targets = new List<string>() { "Alice", "Marley" };
-
-            result = directory.FindClosestCommonParent(targets);
-            Console.WriteLine(result);
-
-
-            targets = new List<string>() { "Lisa", "Mona", "Bob" };
-            result = directory.FindClosestCommonParent(targets);
-            Console.WriteLine(result);
+                  fe.Employees.Add("Lisa");
+                  fe.Employees.Add("Marley");
+                  fe.Employees.Add("Bob");
 
 
-            targets = new List<string>() { "Alice", "Bob" };
-            result = directory.FindClosestCommonParent(targets);
-            Console.WriteLine(result);
+                  hr.Employees.Add("Mona");
+                  hr.Employees.Add("Springs");
+
+                  var directory = new Solution2.EmployeeDirectory(company);
+
+                  var targets = new List<string>() { "Lisa", "Marley" };
+
+                  var result = directory.FindClosestCommonParent(targets);
+                  Console.WriteLine(result);
+
+                  targets = new List<string>() { "Alice", "Marley" };
+
+                  result = directory.FindClosestCommonParent(targets);
+                  Console.WriteLine(result);
+
+
+                  targets = new List<string>() { "Lisa", "Mona", "Bob" };
+                  result = directory.FindClosestCommonParent(targets);
+                  Console.WriteLine(result);
+
+
+                  targets = new List<string>() { "Alice", "Bob" };
+                  result = directory.FindClosestCommonParent(targets);
+                  Console.WriteLine(result);
+            */
+
+
+            /*            var oc = new OuterClass();
+                        oc.Ic = new OuterClass.InnerClass();
+                        Console.WriteLine(oc.Ic.Foo); */
+
+            //    var cp = sol2.CountPalindromes("103301");
+
+            /*   var allone3 = new AllOne3();
+
+               allone3.Inc("hello");
+               allone3.Inc("goodbye");
+               allone3.Inc("hello");
+               allone3.Inc("hello");
+               var mk = allone3.GetMaxKey();
+               allone3.Inc("leet");
+               allone3.Inc("code");
+               allone3.Inc("leet");
+               allone3.Dec("hello");
+               allone3.Inc("leet");
+               allone3.Inc("code");
+               allone3.Inc("code");
+               mk = allone3.GetMaxKey();
+            */
+
+
+
+
+            // Example usage
+            var system = new MonthlySupportTicketingSystem();
+            system.AddRating("Alice", 5, "January");
+            system.AddRating("Bob", 3, "January");
+            system.AddRating("Alice", 4, "January");
+            system.AddRating("Charlie", 5, "January");
+
+
+            system.AddRating("Alice", 3, "February");
+            system.AddRating("Bob", 4, "February");
+            system.AddRating("Alice", 4, "February");
+            system.AddRating("Charlie", 2, "February");
+
+
+            var ratings = system.GetAgentRatings();
+
+            foreach (var agent in ratings)
+            {
+                Console.WriteLine($"Month: {agent.Month}, Agent: {agent.AgentName}, Average Rating: {agent.AverageRating:F2}");
+            }
+
+
+
 
 
         }

@@ -46,10 +46,110 @@ namespace LeetCodeConsoleApp
 
 
 
+        //Leetcode hard atlassian:
+        // learn this:
+
+        /*
+
+                Input: s = "103301"
+        Output: 2
+        Explanation: 
+        There are 6 possible subsequences of length 5: "10330","10331","10301","10301","13301","03301". 
+        Two of them(both equal to "10301") are palindromic.
+
+        Example 2:
+
+        Input: s = "0000000"
+        Output: 21
+        Explanation: All 21 subsequences are "00000", which is palindromic.
+
+        Example 3:
+
+        Input: s = "9999900000"
+        Output: 2
+        Explanation: The only two palindromic subsequences are "99999" and "00000".
+
+        */
 
 
 
-        //Atlassian Full stack 2nd interview.  
+        private const int M = 1_000_000_000 + 7;
+
+        public int CountPalindromes(string s)
+        {
+
+            int n = s.Length;
+            long totalCount = 0;
+
+            // for palindromes of the form "cd.dc", we will check
+            // every possible combination of "cd" from "00" to "99"
+            for (char c = '0'; c <= '9'; c++)
+            {
+                for (char d = '0'; d <= '9'; d++)
+                {
+
+                    // number of combinations of "cd." up to each index (inclusive)
+                    long[] startCount = new long[n];
+
+                    // number of combinations of "cd"
+                    long cBeforeD = 0;
+
+                    // number of "c"
+                    long cCount = 0;
+
+                    // scan forwards to populate startCount
+                    for (int i = 0; i < n; i++)
+                    {
+                        startCount[i] = cBeforeD;
+
+                        // use multiple if instead of if/else for when c == d
+                        char ch = s[i];
+                        if (ch == d)
+                        {
+                            cBeforeD += cCount;
+                        }
+                        if (ch == c)
+                        {
+                            cCount++;
+                        }
+                    }
+
+                    // reset counts
+                    cBeforeD = 0;
+                    cCount = 0;
+
+                    // scan backwards to update totalCount, stop at i == 3
+                    // because startCount counts the first 3 characters "cd."
+                    for (int i = n - 1; i >= 3; i--)
+                    {
+                        char ch = s[i];
+                        if (ch == d)
+                        {
+                            cBeforeD += cCount;
+                        }
+                        if (ch == c)
+                        {
+                            cCount++;
+                        }
+
+                        // the update to totalCount is the number of combinations of "dc"
+                        // encountered so far multiplied by the number of combinations
+                        // of "cd." up to index i - 1
+                        totalCount = (totalCount + cBeforeD * startCount[i - 1]) % M;
+                    }
+                }
+            }
+
+            return (int)totalCount;
+        }
+
+
+
+
+
+
+
+        //Atlassian Full stack 2nd interview.  PASSED!!
         //
         //Imagine you are the team that maintains the Atlassian employee directory.
         //At Atlassian - there are multiple groups, and each can have one or more groups. Every employee is part of a group.
@@ -60,7 +160,7 @@ namespace LeetCodeConsoleApp
 
 
 
-        class EmpGroup
+        public class EmpGroup
         {
 
             public string Name { get; set; }
@@ -79,7 +179,7 @@ namespace LeetCodeConsoleApp
 
         }
 
-        class EmployeeDirectory
+        public class EmployeeDirectory
         {
 
             private EmpGroup root;
@@ -135,7 +235,7 @@ namespace LeetCodeConsoleApp
 
 
 
-
+        //Leetcode hard.  doesn't work I think.
             public IList<string> FullJustify(string[] words, int maxWidth)
         {
 

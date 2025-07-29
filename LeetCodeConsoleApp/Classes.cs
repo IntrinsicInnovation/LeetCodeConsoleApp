@@ -8,6 +8,327 @@ namespace LeetCodeConsoleApp
 {
 
 
+
+
+
+
+
+
+    //Atlassian Code Design interview
+
+    //Imagine we have a customer support ticketing system. The system allows customers to rate the support agent out of 5.
+    //To start with, write a function which accepts an agent name, rating, a month and another function which will get all of the agents
+    //and the rating each one has received, ordered highest to lowest per each month.
+    //Got it correct with cocheat.com
+
+
+    class MonthlySupportTicketingSystem
+{
+
+
+    private Dictionary<string, Dictionary<string, List<int>>> agentRatings;
+
+    public MonthlySupportTicketingSystem()
+    {
+        // Initialize the dictionary to store ratings for each agent per month
+        agentRatings = new Dictionary<string, Dictionary<string, List<int>>>();
+    }
+
+    // Method to add a rating for an agent
+    public void AddRating(string agentName, int rating, string month)
+    {
+        if (rating < 1 || rating > 5)
+        {
+            throw new ArgumentException("Rating must be between 1 and 5.");
+        }
+
+        if (!agentRatings.ContainsKey(month))
+        {
+            agentRatings[month] = new Dictionary<string, List<int>>();
+        }
+
+        if (!agentRatings[month].ContainsKey(agentName))
+        {
+            agentRatings[month][agentName] = new List<int>();
+        }
+
+        agentRatings[month][agentName].Add(rating);
+    }
+
+    // Method to get all agents and their average ratings for a specific month, ordered from highest to lowest
+    public List<(string AgentName, double AverageRating)> GetAgentRatingsForMonth(string month)
+    {
+        if (!agentRatings.ContainsKey(month))
+        {
+            return new List<(string, double)>();
+        }
+
+        var ratingsForMonth = agentRatings[month];
+
+        // Calculate average ratings and sort them
+        return ratingsForMonth
+            .Select(agent => (AgentName: agent.Key, AverageRating: agent.Value.Average()))
+            .OrderByDescending(agent => agent.AverageRating)
+            .ToList();
+    }
+
+
+    // Method to get all agents and their average ratings for a specific month, ordered from highest to lowest
+    public List<(string Month, string AgentName, double AverageRating)> GetAgentRatings()
+    {
+
+        var results = new List<(string Month, string AgentName, double AverageRating)>();
+
+
+
+        //  var ratingsForMont2h = agentRatings["January"];
+
+        foreach (var ratingsForMonth in agentRatings)
+        {
+            var ratingsmonth = ratingsForMonth.Key;
+            var rating = ratingsForMonth.Value;
+
+            var ratingpermonth = rating
+                .Select(agent => (Month: ratingsmonth, AgentName: agent.Key, AverageRating: agent.Value.Average()))
+                .OrderByDescending(agent => agent.AverageRating).FirstOrDefault();
+            //.ToList();
+
+            results.Add(ratingpermonth);
+
+
+        }
+
+        return results;
+    }
+
+
+
+}
+
+
+
+
+
+//Atlassian HARD leetcode.
+//Passes 23/24 but 
+//need to do linked list manually to get it 24/24
+public class AllOne3
+    {
+
+        private Dictionary<string, int> dict;
+
+        public AllOne3()
+        {
+            dict = new Dictionary<string, int>();
+        }
+
+        public void Inc(string key)
+        {
+            if (!dict.ContainsKey(key))
+            {
+                dict[key] = 1;
+            }
+            else
+            {
+                dict[key]++;
+            }
+
+        }
+
+        public void Dec(string key)
+        {
+
+
+            dict[key]--;
+            if (dict[key] == 0)
+            {
+                dict.Remove(key);
+            }
+
+        }
+
+        public string GetMaxKey()
+        {
+            if (dict.Count == 0)
+                return "";
+            var max = dict.MaxBy(d => d.Value).Key;
+            return max;
+        }
+
+        public string GetMinKey()
+        {
+            if (dict.Count == 0)
+                return "";
+            var min = dict.MinBy(d => d.Value).Key;
+            return min;
+        }
+    }
+
+    /**
+     * Your AllOne object will be instantiated and called as such:
+     * AllOne obj = new AllOne();
+     * obj.Inc(key);
+     * obj.Dec(key);
+     * string param_3 = obj.GetMaxKey();
+     * string param_4 = obj.GetMinKey();
+     */
+
+
+
+
+
+
+
+
+
+
+
+
+    public class AllOne2
+    {
+        private class Node
+        {
+            public int Count;
+            public HashSet<string> Keys;
+            public Node Prev, Next;
+
+            public Node(int count)
+            {
+                Count = count;
+                Keys = new HashSet<string>();
+            }
+        }
+
+        private Dictionary<string, Node> keyNodeMap;
+        private Node head, tail;
+
+        public AllOne2()
+        {
+            keyNodeMap = new Dictionary<string, Node>();
+            head = new Node(int.MinValue);
+            tail = new Node(int.MaxValue);
+            head.Next = tail;
+            tail.Prev = head;
+        }
+
+        public void Inc(string key)
+        {
+            if (keyNodeMap.ContainsKey(key))
+            {
+                Node currentNode = keyNodeMap[key];
+                MoveKeyToNextNode(key, currentNode);
+            }
+            else
+            {
+                if (head.Next.Count != 1)
+                {
+                    AddNodeAfter(head, new Node(1));
+                }
+                head.Next.Keys.Add(key);
+                keyNodeMap[key] = head.Next;
+            }
+        }
+
+        public void Dec(string key)
+        {
+            Node currentNode = keyNodeMap[key];
+            if (currentNode.Count == 1)
+            {
+                currentNode.Keys.Remove(key);
+                keyNodeMap.Remove(key);
+            }
+            else
+            {
+                MoveKeyToPrevNode(key, currentNode);
+            }
+            if (currentNode.Keys.Count == 0)
+            {
+                RemoveNode(currentNode);
+            }
+        }
+
+        public string GetMaxKey()
+        {
+            return tail.Prev == head ? "" : GetAnyKey(tail.Prev);
+
+            var max = keyNodeMap.MinBy(k => k.Value).Key;
+        }
+
+        public string GetMinKey()
+        {
+            return head.Next == tail ? "" : GetAnyKey(head.Next);
+        }
+
+        private void MoveKeyToNextNode(string key, Node currentNode)
+        {
+            int newCount = currentNode.Count + 1;
+            Node nextNode = currentNode.Next;
+            if (nextNode.Count != newCount)
+            {
+                nextNode = AddNodeAfter(currentNode, new Node(newCount));
+            }
+            nextNode.Keys.Add(key);
+            currentNode.Keys.Remove(key);
+            keyNodeMap[key] = nextNode;
+            if (currentNode.Keys.Count == 0)
+            {
+                RemoveNode(currentNode);
+            }
+        }
+
+        private void MoveKeyToPrevNode(string key, Node currentNode)
+        {
+            int newCount = currentNode.Count - 1;
+            Node prevNode = currentNode.Prev;
+            if (prevNode.Count != newCount)
+            {
+                prevNode = AddNodeAfter(currentNode.Prev, new Node(newCount));
+            }
+            prevNode.Keys.Add(key);
+            currentNode.Keys.Remove(key);
+            keyNodeMap[key] = prevNode;
+            if (currentNode.Keys.Count == 0)
+            {
+                RemoveNode(currentNode);
+            }
+        }
+
+        private Node AddNodeAfter(Node node, Node newNode)
+        {
+            newNode.Prev = node;
+            newNode.Next = node.Next;
+            node.Next.Prev = newNode;
+            node.Next = newNode;
+            return newNode;
+        }
+
+        private void RemoveNode(Node node)
+        {
+            node.Prev.Next = node.Next;
+            node.Next.Prev = node.Prev;
+        }
+
+        private string GetAnyKey(Node node)
+        {
+            foreach (var key in node.Keys)
+            {
+                return key;
+            }
+            return "";
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     public class mycar
     {
 
