@@ -8,12 +8,6 @@ namespace LeetCodeConsoleApp
 {
 
 
-
-
-
-
-
-
     //Atlassian Code Design interview
 
     //Imagine we have a customer support ticketing system. The system allows customers to rate the support agent out of 5.
