@@ -2323,29 +2323,42 @@ namespace LeetCodeConsoleApp
 
 
             // Example usage
-            var system = new MonthlySupportTicketingSystem();
-            system.AddRating("Alice", 5, "January");
-            system.AddRating("Bob", 3, "January");
-            system.AddRating("Alice", 4, "January");
-            system.AddRating("Charlie", 5, "January");
+            /*  var system = new MonthlySupportTicketingSystem();
+              system.AddRating("Alice", 5, "January");
+              system.AddRating("Bob", 3, "January");
+              system.AddRating("Alice", 4, "January");
+              system.AddRating("Charlie", 5, "January");
 
 
-            system.AddRating("Alice", 3, "February");
-            system.AddRating("Bob", 4, "February");
-            system.AddRating("Alice", 4, "February");
-            system.AddRating("Charlie", 2, "February");
+              system.AddRating("Alice", 3, "February");
+              system.AddRating("Bob", 4, "February");
+              system.AddRating("Alice", 4, "February");
+              system.AddRating("Charlie", 2, "February");
 
 
-            var ratings = system.GetAgentRatings();
+              var ratings = system.GetAgentRatings();
 
-            foreach (var agent in ratings)
-            {
-                Console.WriteLine($"Month: {agent.Month}, Agent: {agent.AgentName}, Average Rating: {agent.AverageRating:F2}");
-            }
+              foreach (var agent in ratings)
+              {
+                  Console.WriteLine($"Month: {agent.Month}, Agent: {agent.AgentName}, Average Rating: {agent.AverageRating:F2}");
+              }
+            */
+           
+            var l = new ListNode(9); 
+            l.next = new ListNode(9);
+            l.next.next = new ListNode(9);
+            l.next.next.next = new ListNode(9);
+            l.next.next.next.next = new ListNode(9);
+            l.next.next.next.next.next = new ListNode(9);
+            l.next.next.next.next.next.next = new ListNode(9);
 
 
+            var l2 = new ListNode(9);
+            l2.next = new ListNode(9);
+            l2.next.next = new ListNode(9);
+            l2.next.next.next = new ListNode(9);
 
-
+            var all = sol2.AddTwoNumbers2(l, l2);
 
         }
 

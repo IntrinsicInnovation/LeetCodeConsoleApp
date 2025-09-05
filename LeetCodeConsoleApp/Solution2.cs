@@ -46,6 +46,48 @@ namespace LeetCodeConsoleApp
 
 
 
+        public ListNode AddTwoNumbers2(ListNode l1, ListNode l2)
+        {
+             var curr = new ListNode(-1);
+            var head = curr;
+
+            var remainder = 0;
+            var i = 0;
+            while (l1 != null || l2 != null)
+            {
+
+                var val1 = (l1 == null) ? 0 : l1.val;
+                var val2 = (l2 == null) ? 0 : l2.val;
+                var sum = val1 + val2;
+                sum = (sum + remainder) % 10;
+                curr.next = new ListNode(0);
+                curr = curr.next;
+                curr.val = sum;
+
+                remainder = (val1 + val2 + remainder) / 10;
+
+                if (l1 != null)
+                    l1 = l1.next;
+                if (l2 != null)
+                    l2 = l2.next;
+
+                i++;
+            }
+
+            if (remainder > 0)
+            {
+                curr.next = new ListNode(0);
+                curr = curr.next;
+                curr.val = remainder;
+            }
+            
+
+
+            return head.next;
+        }
+
+
+
         //Leetcode hard atlassian:
         // learn this:
 
