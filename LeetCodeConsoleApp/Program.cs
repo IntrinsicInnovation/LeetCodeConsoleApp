@@ -2343,22 +2343,22 @@ namespace LeetCodeConsoleApp
                   Console.WriteLine($"Month: {agent.Month}, Agent: {agent.AgentName}, Average Rating: {agent.AverageRating:F2}");
               }
             */
-           
-            var l = new ListNode(9); 
-            l.next = new ListNode(9);
-            l.next.next = new ListNode(9);
-            l.next.next.next = new ListNode(9);
-            l.next.next.next.next = new ListNode(9);
-            l.next.next.next.next.next = new ListNode(9);
-            l.next.next.next.next.next.next = new ListNode(9);
 
+            /*   var l = new ListNode(9); 
+               l.next = new ListNode(9);
+               l.next.next = new ListNode(9);
+               l.next.next.next = new ListNode(9);
+               l.next.next.next.next = new ListNode(9);
+               l.next.next.next.next.next = new ListNode(9);
+               l.next.next.next.next.next.next = new ListNode(9);
+               var l2 = new ListNode(9);
+               l2.next = new ListNode(9);
+               l2.next.next = new ListNode(9);
+               l2.next.next.next = new ListNode(9);
+               var all = sol2.AddTwoNumbers2(l, l2);
+   */
 
-            var l2 = new ListNode(9);
-            l2.next = new ListNode(9);
-            l2.next.next = new ListNode(9);
-            l2.next.next.next = new ListNode(9);
-
-            var all = sol2.AddTwoNumbers2(l, l2);
+            var li = sol2.LargestIsland([[1, 0], [0, 1]]);
 
         }
 

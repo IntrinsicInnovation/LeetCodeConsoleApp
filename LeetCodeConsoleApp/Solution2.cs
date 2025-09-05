@@ -40,12 +40,101 @@ namespace LeetCodeConsoleApp
 
     
 
+
+
+
     internal class Solution2
     {
 
 
 
+        /****************************************************************************************************************************************/
+        //leetcode  827
 
+        private int n;
+            private int[][] directions = new int[][] { new int[] { 1, 0 }, new int[] { -1, 0 }, new int[] { 0, 1 }, new int[] { 0, -1 } };
+
+            public int LargestIsland(int[][] grid)
+            {
+                n = grid.Length;
+                int maxIslandSize = 0;
+                Dictionary<int, int> islandSizes = new Dictionary<int, int>();
+                int islandId = 2; // Start from 2 to differentiate from 0 and 1
+
+                // Step 1: Identify all islands and their sizes
+                for (int r = 0; r < n; r++)
+                {
+                    for (int c = 0; c < n; c++)
+                    {
+                        if (grid[r][c] == 1)
+                        {
+                            int size = DFS(grid, r, c, islandId);
+                            islandSizes[islandId] = size;
+                            maxIslandSize = Math.Max(maxIslandSize, size);
+                            islandId++;
+                        }
+                    }
+                }
+
+                // Step 2: Check each 0 to see if converting it to 1 can create a larger island
+                for (int r = 0; r < n; r++)
+                {
+                    for (int c = 0; c < n; c++)
+                    {
+                        if (grid[r][c] == 0)
+                        {
+                            HashSet<int> seenIslands = new HashSet<int>();
+                            int potentialSize = 1; // Start with 1 for the current 0 being turned into 1
+
+                            var dirlen = directions.Length;
+                            for (var i = 0; i < dirlen; i++)
+                            {
+                                //foreach (var dir in directions) {
+                                var dir = directions[i];
+                                int nr = r + dir[0], nc = c + dir[1];
+                                if (IsValid(nr, nc) && grid[nr][nc] > 1 && !seenIslands.Contains(grid[nr][nc]))
+                                {
+                                    seenIslands.Add(grid[nr][nc]);
+                                    potentialSize += islandSizes[grid[nr][nc]];
+                                }
+                            }
+
+                            maxIslandSize = Math.Max(maxIslandSize, potentialSize);
+                        }
+                    }
+                }
+
+                return maxIslandSize;
+            }
+
+            private int DFS(int[][] grid, int r, int c, int islandId)
+            {
+                if (!IsValid(r, c) || grid[r][c] != 1) return 0;
+
+                grid[r][c] = islandId;
+                int size = 1;
+
+                foreach (var dir in directions)
+                {
+                    size += DFS(grid, r + dir[0], c + dir[1], islandId);
+                }
+
+                return size;
+            }
+
+            private bool IsValid(int r, int c)
+            {
+                return r >= 0 && r < n && c >= 0 && c < n;
+            }
+      
+
+
+/****************************************************************************************************************************************/
+
+
+
+
+        //got it working reasonably fast from scratch, no ai assist needed.
         public ListNode AddTwoNumbers2(ListNode l1, ListNode l2)
         {
              var curr = new ListNode(-1);
