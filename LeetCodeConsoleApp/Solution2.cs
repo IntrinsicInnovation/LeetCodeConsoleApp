@@ -21,30 +21,74 @@ namespace LeetCodeConsoleApp
 {
 
 
-    //Practice nested classes:
-
-    public class OuterClass
-    {
-        public InnerClass Ic { get; set; }
-
-        public class InnerClass
-        {
-            public InnerClass()
-            {
-                Foo = 42;
-            }
-
-            public int Foo { get; set; }
-        }
-    }
-
-    
-
-
-
 
     internal class Solution2
     {
+
+
+        //Beats 94%
+        public int LengthOfLongestSubstring(string s)
+        {
+
+            var len = s.Length;
+            if (len <= 1)
+                return len;
+            var left = 0;
+            var right = 0;
+            var count = 0;
+
+            var dct = new Dictionary<char, int>();
+
+            while (right < len)
+            {
+                var c = s[right];
+                if (dct.ContainsKey(c))
+                {
+                    left = Math.Max(dct[c] + 1, left);
+
+                }
+                dct[c] = right;
+                count = Math.Max(count, right - left + 1);
+
+
+
+
+
+                right++;
+            }
+            return count;
+
+
+        }
+
+
+
+
+        //Beats 98%
+        public int[] TwoSum(int[] nums, int target)
+        {
+            var dict = new Dictionary<int, int>();
+            var len = nums.Length;
+           
+            for (var i = 0; i < len; i++)
+            {
+                var diff = target - nums[i];
+                //var value = dict[diff];
+                if (dict.ContainsKey(diff) && dict[diff] != i)
+                {
+                    return new int[] { i, dict[diff] };
+                }
+                dict[nums[i]] = i;
+            }
+
+
+
+            return null;
+        }
+
+
+
+
 
         //Beets 70%
         //Hashset.  Also, make sure that you only check consecutive, starting from the LOWEST element as per the if (!hs.contains....
@@ -3986,6 +4030,24 @@ public IList<int> FindClosestElements4(int[] arr, int k, int x)
     }
 
 
+
+
+    //Practice nested classes:
+
+    public class OuterClass
+    {
+        public InnerClass Ic { get; set; }
+
+        public class InnerClass
+        {
+            public InnerClass()
+            {
+                Foo = 42;
+            }
+
+            public int Foo { get; set; }
+        }
+    }
 
 
 
