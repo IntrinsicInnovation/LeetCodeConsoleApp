@@ -2358,7 +2358,9 @@ namespace LeetCodeConsoleApp
                var all = sol2.AddTwoNumbers2(l, l2);
    */
 
-            var li = sol2.LargestIsland([[1, 0], [0, 1]]);
+            //   var li = sol2.LargestIsland([[1, 0], [0, 1]]);
+
+            var lc = sol2.LongestConsecutive(new int[] { 9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6 });
 
         }
 

@@ -46,8 +46,102 @@ namespace LeetCodeConsoleApp
     internal class Solution2
     {
 
+        //Beets 70%
+        //Hashset.  Also, make sure that you only check consecutive, starting from the LOWEST element as per the if (!hs.contains....
+        public int LongestConsecutive(int[] nums)
+        {
+
+            var hs = new HashSet<int>(nums);
+            var len = nums.Length;
+            if (len <= 1)
+                return len;
+            var maxcount = 1;
+            
+            foreach (var num in hs)
+            {
+                if (!hs.Contains(num - 1))
+                {
+                    var count = 1;
+                    var next = num + 1;
+                    while (hs.Contains(next))
+                    {
+                        count++;
+                        next++;
+                    }
+                    maxcount = Math.Max(maxcount, count);
+                }
+
+            }
+            return maxcount;
+        }
+
+    //Passess - beats 20%.
+    public int LongestConsecutiveMEH(int[] nums)
+        {
+
+            
+
+            var len = nums.Length;
+            if (len <= 1)
+                return len;
+            Array.Sort(nums);
+            var count = 1;
+            var maxcount = 1;
+            for (var i = 1; i < len; i++)
+            {
+                if (nums[i] == (nums[i - 1]))
+                {
+                    continue;
+                }
+
+                if (nums[i] == (nums[i - 1] + 1))
+                {
+                    count++;
+                    maxcount = Math.Max(maxcount, count);
+                }
+                else
+                {
+                    count = 1;
+                }
+
+            }
+            return maxcount;
+
+        }
 
 
+        //Leet easy, part of leet 75 questions:
+        public string MergeAlternately(string word1, string word2)
+        {
+
+            var len1 = word1.Length;
+            var len2 = word2.Length;
+            var i = 0;
+            var sb = new StringBuilder();
+            while (i < len1 || i < len2)
+            {
+
+                if (i < len1)
+                {
+                    sb.Append(word1[i]);
+                }
+
+                if (i < len2)
+                {
+                    sb.Append(word2[i]);
+                }
+                i++;
+            }
+
+
+            return sb.ToString();
+
+        }
+
+
+
+
+        //Solved by COCHEAT!!
         /****************************************************************************************************************************************/
         //leetcode  827
 
