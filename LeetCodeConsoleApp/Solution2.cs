@@ -26,6 +26,382 @@ namespace LeetCodeConsoleApp
     {
 
 
+        //hacker rank hard problem LRU cache creation:
+
+        //used cocheat for class creation.  worked perfectly bro!
+
+        /*
+ * Complete the 'simulatePriorityCache' function below.
+ *
+ * The function is expected to return an INTEGER_ARRAY.
+ * The function accepts following parameters:
+ *  1. INTEGER capacity
+ *  2. INTEGER numOperations
+ *  3. STRING_ARRAY operationTypes
+ *  4. INTEGER_ARRAY keys
+ *  5. INTEGER_ARRAY values
+ *  6. INTEGER_ARRAY priorities
+ */
+
+        public static List<int> simulatePriorityCache(int capacity, int numOperations, List<string> operationTypes, List<int> keys, List<int> values, List<int> priorities)
+        {
+            var results = new List<int>();
+            var lrucache = new LRUCache2(capacity);
+            for (var i = 0; i < numOperations; i++)
+            {
+                var op = operationTypes[i];
+                var key = keys[i];
+                var value = values[i];
+                var priority = priorities[i];
+
+                if (op == "get")
+                {
+                    var got = lrucache.Get(keys[i]);
+                    results.Add(got);
+                }
+                else if (op == "put")
+                {
+                    lrucache.Put(key, value, priority);
+                }
+                else if (op == "updatePriority")
+                {
+                    lrucache.UpdatePriority(key, priority);
+                }
+            }
+
+            return results;
+        }
+
+   
+
+
+
+    public class LRUCache2
+    {
+        private class CacheEntry
+        {
+            public int Key { get; set; }
+            public int Value { get; set; }
+            public int Priority { get; set; }
+            public LinkedListNode<int> Node { get; set; }
+        }
+
+        private readonly int capacity;
+        private readonly Dictionary<int, CacheEntry> cache;
+        private readonly SortedDictionary<int, LinkedList<int>> priorityMap;
+        private readonly LinkedList<int> lruList;
+
+        public LRUCache2(int capacity)
+        {
+            this.capacity = capacity;
+            this.cache = new Dictionary<int, CacheEntry>();
+            this.priorityMap = new SortedDictionary<int, LinkedList<int>>();
+            this.lruList = new LinkedList<int>();
+        }
+
+
+
+        public int Get(int key)
+        {
+            if (!cache.ContainsKey(key))
+                return -1;
+
+            // Move accessed key to the front of the LRU list
+            var entry = cache[key];
+            lruList.Remove(entry.Node);
+            lruList.AddFirst(entry.Node);
+
+            return entry.Value;
+        }
+
+        public void Put(int key, int value, int priority)
+        {
+            if (cache.ContainsKey(key))
+            {
+                // Update existing entry
+                var entry = cache[key];
+                entry.Value = value;
+                UpdatePriority(key, priority);
+                return;
+            }
+
+            if (cache.Count >= capacity)
+            {
+                Evict();
+            }
+
+            // Add new entry
+            var node = new LinkedListNode<int>(key);
+            lruList.AddFirst(node);
+
+            if (!priorityMap.ContainsKey(priority))
+            {
+                priorityMap[priority] = new LinkedList<int>();
+            }
+            priorityMap[priority].AddLast(key);
+
+            cache[key] = new CacheEntry { Key = key, Value = value, Priority = priority, Node = node };
+        }
+
+        public void UpdatePriority(int key, int newPriority)
+        {
+            if (!cache.ContainsKey(key))
+                return;
+
+            var entry = cache[key];
+            if (entry.Priority != newPriority)
+            {
+                // Remove from old priority list
+                priorityMap[entry.Priority].Remove(key);
+                if (priorityMap[entry.Priority].Count == 0)
+                {
+                    priorityMap.Remove(entry.Priority);
+                }
+
+                // Add to new priority list
+                if (!priorityMap.ContainsKey(newPriority))
+                {
+                    priorityMap[newPriority] = new LinkedList<int>();
+                }
+                priorityMap[newPriority].AddLast(key);
+
+                // Update priority
+                entry.Priority = newPriority;
+            }
+
+            // Move accessed key to the front of the LRU list
+            lruList.Remove(entry.Node);
+            lruList.AddFirst(entry.Node);
+        }
+
+        private void Evict()
+        {
+            // Find the lowest priority
+            var lowestPriority = priorityMap.First().Key;
+            var keysWithLowestPriority = priorityMap[lowestPriority];
+
+            // Evict the least recently used key with the lowest priority
+            var keyToEvict = keysWithLowestPriority.First.Value;
+            keysWithLowestPriority.RemoveFirst();
+            if (keysWithLowestPriority.Count == 0)
+            {
+                priorityMap.Remove(lowestPriority);
+            }
+
+            // Remove from cache and LRU list
+            var entry = cache[keyToEvict];
+            lruList.Remove(entry.Node);
+            cache.Remove(keyToEvict);
+        }
+    }
+
+
+
+
+
+    //hacker Rank c# test:
+
+
+    public class Employee
+        {
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public int Age { get; set; }
+            public string Company { get; set; }
+        }
+
+
+        public Dictionary<string, int> AverageAgeForEachCompany(List<Employee> employees)
+            {
+
+                var dct = new Dictionary<string, int>();
+
+                dct = employees.GroupBy(e => e.Company)
+                .Select(g => new {
+
+                    company = g.Key,
+                    average = (int)Math.Round(g.Average(p => p.Age))
+
+                }).OrderBy(g => g.company).ToDictionary(keySelector: a => a.company, elementSelector: a => a.average);
+
+                return dct;
+            }
+
+            public  Dictionary<string, int> CountOfEmployeesForEachCompany(List<Employee> employees)
+            {
+                var dct = new Dictionary<string, int>();
+                dct = employees.GroupBy(e => e.Company)
+                .Select(g => new {
+                    company = g.Key,
+                    count = g.Count()
+
+                }).OrderBy(g => g.company).ToDictionary(keySelector: a => a.company, elementSelector: a => a.count);
+
+                return dct;
+
+
+            }
+
+            public  Dictionary<string, Employee> OldestAgeForEachCompany(List<Employee> employees)
+            {
+
+                var dct = new Dictionary<string, Employee>();
+                dct = employees.GroupBy(e => e.Company)
+                .Select(g => new {
+                    company = g.Key,
+                    oldest = g.OrderByDescending(e => e.Age).First()
+
+                }).OrderBy(g => g.company).ToDictionary(keySelector: a => a.company, elementSelector: a => a.oldest);
+
+                return dct;
+
+            }
+
+
+    //Hacker Rank:
+
+    public  List<int> getRemovableIndices(string str1, string str2)
+        {
+
+            var len1 = str1.Length;
+            var len2 = str2.Length;
+            var results = new List<int>();
+
+            for (var i = 0; i < len2; i++)
+            {
+                if (i == len2 - 1)
+                {
+                    
+                    results.Add(i + 1);
+                    var l = i;
+                    while (l >= 0 && str1[l] == str1[i + 1])
+                    {
+                        results.Add(l);
+                        l--;
+                    }
+                    break;
+                }
+                if (str1[i] != str2[i])
+                {
+                    var removedstr = str1.Remove(i, 1);
+                    if (removedstr != str2)
+                    {
+                        results.Add(-1);
+                        break;
+                    }
+                        
+                    results.Add(i);
+                    var j = i - 1;
+                    while (j >= 0 && str1[j] == str1[i])
+                    {
+                        results.Add(j);
+                        j--;
+                    }
+                    var k = i + 1;
+                    while (k < len1 && str1[k] == str1[i])
+                    {
+                        results.Add(k);
+                        k++;
+                    }
+
+                    break;
+                }
+            }
+            return results.OrderBy(r => r).ToList();
+
+        }
+
+
+
+
+
+
+
+
+        /*
+         * Complete the 'getRemovableIndices' function below.
+         *
+         * The function is expected to return an INTEGER_ARRAY.
+         * The function accepts following parameters:
+         *  1. STRING str1
+         *  2. STRING str2
+         */
+        //used cocheat, as this was harder than I thought
+        //But, passed 11/15 so WRONG:
+
+        public  List<int> getRemovableIndicesSOSO(string str1, string str2)
+        {
+
+            List<int> indicesToRemove = new List<int>();
+
+            // Pre-check the lengths for efficiency.
+            // str1 must be exactly one character longer than str2.
+            if (str1.Length != str2.Length + 1)
+            {
+                return new List<int> { -1 };
+            }
+
+            // Iterate through each character of str1
+            for (int i = 0; i < str1.Length; i++)
+            {
+                // Create a temporary string by removing the character at index i.
+                // string.Remove(int startIndex, int count) is used here.
+                string tempStr = str1.Remove(i, 1);
+
+                // Compare the modified string with str2.
+                if (tempStr.Equals(str2))
+                {
+                    indicesToRemove.Add(i);
+                }
+            }
+
+            // If no indices were found, return the array with -1.
+            if (indicesToRemove.Count == 0)
+            {
+                return new List<int> { -1 };
+            }
+            else
+            {
+                // Otherwise, return the list as an array.
+                return indicesToRemove;
+            }
+
+
+        }
+
+    
+
+        //Hacker Rank fizzbuzz:
+
+        public static void fizzBuzz(int n)
+        {
+
+
+            for (var i = 1; i <= n; i++)
+            {
+
+                if (i % 15 == 0)
+                {
+                    Console.WriteLine("FizzBuzz");
+                }
+                else if (i % 3 == 0)
+                {
+                    Console.WriteLine("Fizz");
+                }
+                else if (i % 5 == 0)
+                {
+                    Console.WriteLine("Buzz");
+                }
+                else
+                {
+                    Console.WriteLine(i);
+                }
+            }
+
+        }
+
+
+
         //Beats 94%
         public int LengthOfLongestSubstring(string s)
         {

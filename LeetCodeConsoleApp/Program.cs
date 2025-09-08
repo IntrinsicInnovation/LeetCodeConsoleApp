@@ -2362,10 +2362,12 @@ namespace LeetCodeConsoleApp
 
             //var lc = sol2.LongestConsecutive(new int[] { 9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6 });
 
-          //  var lls = sol2.LengthOfLongestSubstring("abcabcbb");
-            var lls = sol2.LengthOfLongestSubstring("bbbbb");
+            //  var lls = sol2.LengthOfLongestSubstring("abcabcbb");
+            //var lls = sol2.LengthOfLongestSubstring("bbbbb");
 
-            lls = sol2.LengthOfLongestSubstring("pwwkew");
+            //lls = sol2.LengthOfLongestSubstring("pwwkew");
+
+            var ri = sol2.getRemovableIndices("aabbb", "aabb");
             
         }
 
