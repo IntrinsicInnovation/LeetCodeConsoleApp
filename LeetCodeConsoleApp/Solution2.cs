@@ -25,6 +25,51 @@ namespace LeetCodeConsoleApp
     internal class Solution2
     {
 
+        //leet refresh on blind 75 leetcode problems:
+
+        //53. Maximum Subarray
+        public int MaxSubArray(int[] nums)
+        {
+
+
+            var len = nums.Length;
+            var cursum = nums[0];
+            var maxsum = nums[0];
+
+            for (var i = 1; i < len; i++)
+            {
+                cursum = Math.Max(nums[i], cursum + nums[i]);
+                maxsum = Math.Max(cursum, maxsum);
+            }
+            return maxsum;
+        }
+    
+
+
+        public int[] TwoSum2(int[] nums, int target)
+        {
+
+            var len = nums.Length;
+            var dict = new Dictionary<int, int>();
+
+            for (var i = 0; i < len; i++)
+            {
+                var diff = target - nums[i];
+                if (dict.ContainsKey(diff))
+                {
+                    return new int[] { dict[diff], i };
+                }
+                else
+                {
+                    dict[nums[i]] = i;
+                }
+            }
+            return null;
+
+        }
+        
+
+
 
         //hacker rank hard problem LRU cache creation:
 
