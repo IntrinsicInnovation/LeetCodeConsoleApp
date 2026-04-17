@@ -25,6 +25,56 @@ namespace LeetCodeConsoleApp
     internal class Solution2
     {
 
+
+
+        //codesignal
+
+        public void drawpyramid(int levels)
+        {
+            var sblist = new List<StringBuilder>();
+            var numstars = 1;
+
+            //sblist.Add(new StringBuilder("*"));
+            if (levels == 1)
+            {
+                Console.WriteLine("*");
+                return;
+            }
+
+            //Calc padding
+
+            numstars += 2;
+            for (var i = 2; i <= levels; i++)
+            {
+                numstars += 2;
+            }
+            var padding = numstars - 3;
+
+
+            Console.WriteLine("padding: {0}", padding);
+
+            numstars = 1;
+            for (var i = 1; i <= levels; i++)
+            {
+
+                sblist.Add(new StringBuilder(new string(' ', padding / 2) + new string('*', numstars) + new string(' ', padding / 2)));
+                numstars += 2;
+                padding -= 2;
+            }
+
+            foreach (var sb in sblist)
+            {
+                Console.WriteLine(sb.ToString());
+            }
+            //Console.WriteLine("  *  ");
+            //Console.WriteLine(" *** ");
+            //Console.WriteLine("*****");
+
+        }
+}
+
+
+
         //leet refresh on blind 75 leetcode problems:
 
         //53. Maximum Subarray
