@@ -2367,8 +2367,21 @@ namespace LeetCodeConsoleApp
 
             //lls = sol2.LengthOfLongestSubstring("pwwkew");
 
-            var ri = sol2.getRemovableIndices("aabbb", "aabb");
-            
+            //var ri = sol2.getRemovableIndices("aabbb", "aabb");
+            //This would normally be injected into a service.
+            var paypal = new PaypalPayment();
+            var ppi = new ProcessPaymentImproved(paypal);
+            ppi.ProcessPayment();
+
+            var ccp = new CreditCardPayment();
+            ppi = new ProcessPaymentImproved(ccp);
+            ppi.ProcessPayment();
+
+
+
+
+
+
         }
 
     }
