@@ -25,6 +25,306 @@ namespace LeetCodeConsoleApp
     internal class Solution2
     {
 
+
+
+
+
+
+
+
+
+        //Crossover
+        //17th Apr 2026
+        //just get this working with tests
+
+        public string[] solution(string[][] queries)
+        {
+
+            var imdb = new InMemoryDatabase();
+            var results = new List<string>();
+            for (var i = 0; i < queries.Length; i++)
+            {
+                var query = queries[i];
+                var operation = query[0];
+                switch (operation)
+                {
+                    case "SET":
+                        results.Add(imdb.Set(query[1], query[2], query[3]));
+                        break;
+                    case "SET_AT":
+                        results.Add(imdb.SetAt(query[1], query[2], query[3], long.Parse(query[4])));
+                        break;
+                    case "SET_AT_WITH_TTL":
+                        results.Add(imdb.SetAtWithTTL(query[1], query[2], query[3], long.Parse(query[4]), long.Parse(query[5])));
+                        break;
+                    case "GET":
+                        results.Add(imdb.Get(query[1], query[2]));
+                        break;
+                    case "GET_AT":
+                        results.Add(imdb.GetAt(query[1], query[2], long.Parse(query[3])));
+                        break;
+                    case "DELETE":
+                        results.Add(imdb.Delete(query[1], query[2]).ToString().ToLower());
+                        break;
+                    case "DELETE_AT":
+                        results.Add(imdb.DeleteAt(query[1], query[2], long.Parse(query[3])).ToString().ToLower());
+                        break;
+
+                    case "SCAN":
+                        results.Add(imdb.Scan(query[1]));
+                        break;
+                    case "SCAN_AT":
+                        results.Add(imdb.ScanAt(query[1], long.Parse(query[2])));
+                        break;
+                    case "SCAN_BY_PREFIX":
+                        results.Add(imdb.ScanByPrefix(query[1], query[2]));
+                        break;
+                    case "SCAN_BY_PREFIX_AT":
+                        results.Add(imdb.ScanAt(query[1], long.Parse(query[2])));
+                        break;
+                    default:
+                        break;
+
+                }
+
+            }
+            return results.ToArray();
+
+        }
+
+
+        public class InMemoryDatabase
+        {
+            //private Dictionary<string, Dictionary<string, string>> db;
+            private Dictionary<string, Dictionary<string, (string value, long timestamp, long ttl)>> db;
+
+            public InMemoryDatabase()
+            {
+                //db = new Dictionary<string, Dictionary<string, string>>();
+                db = new Dictionary<string, Dictionary<string, (string value, long timestamp, long ttl)>>();
+            }
+
+
+            public string SetAt(string record, string field, string value, long timestamp)
+            {
+
+
+
+                return SetAtWithTTL(record, field, value, timestamp, long.MaxValue);
+
+            }
+
+            public string SetAtWithTTL(string record, string field, string value, long timestamp, long ttl)
+            {
+                Console.WriteLine("top of setTTL");
+                if (!db.ContainsKey(record))
+                {
+                    db[record] = new Dictionary<string, (string value, long timestamp, long ttl)>();
+                }
+                db[record][field] = (value, timestamp, ttl);
+                return "";
+            }
+
+            public string ScanAt(string record, long timestamp)
+            {
+                if (!db.ContainsKey(record))
+                {
+                    return "";
+                }
+                var result = new List<string>();
+                foreach (var field in db[record])
+                {
+                    var (value, setTime, ttl) = field.Value;
+                    if (timestamp >= setTime && timestamp < setTime + ttl)
+                    {
+                        result.Add($"{field.Key}({value})");
+                    }
+                }
+                return string.Join(", ", result);
+            }
+
+            //this isn't working.
+            //get it working and the rest of the old functions like get, set, etc.
+            //before the next test!!!
+            public string ScanByPrefixAt(string record, string prefix, long timestamp)
+            {
+                if (!db.ContainsKey(record))
+                {
+                    return "";
+                }
+                var result = new List<string>();
+
+                return "";
+                /*var fields = db[key];
+                var filtered = fields.Where(f => f.Key.StartsWith(prefix));
+                var sorted = filtered.OrderBy(f => f.Key);
+                var scanned = string.Join(", ", sorted.Select(f => $"{f.Key}({f.Value})"));
+                return scanned;
+                */
+
+            }
+
+            public string GetAt(string record, string field, long timestamp)
+            {
+                if (!db.ContainsKey(record) || !db[record].ContainsKey(field))
+                {
+                    return "";
+                }
+
+                var (value, setTime, ttl) = db[record][field];
+                if (timestamp >= setTime && timestamp < setTime + ttl)
+                {
+                    return value;
+                }
+
+                return "";
+            }
+
+
+            public bool DeleteAt(string record, string field, long timestamp)
+            {
+                if (!db.ContainsKey(record) || !db[record].ContainsKey(field))
+                {
+                    return false;
+                }
+
+                var (value, setTime, ttl) = db[record][field];
+                if (timestamp >= setTime && timestamp < setTime + ttl)
+                {
+                    db[record].Remove(field);
+                    if (db[record].Count == 0)
+                    {
+                        db.Remove(record);
+                    }
+                    return true;
+                }
+
+                return false;
+            }
+
+
+
+            public string Set(string key1, string key2, string value)
+            {
+                /*  if (!db.ContainsKey(key1))
+                  {
+                      db[key1] = new Dictionary<string, string>();
+                  }
+                  db[key1][key2] = value; */
+                return "";
+            }
+
+            public string Get(string key1, string key2)
+            {
+                /*if (db.ContainsKey(key1) && db[key1].ContainsKey(key2))
+                {
+                    return db[key1][key2];
+                } */
+                return "";
+            }
+
+            public bool Delete(string key1, string key2)
+            {
+                if (db.ContainsKey(key1) && db[key1].ContainsKey(key2))
+                {
+                    db[key1].Remove(key2);
+                    if (db[key1].Count == 0)
+                    {
+                        db.Remove(key1);
+                    }
+                    return true;
+                }
+                return false;
+            }
+
+
+            public string Scan(string key)
+            {
+                if (!db.ContainsKey(key))
+                {
+                    return "";
+                }
+                var fields = db[key];
+                var sorted = fields.OrderBy(f => f.Key);
+                var scanned = string.Join(", ", sorted.Select(f => $"{f.Key}({f.Value})"));
+                return scanned;
+
+            }
+
+
+
+            public string ScanByPrefix(string key, string prefix)
+            {
+                if (!db.ContainsKey(key))
+                {
+                    return "";
+                }
+
+                var fields = db[key];
+                var filtered = fields.Where(f => f.Key.StartsWith(prefix));
+                var sorted = filtered.OrderBy(f => f.Key);
+                var scanned = string.Join(", ", sorted.Select(f => $"{f.Key}({f.Value})"));
+                return scanned;
+            }
+
+
+
+        }
+
+
+
+
+
+
+
+        //codesignal
+
+        public void drawpyramid(int levels)
+        {
+            var sblist = new List<StringBuilder>();
+            var numstars = 1;
+
+            //sblist.Add(new StringBuilder("*"));
+            if (levels == 1)
+            {
+                Console.WriteLine("*");
+                return;
+            }
+
+            //Calc padding
+
+            numstars += 2;
+            for (var i = 2; i <= levels; i++)
+            {
+                numstars += 2;
+            }
+            var padding = numstars - 3;
+
+
+            Console.WriteLine("padding: {0}", padding);
+
+            numstars = 1;
+            for (var i = 1; i <= levels; i++)
+            {
+
+                sblist.Add(new StringBuilder(new string(' ', padding / 2) + new string('*', numstars) + new string(' ', padding / 2)));
+                numstars += 2;
+                padding -= 2;
+            }
+
+            foreach (var sb in sblist)
+            {
+                Console.WriteLine(sb.ToString());
+            }
+            //Console.WriteLine("  *  ");
+            //Console.WriteLine(" *** ");
+            //Console.WriteLine("*****");
+
+        }
+
+
+
+
         //leet refresh on blind 75 leetcode problems:
 
         //53. Maximum Subarray
