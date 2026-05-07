@@ -26,8 +26,86 @@ namespace LeetCodeConsoleApp
     {
 
 
+        //Leet code medium.  push onto stack and for a number, make sure to multiply by 10 and add so if its 23, then multiply 2 * 10 and add 3, etc.
+        //Once you reach a ']' pop off and then multiply the string to get the results.
+        public string DecodeString(string s)
+        {
+            Stack<int> countStack = new Stack<int>();
+            Stack<StringBuilder> resultStack = new Stack<StringBuilder>();
+            StringBuilder currentString = new StringBuilder();
+            int k = 0;
+
+            foreach (char c in s)
+            {
+                if (char.IsDigit(c))
+                {
+                    // Build the number k
+                    k = k * 10 + (c - '0');
+                }
+                else if (c == '[')
+                {
+                    // Push the current number and string onto their respective stacks
+                    countStack.Push(k);
+                    resultStack.Push(currentString);
+                    // Reset for the next segment
+                    currentString = new StringBuilder();
+                    k = 0;
+                }
+                else if (c == ']')
+                {
+                    // Pop the number and the previous string
+                    int repeatTimes = countStack.Pop();
+                    StringBuilder decodedString = resultStack.Pop();
+                    // Append the current string repeatTimes times to the decodedString
+                    for (int i = 0; i < repeatTimes; i++)
+                    {
+                        decodedString.Append(currentString);
+                    }
+                    // Set the current string to the decoded string
+                    currentString = decodedString;
+                }
+                else
+                {
+                    // Append the character to the current string
+                    currentString.Append(c);
+                }
+            }
+
+            return currentString.ToString();
+        }
+}
+
+
 
         public string RemoveDigit(string number, char digit)
+        {
+
+
+            int length = number.Length;
+            string maxResult = string.Empty;
+
+            for (int i = 0; i < length; i++)
+            {
+                // Check if the current digit is the one we want to remove
+                if (number[i] == digit)
+                {
+                    // Create a new string without the current digit
+                    string newNumber = number.Substring(0, i) + number.Substring(i + 1);
+
+                    // Compare with the current maximum result
+                    if (string.Compare(newNumber, maxResult) > 0)
+                    {
+                        maxResult = newNumber;
+                    }
+                }
+            }
+
+            return maxResult;
+        }
+
+
+        //Doesn't work for large numbers, above version works for any size of a number, as it never converts it to an actual number!
+        public string RemoveDigitSUX(string number, char digit)
         {
             var len = number.Length;
             var locations = new List<int>();
