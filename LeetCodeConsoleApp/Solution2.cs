@@ -27,7 +27,33 @@ namespace LeetCodeConsoleApp
 
 
 
+        public string RemoveDigit(string number, char digit)
+        {
+            var len = number.Length;
+            var locations = new List<int>();
+            //var sb = new StringBuilder();
+            for (var i = 0; i < len; i++)
+            {
+                if (number[i] == digit)
+                    locations.Add(i);
+                //   sb.Append(number[i]);
+            }
+            long max = 0;
+            Console.WriteLine("number: " + number);
 
+
+            for (var i = 0; i < locations.Count(); i++)
+            {
+                Console.WriteLine("locations[i]: " + locations[i]);
+                var sb = new StringBuilder(number);
+                var removed = sb.Remove(locations[i], 1);
+                max = Math.Max(max, Convert.ToInt64(removed.ToString()));
+
+                Console.WriteLine("sb: " + sb);
+
+            }
+            return max.ToString();
+        }
 
 
 
